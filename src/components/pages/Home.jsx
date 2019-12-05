@@ -1,43 +1,43 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
-import { SMSiderMenu } from '../common/SMSiderMenu';
-import { SMButton } from '../common/Forms/SMButton/SMButton';
-import { SMIcon } from '../common/SMIcon/SMIcon';
+import { SMSiderMenu } from '../common/SMSiderMenu/SMSiderMenu';
+import { HeaderBar } from '../common/HeaderBar';
+import { siderMenuItems } from '../common/SMSiderMenu/SiderMenuItems';
 
 const { Header, Sider, Content } = Layout;
 
 class Home extends Component {
+
+    constructor(props) {
+        super(props);
+        this.collapseSideBar = this.collapseSideBar.bind(this);
+    }
     state = {
         collapsed: false,
     }
     
-    toggle = () => {
+    collapseSideBar() {
         this.setState({
-            collapsed: !this.state.collapsed,
+            collapsed: !this.state.collapsed
         });
     }
 
     render() {
         return (
             <Layout className='layout-container'>
-                <Sider className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed}
-                    style={{ minWidth: '300', flex: '0 0 300', maxWidth: '400', width: '250', fontSize: '16px'}} >
+                <Sider className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed} >
                     <div className="logo sider-container_logo" />
-                        <SMSiderMenu/>
+                    <SMSiderMenu type='sider' mode={'inline'} theme={'dark'} items={siderMenuItems}/>
                 </Sider>
                 <Layout>
-                    <Header style={{ background: '#fff', padding: 0 }}>
-                        <SMButton className='sider-container_collapse-btn' type="" onClick={this.toggle} >
-                            <SMIcon type='' component={this.state.collapsed ? 'hideSider' : 'openSider'}/>
-                            {/* {this.state.collapsed ? 'menu-unfold' : 'menu-fold'} /> */}
-                        </SMButton>
+                    <Header className='layout-container_header' style={{ background: '#fff', padding: 0 }}>
+                        <HeaderBar collapseSideBar={this.collapseSideBar}/>
                     </Header>
                     <Content>Content</Content>
                 </Layout>
             </Layout>
-
-                );
-            }
+        );
+    }
 }
 
 export { Home };

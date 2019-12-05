@@ -1,0 +1,25 @@
+.ant-dropdown-link {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.layout-container {
+    .layout-container_header {
+        .sider-container_search-btn {
+            input {
+                padding-left: 30px;
+                border: none;
+                box-shadow: none;
+            }
+            .layout-container_page-header {
+                border: none;
+            }
+        }
+    }
+}
+
+.layout-container_page-header.ant-page-header-ghost {
+    border: none!important;
+    display: flex;
+}

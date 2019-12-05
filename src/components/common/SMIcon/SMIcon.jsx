@@ -1,6 +1,7 @@
 import React from 'react';
 import { getComponent } from '../Icons';
 import { Icon } from 'antd';
+// import logo from '../../../assets/images/instigate.svg'
 
 
 function SMIcon(props) {

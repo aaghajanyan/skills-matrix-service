@@ -1,4 +1,47 @@
 import React from 'react';
+// import userSvg from '../../assets/images/user.svg';
+// import usersSvg from '../../assets/images/user.svg';
+// import peopleFinderSvg from '../../assets/images/user.svg';
+// import branchesSvg from '../../assets/images/user.svg';
+// import skillsSvg from '../../assets/images/user.svg';
+// import categoriesSvg from '../../assets/images/user.svg';
+// import settingsSvg from '../../assets/images/user.svg';
+// import signOutSvg from '../../assets/images/user.svg';
+// import hideSiderSvg from '../../assets/images/user.svg';
+// import openSiderSvg from '../../assets/images/user.svg';
+// import arrowDownSvg from '../../assets/images/user.svg';
+
+
+// const getComponent = (iconType) => {
+//     switch (iconType) {
+//         case 'user':
+//             return userSvg;
+//         case 'users':
+//             return usersSvg;
+//         case 'peopleFinder':
+//             return peopleFinderSvg;
+//         case 'branches':
+//             return branchesSvg;
+//         case 'skills':
+//             return skillsSvg;
+//         case 'categories':
+//             return categoriesSvg;
+//         case 'settings':
+//                 return settingsSvg;
+//         case 'signOut':
+//             return signOutSvg;
+//         case 'hideSider':
+//             return hideSiderSvg;
+//         case 'openSider':
+//             return openSiderSvg;
+//         case 'arrowDownIcon':
+//             return arrowDownSvg;
+//         default:
+//             return null;
+//         }
+// }
+
+
 
 const UserIcon = () => (
     <svg width="45" height="40" viewBox="-5 -5 55 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,6 +96,12 @@ const OpenSider = () => (
     </svg>
 );
 
+const ArrowDownIcon = () => (
+    <svg width="30" height="40" viewBox="-150 0 550 250" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24.0657 0H262.066C283.466 0 294.166 25.9 279.066 41L160.066 160C150.666 169.4 135.466 169.4 126.166 160L7.06568 41C-8.03432 25.9 2.66568 0 24.0657 0Z" fill="grey"/>
+    </svg>
+);
+
 const getComponent = (iconType) => {
     switch (iconType) {
         case 'user':
@@ -75,6 +124,8 @@ const getComponent = (iconType) => {
             return HideSider;
         case 'openSider':
             return OpenSider;
+        case 'arrowDownIcon':
+            return ArrowDownIcon;
         default:
             return null;
         }

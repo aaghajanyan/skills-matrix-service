@@ -4,7 +4,14 @@ import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/images/instigate.svg';
 
+import classNames from 'classnames';
+
 function SMMenu(props) {
+    const siderStyle = props.type === 'sider' ? ' sm-menu-container_title ' : props.type === 'dropdown' ? ' ant-dropdown-menu-item ' : '';
+    const classes = classNames(
+        siderStyle ,
+      );
+
     const renderFormItems = () => {
         return props.items.map((item) => {
             return (
@@ -14,11 +21,12 @@ function SMMenu(props) {
                     title = {item.props.title}
                     className = { item.props.className}
                     icon = {item.props.icon}
-                    onClick={() => console.log("clicked")}
+                    type={'sider'}
                 >
                     {item.props.title === 'Skills Matrix' && <img src={logo} alt="instigate mobile logo" />}
+
                     {item.props.icon}
-                    <span className='sm-menu-container_title'> {item.props.title} </span>
+                    <span className={classes}> {item.props.title} </span>
                     <Link to={item.props.href}></Link>
                 </SMMenuItem>
             );

@@ -5,6 +5,8 @@
 @import "./assets/css/Login.scss";
 @import "./assets/css/SMSiderMenu.scss";
 @import "./assets/css/SMMenu.scss";
+@import "./assets/css/HeaderBar.scss";
+@import "./assets/css/SMDropdownMenu.scss";
 
 .sm-header-title {
     margin-left: 20px;
@@ -12,3 +14,16 @@
     color: #FFFFFF;
     font-weight: 600;
 }
+
+.layout-container {
+    .layout-container_header {
+        display: flex;
+        .layout-container_page-header {
+            // width: 40%;
+            // display: flex;
+            // justify-content: flex-end;
+            border: none;
+        }
+    }
+}
+
