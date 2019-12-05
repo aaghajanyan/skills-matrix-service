@@ -8,7 +8,7 @@ function SMDropdownMenu(props) {
     console.log(props.menu);
     return (
         <Dropdown overlay={<SMSiderMenu type={'dropdown'} items={props.menu}/>} trigger={['click']}>
-            <SMButton className="ant-dropdown-link"> <SMIcon className='aaa' component='arrowDownIcon' type="down" /> </SMButton>
+            <SMButton className="ant-dropdown-link"> <SMIcon component='arrowDownIcon' type="down" /> </SMButton>
         </Dropdown>
     );
   };

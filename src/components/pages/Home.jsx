@@ -25,9 +25,14 @@ class Home extends Component {
     render() {
         return (
             <Layout className='layout-container'>
-                <Sider className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed} >
+                <Sider width="270" collapsedWidth="100"
+                     className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed} 
+                    //  onCollapse={(collapsed, type) => {
+                    //     console.log(collapsed, type);
+                    //   }}
+                    >
                     <div className="logo sider-container_logo" />
-                    <SMSiderMenu type='sider' mode={'inline'} theme={'dark'} items={siderMenuItems}/>
+                    <SMSiderMenu isCollapsed={this.state.collapsed} type='sider' mode={'inline'} theme={'dark'} items={siderMenuItems}/>
                 </Sider>
                 <Layout>
                     <Header className='layout-container_header' style={{ background: '#fff', padding: 0 }}>

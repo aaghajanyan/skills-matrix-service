@@ -5,7 +5,8 @@ import classNames from 'classnames';
 
 
 function SMSiderMenu(props) {
-    const siderStyle = props.type === 'sider' ? 'sm-menu-container' : '';
+    const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container  sm-menu-container_collapsed-mode' : 
+    props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
     const classes = classNames(
         props.className,
         siderStyle ,
