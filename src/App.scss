@@ -1,0 +1,14 @@
+@import '~antd/dist/antd.css';
+
+@import "./assets/css/Home.scss";
+@import "./assets/css/Register.scss";
+@import "./assets/css/Login.scss";
+@import "./assets/css/SMSiderMenu.scss";
+@import "./assets/css/SMMenu.scss";
+
+.sm-header-title {
+    margin-left: 20px;
+    font-size: 20px;
+    color: #FFFFFF;
+    font-weight: 600;
+}

@@ -1,0 +1,75 @@
+.sm-menu-container {
+    height: 100vh;
+    background-color: #266494;
+}
+
+.sider-container {
+    .sm-menu-container {
+        .sm-menu-container_item {
+            height: 50px;
+            display: flex;
+            margin-bottom: 0; 
+        }
+        .sm-menu-container_item:not(:first-child) {
+            width:90%;
+            margin-left: 4%;
+        }
+
+        .sm-menu-container_item > i  {
+            height: 45px;
+            width: 40px;
+        }
+        .sm-menu-container_item > svg  {
+            height: 40px;
+            width: 40px;
+            margin-top: 10px;
+        }
+        
+        .sm-menu-container_item:hover,
+        .sm-menu-container_item:focus-within {
+            border-radius: 5px;
+            background: rgba(16, 39, 57, 0.27);
+        }
+
+        .sm-menu-container_home {
+            margin-top: 10px;
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sm-menu-container_home {
+            span {
+                font-size: 24px;
+                font-weight: bold;
+                margin-left: -15px;
+            }
+        }
+
+        .sm-menu-container_summary {
+            margin-top: 80px;
+        }
+        
+        .sm-menu-container_people {
+        }
+        .sm-menu-container_people-finder {
+        
+        }
+        .sm-menu-container_branches {
+        
+        }
+        .sm-menu-container_category {
+        
+        }
+        .sm-menu-container_skills {
+        
+        }
+        
+        .sm-menu-container_settings {
+        
+        }
+        .sm-menu-container_signout {
+        
+        }
+    }
+}
