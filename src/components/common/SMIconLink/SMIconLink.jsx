@@ -29,10 +29,10 @@ function SMIconLink(props) {
 }
 
 SMIconLink.propTypes = {
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     iconSrc: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    href: PropTypes.string.isRequired
+    title: PropTypes.string,
+    href: PropTypes.string
 };
 
 export { SMIconLink };

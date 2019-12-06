@@ -26,9 +26,8 @@ function SMMenuItem(props) {
 }
 
 SMMenuItem.propTypes = {
-    key: PropTypes.string,
     type: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
+    disabled: PropTypes.string,
     title: PropTypes.string,
     className: PropTypes.string,
 };

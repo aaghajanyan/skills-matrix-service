@@ -17,15 +17,14 @@ function SMDropdownMenu(props) {
   };
 
 SMDropdownMenu.propTypes = {
-    key: PropTypes.string,
-    menu: PropTypes.shape({
+    menu: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string,
         disabled: PropTypes.string,
         title: PropTypes.string,
         href: PropTypes.string,
         className: PropTypes.string,
         iconSrc: PropTypes.string
-    })
+    }))
 };
 
 export { SMDropdownMenu };

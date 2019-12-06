@@ -32,14 +32,14 @@ SMSiderMenu.propTypes = {
     type: PropTypes.string.isRequired,
     mode: PropTypes.string ,
     theme: PropTypes.string ,
-    items: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string,
         disabled: PropTypes.string,
         title: PropTypes.string,
         href: PropTypes.string,
         className: PropTypes.string,
         iconSrc: PropTypes.string
-    })
+    }))
 };
 
 export { SMSiderMenu };

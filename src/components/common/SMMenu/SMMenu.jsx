@@ -40,14 +40,14 @@ function SMMenu(props) {
 SMMenu.propTypes = {
     type: PropTypes.string.isRequired,
     className: PropTypes.string,
-    items: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string,
         disabled: PropTypes.string,
         title: PropTypes.string,
         href: PropTypes.string,
         className: PropTypes.string,
         iconSrc: PropTypes.string
-    }),
+    })),
     defaultSelectedKeys: PropTypes.array,
     mode: PropTypes.string,
     theme: PropTypes.string
