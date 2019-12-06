@@ -3,13 +3,21 @@ import { SMButton } from '../common/Forms/SMButton/SMButton';
 import { SMDropdownMenu } from '../common/SMDropdownMenu';
 import { PageHeader } from 'antd';
 import { headerMenuItems } from '../common/SMSiderMenu/HeaderMenuItems';
-import { Input, Icon } from 'antd';
+import { Input } from 'antd';
 import { SMIconLink } from './SMIconLink/SMIconLink';
-
+import { Svg } from './Svg';
+import { SvgIcons } from './SvgIcons';
 function HeaderBar(props) {
 
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [searchData, setSearchData] = useState('');
 
+    const iconClickHandler = (e) => {
+        console.log("searchedValue: ", searchData);
+    }
+    const onChange = (e) => {
+        setSearchData(e.target.value);
+    }
     return (
         <React.Fragment>
             <SMButton className='sider-container_collapse-btn' type="" onClick={() => {
@@ -20,7 +28,10 @@ function HeaderBar(props) {
                     title={props.title} href={props.href}/>
             </SMButton>
 
-            <Input className='sider-container_search-btn' prefix={<Icon type="search" />} placeholder="Search data" />
+            {/* <Input className='sider-container_search-btn' prefix={<Icon type="search" />} placeholder="Search data" /> */}
+            <Input onChange={onChange} className='sider-container_search-btn' 
+                prefix={<Svg className='search-icon' name={'search'} svg={SvgIcons['search']} iconClickHandler={iconClickHandler} />} 
+                placeholder="Search data"/>
 
             <PageHeader
                 className='layout-container_page-header'

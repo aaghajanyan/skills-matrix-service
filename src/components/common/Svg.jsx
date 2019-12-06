@@ -6,6 +6,7 @@ function Svg(props) {
     const classes = classnames(`svg-wrapper__${props.name}`, props.className);
     return (
         <div
+            onClick={props.iconClickHandler}
             className={classes}
             dangerouslySetInnerHTML={{__html: props.svg}}
         />
@@ -15,7 +16,8 @@ function Svg(props) {
 Svg.propTypes = {
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
-    svg: PropTypes.string.isRequired
+    svg: PropTypes.string.isRequired,
+    iconClickHandler: PropTypes.func
 };
 
 export default Svg;
