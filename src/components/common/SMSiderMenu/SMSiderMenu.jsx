@@ -2,6 +2,7 @@
 import React from 'react';
 import { SMMenu } from '../SMMenu/SMMenu';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 
 function SMSiderMenu(props) {
@@ -26,5 +27,20 @@ function SMSiderMenu(props) {
       );
   }
   
-  export { SMSiderMenu };
+SMSiderMenu.propTypes = {
+    isCollapsed: PropTypes.bool,
+    type: PropTypes.string.isRequired,
+    mode: PropTypes.string ,
+    theme: PropTypes.string ,
+    items: PropTypes.shape({
+        key: PropTypes.string,
+        disabled: PropTypes.string,
+        title: PropTypes.string,
+        href: PropTypes.string,
+        className: PropTypes.string,
+        iconSrc: PropTypes.string
+    })
+};
+
+export { SMSiderMenu };
   

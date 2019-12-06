@@ -1,6 +1,7 @@
 import  React  from 'react';
 import { Menu } from 'antd';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 function SMMenuItem(props) {
     const siderStyle = props.type === 'sider' ? ' ant-menu-item ' : '';
@@ -14,7 +15,6 @@ function SMMenuItem(props) {
             key={props.key || undefined}
             disabled={props.disabled || 'false'}
             title={props.title || undefined}
-            // iconSrc = {props.iconSrc}
             href={props.href || undefined}
             className={classes}
             onClick={props.onClick}
@@ -24,5 +24,13 @@ function SMMenuItem(props) {
         </Menu.Item>
     );
 }
+
+SMMenuItem.propTypes = {
+    key: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+    title: PropTypes.string,
+    className: PropTypes.string,
+};
 
 export { SMMenuItem };

@@ -7,7 +7,6 @@ import { siderMenuItems } from '../common/SMSiderMenu/SiderMenuItems';
 const { Header, Sider, Content } = Layout;
 
 class Home extends Component {
-
     constructor(props) {
         super(props);
         this.collapseSideBar = this.collapseSideBar.bind(this);
@@ -26,11 +25,7 @@ class Home extends Component {
         return (
             <Layout className='layout-container'>
                 <Sider width="300" collapsedWidth="100"
-                     className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed} 
-                    //  onCollapse={(collapsed, type) => {
-                    //     console.log(collapsed, type);
-                    //   }}
-                    >
+                     className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div className="logo sider-container_logo" />
                     <SMSiderMenu isCollapsed={this.state.collapsed} type='sider' mode={'inline'} theme={'dark'} items={siderMenuItems}/>
                 </Sider>

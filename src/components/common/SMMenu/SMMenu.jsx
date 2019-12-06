@@ -2,9 +2,7 @@ import React from 'react';
 import { Menu } from 'antd';
 import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
 import { SMIconLink } from '../SMIconLink/SMIconLink';
-// import { Svg } from '../Svg';
-// import { SvgIcons } from '../SvgIcons';
-// import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 function SMMenu(props) {
 
@@ -16,13 +14,8 @@ function SMMenu(props) {
                     disabled = { item.disabled }
                     title = {item.title}
                     className = { item.className}
-                    // iconSrc = {item.props.iconSrc}
                     type={'sider'}
                 >
-                    {/* <Svg name={item.iconSrc}
-                        svg={SvgIcons[item.iconSrc]}
-                // className={classes}
-                    /> */}
                     <SMIconLink parentType={props.type} iconSrc={item.iconSrc} title={item.title} href={item.href}/>
                 </SMMenuItem>
             );
@@ -43,5 +36,21 @@ function SMMenu(props) {
         </Menu>
     );
 }
+
+SMMenu.propTypes = {
+    type: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    items: PropTypes.shape({
+        key: PropTypes.string,
+        disabled: PropTypes.string,
+        title: PropTypes.string,
+        href: PropTypes.string,
+        className: PropTypes.string,
+        iconSrc: PropTypes.string
+    }),
+    defaultSelectedKeys: PropTypes.array,
+    mode: PropTypes.string,
+    theme: PropTypes.string
+};
 
 export { SMMenu };
