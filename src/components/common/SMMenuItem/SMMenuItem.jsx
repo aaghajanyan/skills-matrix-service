@@ -14,11 +14,12 @@ function SMMenuItem(props) {
             key={props.key || undefined}
             disabled={props.disabled || 'false'}
             title={props.title || undefined}
-            icon={props.icon || undefined}
+            // iconSrc = {props.iconSrc}
             href={props.href || undefined}
             className={classes}
             onClick={props.onClick}
         >
+
             {props.children}
         </Menu.Item>
     );

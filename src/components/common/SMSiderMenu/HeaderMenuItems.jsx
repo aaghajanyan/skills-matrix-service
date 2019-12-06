@@ -1,22 +1,20 @@
-import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
-
 const headerMenuItems = [
-    SMMenuItem({
+    {
         key: "settings",
         disabled: "false",
         title: "Settings",
         href: "#settings",
         className: "",
-        
-    }),
-    SMMenuItem({
+        iconSrc: 'settingsNav'
+    },
+    {
         key: "signOut",
         disabled: "false",
         title: "Sign Out",
         href: "/login",
         className: "",
-        
-    })
+        iconSrc: 'signOutNav'
+    }
 ];
 
 export { headerMenuItems };

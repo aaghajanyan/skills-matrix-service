@@ -25,7 +25,7 @@ class Home extends Component {
     render() {
         return (
             <Layout className='layout-container'>
-                <Sider width="270" collapsedWidth="100"
+                <Sider width="300" collapsedWidth="100"
                      className='sider-container' trigger={null} collapsible collapsed={this.state.collapsed} 
                     //  onCollapse={(collapsed, type) => {
                     //     console.log(collapsed, type);

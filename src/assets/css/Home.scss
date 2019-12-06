@@ -2,12 +2,12 @@
     left: 0px;
     top: 0px;
     background: url('../images/sider.jpg');
-    transition: all 0s;
+    transition: all 0.5s;
 }
 
-.ant-menu {
-    transition: 0s;
-}
+// .ant-menu {
+//     transition: 0.5s;
+// }
 .sider-container {
     div {
         opacity: 0.9;

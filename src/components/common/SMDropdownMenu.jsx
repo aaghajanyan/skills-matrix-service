@@ -1,14 +1,23 @@
 import React from 'react';
-import { Dropdown , Icon} from 'antd';
+import { Dropdown } from 'antd';
 import { SMSiderMenu } from '../common/SMSiderMenu/SMSiderMenu';
 import { SMButton } from './Forms/SMButton/SMButton';
-import { SMIcon } from './SMIcon/SMIcon';
+// import { SMIcon } from './SMIcon/SMIcon';
+import { SMIconLink } from './SMIconLink/SMIconLink';
+// import { Svg } from './Svg';
+// import { SvgIcons } from './SvgIcons';
+// import classNames from 'classnames';
 
 function SMDropdownMenu(props) {
-    console.log(props.menu);
     return (
         <Dropdown overlay={<SMSiderMenu type={'dropdown'} items={props.menu}/>} trigger={['click']}>
-            <SMButton className="ant-dropdown-link"> <SMIcon component='arrowDownIcon' type="down" /> </SMButton>
+            <SMButton className="ant-dropdown-link">
+            {/* <Svg name={'arrowDownIcon'}
+                svg={SvgIcons['arrowDownIcon']}
+                // className={classes}
+            /> */}
+                <SMIconLink parentType={props.type} iconSrc={'arrowDownIcon'} title={props.title} href={props.href}/>
+            </SMButton>
         </Dropdown>
     );
   };

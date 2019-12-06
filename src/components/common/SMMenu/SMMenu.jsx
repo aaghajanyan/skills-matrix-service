@@ -1,33 +1,29 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
-import { Link } from 'react-router-dom';
-import logo from '../../../assets/images/instigate.svg';
-
-import classNames from 'classnames';
+import { SMIconLink } from '../SMIconLink/SMIconLink';
+// import { Svg } from '../Svg';
+// import { SvgIcons } from '../SvgIcons';
+// import classNames from 'classnames';
 
 function SMMenu(props) {
-    const siderStyle = props.type === 'sider' ? ' sm-menu-container_title ' : props.type === 'dropdown' ? ' ant-dropdown-menu-item ' : '';
-    const classes = classNames(
-        siderStyle ,
-      );
 
     const renderFormItems = () => {
         return props.items.map((item) => {
             return (
                 <SMMenuItem
-                    key = { item.props.title }
-                    disabled = { item.props.disabled }
-                    title = {item.props.title}
-                    className = { item.props.className}
-                    icon = {item.props.icon}
+                    key = { item.title }
+                    disabled = { item.disabled }
+                    title = {item.title}
+                    className = { item.className}
+                    // iconSrc = {item.props.iconSrc}
                     type={'sider'}
                 >
-                    {item.props.title === 'Skills Matrix' && <img src={logo} alt="instigate mobile logo" />}
-
-                    {item.props.icon}
-                    <span className={classes}> {item.props.title} </span>
-                    <Link to={item.props.href}></Link>
+                    {/* <Svg name={item.iconSrc}
+                        svg={SvgIcons[item.iconSrc]}
+                // className={classes}
+                    /> */}
+                    <SMIconLink parentType={props.type} iconSrc={item.iconSrc} title={item.title} href={item.href}/>
                 </SMMenuItem>
             );
         });

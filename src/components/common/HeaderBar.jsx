@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { SMButton } from '../common/Forms/SMButton/SMButton';
-import { SMIcon } from '../common/SMIcon/SMIcon';
 import { SMDropdownMenu } from '../common/SMDropdownMenu';
 import { PageHeader } from 'antd';
 import { headerMenuItems } from '../common/SMSiderMenu/HeaderMenuItems';
 import { Input, Icon } from 'antd';
+import { SMIconLink } from './SMIconLink/SMIconLink';
 
 function HeaderBar(props) {
 
@@ -13,11 +13,11 @@ function HeaderBar(props) {
     return (
         <React.Fragment>
             <SMButton className='sider-container_collapse-btn' type="" onClick={() => {
-                    setIsCollapsed(!isCollapsed)
-                    props.collapseSideBar()
-                }}
-            >
-                <SMIcon type='' component={isCollapsed ? 'hideSider' : 'openSider'}/>
+                setIsCollapsed(!isCollapsed)
+                props.collapseSideBar()
+            }}>
+                <SMIconLink parentType={props.type} iconSrc={isCollapsed ? 'hideSider' : 'openSider'} 
+                    title={props.title} href={props.href}/>
             </SMButton>
 
             <Input className='sider-container_search-btn' prefix={<Icon type="search" />} placeholder="Search data" />

@@ -1,109 +1,7 @@
 
 // import React from 'react';
-import { SMIcon } from '../SMIcon/SMIcon';
-import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
-
-const siderMenuItems = [
-    SMMenuItem({
-        key: "home",
-        disabled: "false",
-        title: "Skills Matrix",
-        href: "#home",
-        className: "sm-menu-container_item sm-menu-container_home",
-        icon: SMIcon({
-            type: "",
-            component: "sm"
-        })
-    }),
-    SMMenuItem({
-        key: "/my_summary",
-        disabled: "false",
-        title: "My Profile",
-        href: "#my_summary",
-        className: "sm-menu-container_item sm-menu-container_summary",
-        icon: SMIcon({
-            type: "",
-            component: "user"
-        })
-    }),
-    SMMenuItem({
-        key: "/people",
-        disabled: "false",
-        title: "People",
-        href: "#people",
-        className: "sm-menu-container_item sm-menu-container_people",
-        icon: SMIcon({
-            type: "",
-            component: "users"
-        })
-    }),
-    SMMenuItem({
-        key: "/people_finder",
-        disabled: "false",
-        title: "People Finder",
-        href: "#people_finder",
-        className: "sm-menu-container_item sm-menu-container_people-finder",
-        icon: SMIcon({
-            type: "",
-            component: "peopleFinder"
-        })
-    }),
-    SMMenuItem({
-        key: "/branches",
-        disabled: "false",
-        title: "Branches",
-        href: "#branches",
-        className: "sm-menu-container_item sm-menu-container_branches",
-        icon: SMIcon({
-            type: "",
-            component: "branches"
-        })
-    }),
-    SMMenuItem({
-        key: "/category",
-        disabled: "false",
-        title: "Category",
-        href: "#category",
-        className: "sm-menu-container_item sm-menu-container_category",
-        icon: SMIcon({
-            type: "",
-            component: "categories"
-        })
-    }),
-    SMMenuItem({
-        key: "/skills",
-        disabled: "false",
-        title: "Skills",
-        href: "#skills",
-        className: "sm-menu-container_item sm-menu-container_skills",
-        icon: SMIcon({
-            type: "",
-            component: "skills"
-        })
-    }),
-    SMMenuItem({
-        key: "/settings",
-        disabled: "false",
-        title: "Settings",
-        href: "#settings",
-        className: "sm-menu-container_item sm-menu-container_settings",
-        icon: SMIcon({
-            type: "",
-            component: "settings"
-        })
-    }),
-    SMMenuItem({
-        key: "/login",
-        disabled: "false",
-        title: "Sign Out",
-        href: "/login",
-        className: "sm-menu-container_item sm-menu-container_signout",
-        icon: SMIcon({
-            type: "",
-            component: "signOut"
-        })
-    })
-];
+// import { SMIcon } from '../SMIcon/SMIcon';
+// import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
 
 // const siderMenuItems = [
 //     SMMenuItem({
@@ -112,7 +10,10 @@ const siderMenuItems = [
 //         title: "Skills Matrix",
 //         href: "#home",
 //         className: "sm-menu-container_item sm-menu-container_home",
-//         iconName: 'user'
+//         icon: SMIcon({
+//             type: "",
+//             component: "sm"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/my_summary",
@@ -120,8 +21,10 @@ const siderMenuItems = [
 //         title: "My Profile",
 //         href: "#my_summary",
 //         className: "sm-menu-container_item sm-menu-container_summary",
-//         iconName: 'users'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "user"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/people",
@@ -129,8 +32,10 @@ const siderMenuItems = [
 //         title: "People",
 //         href: "#people",
 //         className: "sm-menu-container_item sm-menu-container_people",
-//         iconName: 'people'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "users"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/people_finder",
@@ -138,8 +43,10 @@ const siderMenuItems = [
 //         title: "People Finder",
 //         href: "#people_finder",
 //         className: "sm-menu-container_item sm-menu-container_people-finder",
-//         iconName: 'peopleFinder'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "peopleFinder"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/branches",
@@ -147,8 +54,10 @@ const siderMenuItems = [
 //         title: "Branches",
 //         href: "#branches",
 //         className: "sm-menu-container_item sm-menu-container_branches",
-//         iconName: 'branches'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "branches"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/category",
@@ -156,8 +65,10 @@ const siderMenuItems = [
 //         title: "Category",
 //         href: "#category",
 //         className: "sm-menu-container_item sm-menu-container_category",
-//         iconName: 'categories'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "categories"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/skills",
@@ -165,8 +76,10 @@ const siderMenuItems = [
 //         title: "Skills",
 //         href: "#skills",
 //         className: "sm-menu-container_item sm-menu-container_skills",
-//         iconName: 'skills'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "skills"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/settings",
@@ -174,8 +87,10 @@ const siderMenuItems = [
 //         title: "Settings",
 //         href: "#settings",
 //         className: "sm-menu-container_item sm-menu-container_settings",
-//         iconName: 'settings'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "settings"
+//         })
 //     }),
 //     SMMenuItem({
 //         key: "/login",
@@ -183,9 +98,94 @@ const siderMenuItems = [
 //         title: "Sign Out",
 //         href: "/login",
 //         className: "sm-menu-container_item sm-menu-container_signout",
-//         iconName: 'signOut'
-
+//         icon: SMIcon({
+//             type: "",
+//             component: "signOut"
+//         })
 //     })
 // ];
+
+const siderMenuItems = [
+    {
+        key: "home",
+        disabled: "false",
+        title: "Skills Matrix",
+        href: "#home",
+        className: "sm-menu-container_item sm-menu-container_home",
+        iconSrc: 'sm'
+    },
+    {
+        key: "/my_summary",
+        disabled: "false",
+        title: "My Profile",
+        href: "#my_summary",
+        className: "sm-menu-container_item sm-menu-container_summary",
+        iconSrc: 'user'
+
+    },
+    {
+        key: "/people",
+        disabled: "false",
+        title: "People",
+        href: "#people",
+        className: "sm-menu-container_item sm-menu-container_people",
+        iconSrc: 'people'
+
+    },
+    {
+        key: "/people_finder",
+        disabled: "false",
+        title: "People Finder",
+        href: "#people_finder",
+        className: "sm-menu-container_item sm-menu-container_people-finder",
+        iconSrc: 'peopleFinder'
+
+    },
+    {
+        key: "/branches",
+        disabled: "false",
+        title: "Branches",
+        href: "#branches",
+        className: "sm-menu-container_item sm-menu-container_branches",
+        iconSrc: 'branches'
+
+    },
+    {
+        key: "/category",
+        disabled: "false",
+        title: "Category",
+        href: "#category",
+        className: "sm-menu-container_item sm-menu-container_category",
+        iconSrc: 'categories'
+
+    },
+    {
+        key: "/skills",
+        disabled: "false",
+        title: "Skills",
+        href: "#skills",
+        className: "sm-menu-container_item sm-menu-container_skills",
+        iconSrc: 'skills'
+
+    },
+    {
+        key: "/settings",
+        disabled: "false",
+        title: "Settings",
+        href: "#settings",
+        className: "sm-menu-container_item sm-menu-container_settings",
+        iconSrc: 'settings'
+
+    },
+    {
+        key: "/login",
+        disabled: "false",
+        title: "Sign Out",
+        href: "/login",
+        className: "sm-menu-container_item sm-menu-container_signout",
+        iconSrc: 'signOut'
+
+    }
+];
 
 export { siderMenuItems };

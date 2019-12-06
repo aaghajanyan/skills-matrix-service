@@ -12,9 +12,13 @@
                 border: none;
                 box-shadow: none;
             }
-            .layout-container_page-header {
-                border: none;
-            }
+        }
+        .layout-container_page-header {
+            border: none;
+            position: absolute;
+            right: 0;
+            height: 64px;
+            z-index: 2;
         }
     }
 }
@@ -22,4 +26,9 @@
 .layout-container_page-header.ant-page-header-ghost {
     border: none!important;
     display: flex;
+}
+
+ul.ant-menu.ant-menu-light.ant-menu-root.ant-menu-vertical {
+    position: absolute;
+    right: 15px;
 }
