@@ -1,0 +1,26 @@
+.page-not-found {
+    height: 100vh;
+}
+
+.ant-layout-header {
+    background: #266494;
+    color: #fff;
+}
+
+.page-not-found-content {
+    height: 100%;
+    background: linear-gradient(178.21deg, #FFFFFF 0.65%, #D3DFEB 61.03%, #6AAFCC 107.91%, #2067A5 107.92%, #8CADCC 107.93%, #8EA9B5 107.95%, rgba(112, 178, 206, 0.994398) 107.96%);
+    backdrop-filter: blur(4px);
+}
+
+.page-not-found-row-1 {
+    margin-top: 5%;
+}
+
+.page-not-found-col {
+    text-align: center;
+}
+
+.page-not-found-img {
+    width: 80%;
+}
