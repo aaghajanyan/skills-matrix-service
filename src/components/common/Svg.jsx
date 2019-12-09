@@ -20,5 +20,4 @@ Svg.propTypes = {
     iconClickHandler: PropTypes.func
 };
 
-export default Svg;
 export {Svg};

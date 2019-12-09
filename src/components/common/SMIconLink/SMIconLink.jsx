@@ -11,7 +11,7 @@ function SMIconLink(props) {
     const siderStyle = props.parentType === 'sider' ? ' sm-menu-container_title ' : props.parentType === 'dropdown' ? ' ant-dropdown-menu-item ant-dropdown-menu-item_title' : '';
     const classes = classNames(
         siderStyle ,
-      );
+    );
 
     return (
         <div className='icon-container'>

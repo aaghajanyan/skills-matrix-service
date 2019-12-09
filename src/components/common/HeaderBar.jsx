@@ -29,7 +29,6 @@ function HeaderBar(props) {
                     title={props.title} href={props.href}/>
             </SMButton>
 
-            {/* <Input className='sider-container_search-btn' prefix={<Icon type="search" />} placeholder="Search data" /> */}
             <Input onChange={onChange} className='sider-container_search-btn' 
                 prefix={<Svg className='search-icon' name={'search'} svg={SvgIcons['search']} iconClickHandler={iconClickHandler} />} 
                 placeholder="Search data"/>

@@ -15,5 +15,5 @@ export const APIClient = {
     login(data) {
         const basePath = `${serverUrl}/users/login`;
         return axios.post(basePath, data);
-    }
+    }, 
 }

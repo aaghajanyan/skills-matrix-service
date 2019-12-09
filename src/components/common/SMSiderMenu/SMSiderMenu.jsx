@@ -11,9 +11,9 @@ function SMSiderMenu(props) {
     const classes = classNames(
         props.className,
         siderStyle ,
-      );
+    );
 
-      return (
+    return (
         <SMMenu
             type={props.type || undefined}
             defaultSelectedKeys={['']}
@@ -24,8 +24,8 @@ function SMSiderMenu(props) {
         >
 
         </SMMenu>
-      );
-  }
+    );
+}
   
 SMSiderMenu.propTypes = {
     isCollapsed: PropTypes.bool,
