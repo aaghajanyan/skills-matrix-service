@@ -1,25 +1,22 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { SMMenuItem } from '../SMMenuItem/SMMenuItem';
-import { Link } from 'react-router-dom';
-import logo from '../../../assets/images/instigate.svg';
+import { SMIconLink } from '../SMIconLink/SMIconLink';
+import PropTypes from 'prop-types';
 
 function SMMenu(props) {
+
     const renderFormItems = () => {
         return props.items.map((item) => {
             return (
                 <SMMenuItem
-                    key = { item.props.title }
-                    disabled = { item.props.disabled }
-                    title = {item.props.title}
-                    className = { item.props.className}
-                    icon = {item.props.icon}
-                    onClick={() => console.log("clicked")}
+                    key = { item.title }
+                    disabled = { item.disabled }
+                    title = {item.title}
+                    className = { item.className}
+                    type={'sider'}
                 >
-                    {item.props.title === 'Skills Matrix' && <img src={logo} alt="instigate mobile logo" />}
-                    {item.props.icon}
-                    <span className='sm-menu-container_title'> {item.props.title} </span>
-                    <Link to={item.props.href}></Link>
+                    <SMIconLink parentType={props.type} iconSrc={item.iconSrc} title={item.title} href={item.href}/>
                 </SMMenuItem>
             );
         });
@@ -39,5 +36,21 @@ function SMMenu(props) {
         </Menu>
     );
 }
+
+SMMenu.propTypes = {
+    type: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    items: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string,
+        disabled: PropTypes.string,
+        title: PropTypes.string,
+        href: PropTypes.string,
+        className: PropTypes.string,
+        iconSrc: PropTypes.string
+    })),
+    defaultSelectedKeys: PropTypes.array,
+    mode: PropTypes.string,
+    theme: PropTypes.string
+};
 
 export { SMMenu };

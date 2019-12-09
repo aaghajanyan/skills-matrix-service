@@ -3,6 +3,11 @@
     background-color: #266494;
 }
 
+.sm-menu-container_collapsed-mode {
+    width: 100px;
+    transition: 5s;
+}
+
 .sider-container {
     .sm-menu-container {
         .sm-menu-container_item {
@@ -42,12 +47,12 @@
             span {
                 font-size: 24px;
                 font-weight: bold;
-                margin-left: -15px;
+                margin-left: 30px;
             }
         }
 
         .sm-menu-container_summary {
-            margin-top: 80px;
+            margin-top: 60px;
         }
         
         .sm-menu-container_people {

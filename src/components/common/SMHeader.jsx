@@ -2,7 +2,6 @@ import React from 'react';
 import logo from '../../assets/images/instigate.svg'
 
 function SMHeader({title}) {
-
     return (
         <React.Fragment>
             <img className="sm-header-icon" src={logo} alt="instigate mobile logo"/>

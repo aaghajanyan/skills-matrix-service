@@ -2,7 +2,6 @@ import React from 'react';
 import { getComponent } from '../Icons';
 import { Icon } from 'antd';
 
-
 function SMIcon(props) {
     const component = props.component ? getComponent(props.component) : undefined;
     return (

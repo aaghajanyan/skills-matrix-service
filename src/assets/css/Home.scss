@@ -1,39 +1,20 @@
 .sider-container {
-    min-width: 270px!important;
-    flex: 0 0 270px!important;
-    max-width: 270px!important;
-    width: 270px!important;
-    font-size: 16px!important;
     left: 0px;
     top: 0px;
     background: url('../images/sider.jpg');
-    transition: all 0s;
+    transition: all 0.5s;
 }
-.ant-menu {
-    transition: all 0s;
-}
+
 .sider-container {
     div {
         opacity: 0.9;
     }
 }
-.ant-layout-sider-collapsed {
-    min-width: 100px!important;
-    flex: 0 0 100px!important;
-    max-width: 100px!important;
-    width: 100px!important;
-    font-size: 16px!important;
-}
+
 .ant-layout-sider{
     background-color: #266494;
 }
-.ant-menu-inline-collapsed {
-    min-width: 100px!important;
-    flex: 0 0 100px!important;
-    max-width: 100px!important;
-    width: 100px!important;
-    font-size: 16px!important;
-}
+
 .sider-container_collapse-btn {
     border-radius: 50%;
     height: 45px;
@@ -41,6 +22,7 @@
     background-color: #266494;
     margin-left: 40px;
     justify-content: center;
+    margin-top: 0.6%;
 }
 
 .sider-container_collapse-btn:focus-within {
