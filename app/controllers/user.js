@@ -39,7 +39,7 @@ const getUsers = async function(_, response) {
                 }
             });
         response.status(200).json(users);
-    } catch {
+    } catch(err) {
         response.status(400).json({
             success: false,
             message: 'Could not get users.'
@@ -51,7 +51,7 @@ const getUser = async function(request, response) {
     try {
         const user = await User.getByGuid(request.params.guid);
         response.status(200).json(user);
-    } catch {
+    } catch(err) {
         response.status(400).json({
             success: false,
             message: Messages.get('Users.errors.getUser')
@@ -63,7 +63,7 @@ const updateUser = async function(request, response) {
     try {
         await User.update(request.params.guid, request.body);
         return response.status(202).send({success: true});
-    } catch {
+    } catch(err) {
         return response.status(400).send({
             success: false,
             message: Messages.get('Users.errors.updateUser')
@@ -86,7 +86,7 @@ const signUp = async function(request, response) {
         const user = await User.create(request.body);
         await invitation.destroy();
         response.status(201).json({ guid: user.guid })
-    } catch {
+    } catch(err) {
         response.status(400).json(Messages.get("Users.errors.badRequest"));
     }
 };

@@ -1,6 +1,7 @@
 {
     "nodeMailer": {
         "username": "YWxiZXJ0MTk5M2FnaGFqYW55YW5AZ21haWwuY29t",
-        "password": "YWJ1bDE5OTM="
+        "password": "YWJ1bDE5OTM=",
+        "defaultFromAddress": "albert1993aghajanyan@gmail.com"
     }
 }

@@ -1,29 +1,84 @@
+'use strict';
+
 const nodemailer = require("nodemailer");
+const Moment = require('moment');
+const path = require('path');
 const adminData = require(__dirname + "/../../config/nodeMailer").nodeMailer;
+const EmailTemplates = require('swig-email-templates');
+const DATETIME_FORMAT_LONG = 'dddd, MMMM Do YYYY';
+const DATE_FORMAT = 'dddd, MMMM Do YYYY';
 
-class MailSender {
-    static async sendEmail(host, token, email) {
-        const username = Buffer.from(adminData.username, 'base64').toString('ascii');
-        const password = Buffer.from(adminData.password, 'base64').toString('ascii');
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: username,
-              pass: password
-            }
-          });
 
-        const info = await transporter.sendMail({
-            from: username,
-            to: 'albert93aghajanyan@mail.ru', // todo change it to email (recived from parameters)
-            subject: 'Skill Matrix',
-            html: `<h3> The url is active 7 days.</h3><br>
-                    <h3>Please register your account for the link bellow:</h3><br>
-                    <a href='http://'+${host}+?token=${token}>${host}/${token}</a>`
-        });
-        console.log('Message sent: ', info.messageId);
-        console.log('Preview URL: ', nodemailer.getTestMessageUrl(info));
-    }  
-}
+/**
+ * Send a user an invite email
+ * @param {*} user
+ * @param {*} invitedByUser
+ * @param {*} token
+ * @param {*} req
+ */
+module.exports.invite = (email, invitedByUser, host, token, expiration) => {
+    return new Promise((resolve, reject) => {
+        try {
+            let context = {
+                email: email,
+                link: host,
+                expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
+                invitedBy: invitedByUser,
+                date: Moment().format(DATETIME_FORMAT_LONG),
+                dateYMD: Moment().format(DATE_FORMAT)
+            };
+            const resp = sendEmail('invite', context);
+            return resolve(resp);
+        }
+        catch(err) {
+            return reject(err);
+        }
+    }).catch((err) => {
+        // TODO add logger
+        // log.error(err, 'emails::invite');
+    });
+};
 
-  module.exports = MailSender;
+/**
+ * Craft the email based on the template and email context
+ * @param {*} template
+ * @param {*} context
+ */
+const sendEmail = (template, context) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const username = Buffer.from(adminData.username, 'base64').toString('ascii');
+            const password = Buffer.from(adminData.password, 'base64').toString('ascii');
+            const transport = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: username,
+                  pass: password
+                }
+              });
+            const email = new EmailTemplates();
+            //render and send
+            email.render(path.join(__dirname, `./templates/${template}.html`), context, (err, html, text, subject) => {
+                if(err) {
+                    next(err);
+                }
+                //base options
+                const options = {
+                    from: adminData.defaultFromAddress,
+                    to: context.email,
+                    subject,
+                    html,
+                    text
+                };
+
+                transport.sendMail(options, (err, info) => err ? reject(err) : resolve(info));
+            });
+        }
+        catch(err) {
+            return reject(err);
+        }
+    }).catch((err) => {
+        // TODO add logger
+        // log.error(err, 'emails::sendEmail');
+    });
+};

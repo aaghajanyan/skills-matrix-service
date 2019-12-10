@@ -6,7 +6,7 @@ var jwt_decode = require('jwt-decode');
 
 const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const jwt = require('jsonwebtoken');
-const MailSender = require('../mailSender/mailSender');
+const mailer = require('../mailSender/mailSender');
 const client = require('../../config/env-settings.json').client;
 
 const checkInvitationInDB = async function(request, response) {
@@ -52,7 +52,9 @@ const addInvitation = async function(request, response) {
                     { expiresIn: '30 m' }
                 );
                 try {
-                    await MailSender.sendEmail(`${client.host}:${client.port}/registration`, token, request.body.email);
+                    const expiration = Date.now().valueOf() + ('30 m' * 1000);
+                    const host = `${client.host}:${client.port}/registration`;
+                    await mailer.invite(request.body.email, request.body.invitedByUser, host, token, expiration);
                 } catch(err) {
                     currInvitation.destroy();
                     return response.status(400).send({
