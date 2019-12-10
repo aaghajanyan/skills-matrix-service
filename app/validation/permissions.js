@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const tokenSecret = require("../../config/secretKey.json").token_secret;
-var jwt_decode = require('jwt-decode');
+const jwt_decode = require('jwt-decode');
 const User = require("../models/user");
 
 async function verifyPermissions(request, response, next) {

@@ -8,10 +8,14 @@ const {
 
 const User = require("../models/user");
 const tokenSecret = require('../../config/secretKey.json').token_secret;
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 const invitationTokenSecret = require('../../config/invitationSecretKey.json').token_secret;
+
+const client = require("../../config/env-settings.json").client;
+const MailSender = require('../mailSender/mailSender');
 
 const  Messages = require('../constants/Messages');
 
@@ -123,7 +127,10 @@ const login = async function(request, response) {
             'token': token
         });
     } catch (err) {
-        response.status(401).send(Messages.get('Users.errors.unauthorized'));
+        response.status(401).json({
+            success: false,
+            message: Messages.get('Users.errors.unauthorized')
+        });
     }
 }
 
@@ -132,5 +139,5 @@ module.exports = {
     getUser,
     updateUser,
     signUp,
-    login
+    login,
 };
