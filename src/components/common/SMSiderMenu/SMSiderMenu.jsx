@@ -26,7 +26,7 @@ function SMSiderMenu(props) {
         </SMMenu>
     );
 }
-  
+
 SMSiderMenu.propTypes = {
     isCollapsed: PropTypes.bool,
     type: PropTypes.string.isRequired,
@@ -43,4 +43,3 @@ SMSiderMenu.propTypes = {
 };
 
 export { SMSiderMenu };
-  
