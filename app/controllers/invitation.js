@@ -2,12 +2,13 @@ const {
     invitation: invitationModel,
     user: userModel
 } = require("../sequelize/models");
-var jwt_decode = require('jwt-decode');
+const jwt_decode = require('jwt-decode');
 
 const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const jwt = require('jsonwebtoken');
 const MailSender = require('../mailSender/mailSender');
 const client = require('../../config/env-settings.json').client;
+const { invitationTemplate } = require('../mailSender/mail-template/mail-template');
 
 const checkInvitationInDB = async function(request, response) {
     try {
@@ -52,7 +53,7 @@ const addInvitation = async function(request, response) {
                     { expiresIn: '30 m' }
                 );
                 try {
-                    await MailSender.sendEmail(`${client.host}:${client.port}/registration`, token, request.body.email);
+                    await MailSender.sendEmail(request.body.email, invitationTemplate(token));
                 } catch(err) {
                     currInvitation.destroy();
                     return response.status(400).send({
@@ -72,7 +73,7 @@ const addInvitation = async function(request, response) {
                 });
             }
         } else {
-            return esponse.status(409).json({
+            return response.status(409).json({
                 success: false,
                 message: 'Email already exists in invitations'
             });

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const tokenSecret = require("../../config/secretKey.json").token_secret;
 const invitationTokenSecret = require("../../config/invitationSecretKey.json").token_secret;
+const forgotPasswordTokenSecret = require("../../config/forgotPasswordSecretKey.json").token_secret;
 
 async function verifyToken(request, response, next, token, secret) {
     try {
@@ -33,4 +34,13 @@ async function verifyRegisterToken(request, response, next) {
     }
 }
 
-module.exports = {verifyLoginToken, verifyRegisterToken};
+async function verifyForgotPasswordToken(request, response, next) {
+    try {
+        const token = request.header("auth-token");
+        verifyToken(request, response, next, token, forgotPasswordTokenSecret);
+    } catch (err) {
+        response.status(401).send("Unauthorized.Access denied.");
+    }
+}
+
+module.exports = {verifyLoginToken, verifyRegisterToken, verifyForgotPasswordToken};

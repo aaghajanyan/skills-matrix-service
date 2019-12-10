@@ -8,10 +8,14 @@ const {
 
 const User = require("../models/user");
 const tokenSecret = require('../../config/secretKey.json').token_secret;
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 const invitationTokenSecret = require('../../config/invitationSecretKey.json').token_secret;
+
+const client = require("../../config/env-settings.json").client;
+const MailSender = require('../mailSender/mailSender');
 
 const  Messages = require('../constants/Messages');
 
@@ -39,7 +43,7 @@ const getUsers = async function(_, response) {
                 }
             });
         response.status(200).json(users);
-    } catch {
+    } catch(err) {
         response.status(400).json({
             success: false,
             message: 'Could not get users.'
@@ -51,7 +55,7 @@ const getUser = async function(request, response) {
     try {
         const user = await User.getByGuid(request.params.guid);
         response.status(200).json(user);
-    } catch {
+    } catch(err) {
         response.status(400).json({
             success: false,
             message: Messages.get('Users.errors.getUser')
@@ -63,7 +67,7 @@ const updateUser = async function(request, response) {
     try {
         await User.update(request.params.guid, request.body);
         return response.status(202).send({success: true});
-    } catch {
+    } catch(err) {
         return response.status(400).send({
             success: false,
             message: Messages.get('Users.errors.updateUser')
@@ -86,7 +90,7 @@ const signUp = async function(request, response) {
         const user = await User.create(request.body);
         await invitation.destroy();
         response.status(201).json({ guid: user.guid })
-    } catch {
+    } catch(err) {
         response.status(400).json(Messages.get("Users.errors.badRequest"));
     }
 };
@@ -123,7 +127,10 @@ const login = async function(request, response) {
             'token': token
         });
     } catch (err) {
-        response.status(401).send(Messages.get('Users.errors.unauthorized'));
+        response.status(401).json({
+            success: false,
+            message: Messages.get('Users.errors.unauthorized')
+        });
     }
 }
 
@@ -132,5 +139,5 @@ module.exports = {
     getUser,
     updateUser,
     signUp,
-    login
+    login,
 };
