@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Home() {
+function Employees() {
     return (
         <div className="home-content">
-            Home content
+            Employees content
         </div>
     );
 }
 
-export { Home };
+export { Employees };
