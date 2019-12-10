@@ -1,6 +1,6 @@
 const siderMenuItems = [
     {
-        key: "home",
+        key: "/",
         disabled: "false",
         title: "Skills Matrix",
         href: "#home",
@@ -8,7 +8,7 @@ const siderMenuItems = [
         iconSrc: 'sm'
     },
     {
-        key: "/summary",
+        key: "/home",
         disabled: "false",
         title: "My Profile",
         href: "home",
@@ -71,7 +71,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/signOut",
+        key: "/login",
         disabled: "false",
         title: "Sign Out",
         href: "/login",
