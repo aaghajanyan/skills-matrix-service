@@ -1,0 +1,12 @@
+{
+    "node_port": 3002,
+    "db": {
+        "username": "postgres",
+        "password": "postgres",
+        "database": "skills_matrix",
+        "options": {
+            "host": "127.0.0.1",
+            "dialect": "postgres"
+        }
+    }
+}

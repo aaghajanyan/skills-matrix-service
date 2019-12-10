@@ -1,0 +1,41 @@
+module.exports = {
+    up: (queryInterface, Sequelize) => {
+        return queryInterface.createTable("users_skills", {
+            id: {
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            guid: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.UUID
+            },
+            userId: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+                onDelete: "CASCADE",
+                references: {
+                    model: "users",
+                    key: "id",
+                    as: "userId"
+                }
+            },
+            skillId: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+                onDelete: "CASCADE",
+                references: {
+                    model: "skills",
+                    key: "id",
+                    as: "skilllId"
+                }
+            },
+            currentMark: {
+                allowNull: false,
+                type: Sequelize.INTEGER
+            }
+        });
+    },
+    down: queryInterface => queryInterface.dropTable("users_skills")
+};
