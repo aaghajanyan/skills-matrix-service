@@ -2,16 +2,35 @@ const {
     invitation: invitationModel,
     user: userModel
 } = require("../sequelize/models");
+var jwt_decode = require('jwt-decode');
 
 const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const jwt = require('jsonwebtoken');
+const MailSender = require('../mailSender/mailSender');
+const client = require('../../config/env-settings.json').client;
 
 const checkInvitationInDB = async function(request, response) {
-    const invitation = await invitationModel.findByPk(request.params.id);
-    invitation ? response.status(204).send({status: true}) : response.status(404).send("false");
+    try {
+        const token = await request.header("auth-token");
+        const decodedToken = await jwt_decode(token, tokenSecret);
+        const invitation = await invitationModel.findOne({
+            where: { id: decodedToken.guid }
+        });
+        if (!invitation) {
+            return response.status(404).json({
+                success: false,
+                message: Messages.get("Users.errors.invitation")
+            });
+        }
+        return response.status(204).send();
+    } catch (err) {
+        return response.status(401).json({
+            success: false,
+            message: "Unauthorized.Access denied."
+        });
+    }
 };
 
-const MailSender = require('../mailSender/mailSender');
 
 const addInvitation = async function(request, response) {
     try {
@@ -30,10 +49,10 @@ const addInvitation = async function(request, response) {
                         createdDate: Date().now
                     },
                     tokenSecret,
-                    { expiresIn: '3 m' }
+                    { expiresIn: '30 m' }
                 );
                 try {
-                    await MailSender.sendEmail('http://localhost:3002/users', token, request.body.email);
+                    await MailSender.sendEmail(`${client.host}:${client.port}/registration`, token, request.body.email);
                 } catch(err) {
                     currInvitation.destroy();
                     return response.status(400).send({
@@ -47,10 +66,16 @@ const addInvitation = async function(request, response) {
                     guid: currInvitation.id
                 });
             } else {
-                response.status(409).send('Email already exists in users');
+                return response.status(409).json({
+                    success: false,
+                    message: 'Email already exists in users'
+                });
             }
         } else {
-            response.status(409).send('Email already exists in invitations');
+            return esponse.status(409).json({
+                success: false,
+                message: 'Email already exists in invitations'
+            });
         }
     } catch(error) {
         return response.status(409).send(error);

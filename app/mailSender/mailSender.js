@@ -19,7 +19,7 @@ class MailSender {
             subject: 'Skill Matrix',
             html: `<h3> The url is active 7 days.</h3><br>
                     <h3>Please register your account for the link bellow:</h3><br>
-                    <a href='http://'+${host}+?token=${token}>${host}?token=${token}</a>`
+                    <a href='http://'+${host}+?token=${token}>${host}/${token}</a>`
         });
         console.log('Message sent: ', info.messageId);
         console.log('Preview URL: ', nodemailer.getTestMessageUrl(info));
