@@ -1,5 +1,3 @@
-'use strict';
-
 const nodemailer = require("nodemailer");
 const Moment = require('moment');
 const path = require('path');
@@ -11,23 +9,48 @@ const DATE_FORMAT = 'dddd, MMMM Do YYYY';
 
 /**
  * Send a user an invite email
- * @param {*} user
- * @param {*} invitedByUser
- * @param {*} token
- * @param {*} req
+ * @param {*} email
+ * @param {*} host
+ * @param {*} expiration
  */
-module.exports.invite = (email, invitedByUser, host, token, expiration) => {
+const invite = (email, host, expiration) => {
     return new Promise((resolve, reject) => {
         try {
             let context = {
                 email: email,
                 link: host,
                 expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
-                invitedBy: invitedByUser,
-                date: Moment().format(DATETIME_FORMAT_LONG),
-                dateYMD: Moment().format(DATE_FORMAT)
+                invitedBy: 'admin.im@instigatemobile.com',
+                date: Moment().format(DATETIME_FORMAT_LONG)
             };
             const resp = sendEmail('invite', context);
+            return resolve(resp);
+        }
+        catch(err) {
+            return reject(err);
+        }
+    }).catch((err) => {
+        // TODO add logger
+        // log.error(err, 'emails::invite');
+    });
+};
+
+/**
+ * Send a user an invite email
+ * @param {*} email
+ * @param {*} host
+ * @param {*} expiration
+ */
+const resetPassword = (email, host, expiration) => {
+    return new Promise((resolve, reject) => {
+        try {
+            let context = {
+                email: email,
+                link: host,
+                expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
+                date: Moment().format(DATETIME_FORMAT_LONG)
+            };
+            const resp = sendEmail('resetPassword', context);
             return resolve(resp);
         }
         catch(err) {
@@ -68,7 +91,7 @@ const sendEmail = (template, context) => {
                     to: context.email,
                     subject,
                     html,
-                    text
+                    text,
                 };
 
                 transport.sendMail(options, (err, info) => err ? reject(err) : resolve(info));
@@ -82,3 +105,8 @@ const sendEmail = (template, context) => {
         // log.error(err, 'emails::sendEmail');
     });
 };
+
+module.exports = {
+    invite,
+    resetPassword
+}

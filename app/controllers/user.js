@@ -13,10 +13,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 const invitationTokenSecret = require('../../config/invitationSecretKey.json').token_secret;
-
-const client = require("../../config/env-settings.json").client;
-const MailSender = require('../mailSender/mailSender');
-
 const  Messages = require('../constants/Messages');
 
 

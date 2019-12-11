@@ -8,7 +8,6 @@ const tokenSecret = require('../../config/invitationSecretKey.json').token_secre
 const jwt = require('jsonwebtoken');
 const mailer = require('../mailSender/mailSender');
 const client = require('../../config/env-settings.json').client;
-const { invitationTemplate } = require('../mailSender/mail-template/mail-template');
 
 const checkInvitationInDB = async function(request, response) {
     try {
@@ -53,10 +52,11 @@ const addInvitation = async function(request, response) {
                     { expiresIn: '30 m' }
                 );
                 try {
-                    const expiration = Date.now().valueOf() + ('30 m' * 1000);
-                    const host = `${client.host}:${client.port}/registration`;
-                    await mailer.invite(request.body.email, request.body.invitedByUser, host, token, expiration);
+                    const expiration = new Date().setDate(new Date().getDate()+7);
+                    const host = `${client.protocol}${client.host}:${client.port}/registration/${token}`;
+                    await mailer.invite(request.body.email, host, expiration);
                 } catch(err) {
+                    console.log(err);
                     currInvitation.destroy();
                     return response.status(400).send({
                         success: false,

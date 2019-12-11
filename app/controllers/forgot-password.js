@@ -5,11 +5,10 @@ const User = require("../models/user");
 const forgotPasswordTokenSecret = require('../../config/forgotPasswordSecretKey.json').token_secret;
 
 const jwt = require('jsonwebtoken');
-const client = require("../../config/env-settings.json").client;
 const MailSender = require('../mailSender/mailSender');
 const  Messages = require('../constants/Messages');
 const jwt_decode = require('jwt-decode');
-const { forgotPasswordTemplate } = require('../mailSender/mail-template/mail-template');
+const mailer = require('../mailSender/mailSender');
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
@@ -53,8 +52,11 @@ const forgotPassword = async function(request, response) {
             { expiresIn: '60 m' }
         );
         try {
-            await MailSender.sendEmail(request.body.email, forgotPasswordTemplate(token));
+            const expiration = new Date().setDate(new Date().getDate()+1);
+            const host = `${client.protocol}${client.host}:${client.port}/forgot_password/${token}`;
+            await mailer.resetPassword(request.body.email, host, expiration);
         } catch(err) {
+            console.log(err)
             return response.status(400).send({
                 success: false,
                 message: 'Could not send email'
