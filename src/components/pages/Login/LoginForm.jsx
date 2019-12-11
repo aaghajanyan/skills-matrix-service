@@ -73,7 +73,7 @@ function LoginForm(props) {
                 className="login-form"
                 items={[
                     SMInput({
-                        className: 'login-form-input',
+                        className: 'sm-input',
                         name: 'email',
                         type: 'text',
                         placeholder: 'Email',
@@ -88,7 +88,7 @@ function LoginForm(props) {
                         autoComplete: 'username',
                     }),
                     SMInput({
-                        className: 'login-form-input',
+                        className: 'sm-input',
                         name: 'password',
                         type: 'password',
                         placeholder: 'Password',
