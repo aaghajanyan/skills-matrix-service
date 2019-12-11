@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RegisterForm } from './RegisterForm';
-import { APIClient } from 'client/APIClient';
+import apiService from 'client/APIClient';
 
 class Register extends Component {
     constructor() {
@@ -12,7 +12,7 @@ class Register extends Component {
     // TODO move to store
     async checkInvitation() {
         try {
-            await APIClient.checkInvitationExistence(
+            await apiService.post("invitations",
                 this.props.match.params.invitationId
             );
             this.setState({ invitationExist: true });

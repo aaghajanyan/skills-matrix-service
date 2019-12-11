@@ -5,7 +5,7 @@ import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { emailValidator, passwordValidator } from 'helpers/FormValidators';
-import { APIClient } from 'client/APIClient';
+import apiService from 'client/APIClient';
 import { Redirect } from 'react-router-dom';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 import login_password_icon from 'assets/images/login_password_icon.svg';
@@ -31,7 +31,7 @@ function LoginForm(props) {
 
     const handleSubmit = formData => {
         setLoading(true);
-        APIClient.login(formData)
+        apiService.post("users/login",formData)
             .then(result => {
                 onAlertClose(null);
                 setLoading(false);
