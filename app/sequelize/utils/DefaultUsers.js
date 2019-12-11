@@ -4,7 +4,7 @@ class DefaultUsers {
 
     static async initializeUserTable(models) {
         const salt = await bcrypt.genSalt(10);
-        const password = bcrypt.hashSync('Tester01!', salt);
+        const password = bcrypt.hashSync('Admin01!', salt);
         let user = {
             password: password,
             email: 'admin@instigatemobile.com',
