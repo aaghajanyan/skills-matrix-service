@@ -3,7 +3,8 @@ const {
     roles: rolesModel,
     "roles_relations": rolesRelationModel,
     "roles_groups": rolesGroupsModel
-} = require("../sequelize/models");const bcrypt = require("bcrypt");
+} = require("../sequelize/models");
+const bcrypt = require("bcrypt");
 
 
 class User {

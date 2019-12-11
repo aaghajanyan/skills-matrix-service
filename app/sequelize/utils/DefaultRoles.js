@@ -1,7 +1,7 @@
 const config = require("../config/config");
 
-class Roles {
-   
+class DefaultRoles {
+
     static async initializeRoleTable(models) {
         let rolesObjArr = [];
         config.roles.forEach(role => {
@@ -61,4 +61,4 @@ class Roles {
     }
 }
 
-module.exports = Roles;
+module.exports = DefaultRoles;

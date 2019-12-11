@@ -24,8 +24,13 @@ module.exports = {
                 type: Sequelize.STRING
             },
             branchName: {
+                unique: false,
                 allowNull: false,
-                type: Sequelize.STRING
+                type: Sequelize.ENUM(
+                    "Vanadzor",
+                    "Erevan",
+                    "Goris"
+                )
             },
             guid: {
                 unique: true,

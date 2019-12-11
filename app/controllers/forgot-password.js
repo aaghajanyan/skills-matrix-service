@@ -56,7 +56,6 @@ const forgotPassword = async function(request, response) {
             const host = `${client.protocol}${client.host}:${client.port}/forgot_password/${token}`;
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch(err) {
-            console.log(err)
             return response.status(400).send({
                 success: false,
                 message: 'Could not send email'

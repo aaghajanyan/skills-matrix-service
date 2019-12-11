@@ -1,3 +1,6 @@
+const DefaultUsers = require("../utils/DefaultUsers");
+const DefaultRoles = require("../utils/DefaultRoles");
+
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
         "user",
@@ -41,11 +44,16 @@ module.exports = (sequelize, DataTypes) => {
                 },
             },
             branchName: {
-                type: DataTypes.STRING,
+                type: DataTypes.ENUM,
+				values: [
+                    "Vanadzor",
+                    "Erevan",
+                    "Goris"
+                ],
                 allowNull: {
                     args: false,
-                    msg: "Please enter a branch name."
-                },
+                    msg: "Please choose your branch"
+                }
             },
             guid: {
                 type: DataTypes.UUID,
@@ -109,5 +117,28 @@ module.exports = (sequelize, DataTypes) => {
             targetkey: 'id'
         });
     };
+
+    const rolesAndGroupRelation = {
+        super_user: [
+            "create_user",
+            "create_skill",
+            "update_skill",
+            "manage_team",
+            "employee"
+        ],
+        team_lead: [
+            "manage_team",
+            "employee"
+        ],
+        employee: ["employee"]
+    };
+
+    User.initDefaultValues = async function(models) {
+        await DefaultRoles.initializeRoleTable(models);
+        await DefaultRoles.initializeRolesGroupsTable(models);
+        await DefaultRoles.initializeRolesRelationTable(models, rolesAndGroupRelation);
+        await DefaultUsers.initializeUserTable(models);
+    };
+
     return User;
 };

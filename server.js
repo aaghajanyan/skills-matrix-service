@@ -26,5 +26,5 @@ app.use((error, req, res, next) => {
   })
 })
 app.listen(config.node_port, () => {
-  console.log("Server listening");
+  console.log(`\n\nServer listening ${config.node_port} port...\n\n`);
 });
