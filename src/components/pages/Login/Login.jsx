@@ -15,7 +15,7 @@ function Login(props) {
         <Redirect to="/" />
     ) : (
         <Layout className="login">
-            <Header>
+            <Header className="sm-layout-header">
                 <SMHeader title="Instigate Mobile - Skills Matrix" />
             </Header>
             <Content className="login-content">

@@ -34,7 +34,10 @@
 }
 
 .sm-page-content {
-    width: 98%;
-    margin: auto;
-    margin-top: 20px;
+    width: 100%;
+    padding-right: 1%;
+    padding-left: 1%;
+    overflow-y: scroll;
+    padding-top: 20px;
+    max-height: calc(100vh - 64px);
 }

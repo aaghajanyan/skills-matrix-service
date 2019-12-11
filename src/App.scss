@@ -12,6 +12,10 @@
 @import "./assets/css/SMIconLink.scss";
 @import "./assets/css/Svg.scss";
 
+body::-webkit-scrollbar  {
+    display: none;
+}
+
 .sm-header-title {
     margin-left: 20px;
     font-size: 20px;
@@ -19,13 +23,19 @@
     font-weight: 600;
 }
 
-.layout-container {
-    .layout-container_header {
+.sm-layout-container {
+    height: 100vh;
+    .sm-layout-container_header {
         display: flex;
         .layout-container_page-header {
             border: none;
         }
     }
+}
+
+.sm-layout-header {
+    background: #266494;
+    color: #fff;
 }
 
 .sm-input {
