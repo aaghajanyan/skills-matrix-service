@@ -2,13 +2,13 @@ import * as yup from 'yup';
 
 const emailSchema = yup.object().shape({
     email: yup.string()
-    .required("Please input your email!")
+    .required("Email is required field!")
     .email("Please input valid email address!"),
 });
 
 const passwordSchema = yup.object().shape({
     password: yup.string()
-    .required("Please input your password!")
+    .required("Password is required field!")
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/, "Please input valid password!"),
 });
 
