@@ -1,6 +1,6 @@
 const siderMenuItems = [
     {
-        key: "home",
+        key: "/",
         disabled: "false",
         title: "Skills Matrix",
         href: "#home",
@@ -8,47 +8,47 @@ const siderMenuItems = [
         iconSrc: 'sm'
     },
     {
-        key: "/my_summary",
+        key: "/home",
         disabled: "false",
         title: "My Profile",
-        href: "#my_summary",
+        href: "home",
         className: "sm-menu-container_item sm-menu-container_summary",
         iconSrc: 'user'
 
     },
     {
-        key: "/people",
+        key: "/employees",
         disabled: "false",
-        title: "People",
-        href: "#people",
-        className: "sm-menu-container_item sm-menu-container_people",
-        iconSrc: 'people'
+        title: "Employees",
+        href: "employees",
+        className: "sm-menu-container_item sm-menu-container_employees",
+        iconSrc: 'employees'
 
     },
     {
-        key: "/people_finder",
+        key: "/find_employees",
         disabled: "false",
-        title: "People Finder",
-        href: "#people_finder",
-        className: "sm-menu-container_item sm-menu-container_people-finder",
-        iconSrc: 'peopleFinder'
+        title: "Find Employees",
+        href: "find_employees",
+        className: "sm-menu-container_item sm-menu-container_find-employees",
+        iconSrc: 'findEmployees'
 
     },
     {
         key: "/branches",
         disabled: "false",
         title: "Branches",
-        href: "#branches",
+        href: "branches",
         className: "sm-menu-container_item sm-menu-container_branches",
         iconSrc: 'branches'
 
     },
     {
-        key: "/category",
+        key: "/categories",
         disabled: "false",
-        title: "Category",
-        href: "#category",
-        className: "sm-menu-container_item sm-menu-container_category",
+        title: "Categories",
+        href: "categories",
+        className: "sm-menu-container_item sm-menu-container_categories",
         iconSrc: 'categories'
 
     },
@@ -56,7 +56,7 @@ const siderMenuItems = [
         key: "/skills",
         disabled: "false",
         title: "Skills",
-        href: "#skills",
+        href: "skills",
         className: "sm-menu-container_item sm-menu-container_skills",
         iconSrc: 'skills'
 
@@ -65,7 +65,7 @@ const siderMenuItems = [
         key: "/settings",
         disabled: "false",
         title: "Settings",
-        href: "#settings",
+        href: "settings",
         className: "sm-menu-container_item sm-menu-container_settings",
         iconSrc: 'settings'
 

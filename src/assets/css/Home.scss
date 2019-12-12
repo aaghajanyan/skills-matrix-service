@@ -1,35 +1,4 @@
-.sider-container {
-    left: 0px;
-    top: 0px;
-    background: url('../images/sider.jpg');
-    transition: all 0.5s;
+.home-content {
+    background-color: white;
+    width: 100%;
 }
-
-.sider-container {
-    div {
-        opacity: 0.9;
-    }
-}
-
-.ant-layout-sider{
-    background-color: #266494;
-}
-
-.sider-container_collapse-btn {
-    border-radius: 50%;
-    height: 45px;
-    width: 45px;
-    background-color: #266494;
-    margin-left: 40px;
-    justify-content: center;
-    margin-top: 0.6%;
-}
-
-.sider-container_collapse-btn:focus-within {
-    background-color: #266494;
-}
-.sider-container_collapse-btn:hover {
-    border-radius: 50%;
-    background: rgba(16, 39, 57, 0.77);
-}
-

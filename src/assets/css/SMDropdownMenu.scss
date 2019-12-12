@@ -4,8 +4,10 @@
     padding: 0;
 }
 
-.layout-container {
-    .layout-container_header {
+.sm-layout-container {
+    .sm-layout-container_header {
+        background: white;
+        padding: 0;
         .sider-container_search-btn {
             input {
                 padding-left: 30px;

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 function SMButton(props) {
     return (
         <Button
+            id={props.id || undefined}
             className={props.className || undefined}
             type={props.type || undefined}
             name={props.name || undefined}
@@ -19,6 +20,7 @@ function SMButton(props) {
 }
 
 SMButton.propTypes = {
+    id: PropTypes.string,
     className: PropTypes.string,
     type: PropTypes.string,
     name: PropTypes.string,

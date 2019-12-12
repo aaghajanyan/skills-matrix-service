@@ -1,33 +1,39 @@
 
 import React from 'react';
 import { SMMenu } from '../SMMenu/SMMenu';
+import { withRouter} from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 
-function SMSiderMenu(props) {
-    const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container  sm-menu-container_collapsed-mode' : 
+function SMSiderMenuInitial(props) {
+
+    const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container  sm-menu-container_collapsed-mode' :
     props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
     const classes = classNames(
         props.className,
         siderStyle ,
     );
 
+    const handleSelect = ({key}) => {
+        props.history.push(key)
+    }
+
     return (
         <SMMenu
             type={props.type || undefined}
-            defaultSelectedKeys={['']}
+            defaultSelectedKeys={[props.history.location.pathname === '/' ? '/home': props.history.location.pathname ]}
             mode={props.mode || ''}
             theme={props.theme || ''}
             className={classes}
             items={props.items}
+            onSelect={handleSelect}
         >
-
         </SMMenu>
     );
 }
 
-SMSiderMenu.propTypes = {
+SMSiderMenuInitial.propTypes = {
     isCollapsed: PropTypes.bool,
     type: PropTypes.string.isRequired,
     mode: PropTypes.string ,
@@ -41,5 +47,7 @@ SMSiderMenu.propTypes = {
         iconSrc: PropTypes.string
     }))
 };
+
+const SMSiderMenu = withRouter(SMSiderMenuInitial)
 
 export { SMSiderMenu };

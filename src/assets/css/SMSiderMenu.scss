@@ -1,5 +1,5 @@
 .sm-menu-container {
-    height: 100vh;
+    height: 100%;
     background-color: #266494;
 }
 
@@ -13,7 +13,7 @@
         .sm-menu-container_item {
             height: 50px;
             display: flex;
-            margin-bottom: 0; 
+            margin-bottom: 0;
         }
         .sm-menu-container_item:not(:first-child) {
             width:90%;
@@ -29,11 +29,15 @@
             width: 40px;
             margin-top: 10px;
         }
-        
-        .sm-menu-container_item:hover,
-        .sm-menu-container_item:focus-within {
+        .sm-menu-container_item:hover {
             border-radius: 5px;
-            background: rgba(16, 39, 57, 0.27);
+            background-color: rgba(16, 39, 57, 0.27);
+        }
+
+        .ant-menu-item-selected,
+        .ant-menu-item-selected:hover {
+            background-color: rgba(16, 39, 57, 0.50);
+
         }
 
         .sm-menu-container_home {
@@ -53,28 +57,6 @@
 
         .sm-menu-container_summary {
             margin-top: 60px;
-        }
-        
-        .sm-menu-container_people {
-        }
-        .sm-menu-container_people-finder {
-        
-        }
-        .sm-menu-container_branches {
-        
-        }
-        .sm-menu-container_category {
-        
-        }
-        .sm-menu-container_skills {
-        
-        }
-        
-        .sm-menu-container_settings {
-        
-        }
-        .sm-menu-container_signout {
-        
         }
     }
 }

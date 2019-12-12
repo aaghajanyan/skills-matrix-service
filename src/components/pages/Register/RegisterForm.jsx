@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormInputs } from './FormInputs';
 import { inputsProperties } from 'helpers/userDataInputsProperties';
 import { RegisterFormValidatior } from 'helpers/RegisterFormValidator';
-import { APIClient } from 'client/APIClient';
+import apiService from 'client/APIClient';
 
 class RegisterForm extends Component {
     constructor() {
@@ -58,7 +58,7 @@ class RegisterForm extends Component {
     // TODo move to store
     async register() {
         try {
-            await APIClient.createUser({
+            await apiService.post("users",{
                 invitationId: this.props.invitationId,
                 password: this.state.password,
             });

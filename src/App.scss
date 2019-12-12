@@ -1,5 +1,7 @@
 @import '~antd/dist/antd.css';
 @import "./assets/css/Home.scss";
+@import "./assets/css/Employees.scss";
+@import "./assets/css/SMPage.scss";
 @import "./assets/css/Register.scss";
 @import "./assets/css/Login.scss";
 @import "./assets/css/SMSiderMenu.scss";
@@ -10,6 +12,10 @@
 @import "./assets/css/SMIconLink.scss";
 @import "./assets/css/Svg.scss";
 
+body::-webkit-scrollbar  {
+    display: none;
+}
+
 .sm-header-title {
     margin-left: 20px;
     font-size: 20px;
@@ -17,11 +23,34 @@
     font-weight: 600;
 }
 
-.layout-container {
-    .layout-container_header {
+.sm-layout-container {
+    height: 100vh;
+    .sm-layout-container_header {
         display: flex;
         .layout-container_page-header {
             border: none;
         }
+    }
+}
+
+.sm-layout-header {
+    background: #266494;
+    color: #fff;
+}
+
+.sm-input {
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    & > input {
+        border-radius: 10px;
+        padding-left: 60px !important;
+    }
+    & > span {
+        width: 36px;
+        border-right: 2px solid rgba(0, 0, 0, 0.15);
+    }
+    & > input::placeholder {
+        font-size: larger;
     }
 }

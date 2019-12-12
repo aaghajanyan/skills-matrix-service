@@ -4,10 +4,10 @@ import { SMHeader } from 'components/common/SMHeader'
 import not_found_404 from 'assets/images/404.png';
 const { Header, Content } = Layout;
 
-function NotFound(props) {
+function NotFound() {
     return (
         <Layout className="page-not-found">
-            <Header>
+            <Header className="sm-layout-header">
                 <SMHeader title="Instigate Mobile - Skills Matrix"/>
             </Header>
             <Content className="page-not-found-content">
