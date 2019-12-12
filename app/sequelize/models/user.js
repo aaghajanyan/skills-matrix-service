@@ -115,14 +115,12 @@ module.exports = (sequelize, DataTypes) => {
             as: "roleGroup",
             foreignKey: "roleGroupId",
             targetkey: 'id'
-        });
-
+        }),
         User.belongsToMany(models.skill, {
             through: "users_skills",
-            as: "userSkills",
-            foreignKey: "userId"
+            foreignKey: "userId",
+            as: "skills"
         });
-
     };
 
     const rolesAndGroupRelation = {

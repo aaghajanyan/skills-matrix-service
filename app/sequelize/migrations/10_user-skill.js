@@ -28,12 +28,25 @@ module.exports = {
                 references: {
                     model: "skills",
                     key: "id",
-                    as: "skilllId"
+                    as: "skillId"
                 }
             },
             currentMark: {
                 allowNull: false,
                 type: Sequelize.INTEGER
+            },
+            experience: {
+                allowNull: false,
+                type: Sequelize.INTEGER
+            },
+            profficience: {
+                allowNull: false,
+                type: Sequelize.ENUM(
+                    "Juniore",
+                    "Mid 1",
+                    "Mid 2",
+                    "Senior"
+                )
             }
         }).then(() => queryInterface.addConstraint(
             'users_skills',

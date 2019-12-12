@@ -1,19 +1,21 @@
 const express = require("express");
 const {
-    getSkillsRelations,
-    getSkillRelation,
-    addSkillRelation,
-    updateSkillRelation,
-    deleteSkillRelation
-} = require("../controllers/skill-relation");
-const { validateAddBody, validateUpdateBody } = require("../validation/skills-relations");
+    getUserSkills,
+    getUsersSkills,
+    addUserSkill,
+    updateUserSkill,
+    deleteUserSkill,
+    deleteUserSkillById
+} = require("../controllers/users-skills");
+const { validateAddBody, validateUpdateBody } = require("../validation/users-skills");
 const { verifyLoginToken } = require('../validation/token');
 const router = express.Router();
 
-router.get("/", verifyLoginToken, getSkillsRelations);
-router.get("/:skillRelationId", verifyLoginToken, getSkillRelation);
-router.post("/", verifyLoginToken, validateAddBody, addSkillRelation);
-router.put("/:skillRelationId", verifyLoginToken, validateUpdateBody, updateSkillRelation);
-router.delete("/:skillRelationId", verifyLoginToken, deleteSkillRelation);
+router.get("/", verifyLoginToken, getUsersSkills);
+router.get("/:userSkillGuid", verifyLoginToken, getUserSkills);
+router.post("/", verifyLoginToken, validateAddBody, addUserSkill);
+router.put("/", verifyLoginToken, validateUpdateBody, updateUserSkill);
+router.delete("/:userSkillGuid", verifyLoginToken, deleteUserSkillById);
+router.delete("/", verifyLoginToken, deleteUserSkill);
 
 module.exports = router;

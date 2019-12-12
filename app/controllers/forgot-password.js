@@ -3,17 +3,15 @@ const {
 } = require("../sequelize/models");
 const User = require("../models/user");
 const forgotPasswordTokenSecret = require('../../config/forgotPasswordSecretKey.json').token_secret;
-
 const jwt = require('jsonwebtoken');
-const MailSender = require('../mailSender/mailSender');
 const  Messages = require('../constants/Messages');
-const jwt_decode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 const mailer = require('../mailSender/mailSender');
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
         const token = await request.header("auth-token");
-        const decodedToken = await jwt_decode(token, forgotPasswordTokenSecret);
+        const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         const user = await userModel.findOne({
             where: { guid: decodedToken.guid }
         });
@@ -73,7 +71,7 @@ const forgotPassword = async function(request, response) {
 async function changePassword(request, response) {
     try {
         const token = await request.header("auth-token");
-        const decodedToken = await jwt_decode(token, forgotPasswordTokenSecret);
+        const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         await User.update(decodedToken.guid, request.body);
         return response.status(202).json({success: true});
     } catch(err) {

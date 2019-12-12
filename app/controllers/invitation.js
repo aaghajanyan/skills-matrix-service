@@ -2,7 +2,7 @@ const {
     invitation: invitationModel,
     user: userModel
 } = require("../sequelize/models");
-const jwt_decode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 
 const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const jwt = require('jsonwebtoken');
@@ -12,7 +12,7 @@ const client = require('../../config/env-settings.json').client;
 const checkInvitationInDB = async function(request, response) {
     try {
         const token = await request.header("auth-token");
-        const decodedToken = await jwt_decode(token, tokenSecret);
+        const decodedToken = await jwtDecode(token, tokenSecret);
         const invitation = await invitationModel.findOne({
             where: { id: decodedToken.guid }
         });

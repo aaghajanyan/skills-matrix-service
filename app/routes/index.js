@@ -7,6 +7,7 @@ const skills = require("./skills");
 const skillsRelations = require("./skills-relations");
 const roleGroup = require("./roles-groups");
 const forgotPassword = require("./forgot-password");
+const usersSkills = require("./users-skills");
 
 const router = express.Router();
 router.use("/users", users);
@@ -17,6 +18,7 @@ router.use("/skills", skills);
 router.use("/skills-relations", skillsRelations);
 router.use("/role_group", roleGroup);
 router.use("/forgot_password", forgotPassword);
+router.use("/users_skills", usersSkills);
 
 
 module.exports = router;

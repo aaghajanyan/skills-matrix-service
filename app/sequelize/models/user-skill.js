@@ -8,19 +8,29 @@ module.exports = (sequelize, DataTypes) => {
             },
             userId: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
-                defaultValue: 3
+                type: DataTypes.UUID,
             },
 
             skillId: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
-                defaultValue: 3
+                type: DataTypes.UUID,
             },
             currentMark: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
-                defaultValue: 0
+                type: DataTypes.INTEGER
+            },
+            experience: {
+                allowNull: false,
+                type: DataTypes.INTEGER
+            },
+            profficience: {
+                allowNull: false,
+                type: DataTypes.ENUM(
+                    "Juniore",
+                    "Mid 1",
+                    "Mid 2",
+                    "Senior"
+                )
             }
         },
         {

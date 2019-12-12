@@ -1,12 +1,29 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    userId: Joi.number().integer().required(),
-    skillId: Joi.number().integer().required(),
-    currentMark: Joi.number().integer.required()
+    userGuid: Joi.string().uuid().required(),
+    skillGuid: Joi.string().uuid().required(),
+    currentMark: Joi.number().integer().required(),
+    experience: Joi.number().integer().required(),
+    profficience: Joi.string().valid([
+        "Juniore",
+        "Mid 1",
+        "Mid 2",
+        "Senior"
+    ]),
 });
+
 const updateBodySchema = Joi.object().keys({
-    currentMark: Joi.number().integer.required()
+    userGuid: Joi.string().uuid().required(),
+    skillGuid: Joi.string().uuid().required(),
+    currentMark: Joi.number().integer().required(),
+    experience: Joi.number().integer().required(),
+    profficience: Joi.string().valid([
+        "Juniore",
+        "Mid 1",
+        "Mid 2",
+        "Senior"
+    ]),
 });
 
 const validateAddBody = (request, response, next) => {

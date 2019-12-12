@@ -18,7 +18,7 @@ module.exports = {
                 references: {
                     model: "skills",
                     key: "id",
-                    as: "categoryId"
+                    as: "skillId"
                 }
             },
             categoryId: {

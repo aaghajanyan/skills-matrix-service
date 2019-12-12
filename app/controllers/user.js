@@ -1,43 +1,19 @@
 const {
     user: userModel,
     invitation: invitationModel,
-    roles: rolesModel,
-    "roles_relations": rolesRelationModel,
-    "roles_groups": rolesGroupsModel
 } = require("../sequelize/models");
-
 const User = require("../models/user");
 const tokenSecret = require('../../config/secretKey.json').token_secret;
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-var jwt_decode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 const invitationTokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const  Messages = require('../constants/Messages');
 
 
 const getUsers = async function(_, response) {
     try {
-        const users = await userModel.findAll(
-            {
-                attributes: { exclude: ['password', 'roleGroupId'] } ,
-                include: {
-                    model: rolesGroupsModel,
-                    as: "roleGroup",
-                    required: false,
-                    include: {
-                        model: rolesModel,
-                        as: "roles",
-                        attributes: ["name"],
-                        required: false,
-                        through: {
-                            model: rolesRelationModel,
-                            as: "roleRelation",
-                            attributes: []
-                        }
-                    }
-                }
-            });
+        const users = await User.getUsers();
         response.status(200).json(users);
     } catch(err) {
         response.status(400).json({
@@ -74,7 +50,7 @@ const updateUser = async function(request, response) {
 const signUp = async function(request, response) {
     try {
         const token = request.header("auth-token");
-        const decodedToken = await jwt_decode(token, invitationTokenSecret);
+        const decodedToken = await jwtDecode(token, invitationTokenSecret);
         const invitation = await invitationModel.findByPk(decodedToken.guid);
 
         if (!invitation) {

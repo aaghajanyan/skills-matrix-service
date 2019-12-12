@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const tokenSecret = require("../../config/secretKey.json").token_secret;
-const jwt_decode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 const User = require("../models/user");
 
 async function verifyPermissions(request, response, next) {
@@ -10,7 +10,7 @@ async function verifyPermissions(request, response, next) {
             return response.status(401).send("Access denied.");
         }
         const verified = await jwt.verify(token, tokenSecret);
-        const decodedToken = await jwt_decode(token, tokenSecret);
+        const decodedToken = await jwtDecode(token, tokenSecret);
         const currUser = await User.getByGuid(decodedToken.guid).then(user => {
             return user;
         });
@@ -23,9 +23,10 @@ async function verifyPermissions(request, response, next) {
         request.user = verified;
         next();
     } catch (err) {
+        console.log(err);
         return response.status(401).send({
             success: false,
-            message: "Unauthorized.Access denied."
+            message: "Unauthorized.Access denied"
         });
     }
 }
