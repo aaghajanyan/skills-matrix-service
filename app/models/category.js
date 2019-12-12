@@ -3,7 +3,7 @@ const {
     skill: skillModel,
     "categories_relation": categoryRelationModel,
     "skills_relation": skillRelationModel
-} = require("../sequelize/models"); 
+} = require("../sequelize/models");
 
 class Category {
     static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
@@ -18,9 +18,9 @@ class Category {
                     relatedCategoryGuid: categoryGuid,
                     success: false
                 };
-    
+
                 if (relatedCategory) {
-                    await categoryRelationModel.findOrCreate({ 
+                    await categoryRelationModel.findOrCreate({
                         where: {
                             categoryId: category.id,
                             relatedCategoryId: relatedCategory.id
@@ -61,7 +61,6 @@ class Category {
                 }
                 return obj;
             })
-    
             await Promise.all(promise).then((list) => {
                 sendedList.removedCategories.push(list);
             });
@@ -80,7 +79,7 @@ class Category {
                 const existingSkill = await skillModel.findOne({
                     where: {guid: skillGuid}
                 });
-    
+
                 if (existingSkill) {
                     await skillRelationModel.findOrCreate({
                         where: {
@@ -92,13 +91,13 @@ class Category {
                 }
                 return obj;
             });
-    
+
             await Promise.all(promise).then((list) => {
                 sendedList.addedSkills.push(list);
             });
         }
     }
-    
+
     static async removeSkills(removedSkills, category, sendedList) {
         sendedList.removedSkills = [];
         if (removedSkills && removedSkills.length) {
@@ -114,20 +113,20 @@ class Category {
                         categoryGuid: category.guid
                     }
                 });
-    
+
                 if (skillRelation) {
                     obj.status = true;
                     skillRelation.destroy();
                 }
                 return obj;
             });
-    
+
             await Promise.all(promise).then((list) => {
                 sendedList.removedSkills.push(list);
             })
         }
     }
-    
+
 }
 
 module.exports = Category;

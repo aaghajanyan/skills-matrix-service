@@ -58,9 +58,9 @@ const addInvitation = async function(request, response) {
                 } catch(err) {
                     console.log(err);
                     currInvitation.destroy();
-                    return response.status(400).send({
+                    return response.status(400).json({
                         success: false,
-                        message: 'Could not send email'
+                        message: 'Could not send email.'
                     });
                 };
                 return response.status(200).json({
@@ -71,7 +71,7 @@ const addInvitation = async function(request, response) {
             } else {
                 return response.status(409).json({
                     success: false,
-                    message: 'Email already exists in users'
+                    message: 'Email already exists in users.'
                 });
             }
         } else {

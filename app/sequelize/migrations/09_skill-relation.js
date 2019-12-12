@@ -32,12 +32,12 @@ module.exports = {
                 }
             }
         }).then(() => queryInterface.addConstraint(
-            'skills_relations', 
+            'skills_relations',
             ['skillId', 'categoryId'],
             {
                 type: 'unique',
                 name: 'uniqueSkillRel'
-            }));   
+            }));
     },
     down: queryInterface => queryInterface.dropTable("skills_relations"),
 };

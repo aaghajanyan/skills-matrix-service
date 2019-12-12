@@ -10,7 +10,7 @@ const getSkills = async function (_, response) {
         const skills = await skillModel.findAll();
         return response.status(200).json(skills);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skills.`
         });
@@ -22,7 +22,7 @@ const getSkill = async function (request, response) {
         const skill = await skillModel.findOne({where: {guid: request.params.guid}});
         return response.status(200).json(skill);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skill with ${request.params.guid} guid.`
         });
@@ -50,13 +50,11 @@ const getSkillAllData = async function(request, response) {
         });
         return response.status(200).json(skill);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skill with ${request.params.guid} guid.`
         });
     }
-
-    
 };
 
 const getSkillsAllData = async function(request, response) {
@@ -79,12 +77,11 @@ const getSkillsAllData = async function(request, response) {
         });
         return response.status(200).json(skills);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skills.`
         });
     }
-    
 };
 
 const getStatus = async function(sendedList, keyName) {
@@ -122,7 +119,7 @@ const addSkill = async function (request, response) {
                 ...sendedList
             });
         } catch(err) {
-            return response.status(409).send({
+            return response.status(409).json({
                 success: false,
                 message: `Could not add new skill.`
             });
@@ -130,7 +127,6 @@ const addSkill = async function (request, response) {
     } else {
         sendedList.errors.push(errMessageReqCategory);
     }
-    
 };
 
 const updateSkillAllData = async function (request, response) {
@@ -138,12 +134,15 @@ const updateSkillAllData = async function (request, response) {
         const { addCategories, deleteCategories, ...skillData } = request.body;
         const sendedList = [];
         const existingSkill = await skillModel.findOne({where : {guid: request.params.guid}});
-        
+
         if(!existingSkill) {
-            response.status(409).send(`Skill with ${request.params.guid} id doesn't exist`);
+            response.status(409).json({
+                success: false,
+                message: `Skill with ${request.params.guid} id doesn't exist`
+            });
             return;
         }
-        await skillModel.update(skillData, 
+        await skillModel.update(skillData,
             { where: { guid: request.params.guid }
         });
         await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
@@ -153,7 +152,7 @@ const updateSkillAllData = async function (request, response) {
             'removedCategories': sendedList.removedCategories,
         });
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skill with ${request.params.guid} guid.`
         });
@@ -165,14 +164,13 @@ const updateSkill = async function (request, response) {
         await skillModel.update(request.body, {
             where: { guid: request.params.guid }
         });
-        return response.status(202).send({success: true});
+        return response.status(202).json({success: true});
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get skill with ${request.params.guid} guid.`
         });
     }
-    
 };
 
 const deleteSkill = async function (request, response) {
@@ -181,15 +179,15 @@ const deleteSkill = async function (request, response) {
             where: { guid: request.params.guid }
         });
         if (!skill) {
-            return response.status(409).send({
+            return response.status(409).json({
                 success: false,
                 message: `Skill with ${request.params.guid} guid does not exists.`
             });
         }
         skill.destroy();
-        return response.status(202).send({success: true});
+        return response.status(202).json({success: true});
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not delete skill with ${request.params.guid} guid.`
         });

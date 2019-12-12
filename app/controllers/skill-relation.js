@@ -22,10 +22,16 @@ const addSkillRelation =  async function(request, response) {
             const skillRelation = await skillRelationModel.create(request.body);
             response.status(201).json({ id: skillRelation.id })
         } else {
-            response.status(409).send("Skill doesn't exist");
+            response.status(409).json({
+                success: false,
+                message: `Skill doesn't exist`
+            });
         }
     } else {
-        response.status(409).send("Category doesn't exist");
+        response.status(409).json({
+            success: false,
+            message: `Category doesn't exist`
+        });
     }
 };
 
@@ -37,7 +43,10 @@ const updateSkillRelation =  async function(request, response) {
         });
         response.status(202).send();
     } else {
-        response.status(409).send("Category doesn't exist");
+        response.status(409).json({
+            success: false,
+            message: `Category doesn't exist`
+        });
     }
 };
 

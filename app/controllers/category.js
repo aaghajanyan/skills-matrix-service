@@ -12,19 +12,19 @@ const getCategories = async function(_, response) {
         const categories = await categoryModel.findAll();
         return response.status(200).json(categories);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: 'Could not get categories.'
         });
     }
 };
- 
+
 const getCategory = async function(request, response) {
     try {
         const category = await categoryModel.findOne({ where: {guid: request.params.guid}});
         response.status(200).json(category);
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Could not get category with ${request.params.guid} guid.`
         });
@@ -36,9 +36,9 @@ const updateCategory = async function(request, response) {
         await categoryModel.update(request.body,
             { where: { guid: request.params.guid }
         });
-        response.status(202).send({"success": true});
+        response.status(202).json({success: true});
     } catch(err) {
-        return response.status(400).send({
+        return response.status(400).json({
             success: false,
             message: `Could not update category with ${request.params.guid} guid`
         });
@@ -49,15 +49,15 @@ const deleteCategory = async function(request, response) {
     try {
         const category = await categoryModel.findOne({ where: { guid: request.params.guid } })
         if (!category) {
-            return response.status(409).send({
+            return response.status(409).json({
                 success: false,
                 message: `Category with ${request.params.guid} guid does not exists`
             });
         }
         category.destroy();
-        response.status(202).send({"success": true});
+        response.status(202).json({success: true});
     } catch(err) {
-        return response.status(400).send({
+        return response.status(400).json({
             success: false,
             message: `Could not delete category with ${request.params.guid} guid`
         });
@@ -182,7 +182,9 @@ const addCategory = async function (request, response) {
             where: { name: categoryData.name }
         });
         if(!newCategory[1]) {
-            response.status(409).send(`${categoryData.name} category already exist`);
+            response.status(409).json({success: false,
+                message: `${categoryData.name} category already exist`
+            });
             return;
         }
         await Category.addRelatedCategories(relatedCategoriesIds, newCategory[0], sendedList);
@@ -208,7 +210,10 @@ const updateCategoryAllData = async function (request, response) {
         const existingCategory = await categoryModel.findOne({where: {guid: request.params.guid}});
 
         if(!existingCategory) {
-            response.status(409).send(`Category with ${request.params.guid} guid doesn't exist`);
+            response.status(409).json({
+                success: false,
+                message: `Category with ${request.params.guid} guid doesn't exist`
+            });
             return;
         }
 
@@ -228,7 +233,7 @@ const updateCategoryAllData = async function (request, response) {
             'removedSkills': sendedList.removedSkills
         });
     } catch(err) {
-        return response.status(409).send({
+        return response.status(409).json({
             success: false,
             message: `Category with ${request.body.name} name already exists`
         });

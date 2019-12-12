@@ -62,9 +62,9 @@ const getUser = async function(request, response) {
 const updateUser = async function(request, response) {
     try {
         await User.update(request.params.guid, request.body);
-        return response.status(202).send({success: true});
+        return response.status(202).json({success: true});
     } catch(err) {
-        return response.status(400).send({
+        return response.status(400).json({
             success: false,
             message: Messages.get('Users.errors.updateUser')
         });
@@ -87,7 +87,10 @@ const signUp = async function(request, response) {
         await invitation.destroy();
         response.status(201).json({ guid: user.guid })
     } catch(err) {
-        response.status(400).json(Messages.get("Users.errors.badRequest"));
+        response.status(400).json({
+            success: false,
+            message: Messages.get("Users.errors.badRequest")
+        });
     }
 };
 
@@ -95,14 +98,14 @@ const login = async function(request, response) {
     try {
         const user = await userModel.findOne({ where: { email: request.body.email } });
         if(!user) {
-            return response.status(400).send({
+            return response.status(400).json({
                 success: false,
                 message: Messages.get("Users.errors.email")
             });
         }
         const validPassword = bcrypt.compareSync(request.body.password, user.password);
         if(!validPassword) {
-            return response.status(400).send({
+            return response.status(400).json({
                 success: false,
                 message: Messages.get("Users.errors.password")
             });
@@ -118,9 +121,10 @@ const login = async function(request, response) {
             tokenSecret,
             { expiresIn: '1 d' }
         );
-        response.header('Authorization', token).send({
+        response.header('Authorization', token).json({
             success: true,
-            'token': token
+            'token': token,
+            'guid': user.guid
         });
     } catch (err) {
         response.status(401).json({

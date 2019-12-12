@@ -35,7 +35,13 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.INTEGER
             }
-        });
+        }).then(() => queryInterface.addConstraint(
+            'users_skills',
+            ['userId', 'skillId'],
+            {
+                type: 'unique',
+                name: 'uniqueUserSkill'
+            }));;
     },
     down: queryInterface => queryInterface.dropTable("users_skills")
 };

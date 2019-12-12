@@ -23,11 +23,11 @@ const checkForgotPasswordUser = async function(request, response) {
                 message: 'User does not exists'
             });
         }
-        return response.status(204).send();
+        return response.status(204).end();
     } catch (err) {
         return response.status(401).json({
             success: false,
-            message: "Unauthorized.Access denied."
+            message: "Unauthorized. Access denied."
         });
     }
 };
@@ -40,7 +40,7 @@ const forgotPassword = async function(request, response) {
         if (!user) {
             return response.status(409).json({
                 success: false,
-                message: 'User does not exists'
+                message: 'User does not exists.'
             });
         }
         const token = jwt.sign(
@@ -56,12 +56,12 @@ const forgotPassword = async function(request, response) {
             const host = `${client.protocol}${client.host}:${client.port}/forgot_password/${token}`;
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch(err) {
-            return response.status(400).send({
+            return response.status(400).json({
                 success: false,
-                message: 'Could not send email'
+                message: 'Could not send email.'
             });
         };
-        return response.status(200).send({
+        return response.status(200).json({
             success: true,
             message: `Mail sended in ${request.body.email} email.`
         });
@@ -75,9 +75,9 @@ async function changePassword(request, response) {
         const token = await request.header("auth-token");
         const decodedToken = await jwt_decode(token, forgotPasswordTokenSecret);
         await User.update(decodedToken.guid, request.body);
-        return response.status(202).send({success: true});
+        return response.status(202).json({success: true});
     } catch(err) {
-        return response.status(400).send({
+        return response.status(400).json({
             success: false,
             message: Messages.get('Users.errors.updateUser')
         });
