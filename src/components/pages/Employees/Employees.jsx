@@ -58,23 +58,22 @@ function Employees() {
             >
                 <SMForm
                     items={[
-                        <SMInput
-                        className='sm-input'
-                        name='email'
-                        type= 'text'
-                        placeholder= 'Email'
-                        rules={emailRules.rules}
-                        prefix={
-                            <img
-                                className="employees-email-icon"
-                                src={login_email_icon}
-                                alt="email"
-                            />
-                        }
-                        autoComplete='username'
-                        onChange={handleChange}
-                        >
-                    </SMInput>
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'email',
+                            type: 'text',
+                            placeholder: 'Email',
+                            rules: emailRules.rules,
+                            onChange: handleChange,
+                            prefix: (
+                                <img
+                                    className="login-form-icon"
+                                    src={login_email_icon}
+                                    alt="email"
+                                />
+                            ),
+                            autoComplete: 'username',
+                        }),
                     ]}
                 />
             </SMModal>
