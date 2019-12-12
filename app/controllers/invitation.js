@@ -3,7 +3,6 @@ const {
     user: userModel
 } = require("../sequelize/models");
 const jwtDecode = require('jwt-decode');
-
 const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
 const jwt = require('jsonwebtoken');
 const mailer = require('../mailSender/mailSender');
@@ -30,7 +29,6 @@ const checkInvitationInDB = async function(request, response) {
         });
     }
 };
-
 
 const addInvitation = async function(request, response) {
     try {

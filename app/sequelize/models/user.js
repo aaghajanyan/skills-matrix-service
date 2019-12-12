@@ -120,6 +120,11 @@ module.exports = (sequelize, DataTypes) => {
             through: "users_skills",
             foreignKey: "userId",
             as: "skills"
+        }),
+        User.belongsToMany(models.category, {
+            through: "users_categories",
+            foreignKey: "userId",
+            as: "categories"
         });
     };
 

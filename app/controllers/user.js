@@ -16,6 +16,7 @@ const getUsers = async function(_, response) {
         const users = await User.getUsers();
         response.status(200).json(users);
     } catch(err) {
+        console.log(err);
         response.status(400).json({
             success: false,
             message: 'Could not get users.'

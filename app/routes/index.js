@@ -8,8 +8,10 @@ const skillsRelations = require("./skills-relations");
 const roleGroup = require("./roles-groups");
 const forgotPassword = require("./forgot-password");
 const usersSkills = require("./users-skills");
+const usersCategories = require("./users-categories");
 
 const router = express.Router();
+
 router.use("/users", users);
 router.use("/invitations", invitations);
 router.use("/categories", categories);
@@ -19,6 +21,6 @@ router.use("/skills-relations", skillsRelations);
 router.use("/role_group", roleGroup);
 router.use("/forgot_password", forgotPassword);
 router.use("/users_skills", usersSkills);
-
+router.use("/users_categories", usersCategories);
 
 module.exports = router;

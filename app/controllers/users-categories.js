@@ -1,13 +1,13 @@
 const {
     user: userModel,
-    skill: skillModel,
-    "users_skills": usersSkillsModel
+    category: categoryModel,
+    "users_categories": usersCategoriesModel
 } = require("../sequelize/models");
 
-const getUsersSkills = async function(_, response) {
+const getUsersCategories = async function(_, response) {
     try {
-        const usersSkills = await usersSkillsModel.findAll();
-        response.status(200).json(usersSkills);
+        const usersCategories = await categoryModel.findAll();
+        response.status(200).json(usersCategories);
     } catch (err) {
         console.log(err);
         response.status(409).send();
@@ -15,38 +15,38 @@ const getUsersSkills = async function(_, response) {
 
 };
 
-const getUserSkills = async function(request, response) {
+const getUserCategories = async function(request, response) {
     try {
-        const userSkills = await usersSkillsModel.findOne({
-            where: { guid: request.params.userSkillGuid }
+        const userCategories = await usersCategoriesModel.findOne({
+            where: { guid: request.params.userCategoryGuid }
         });
-        response.status(200).json(userSkills);
+        response.status(200).json(userCategories);
     } catch (err) {
         console.log(err);
         response.status(409).send();
     }
 };
 
-const addUserSkill =  async function(request, response) {
+const addUserCategory =  async function(request, response) {
     try {
         const user = await userModel.findOne({
             where: { guid: request.body.userGuid }
         });
 
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
+            const category = await categoryModel.findOne({
+                where: { guid: request.body.categoryGuid }
             });
-            if (skill) {
+            if (category) {
                 const obj = request.body;
                 obj.userId = user.id;
-                obj.skillId = skill.id;
-                const userSkill = await usersSkillsModel.create(obj);
-                return response.status(201).json({ userSkill })
+                obj.categoryId = category.id;
+                const userCategory = await usersCategoriesModel.create(obj);
+                return response.status(201).json({ userCategory })
             } else {
                 return response.status(409).json({
                     success: false,
-                    message: `Skill doesn't exist`
+                    message: `Category doesn't exist`
                 });
             }
         } else {
@@ -61,24 +61,24 @@ const addUserSkill =  async function(request, response) {
     }
 };
 
-const updateUserSkill =  async function(request, response) {
+const updateUserCategory =  async function(request, response) {
     try {
         const user = await userModel.findOne({
             where: { guid: request.body.userGuid }
         });
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
+            const category = await skillModel.findOne({
+                where: { guid: request.body.categoryGuid }
             });
-            if (skill) {
-                await usersSkillsModel.update(request.body, {
-                    where: { userId: user.id, skillId: skill.id }
+            if (category) {
+                await usersCategoriesModel.update(request.body, {
+                    where: { userId: user.id, categoryId: category.id }
                 });
                 return response.status(202).end();
             } else {
                 return response.status(409).json({
                     success: false,
-                    message: `Skill doesn't exist`
+                    message: `Category doesn't exist`
                 });
             }
         } else {
@@ -93,7 +93,7 @@ const updateUserSkill =  async function(request, response) {
     }
 };
 
-const deleteUserSkill =  async function(request, response) {
+const deleteUserCategory =  async function(request, response) {
     try {
         const user = await userModel.findOne({
             where: { guid: request.body.userGuid }
@@ -102,8 +102,8 @@ const deleteUserSkill =  async function(request, response) {
             const skill = await skillModel.findOne({
                 where: { guid: request.body.skillGuid }
             });
-            if (skill) {
-                await usersSkillsModel.destroy({ where: { userId: user.id, skillId: skill.id } });
+            if (category) {
+                await usersCategoriesModel.destroy({ where: { userId: user.id, categoryId: category.id } });
                 return response.status(202).end();
             } else {
                 return response.status(409).json({
@@ -123,9 +123,9 @@ const deleteUserSkill =  async function(request, response) {
     }
 };
 
-const deleteUserSkillById =  async function(request, response) {
+const deleteUserCategoryById =  async function(request, response) {
     try {
-        await usersSkillsModel.destroy({ where: { id: request.params.userSkillGuid } });
+        await usersCategoriesModel.destroy({ where: { id: request.params.userCategoryGuid } });
         response.status(202).end();
     } catch(err) {
         console.log(err);
@@ -134,10 +134,10 @@ const deleteUserSkillById =  async function(request, response) {
 };
 
 module.exports = {
-    getUserSkills,
-    getUsersSkills,
-    addUserSkill,
-    updateUserSkill,
-    deleteUserSkill,
-    deleteUserSkillById
+    getUserCategories,
+    getUsersCategories,
+    addUserCategory,
+    updateUserCategory,
+    deleteUserCategory,
+    deleteUserCategoryById
 };

@@ -4,8 +4,9 @@ const {
     roles_relations: rolesRelationModel,
     roles_groups: rolesGroupsModel,
     users_skills: userSkillsModel,
+    users_categories: userCategoriesModel,
     skill: skillModel,
-    category: cateoryModel,
+    category: categoryModel,
     skills_relation: skillsRelationModel
 } = require("../sequelize/models");
 const bcrypt = require("bcrypt");
@@ -43,7 +44,7 @@ class User {
                         attributes: ["currentMark", "experience", "profficience", "guid"]
                     },
                     include: {
-                        model: cateoryModel,
+                        model: categoryModel,
                         as: "categories",
                         attributes: ["name", "guid"],
                         required: false,
@@ -91,7 +92,7 @@ class User {
                         attributes: ["currentMark", "experience", "profficience", "guid"]
                     },
                     include: {
-                        model: cateoryModel,
+                        model: categoryModel,
                         as: "categories",
                         attributes: ["name", "guid"],
                         required: false,
@@ -101,6 +102,17 @@ class User {
                             attributes: []
                         }
                     }
+                },
+                {
+                    attributes: { exclude: ["id"] },
+                    model: categoryModel,
+                    as: "categories",
+                    required: false,
+                    through: {
+                        model: userCategoriesModel,
+                        as: "categoryMark",
+                        attributes: ["experience", "profficience", "guid"]
+                    },
                 }
             ]
         });
