@@ -67,7 +67,7 @@ function Employees() {
                             onChange: handleChange,
                             prefix: (
                                 <img
-                                    className="login-form-icon"
+                                    className="sm-form-icon"
                                     src={login_email_icon}
                                     alt="email"
                                 />

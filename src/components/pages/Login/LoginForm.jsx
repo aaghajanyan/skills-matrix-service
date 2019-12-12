@@ -11,6 +11,9 @@ import login_email_icon from 'assets/images/login_email_icon.svg';
 import login_password_icon from 'assets/images/login_password_icon.svg';
 
 function LoginForm(props) {
+
+    const redirection = props.location.state.url
+
     const passwordRules = { rules: [{ validator: passwordValidator }] };
 
     const emailRules = { rules: [{ validator: emailValidator }] };
@@ -57,12 +60,12 @@ function LoginForm(props) {
     };
 
     return success ? (
-        <Redirect to={props.redirection ? props.redirection.url : '/'} />
+        <Redirect to={redirection ? redirection.url : '/'} />
     ) : (
         <React.Fragment>
             {errorMessage && (
                 <Alert
-                    className="login-alert-error"
+                    className="sm-alert-error"
                     message={errorMessage}
                     type="error"
                     closable
@@ -80,7 +83,7 @@ function LoginForm(props) {
                         rules: emailRules.rules,
                         prefix: (
                             <img
-                                className="login-form-icon"
+                                className="sm-form-icon"
                                 src={login_email_icon}
                                 alt="email"
                             />
@@ -95,7 +98,7 @@ function LoginForm(props) {
                         rules: passwordRules.rules,
                         prefix: (
                             <img
-                                className="login-form-icon"
+                                className="sm-form-icon"
                                 src={login_password_icon}
                                 alt="password"
                             />

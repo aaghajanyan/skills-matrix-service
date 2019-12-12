@@ -1,7 +1,8 @@
 @import '~antd/dist/antd.css';
+@import "./assets/css/SMPageLoggedOut.scss";
+@import "./assets/css/SMPageLoggedIn.scss";
 @import "./assets/css/Home.scss";
 @import "./assets/css/Employees.scss";
-@import "./assets/css/SMPage.scss";
 @import "./assets/css/Register.scss";
 @import "./assets/css/Login.scss";
 @import "./assets/css/SMSiderMenu.scss";
@@ -31,11 +32,6 @@ body::-webkit-scrollbar  {
             border: none;
         }
     }
-}
-
-.sm-layout-header {
-    background: #266494;
-    color: #fff;
 }
 
 .sm-input {

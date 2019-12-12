@@ -7,7 +7,7 @@ import { headerMenuItems } from 'components/common/SMSiderMenu/HeaderMenuItems';
 
 const { Header, Sider, Content } = Layout;
 
-function SMPage(props) {
+function SMPageLoggedIn(props) {
 
     const [collapsed, setCollapsed] = useState(false)
 
@@ -40,4 +40,4 @@ function SMPage(props) {
     );
 }
 
-export { SMPage };
+export { SMPageLoggedIn };

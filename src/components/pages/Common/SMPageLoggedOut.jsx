@@ -1,5 +1,4 @@
 import React from 'react';
-import { LoginForm } from './LoginForm';
 import { Layout, Row, Col } from 'antd';
 import { SMHeader } from 'components/common/SMHeader';
 import logo from 'assets/images/logo.png';
@@ -8,36 +7,33 @@ import { Redirect } from 'react-router-dom';
 import { SMButton } from 'components/common/SMButton/SMButton';
 const { Header, Content, Footer } = Layout;
 
-function Login(props) {
+function SMPageLoggedOut({children}) {
     const isLoggedIn = authService.isLoggedIn();
 
     return isLoggedIn ? (
         <Redirect to="/" />
     ) : (
-        <Layout className="login">
+        <Layout className="sm-layout">
             <Header className="sm-layout-header">
                 <SMHeader title="Instigate Mobile - Skills Matrix" />
             </Header>
-            <Content className="login-content">
-                <Row className="login-row-1" type="flex" justify="center">
+            <Content className="sm-content">
+                <Row className="sm-content-row" type="flex" justify="center">
                     <Col xs={22} sm={18} md={12} lg={10} xl={8} xxl={6}>
-                        <div className="login-form-container">
+                        <div className="sm-form-container">
                             <img
-                                className="login-logo"
+                                className="sm-instigate-logo"
                                 src={logo}
                                 alt="instigate mobile logo"
                             />
-                            <LoginForm
-                                redirection={props.location.state || undefined}
-                                span={6}
-                            />
+                            {children}
                         </div>
                     </Col>
                 </Row>
             </Content>
-            <Footer className="login-footer">
+            <Footer className="sm-footer">
                 <SMButton
-                    id="login-footer-btn"
+                    id="sm-footer-btn"
                     type="link"
                     target="_blank"
                     href="https://ggg.instigatemobile.com/"
@@ -48,4 +44,4 @@ function Login(props) {
     );
 }
 
-export { Login };
+export { SMPageLoggedOut };
