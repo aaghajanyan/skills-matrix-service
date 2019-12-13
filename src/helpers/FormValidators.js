@@ -40,4 +40,16 @@ const nameValidator = (type) => (rule, value, callback) => {
     validateSchema(nameSchema(type), { name: value }, callback);
 }
 
-export { emailValidator, passwordValidator, nameValidator };
+const confirmPasswordValidator = (password) => (rule, value, callback) => {
+    passwordSchema.validate({ password: value })
+        .then(() => {
+            if (value && value !== password) {
+                callback('Two passwords that you enter is inconsistent!');
+            }
+        })
+        .catch(function(err) {
+            callback(err);
+        });
+}
+
+export { emailValidator, passwordValidator, confirmPasswordValidator, nameValidator };
