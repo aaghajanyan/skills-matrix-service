@@ -7,21 +7,25 @@ const jwt = require('jsonwebtoken');
 const  Messages = require('../constants/Messages');
 const jwtDecode = require('jwt-decode');
 const mailer = require('../mailSender/mailSender');
+const client = require('../../config/env-settings.json').client;
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
-        const token = await request.header("auth-token");
+        const token = request.params.token
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         const user = await userModel.findOne({
             where: { guid: decodedToken.guid }
         });
         if (!user) {
-            return response.status(404).json({
+            return response.status(409).json({
                 success: false,
                 message: 'User does not exists'
             });
         }
-        return response.status(204).end();
+        return response.status(200).json({
+            success: true,
+            token: token
+        });
     } catch (err) {
         return response.status(401).json({
             success: false,
@@ -47,11 +51,11 @@ const forgotPassword = async function(request, response) {
                 createdDate: Date().now
             },
             forgotPasswordTokenSecret,
-            { expiresIn: '60 m' }
+            { expiresIn: '1 d' }
         );
         try {
             const expiration = new Date().setDate(new Date().getDate()+1);
-            const host = `${client.protocol}${client.host}:${client.port}/forgot_password/${token}`;
+            const host = `${client.protocol}${client.host}:${client.port}/forgot_password/change/${token}`;
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch(err) {
             return response.status(400).json({
@@ -70,7 +74,7 @@ const forgotPassword = async function(request, response) {
 
 async function changePassword(request, response) {
     try {
-        const token = await request.header("auth-token");
+        const token = request.params.token;
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         await User.update(decodedToken.guid, request.body);
         return response.status(202).json({success: true});

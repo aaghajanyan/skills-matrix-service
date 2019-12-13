@@ -9,7 +9,7 @@ const { validateForgotPasswordBody  } = require("../validation/forgot-password")
 const router = express.Router();
 
 router.post("/", validateForgotPasswordBody, forgotPassword);
-router.head("/:token", verifyForgotPasswordToken, checkForgotPasswordUser);
-router.post("/change", verifyForgotPasswordToken, changePassword);
+router.get("/change/:token", verifyForgotPasswordToken, checkForgotPasswordUser);
+router.post("/change/:token", verifyForgotPasswordToken, changePassword);
 
 module.exports = router;

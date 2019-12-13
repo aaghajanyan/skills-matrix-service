@@ -27,7 +27,7 @@ async function verifyLoginToken(request, response, next) {
 
 async function verifyRegisterToken(request, response, next) {
     try {
-        const token = request.header("auth-token");
+        const token = request.params.token;
         verifyToken(request, response, next, token, invitationTokenSecret);
     } catch (err) {
         response.status(401).send("Unauthorized.Access denied.");
@@ -36,7 +36,7 @@ async function verifyRegisterToken(request, response, next) {
 
 async function verifyForgotPasswordToken(request, response, next) {
     try {
-        const token = request.header("auth-token");
+        const token = request.params.token;
         verifyToken(request, response, next, token, forgotPasswordTokenSecret);
     } catch (err) {
         response.status(401).send("Unauthorized.Access denied.");

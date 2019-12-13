@@ -16,7 +16,6 @@ const getUsers = async function(_, response) {
         const users = await User.getUsers();
         response.status(200).json(users);
     } catch(err) {
-        console.log(err);
         response.status(400).json({
             success: false,
             message: 'Could not get users.'
@@ -50,7 +49,7 @@ const updateUser = async function(request, response) {
 
 const signUp = async function(request, response) {
     try {
-        const token = request.header("auth-token");
+        const token = request.params.token;
         const decodedToken = await jwtDecode(token, invitationTokenSecret);
         const invitation = await invitationModel.findByPk(decodedToken.guid);
 
