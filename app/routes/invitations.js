@@ -9,7 +9,7 @@ const { verifyPermissions } = require('../validation/permissions');
 
 const router = express.Router();
 
-router.head("/", verifyRegisterToken, checkInvitationInDB);
+router.head("/:token", verifyRegisterToken, checkInvitationInDB);
 router.post("/", verifyLoginToken, verifyPermissions, validateBody, addInvitation);
 
 module.exports = router;

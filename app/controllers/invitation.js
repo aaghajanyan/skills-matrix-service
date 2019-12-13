@@ -10,7 +10,7 @@ const client = require('../../config/env-settings.json').client;
 
 const checkInvitationInDB = async function(request, response) {
     try {
-        const token = await request.header("auth-token");
+        const token = await request.params.token;
         const decodedToken = await jwtDecode(token, tokenSecret);
         const invitation = await invitationModel.findOne({
             where: { id: decodedToken.guid }
