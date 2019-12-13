@@ -5,8 +5,8 @@ import { Register } from 'components/pages/Register/Register';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from './components/routers/PrivateRoute'
 import { NotFound } from 'components/pages/NotFound';
-import { Employess } from 'components/common/Employess/Employess';
-import { PeopleFinder } from 'components/common/PeopleFinder/PeopleFinder';
+// import { Employess } from 'components/common/Employess/Employess';
+// import { PeopleFinder } from 'components/common/PeopleFinder/PeopleFinder';
 
 import './App.scss';
 
@@ -18,8 +18,8 @@ class App extends Component {
                     <Route exact path="/login" component={Login} />
                     <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute path="/home" component={Home} />
-                    <PrivateRoute path="/employess" component={Employess} />
-                    <PrivateRoute path="/people_finder" component={PeopleFinder} />
+                    {/* <PrivateRoute path="/employess" component={Employess} /> */}
+                    {/* <PrivateRoute path="/people_finder" component={PeopleFinder} /> */}
                     <Route path="/register" component={Register} />
                     <Route path="**" component={NotFound} />
                 </Switch>

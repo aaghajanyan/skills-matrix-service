@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormInputs } from './FormInputs';
 import { inputsProperties } from 'helpers/userDataInputsProperties';
 import { RegisterFormValidatior } from 'helpers/RegisterFormValidator';
-import apiService from 'client/APIClient';
+const axios = require('client/lib/axiosWrapper');
 
 class RegisterForm extends Component {
     constructor() {
@@ -58,7 +58,7 @@ class RegisterForm extends Component {
     // TODo move to store
     async register() {
         try {
-            await apiService.post("users",{
+            await axios.post("users", {
                 invitationId: this.props.invitationId,
                 password: this.state.password,
             });
