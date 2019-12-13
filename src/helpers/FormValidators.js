@@ -12,6 +12,12 @@ const passwordSchema = yup.object().shape({
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/, "Please input valid password!"),
 });
 
+const nameSchema = yup.object().shape({
+    name: yup.string()
+    .required("First name is required field!")
+    .matches(/^[a-z]{2,20}$/i, "Please input valid name!"),
+});
+
 const validateSchema = (schema, obj, callback) =>  {
     schema.validate(obj)
     .then(function (result) {
@@ -30,4 +36,8 @@ const emailValidator = (rule, value, callback) => {
     validateSchema(emailSchema, { email: value }, callback);
 }
 
-export { emailValidator, passwordValidator };
+const nameValidator = (rule, value, callback) => {
+    validateSchema(nameSchema, { name: value }, callback);
+}
+
+export { emailValidator, passwordValidator, nameValidator };

@@ -3,29 +3,25 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-function SMSelect({ options, defaultValue, onChange, value }) {
+function SMSelect({className, options, initialValue, onChange, name, rules, placeholder}) {
     const renderOptions = options => {
         return options.map(option => {
             return (
                 <Option key={option.value} value={option.value}>
-                    {option.label}
+                    {option.value}
                 </Option>
             );
         });
     };
 
-    const handleChange = e => {
-        if (e) {
-            onChange(e.target.value);
-            e.stopPropagation();
-        }
-    };
-
     return (
         <Select
-            value={value || undefined}
-            defaultValue={defaultValue || undefined}
-            onChange={handleChange}
+            className={className || undefined}
+            initialValue={initialValue || undefined}
+            onChange={onChange}
+            name={name || undefined}
+            rules={rules || undefined}
+            placeholder={placeholder || undefined}
         >
             {renderOptions(options)}
         </Select>

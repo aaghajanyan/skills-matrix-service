@@ -50,3 +50,16 @@ body::-webkit-scrollbar  {
         font-size: larger;
     }
 }
+
+.sm-select > div {
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    & > input {
+        border-radius: 10px;
+        padding-left: 60px !important;
+    }
+    & > div {
+        height: 100%;
+    }
+}
