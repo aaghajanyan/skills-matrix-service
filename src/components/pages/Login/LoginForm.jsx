@@ -109,6 +109,8 @@ function LoginForm(props) {
                         ),
                         autoComplete: 'new-password',
                     }),
+                ]}
+                buttons={[
                     SMButton({
                         className: 'login-forgot-password-btn',
                         name: 'forgot-password',
@@ -123,7 +125,7 @@ function LoginForm(props) {
                         htmlType: 'submit',
                         children: 'Sing in',
                         loading: loading,
-                    }),
+                    })
                 ]}
                 onSubmit={handleSubmit}
             />

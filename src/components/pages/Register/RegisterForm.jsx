@@ -1,13 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMDatePicker } from 'components/common/SMDatePicker/SMDatePicker'
 import { passwordValidator, nameValidator, confirmPasswordValidator } from 'helpers/FormValidators';
-import { post } from 'client/lib/axiosWrapper';
+import { post, head } from 'client/lib/axiosWrapper';
 
 function RegisterForm(props) {
+
+    const token = props.match.params.token;
+
+    const [loading, setLoading] = useState(false);
+
+    const [firstPassword, setSetFirstPassword ]  = useState(null);
+
+    const onChange = (e) => {
+        setSetFirstPassword(e.target.value);
+    }
+
+    const firstNameRule = { rules: [{ validator: nameValidator("First") }] };
+    const lastNameRule = { rules: [{ validator: nameValidator("Last") }] };
+    const branchRule = { rules: [{ required: true, message: 'Branch is required field!' }] };
+    const positionRule = { rules: [{ required: true, message: 'Position is required field!' }] };
+    const passwordRule = { rules: [{ validator: passwordValidator }] };
+    const confirmPasswordRule = { rules: [{ validator: confirmPasswordValidator(firstPassword) }] }
+
+    useEffect(() => {
+        const options = {
+            url : `invitations/${token}`,
+        }
+        head(options)
+            .then(result => {
+
+            })
+            .catch(error => {
+                props.history.push('/home')
+            })
+    }, [])
+
+    const handleSubmit = formData => {
+        setLoading(true);
+        const options = {
+            url : `users/${token}`,
+            data : formData
+        }
+        post(options)
+            .then(result => {
+                //TODO
+            })
+            .catch(error => {
+                //TODO
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }
 
     const positions = [
         {value: "SW Engineer"},
@@ -33,41 +81,6 @@ function RegisterForm(props) {
         {value: "Erevan"},
         {value: "Goris"}
     ]
-
-    const token = props.match.params.token;
-
-    const [loading, setLoading] = useState(false);
-
-    const [firstPassword, setSetFirstPassword ]  = useState(null);
-
-    const onChange = (e) => {
-        setSetFirstPassword(e.target.value);
-    }
-
-    const firstNameRule = { rules: [{ validator: nameValidator("First") }] };
-    const lastNameRule = { rules: [{ validator: nameValidator("Last") }] };
-    const branchRule = { rules: [{ required: true, message: 'Branch is required field!' }] };
-    const positionRule = { rules: [{ required: true, message: 'Position is required field!' }] };
-    const passwordRule = { rules: [{ validator: passwordValidator }] };
-    const confirmPasswordRule = { rules: [{ validator: confirmPasswordValidator(firstPassword) }] }
-
-    const handleSubmit = formData => {
-        setLoading(true);
-        const options = {
-            url : `users/${token}`,
-            data : formData
-        }
-        post(options)
-            .then(result => {
-                //TODO
-            })
-            .catch(error => {
-                //TODO
-            })
-            .finally(() => {
-                setLoading(false);
-            })
-    }
 
     return (
         <React.Fragment>
@@ -126,7 +139,9 @@ function RegisterForm(props) {
                         name: 'startedToWorkDate',
                         placeholder: 'Start working date',
                         dateFormat: 'YYYY/MM/DD'
-                    }),
+                    })
+                ]}
+                buttons={[
                     SMButton({
                         className: 'login-submit-btn',
                         name: 'submit',

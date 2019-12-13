@@ -16,4 +16,8 @@ const del = (options) => {
   return axiosHelper.apiClient('DELETE', options);
 };
 
-module.exports  = {get, put, post, del};
+const head = (options) => {
+  return axiosHelper.apiClient('HEAD', options);
+};
+
+module.exports  = {get, put, post, del, head};

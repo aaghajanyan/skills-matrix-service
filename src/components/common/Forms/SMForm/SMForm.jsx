@@ -30,9 +30,28 @@ function SMFormInitial(props) {
         });
     };
 
+    const renderFormButtons = () => {
+        return props.buttons.map(item => {
+            return (
+                <Form.Item
+                    key={item.props.name}
+                    validateStatus={item.props.status}
+                    help={item.props.help}
+                >
+                    {getFieldDecorator(item.props.name, {
+                        rules: item.props.rules,
+                    })(item)}
+                </Form.Item>
+            );
+        });
+    };
+
     return (
         <Form className={props.className} onSubmit={handleSubmit}>
-            {renderFormItems()}
+            <div className='sm-form-fields'>
+                {renderFormItems()}
+            </div>
+            {renderFormButtons()}
         </Form>
     );
 }
