@@ -20,7 +20,7 @@ class App extends Component {
             <Router>
                 <Switch>
                     <Route exact path="/login" component={(props) => <SMPageLoggedOut> <LoginForm {...props} /> </SMPageLoggedOut>}  />
-                    <Route path="/register" component={(props) => <SMPageLoggedOut> <RegisterForm {...props}/> </SMPageLoggedOut>} />
+                    <Route path="/register/:token" component={(props) => <SMPageLoggedOut> <RegisterForm {...props}/> </SMPageLoggedOut>} />
                     <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute path="/home" component={Home} />
                     <PrivateRoute path="/employees" component={Employees} />

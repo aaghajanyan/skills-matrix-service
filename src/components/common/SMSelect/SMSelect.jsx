@@ -1,9 +1,9 @@
 import React from 'react';
 import { Select } from 'antd';
-
+import {PropTypes} from 'prop-types'
 const { Option } = Select;
 
-function SMSelect({className, options, initialValue, onChange, name, rules, placeholder}) {
+function SMSelect({options, ...restProps}) {
     const renderOptions = options => {
         return options.map(option => {
             return (
@@ -15,17 +15,23 @@ function SMSelect({className, options, initialValue, onChange, name, rules, plac
     };
 
     return (
-        <Select
-            className={className || undefined}
-            initialValue={initialValue || undefined}
-            onChange={onChange}
-            name={name || undefined}
-            rules={rules || undefined}
-            placeholder={placeholder || undefined}
-        >
+        <Select {...restProps}>
             {renderOptions(options)}
         </Select>
     );
 }
+
+SMSelect.propTypes = {
+    className: PropTypes.string,
+    initialValue: PropTypes.string,
+    onChange: PropTypes.func,
+    name: PropTypes.string,
+    placeholder: PropTypes.string,
+    rules: PropTypes.arrayOf(PropTypes.object),
+    options: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.string,
+    })),
+}
+
 
 export { SMSelect };

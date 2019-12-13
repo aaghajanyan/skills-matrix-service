@@ -77,7 +77,7 @@ function LoginForm(props) {
                 />
             )}
             <SMForm
-                className="login-form"
+                className="sm-form"
                 items={[
                     SMInput({
                         className: 'sm-input',

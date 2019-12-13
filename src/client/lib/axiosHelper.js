@@ -12,7 +12,7 @@ const handleError = (error) => {
 const service = axios.create({
   headers: authService.getAuthHeader(),
   baseURL: 'http://localhost:3002'
-  });
+});
 
 service.interceptors.response.use(handleSuccess, handleError);
 

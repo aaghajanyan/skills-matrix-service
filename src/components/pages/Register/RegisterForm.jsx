@@ -3,80 +3,122 @@ import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
+import { SMDatePicker } from 'components/common/SMDatePicker/SMDatePicker'
 import { passwordValidator, nameValidator } from 'helpers/FormValidators';
-const axios = require('client/lib/axiosWrapper');
+import { post } from 'client/lib/axiosWrapper';
 
-function RegisterForm() {
+function RegisterForm(props) {
+
+    const positions = [
+        {value: "SW Engineer"},
+        {value: "Senior SW Engineer"},
+        {value: "Beginner QA Tester"},
+        {value: "QA Tester"},
+        {value: "SQE Analyst"},
+        {value: "Sr. Software Quality Engineer"},
+        {value: "QA Analyst"},
+        {value: "QA lead"},
+        {value: "Team lead"},
+        {value: "Graphic designer"},
+        {value: "technical manager"},
+        {value: "Senior Team lead"},
+        {value: "Project Manager"},
+        {value: "3D modeler"},
+        {value: "UIUX designer"},
+        {value: "SW Architect"}
+    ]
+
+    const branches =  [
+        {value: "Vanadzor"},
+        {value: "Erevan"},
+        {value: "Goris"}
+    ]
+
+    const token = props.match.params.token;
 
     const [loading, setLoading] = useState(false);
 
-    const nameRules = { rules: [{ validator: nameValidator }] };
-    const branchRules = { rules: [{ required: true, message: 'Please select your country!' }] };
-    const passwordRules = { rules: [{ validator: passwordValidator }] };
+    const firstNameRule = { rules: [{ validator: nameValidator("First") }] };
+    const lastNameRule = { rules: [{ validator: nameValidator("Last") }] };
+    const branchRule = { rules: [{ required: true, message: 'Branch is required field!' }] };
+    const positionRule = { rules: [{ required: true, message: 'Position is required field!' }] };
+    const passwordRule = { rules: [{ validator: passwordValidator }] };
 
 
-    // TODo move to store
-    // async register() {
-    //     try {
-    //         await axios.post("users", {
-    //             invitationId: this.props.invitationId,
-    //             password: this.state.password,
-    //         });
-    //         this.props.history.push('/');
-    //         //TODO notify the client that user is created
-    //     } catch (error) {
-    //         //TODO login the user and redirect to the user summary page
-    //         //TODO notify the client that something went wrong
-    //     }
-    // }
+    const handleSubmit = formData => {
+        setLoading(true);
+        const options = {
+            url : `users/${token}`,
+            data : formData
+        }
+        post(options)
+            .then(result => {
+                //TODO
+            })
+            .catch(error => {
+                //TODO
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }
 
     return (
             <React.Fragment>
                 <SMForm
-                    className="register-form"
+                    className="sm-form"
                     items={[
                         SMInput({
                             className: 'sm-input',
                             name: 'fname',
                             type: 'text',
                             placeholder: 'First name',
-                            autoComplete: 'username',
-                            rules: nameRules.rules,
+                            rules: firstNameRule.rules,
+                            autoComplete: 'off'
                         }),
                         SMInput({
                             className: 'sm-input',
                             name: 'lname',
                             type: 'text',
                             placeholder: 'Last name',
-                            autoComplete: 'username',
-                            rules: nameRules.rules,
+                            rules: lastNameRule.rules,
+                            autoComplete: 'off'
                         }),
                         SMSelect({
                             className: 'sm-select',
-                            name: 'select',
-                            placeholder: "Please select a branch",
-                            options: [
-                                {value: "Vanadzor"},
-                                {value: "Erevan"},
-                                {value: "Goris"}
-                            ],
-                            rules: branchRules.rules
+                            name: 'branchName',
+                            placeholder: "Branch",
+                            options:branches,
+                            rules: branchRule.rules
+                        }),
+                        SMSelect({
+                            className: 'sm-select',
+                            name: 'position',
+                            placeholder: "Position",
+                            options: positions,
+                            rules: positionRule.rules
                         }),
                         SMInput({
                             className: 'sm-input',
                             name: 'password',
                             type: 'password',
                             placeholder: 'Password',
-                            rules: passwordRules.rules,
-                            autoComplete: 'new-password',
+                            rules: passwordRule.rules,
+                            autoComplete: 'off',
                         }),
                         SMInput({
                             className: 'sm-input',
                             name: 'repeat_password',
                             type: 'password',
                             placeholder: 'Repeat Password',
-                            rules: passwordRules.rules,
-                            autoComplete: 'new-password',
+                            rules: passwordRule.rules,
+                            autoComplete: 'off',
+                        }),
+                        SMDatePicker({
+                            className: 'sm-date-picker',
+                            name: 'startedToWorkDate',
+                            placeholder: 'Start working date',
+                            dateFormat: 'YYYY/MM/DD'
                         }),
                         SMButton({
                             className: 'login-submit-btn',
@@ -87,7 +129,7 @@ function RegisterForm() {
                             loading: loading,
                         }),
                     ]}
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                 />
             </React.Fragment>
         );

@@ -3,19 +3,7 @@ import { Input } from 'antd';
 import PropTypes from 'prop-types';
 
 function SMInput(props) {
-    return (
-        <Input
-            className={props.className || undefined}
-            type={props.type || undefined}
-            name={props.name || undefined}
-            style={props.style || undefined}
-            onChange={props.onChange || undefined}
-            placeholder={props.placeholder || undefined}
-            rules={props.rules || undefined}
-            prefix={props.prefix || undefined }
-            autoComplete={props.autoComplete || undefined}
-        />
-    );
+    return <Input {...props} />
 }
 
 SMInput.propTypes = {

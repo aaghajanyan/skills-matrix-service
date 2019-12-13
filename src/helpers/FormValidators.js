@@ -12,10 +12,10 @@ const passwordSchema = yup.object().shape({
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/, "Please input valid password!"),
 });
 
-const nameSchema = yup.object().shape({
+const nameSchema = (type) => yup.object().shape({
     name: yup.string()
-    .required("First name is required field!")
-    .matches(/^[a-z]{2,20}$/i, "Please input valid name!"),
+    .required(`${type}-name is required field!`)
+    .matches(/^[a-z]{2,20}$/i, `Please input valid ${type}-name!`),
 });
 
 const validateSchema = (schema, obj, callback) =>  {
@@ -36,8 +36,8 @@ const emailValidator = (rule, value, callback) => {
     validateSchema(emailSchema, { email: value }, callback);
 }
 
-const nameValidator = (rule, value, callback) => {
-    validateSchema(nameSchema, { name: value }, callback);
+const nameValidator = (type) => (rule, value, callback) => {
+    validateSchema(nameSchema(type), { name: value }, callback);
 }
 
 export { emailValidator, passwordValidator, nameValidator };

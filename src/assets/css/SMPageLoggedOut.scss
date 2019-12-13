@@ -19,7 +19,7 @@
 .sm-form-container {
     padding: 10%;
     background-color: #fff;
-    margin-top: 30px;
+    margin-top: 0px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
 }
@@ -48,12 +48,70 @@
     }
 }
 
-
-
-
 /* From styles */
+.sm-form {
+    margin-top: 10%;
+    left: 0px;
+    top: 0px;
+    border-radius: 10px;
+}
+
+.sm-form-icon {
+    width: 24px;
+}
+
 .sm-alert-error {
     border-radius: 10px;
     height: 40px;
     margin-top: 10%;
+}
+.sm-input {
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    & > input {
+        border-radius: 10px;
+        padding-left: 60px !important;
+    }
+    & > span {
+        width: 36px;
+        border-right: 2px solid rgba(0, 0, 0, 0.15);
+    }
+    & > input::placeholder {
+        font-size: larger;
+    }
+}
+
+.sm-select > div {
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    & > input {
+        border-radius: 10px;
+        padding-left: 60px !important;
+    }
+    & > div > div {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin-top: -10px;
+        line-height: 20px;
+    }
+    & > div {
+        height: 100%;
+    }
+}
+
+.sm-date-picker {
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    & > div > input {
+        border-radius: 10px;
+        height: 100%;
+    }
+    & > div {
+        height: 100%;
+    }
 }
