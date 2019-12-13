@@ -5,10 +5,10 @@ import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { emailValidator, passwordValidator } from 'helpers/FormValidators';
-import apiService from 'client/APIClient';
 import { Redirect } from 'react-router-dom';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 import login_password_icon from 'assets/images/login_password_icon.svg';
+const axios = require('client/lib/axiosWrapper');
 
 function LoginForm(props) {
 
@@ -34,7 +34,11 @@ function LoginForm(props) {
 
     const handleSubmit = formData => {
         setLoading(true);
-        apiService.post("users/login",formData)
+        const options = {
+          url : "users/login",
+          data : formData
+        }
+        axios.post(options)
             .then(result => {
                 onAlertClose(null);
                 setLoading(false);

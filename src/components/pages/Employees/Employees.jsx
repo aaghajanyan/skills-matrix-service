@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import apiService from 'client/APIClient';
 import { emailValidator } from 'helpers/FormValidators';
 import { SMModal } from 'components/common/SMModal/SMModal';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
@@ -15,15 +14,7 @@ function Employees() {
     const emailRules = { rules: [{ validator: emailValidator }] };
 
     const handleOk = () => {
-        apiService.post('invitations/', {email: modalValue})
-            .then((result) => {
-                //TODO Send invitations email
-            })
-            .catch(() => {
-                //TODO handle error
-            })
-        setVisible(false);
-        //TODO show notification
+
     }
 
     const handleCancel = () => {

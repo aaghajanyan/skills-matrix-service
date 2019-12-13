@@ -7,14 +7,9 @@ class AuthService {
 
     getAuthHeader() {
         const token = this.isLoggedIn();
-        if (token) {
-          return {Authorization: `Bearer ${token}`};
-        } else {
-          return {};
-        }
-    }
+		  return {Authorization: `Bearer ${token}`};
+	}
 }
 
 const authService = new AuthService()
-
 export { authService }

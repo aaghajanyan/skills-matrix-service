@@ -4,6 +4,7 @@ import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { passwordValidator, nameValidator } from 'helpers/FormValidators';
+const axios = require('client/lib/axiosWrapper');
 
 function RegisterForm() {
 
@@ -14,9 +15,20 @@ function RegisterForm() {
     const passwordRules = { rules: [{ validator: passwordValidator }] };
 
 
-    const handleSubmit = formData => {
-        //TODO
-    }
+    // TODo move to store
+    // async register() {
+    //     try {
+    //         await axios.post("users", {
+    //             invitationId: this.props.invitationId,
+    //             password: this.state.password,
+    //         });
+    //         this.props.history.push('/');
+    //         //TODO notify the client that user is created
+    //     } catch (error) {
+    //         //TODO login the user and redirect to the user summary page
+    //         //TODO notify the client that something went wrong
+    //     }
+    // }
 
     return (
             <React.Fragment>
@@ -75,7 +87,7 @@ function RegisterForm() {
                             loading: loading,
                         }),
                     ]}
-                    onSubmit={handleSubmit}
+                    // onSubmit={handleSubmit}
                 />
             </React.Fragment>
         );

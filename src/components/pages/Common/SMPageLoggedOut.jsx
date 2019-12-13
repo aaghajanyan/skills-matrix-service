@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Row, Col } from 'antd';
 import { SMHeader } from 'components/common/SMHeader';
 import logo from 'assets/images/logo.png';
-import { authService } from 'client/AuthService';
+import { authService } from 'client/lib/AuthService';
 import { Redirect } from 'react-router-dom';
 import { SMButton } from 'components/common/SMButton/SMButton';
 const { Header, Content, Footer } = Layout;

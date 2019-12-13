@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { authService } from 'client/AuthService';
+import { authService } from 'client/lib/AuthService';
 import { SMPageLoggedIn } from 'pages/Common/SMPageLoggedIn'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
