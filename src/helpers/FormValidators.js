@@ -46,6 +46,7 @@ const confirmPasswordValidator = (password) => (rule, value, callback) => {
             if (value && value !== password) {
                 callback('Two passwords that you enter is inconsistent!');
             }
+            callback()
         })
         .catch(function(err) {
             callback(err);

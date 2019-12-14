@@ -25,6 +25,7 @@ function RegisterForm(props) {
     const positionRule = { rules: [{ required: true, message: 'Position is required field!' }] };
     const passwordRule = { rules: [{ validator: passwordValidator }] };
     const confirmPasswordRule = { rules: [{ validator: confirmPasswordValidator(firstPassword) }] }
+    const dateRule = { rules: [{ required: true, message: 'Date is required field!' }] }
 
     useEffect(() => {
         const options = {
@@ -40,10 +41,18 @@ function RegisterForm(props) {
     }, [])
 
     const handleSubmit = formData => {
+        const data = {
+            fname: formData.fname,
+            lname: formData.lname,
+            branchName: formData.branchName,
+            position: formData.position,
+            password: formData.password,
+            startedToWorkDate: formData.startedToWorkDate
+        }
         setLoading(true);
         const options = {
             url : `users/${token}`,
-            data : formData
+            data : data
         }
         post(options)
             .then(result => {
@@ -138,7 +147,8 @@ function RegisterForm(props) {
                         className: 'sm-date-picker',
                         name: 'startedToWorkDate',
                         placeholder: 'Start working date',
-                        dateFormat: 'YYYY/MM/DD'
+                        format: 'YYYY-MM-DD',
+                        rules: dateRule.rules
                     })
                 ]}
                 buttons={[
