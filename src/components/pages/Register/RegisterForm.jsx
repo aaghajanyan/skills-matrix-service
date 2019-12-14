@@ -36,7 +36,7 @@ function RegisterForm(props) {
 
             })
             .catch(error => {
-                props.history.push('/home')
+                props.history.push('/login')
             })
     }, [])
 

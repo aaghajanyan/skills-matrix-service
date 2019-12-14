@@ -12,8 +12,6 @@ const axios = require('client/lib/axiosWrapper');
 
 function LoginForm(props) {
 
-    const redirection = props.location.state.url
-
     const passwordRules = { rules: [{ validator: passwordValidator }] };
 
     const emailRules = { rules: [{ validator: emailValidator }] };
@@ -64,7 +62,7 @@ function LoginForm(props) {
     };
 
     return success ? (
-        <Redirect to={redirection ? redirection.url : '/'} />
+        <Redirect to={props.location.state ? props.location.state.url : '/'} />
     ) : (
         <React.Fragment>
             {errorMessage && (
