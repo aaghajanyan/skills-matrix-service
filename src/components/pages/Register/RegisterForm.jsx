@@ -47,7 +47,7 @@ function RegisterForm(props) {
             branchName: formData.branchName,
             position: formData.position,
             password: formData.password,
-            startedToWorkDate: formData.startedToWorkDate
+            startedToWorkDate: formData.startedToWorkDate.toString()
         }
         setLoading(true);
         const options = {
