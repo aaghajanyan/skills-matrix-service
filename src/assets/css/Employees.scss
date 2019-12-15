@@ -8,5 +8,25 @@
     color: white;
     border-radius: 10px;
     height: 40px;
+}
 
+#send-invitation-btn {
+    background-color: #266494 ;
+    border-color: #266494 ;
+    border-radius: 5px;
+    &:hover {
+        background-color:  #3A79AA ;
+        border-color: #3A79AA ;
+    }
+}
+
+#cancel-invitation-btn {
+    & > span  {
+        font-size: initial;
+        text-decoration-line: underline;
+    }
+    color: #266494;
+    &:hover {
+        color: #3A79AA;
+    }
 }

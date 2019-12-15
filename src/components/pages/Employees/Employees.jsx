@@ -39,10 +39,20 @@ function Employees() {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[
-                    <SMButton key='cancel' type="link" onClick={handleCancel}>
+                    <SMButton
+                        id='cancel-invitation-btn'
+                        key='cancel'
+                        type='link'
+                        onClick={handleCancel}
+                    >
                         Cancel
                     </SMButton>,
-                    <SMButton key="ok" type="primary" onClick={handleOk}>
+                    <SMButton
+                        id='send-invitation-btn'
+                        key='ok'
+                        type='primary'
+                        onClick={handleOk}
+                    >
                         Send invitation
                     </SMButton>
                 ]}
