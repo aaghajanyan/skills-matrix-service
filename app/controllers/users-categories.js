@@ -22,7 +22,7 @@ const getUserCategories = async function(request, response) {
         });
         response.status(200).json(userCategories);
     } catch (err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -56,7 +56,7 @@ const addUserCategory =  async function(request, response) {
             });
         }
     } catch (err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -88,7 +88,7 @@ const updateUserCategory =  async function(request, response) {
             });
         }
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -118,7 +118,7 @@ const deleteUserCategory =  async function(request, response) {
             });
         }
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -128,7 +128,7 @@ const deleteUserCategoryById =  async function(request, response) {
         await usersCategoriesModel.destroy({ where: { id: request.params.userCategoryGuid } });
         response.status(202).end();
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).end();
     }
 };

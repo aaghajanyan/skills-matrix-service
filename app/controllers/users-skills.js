@@ -22,7 +22,7 @@ const getUserSkills = async function(request, response) {
         });
         response.status(200).json(userSkills);
     } catch (err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -56,7 +56,7 @@ const addUserSkill =  async function(request, response) {
             });
         }
     } catch (err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -88,7 +88,7 @@ const updateUserSkill =  async function(request, response) {
             });
         }
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -118,7 +118,7 @@ const deleteUserSkill =  async function(request, response) {
             });
         }
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).send();
     }
 };
@@ -128,7 +128,7 @@ const deleteUserSkillById =  async function(request, response) {
         await usersSkillsModel.destroy({ where: { id: request.params.userSkillGuid } });
         response.status(202).end();
     } catch(err) {
-        console.log(err);
+        request.logger.error(err);
         response.status(409).end();
     }
 };

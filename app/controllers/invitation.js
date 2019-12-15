@@ -54,7 +54,7 @@ const addInvitation = async function(request, response) {
                     const host = `${client.protocol}${client.host}:${client.port}/registration/${token}`;
                     await mailer.invite(request.body.email, host, expiration);
                 } catch(err) {
-                    console.log(err);
+                    logger.error(err);
                     currInvitation.destroy();
                     return response.status(400).json({
                         success: false,
