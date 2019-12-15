@@ -6,12 +6,15 @@ import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMDatePicker } from 'components/common/SMDatePicker/SMDatePicker'
 import { passwordValidator, nameValidator, confirmPasswordValidator } from 'helpers/FormValidators';
 import { post, head } from 'client/lib/axiosWrapper';
+import { Spin } from 'antd';
 
 function RegisterForm(props) {
 
     const token = props.match.params.token;
 
-    const [loading, setLoading] = useState(false);
+    const [loadingButton, setLoadingButton] = useState(false);
+
+    const [loading, setLoading] = useState(true);
 
     const [firstPassword, setSetFirstPassword ]  = useState(null);
 
@@ -33,14 +36,15 @@ function RegisterForm(props) {
         }
         head(options)
             .then(result => {
-
+                setLoading(false)
             })
             .catch(error => {
-                props.history.push('/login')
+                props.setLocation('/login')
             })
     }, [])
 
     const handleSubmit = formData => {
+        setLoadingButton(true);
         const data = {
             fname: formData.fname,
             lname: formData.lname,
@@ -49,20 +53,18 @@ function RegisterForm(props) {
             password: formData.password,
             startedToWorkDate: formData.startedToWorkDate.toString()
         }
-        setLoading(true);
         const options = {
             url : `users/${token}`,
             data : data
         }
         post(options)
             .then(result => {
+                setLoadingButton(false);
                 //TODO
             })
             .catch(error => {
+                setLoadingButton(false);
                 //TODO
-            })
-            .finally(() => {
-                setLoading(false);
             })
     }
 
@@ -92,6 +94,7 @@ function RegisterForm(props) {
     ]
 
     return (
+        loading ? <Spin className='register-form-load' size="large" /> :
         <React.Fragment>
             <SMForm
                 className="sm-form"
@@ -158,7 +161,7 @@ function RegisterForm(props) {
                         type: 'primary',
                         htmlType: 'submit',
                         children: 'Sing up',
-                        loading: loading,
+                        loading: loadingButton,
                     }),
                 ]}
                 onSubmit={handleSubmit}

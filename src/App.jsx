@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Home } from 'pages/Home/Home';
 import { SMPageLoggedOut } from 'pages/Common/SMPageLoggedOut'
-import { LoginForm } from 'pages/Login/LoginForm';
-import { RegisterForm } from 'pages/Register/RegisterForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from 'components/routers/PrivateRoute'
 import { NotFound } from 'pages/NotFound/NotFound';
@@ -19,8 +17,8 @@ class App extends Component {
         return (
             <Router>
                 <Switch>
-                    <Route exact path="/login" component={(props) => <SMPageLoggedOut> <LoginForm {...props} /> </SMPageLoggedOut>}  />
-                    <Route path="/register/:token" component={(props) => <SMPageLoggedOut> <RegisterForm {...props}/> </SMPageLoggedOut>} />
+                    <Route exact path="/login" component={(props) => <SMPageLoggedOut {...props} />} />
+                    <Route path="/register/:token" component={(props) => <SMPageLoggedOut {...props} />} />
                     <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute path="/home" component={Home} />
                     <PrivateRoute path="/employees" component={Employees} />

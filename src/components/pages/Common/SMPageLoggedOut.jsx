@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Row, Col } from 'antd';
 import { SMHeader } from 'components/common/SMHeader';
 import logo from 'assets/images/logo.png';
 import { authService } from 'client/lib/AuthService';
 import { Redirect } from 'react-router-dom';
 import { SMButton } from 'components/common/SMButton/SMButton';
+import { RegisterForm } from 'pages/Register/RegisterForm';
+import { LoginForm } from 'pages/Login/LoginForm';
 const { Header, Content, Footer } = Layout;
 
-function SMPageLoggedOut({children}) {
+function SMPageLoggedOut(props) {
     const isLoggedIn = authService.isLoggedIn();
+
+    const [location, setLocation] = useState(props.match.path);
 
     return isLoggedIn ? (
         <Redirect to="/" />
@@ -26,7 +30,8 @@ function SMPageLoggedOut({children}) {
                                 src={logo}
                                 alt="instigate mobile logo"
                             />
-                            {children}
+                            {location === '/login' ? <LoginForm {...props} /> :
+                            <RegisterForm setLocation={setLocation} {...props}/>}
                         </div>
                     </Col>
                 </Row>
