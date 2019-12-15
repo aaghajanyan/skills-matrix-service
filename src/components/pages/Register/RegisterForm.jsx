@@ -41,7 +41,7 @@ function RegisterForm(props) {
             .catch(error => {
                 props.setLocation('/login')
             })
-    }, [])
+    })
 
     const handleSubmit = formData => {
         setLoadingButton(true);
