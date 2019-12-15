@@ -10,6 +10,7 @@ import { LoginForm } from 'pages/Login/LoginForm';
 const { Header, Content, Footer } = Layout;
 
 function SMPageLoggedOut(props) {
+
     const isLoggedIn = authService.isLoggedIn();
 
     const [location, setLocation] = useState(props.match.path);
