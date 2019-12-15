@@ -18,6 +18,7 @@
         .sm-menu-container_item:not(:first-child) {
             width:90%;
             margin-left: 4%;
+            border-radius: 10px;
         }
 
         .sm-menu-container_item > i  {
@@ -30,7 +31,7 @@
             margin-top: 10px;
         }
         .sm-menu-container_item:hover {
-            border-radius: 5px;
+            border-radius: 10px;
             background-color: rgba(16, 39, 57, 0.27);
         }
 
