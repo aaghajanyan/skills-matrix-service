@@ -14,20 +14,25 @@ const {
 
 const Op = Sequelize.Op;
 
-const findData = async function(request, response) {
-    const { type, condition, items } = request.body[0];
-
+const findData = async function(request, response, next) {
     const whereCondition = {
         usersCondition: [],
-        usersSkillsCondition: [],
         categoriesCondition: [],
-        skillsCondition: []
+        skillsCondition: [],
+        usersSkillsCondition: [],
+        usersCategoriesCondition: [],
     };
-    const where = collectCondition(items, condition);
-    console.log('\n\n where: ', where);
-    const opCondition = getCondition(condition);
-    console.log('\n\n opCondition: ', opCondition);
-    const model = await getModel(whereCondition, where, type);
+    request.body.forEach(async (item) => {
+        const { type, condition, items } = item;
+        const where = collectCondition(items, condition);
+        console.log('\n\n where: ', where);
+        const opCondition = getCondition(condition);
+        console.log('\n\n opCondition: ', opCondition);
+        const model = await getModel(whereCondition, where, type, next);
+    })
+
+    console.log('\n\n whereCondition: ', whereCondition);
+
     const users = await getUsers(whereCondition);
 
     response.status(200).send({
@@ -37,12 +42,18 @@ const findData = async function(request, response) {
     })
 };
 
+// const correctCollectedData = async(whereCondition) => {
+//     whereCondition.forEach(async (item) => {
+
+//     })
+// }
+
 const getCondition = (condition) => {
     switch(condition) {
         case 'equal':
             return Op.and;
         case 'not equal':
-            return Op.and;
+            return Op.ne;
         case 'greater':
             return Op.gte;
         case 'lesser':
@@ -60,36 +71,88 @@ const collectCondition = (items) => {
     return where;
 }
 
-const getModel = async (conditionsObj, condition, type) => {
+// const separateConditionsByType = async (conditionObj, relatedConditionObj, condition) => {
+//     condition.forEach(function (item) {
+//         const keyName = Object.keys(item);
+//         const tmpCondition = {};
+//         tmpCondition[keyName] = item[keyName];
+//         if(keyName != 'name') {
+//             relatedConditionObj.push(tmpCondition);
+//         } else {
+//             conditionObj.push(tmpCondition);
+//         }
+//     });
+// }
+
+const separateConditionsByType = async (conditionObj, relatedConditionObj, condition) => {
+    condition.forEach(function (item) {
+        const keyName = Object.keys(item);
+        const tmpCondition = {};
+        tmpCondition[keyName] = item[keyName];
+        if(keyName != 'name') {
+            tmpCondition[keyName] = {[Op.gte]: item[keyName]}; //{experience: {[Op.gt]: 5}}
+            relatedConditionObj.push(tmpCondition);
+        } else {
+            console.log("\n\n **** ELSE", conditionObj);
+            // tmpCondition[keyName] = item[keyName];
+            conditionObj.forEach(async (item)=> {
+                // console.log("\n\n UUU 5: ", item);
+                // console.log("\n\n UUU 5: ", item[0]);
+                // console.log("\n\n UUU 5: ", Object.values(item));
+                // console.log("\n\n UUU 5: ", Object.keys(item));
+
+                // if (Object.values(item)[0] == Object.keys(tmpCondition)[0]) {
+                //     console.log("\n\n **** equal index");
+                // }
+            })
+            conditionObj.push(tmpCondition);
+        }
+    });
+}
+
+const getModel = async (conditionsObj, condition, type, next) => {
     switch(type) {
         case 'skill':
-            conditionsObj.skillsCondition = condition;
+            separateConditionsByType(conditionsObj.skillsCondition, conditionsObj.usersSkillsCondition, condition);
             return skillModel;
         case 'category':
-            conditionsObj.categoriesCondition = condition;
+            separateConditionsByType(conditionsObj.categoriesCondition, conditionsObj.usersCategoriesCondition, condition);
             return categoryModel;
         case 'user':
-            console.log("\n\nconditionsObj = ", conditionsObj);
-            console.log("\n\ncondition = ", condition);
-            conditionsObj.usersCondition = condition;
+            conditionsObj.usersCondition.push(condition[0]);
             return userModel;
-        case 'user_skill':
-            conditionsObj.usersSkillsCondition = condition;
-            return users_skills;
+        default: {
+            let err = new Error('Invalid type to search employees');
+            err.status = 400;
+            next(err);
+        }
     }
 }
 
 const getUsers = async(conditionsByCriteria) => {
-    // const {
-    //     usersCondition,
-    //     usersSkillsCondition,
-    //     categoriesCondition,
-    //     skillsCondition
-    // } = conditionsByCriteria;
+    const {
+        usersCondition,
+        categoriesCondition,
+        skillsCondition,
+        usersSkillsCondition,
+        usersCategoriesCondition
+    } = conditionsByCriteria;
 
-    console.log('\n\nC = ', conditionsByCriteria);
+    // const skillReq = skillsCondition.length > 0 ? true : false;
+    // const categoryReq= categoriesCondition.length > 0  ? true : false;
+    console.log('\n\nALL = ', conditionsByCriteria);
+
+    console.log('\n\nusersCondition = ', usersCondition);
+    console.log('\n\ncategoriesCondition = ', categoriesCondition);
+    console.log('\n\nskillsCondition = ', skillsCondition);
+    console.log('\n\nusersSkillsCondition = ', usersSkillsCondition);
+    console.log('\n\nusersCategoriesCondition = ', usersCategoriesCondition);
+
+    // console.log('\n\nB-S = ', skillReq);
+    // console.log('\n\nB-C = ', categoryReq);
+
     const users = await userModel.findAll({
-        where:  conditionsByCriteria.usersCondition,
+        where:   usersCondition,
         attributes: { exclude: ["id", "password", "roleGroupId"] },
         include: [
             {
@@ -112,12 +175,12 @@ const getUsers = async(conditionsByCriteria) => {
             {
                 attributes: { exclude: ["id"] },
                 model: skillModel,
-                where: conditionsByCriteria.skillsCondition,
+                where: {[Op.or]: skillsCondition },
                 as: "skills",
-                required: true,
+                required: skillsCondition.length > 0 ? true : false,
                 through: {
                     model: userSkillsModel,
-                    where: {experience: 5},
+                    where: usersSkillsCondition, //{experience: {[Op.gt]: 5}},//
                     as: "skillMark",
                     attributes: ["currentMark", "experience", "profficience", "guid"]
                 }
@@ -125,11 +188,12 @@ const getUsers = async(conditionsByCriteria) => {
             {
                 attributes: { exclude: ["id"] },
                 model: categoryModel,
-                where: conditionsByCriteria.categoriesCondition,
+                where: categoriesCondition,
                 as: "categories",
-                required: true,
+                required: categoriesCondition.length > 0  ? true : false,
                 through: {
                     model: userCategoriesModel,
+                    where: usersCategoriesCondition,
                     as: "categoryMark",
                     attributes: ["experience", "profficience", "guid"]
                 },
