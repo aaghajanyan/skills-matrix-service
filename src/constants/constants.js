@@ -4,7 +4,7 @@ const sendInvitationsMessages = {
     },
     error: {
         message: 'Operation failed',
-        description: 'Invitation already sent to this email address0',
+        description: 'Invitation already sent to this email address',
     },
 }
 

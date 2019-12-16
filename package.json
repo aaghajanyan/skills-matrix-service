@@ -2,6 +2,7 @@
   "name": "skills-matrix",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3002",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",

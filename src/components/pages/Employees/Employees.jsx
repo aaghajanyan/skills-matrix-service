@@ -26,7 +26,7 @@ function Employees() {
                 SMNotification('success', sendInvitationsMessages.success)
             })
             .catch(error => {
-                error.status === 409 &&
+                error.response.status === 409 &&
                 SMNotification('error', sendInvitationsMessages.error)
             })
         setVisible(false);

@@ -6,7 +6,7 @@ const handleSuccess = (response) => {
 };
 
 const handleError = (error) => {
-	return Promise.reject(error.response);
+	return Promise.reject(error);
 };
 
 const defaultHeaderHandler = request => {
@@ -14,9 +14,7 @@ const defaultHeaderHandler = request => {
   return request;
 }
 
-const service = axios.create({
-  baseURL: 'http://localhost:3002'
-});
+const service = axios.create({});
 
 service.interceptors.response.use(handleSuccess, handleError);
 service.interceptors.request.use(defaultHeaderHandler);

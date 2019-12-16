@@ -3,7 +3,7 @@ const siderMenuItems = [
         key: "/",
         disabled: "false",
         title: "Skills Matrix",
-        href: "#home",
+        href: "/home",
         className: "sm-menu-container_item sm-menu-container_home",
         iconSrc: 'sm'
     },
@@ -17,61 +17,61 @@ const siderMenuItems = [
 
     },
     {
-        key: "/employees",
+        key: "employees",
         disabled: "false",
         title: "Employees",
-        href: "employees",
+        href: "/employees",
         className: "sm-menu-container_item sm-menu-container_employees",
         iconSrc: 'employees'
 
     },
     {
-        key: "/find_employees",
+        key: "find_employees",
         disabled: "false",
         title: "Find Employees",
-        href: "find_employees",
+        href: "/find_employees",
         className: "sm-menu-container_item sm-menu-container_find-employees",
         iconSrc: 'findEmployees'
 
     },
     {
-        key: "/branches",
+        key: "branches",
         disabled: "false",
         title: "Branches",
-        href: "branches",
+        href: "/branches",
         className: "sm-menu-container_item sm-menu-container_branches",
         iconSrc: 'branches'
 
     },
     {
-        key: "/categories",
+        key: "categories",
         disabled: "false",
         title: "Categories",
-        href: "categories",
+        href: "/categories",
         className: "sm-menu-container_item sm-menu-container_categories",
         iconSrc: 'categories'
 
     },
     {
-        key: "/skills",
+        key: "skills",
         disabled: "false",
         title: "Skills",
-        href: "skills",
+        href: "/skills",
         className: "sm-menu-container_item sm-menu-container_skills",
         iconSrc: 'skills'
 
     },
     {
-        key: "/settings",
+        key: "settings",
         disabled: "false",
         title: "Settings",
-        href: "settings",
+        href: "/settings",
         className: "sm-menu-container_item sm-menu-container_settings",
         iconSrc: 'settings'
 
     },
     {
-        key: "/login",
+        key: "logOut",
         disabled: "false",
         title: "Sign Out",
         href: "/login",

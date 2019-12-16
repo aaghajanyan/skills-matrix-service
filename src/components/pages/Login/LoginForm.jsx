@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import cookie from 'react-cookies';
 import { Alert } from 'antd';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
@@ -8,7 +7,7 @@ import { emailValidator, passwordValidator } from 'helpers/FormValidators';
 import { Redirect } from 'react-router-dom';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 import login_password_icon from 'assets/images/login_password_icon.svg';
-const axios = require('client/lib/axiosWrapper');
+import { authService } from 'client/lib/AuthService';
 
 function LoginForm(props) {
 
@@ -32,34 +31,17 @@ function LoginForm(props) {
 
     const handleSubmit = formData => {
         setLoading(true);
-        const options = {
-          url : "users/login",
-          data : formData
-        }
-        axios.post(options)
-            .then(result => {
-                onAlertClose(null);
+        authService.login(formData)
+            .then(() => {
                 setLoading(false);
-
-                cookie.save('auth_token', result.data.token, {
-                    path: '/',
-                    maxAge: 86400,
-                });
+                onAlertClose(null);
                 setSuccess(true);
             })
             .catch(error => {
                 setLoading(false);
-
-                if (error.response) {
-                    showError(error.response.data.message);
-                } else if (error.request) {
-                    //TODO handle error
-                    console.log(error.request);
-                } else {
-                    //TODO handle error
-                }
-            });
-    };
+                showError(error)
+            })
+    }
 
     return success ? (
         <Redirect to={props.location.state ? props.location.state.url : '/'} />

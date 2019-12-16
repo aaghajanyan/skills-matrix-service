@@ -3,12 +3,12 @@ const headerMenuItems = [
         key: "settings",
         disabled: "false",
         title: "Settings",
-        href: "#settings",
+        href: "/settings",
         className: "",
         iconSrc: 'settingsNav'
     },
     {
-        key: "signOut",
+        key: "logOut",
         disabled: "false",
         title: "Sign Out",
         href: "/login",

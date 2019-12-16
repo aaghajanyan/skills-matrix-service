@@ -11,7 +11,8 @@ function SMMenu(props) {
                 <Menu.Item
                     key = { item.key }
                     title = {item.title}
-                    className = { item.className}
+                    className = {item.className}
+                    href={item.href}
                     type={'sider'}
                 >
                     <SMIconLink parentType={props.type} iconSrc={item.iconSrc} title={item.title}/>
@@ -43,7 +44,7 @@ SMMenu.propTypes = {
         key: PropTypes.string,
         disabled: PropTypes.string,
         title: PropTypes.string,
-        href: PropTypes.string,
+        keyPath: PropTypes.string,
         className: PropTypes.string,
         iconSrc: PropTypes.string
     })),

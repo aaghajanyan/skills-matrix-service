@@ -4,7 +4,7 @@ import { SMMenu } from '../SMMenu/SMMenu';
 import { withRouter} from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
+import { authService } from 'client/lib/AuthService';
 
 function SMSiderMenuInitial(props) {
 
@@ -15,8 +15,10 @@ function SMSiderMenuInitial(props) {
         siderStyle ,
     );
 
-    const handleSelect = ({key}) => {
-        props.history.push(key)
+    const handleSelect = ( {item, key}  ) => {
+        const {href} = item.props;
+        key === 'logOut' && authService.logOut();
+        props.history.push(href)
     }
 
     return (
