@@ -1,5 +1,6 @@
 import axios from "axios";
 import { authService } from './AuthService';
+import { serverUrl } from 'config/config'
 
 const handleSuccess = (response) => {
 	return response;
@@ -14,7 +15,9 @@ const defaultHeaderHandler = request => {
   return request;
 }
 
-const service = axios.create({});
+const service = axios.create({
+  baseURL: serverUrl
+});
 
 service.interceptors.response.use(handleSuccess, handleError);
 service.interceptors.request.use(defaultHeaderHandler);
