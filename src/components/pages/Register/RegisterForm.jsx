@@ -4,11 +4,11 @@ import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
+import { SMSpinner } from 'components/common/SMSpinner/SMSpinner';
 import { SMDatePicker } from 'components/common/SMDatePicker/SMDatePicker'
 import { nonexistentInvitationMessage } from 'src/constants/constants';
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import { passwordValidator, nameValidator, confirmPasswordValidator } from 'helpers/FormValidators';
-import { Spin } from 'antd';
 
 function RegisterForm(props) {
 
@@ -97,79 +97,80 @@ function RegisterForm(props) {
     ]
 
     return (
-        loading ? <Spin className='register-form-load' size="large" /> :
-        <React.Fragment>
-            <SMForm
-                className="sm-form"
-                items={[
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'fname',
-                        type: 'text',
-                        placeholder: 'First name',
-                        rules: firstNameRule.rules,
-                        autoComplete: 'off'
-                    }),
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'lname',
-                        type: 'text',
-                        placeholder: 'Last name',
-                        rules: lastNameRule.rules,
-                        autoComplete: 'off'
-                    }),
-                    SMSelect({
-                        className: 'sm-select',
-                        name: 'branchName',
-                        placeholder: "Branch",
-                        options:branches,
-                        rules: branchRule.rules
-                    }),
-                    SMSelect({
-                        className: 'sm-select',
-                        name: 'position',
-                        placeholder: "Position",
-                        options: positions,
-                        rules: positionRule.rules
-                    }),
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'password',
-                        type: 'password',
-                        placeholder: 'Password',
-                        rules: passwordRule.rules,
-                        onChange: onChange,
-                        autoComplete: 'off',
-                    }),
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'repeat_password',
-                        type: 'password',
-                        placeholder: 'Repeat Password',
-                        rules: confirmPasswordRule.rules,
-                        autoComplete: 'off',
-                    }),
-                    SMDatePicker({
-                        className: 'sm-date-picker',
-                        name: 'startedToWorkDate',
-                        placeholder: 'Start working date',
-                        format: 'YYYY-MM-DD',
-                        rules: dateRule.rules
-                    })
-                ]}
-                buttons={[
-                    SMButton({
-                        className: 'login-submit-btn',
-                        name: 'submit',
-                        type: 'primary',
-                        htmlType: 'submit',
-                        children: 'Sing up',
-                        loading: loadingButton,
-                    }),
-                ]}
-                onSubmit={handleSubmit}
-            />
-        </React.Fragment>
+        <SMSpinner isLoading={loading} className='register-form-load'>
+            <React.Fragment>
+                <SMForm
+                    className="sm-form"
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'fname',
+                            type: 'text',
+                            placeholder: 'First name',
+                            rules: firstNameRule.rules,
+                            autoComplete: 'off'
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'lname',
+                            type: 'text',
+                            placeholder: 'Last name',
+                            rules: lastNameRule.rules,
+                            autoComplete: 'off'
+                        }),
+                        SMSelect({
+                            className: 'sm-select',
+                            name: 'branchName',
+                            placeholder: "Branch",
+                            options:branches,
+                            rules: branchRule.rules
+                        }),
+                        SMSelect({
+                            className: 'sm-select',
+                            name: 'position',
+                            placeholder: "Position",
+                            options: positions,
+                            rules: positionRule.rules
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'password',
+                            type: 'password',
+                            placeholder: 'Password',
+                            rules: passwordRule.rules,
+                            onChange: onChange,
+                            autoComplete: 'off',
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'repeat_password',
+                            type: 'password',
+                            placeholder: 'Repeat Password',
+                            rules: confirmPasswordRule.rules,
+                            autoComplete: 'off',
+                        }),
+                        SMDatePicker({
+                            className: 'sm-date-picker',
+                            name: 'startedToWorkDate',
+                            placeholder: 'Start working date',
+                            format: 'YYYY-MM-DD',
+                            rules: dateRule.rules
+                        })
+                    ]}
+                    buttons={[
+                        SMButton({
+                            className: 'login-submit-btn',
+                            name: 'submit',
+                            type: 'primary',
+                            htmlType: 'submit',
+                            children: 'Sing up',
+                            loading: loadingButton,
+                        }),
+                    ]}
+                    onSubmit={handleSubmit}
+                />
+            </React.Fragment>
+        </SMSpinner>
     );
 }
 
