@@ -13,7 +13,7 @@ function SMPageLoggedOut(props) {
 
     const isLoggedIn = authService.isLoggedIn();
 
-    const [location, setLocation] = useState(props.match.path);
+    const location = props.match.path;
 
     return isLoggedIn ? (
         <Redirect to="/" />
@@ -31,8 +31,7 @@ function SMPageLoggedOut(props) {
                                 src={logo}
                                 alt="instigate mobile logo"
                             />
-                            {location === '/login' ? <LoginForm {...props} /> :
-                            <RegisterForm setLocation={setLocation} {...props}/>}
+                            {location === '/login' ? <LoginForm {...props} /> : <RegisterForm {...props}/>}
                         </div>
                     </Col>
                 </Row>
