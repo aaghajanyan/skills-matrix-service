@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { post } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
 import { SMModal } from 'components/common/SMModal/SMModal';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
@@ -14,7 +15,20 @@ function Employees() {
     const emailRules = { rules: [{ validator: emailValidator }] };
 
     const handleOk = () => {
-        //TODO
+        const options = {
+            url : 'invitations/',
+            data: {email: modalValue}
+        }
+        post(options)
+            .then(result => {
+                //TODO
+            })
+            .catch(error => {
+                //TODO
+            })
+            .finally(() => {
+                setVisible(false);
+            })
     }
 
     const handleCancel = () => {
