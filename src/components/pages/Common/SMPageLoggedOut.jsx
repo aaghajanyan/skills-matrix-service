@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout, Row, Col } from 'antd';
 import { SMHeader } from 'components/common/SMHeader';
 import logo from 'assets/images/logo.png';
