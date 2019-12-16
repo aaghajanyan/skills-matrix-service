@@ -5,8 +5,8 @@ import { SMModal } from 'components/common/SMModal/SMModal';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
-import { sendInvitationsMessages } from 'src/constants/constants'
-import { SMNotification } from 'components/common/SMNotification/SMNotification'
+import { sendInvitationsMessages } from 'src/constants/constants';
+import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
 function Employees() {

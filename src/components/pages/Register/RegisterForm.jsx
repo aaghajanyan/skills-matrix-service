@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { post, head } from 'client/lib/axiosWrapper';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMDatePicker } from 'components/common/SMDatePicker/SMDatePicker'
+import { nonexistentInvitationMessage } from 'src/constants/constants';
+import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import { passwordValidator, nameValidator, confirmPasswordValidator } from 'helpers/FormValidators';
-import { post, head } from 'client/lib/axiosWrapper';
 import { Spin } from 'antd';
 
 function RegisterForm(props) {
@@ -39,6 +41,7 @@ function RegisterForm(props) {
                 setLoading(false)
             })
             .catch(error => {
+                SMNotification('error', nonexistentInvitationMessage);
                 props.setLocation('/login')
             })
     })

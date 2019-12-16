@@ -1,7 +1,6 @@
 const sendInvitationsMessages = {
     success: {
         message: 'Invitation has been send success',
-        description: '',
     },
     error: {
         message: 'Operation failed',
@@ -9,4 +8,8 @@ const sendInvitationsMessages = {
     },
 }
 
-module.exports = { sendInvitationsMessages };
+const nonexistentInvitationMessage = {
+    message: 'Invitation url does not exist',
+}
+
+module.exports = { sendInvitationsMessages, nonexistentInvitationMessage };
