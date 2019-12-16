@@ -3,10 +3,10 @@ import { authService } from './AuthService';
 
 const handleSuccess = (response) => {
 	return response;
-  };
+};
 
 const handleError = (error) => {
-	return Promise.reject(error);
+	return Promise.reject(error.response);
 };
 
 const service = axios.create({
