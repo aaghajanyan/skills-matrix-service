@@ -6,6 +6,7 @@ import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants'
+import { SMNotification } from 'components/common/SMNotification/SMNotification'
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
 function Employees() {
@@ -22,14 +23,13 @@ function Employees() {
         }
         post(options)
             .then(result => {
-                //TODO
+                SMNotification('success', sendInvitationsMessages.success)
             })
             .catch(error => {
-                //TODO
+                error.status === 409 &&
+                SMNotification('error', sendInvitationsMessages.error)
             })
-            .finally(() => {
-                setVisible(false);
-            })
+        setVisible(false);
     }
 
     const handleCancel = () => {
