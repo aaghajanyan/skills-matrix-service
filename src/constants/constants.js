@@ -1,15 +1,15 @@
 const sendInvitationsMessages = {
     success: {
-        message: 'Invitation has been send success',
+        message: 'Invitation has been sent successfully',
     },
     error: {
         message: 'Operation failed',
-        description: 'Email already exists in invitations',
+        description: 'Invitation already sent to this email address0',
     },
 }
 
 const nonexistentInvitationMessage = {
-    message: 'Invitation url does not exist',
+    message: 'Invalid invitation URL',
 }
 
-module.exports = { sendInvitationsMessages, nonexistentInvitationMessage };
+export { sendInvitationsMessages, nonexistentInvitationMessage };

@@ -9,12 +9,17 @@ const handleError = (error) => {
 	return Promise.reject(error.response);
 };
 
+const defaultHeaderHandler = request => {
+  request.headers = authService.getAuthHeader()
+  return request;
+}
+
 const service = axios.create({
-  headers: authService.getAuthHeader(),
   baseURL: 'http://localhost:3002'
 });
 
 service.interceptors.response.use(handleSuccess, handleError);
+service.interceptors.request.use(defaultHeaderHandler);
 
 const apiClient = (method, options) => {
   return service.request({
