@@ -42,7 +42,7 @@ function RegisterForm(props) {
             })
             .catch(error => {
                 SMNotification('error', nonexistentInvitationMessage);
-                props.setLocation('/login')
+                props.history.push('/login')
             })
     })
 
