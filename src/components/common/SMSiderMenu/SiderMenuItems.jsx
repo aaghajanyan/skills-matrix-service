@@ -3,7 +3,7 @@ const siderMenuItems = [
         key: "/",
         disabled: "false",
         title: "Skills Matrix",
-        href: "/home",
+        href: "/",
         className: "sm-menu-container_item sm-menu-container_home",
         iconSrc: 'sm'
     },
@@ -11,7 +11,7 @@ const siderMenuItems = [
         key: "/home",
         disabled: "false",
         title: "My Profile",
-        href: "home",
+        href: "/home",
         className: "sm-menu-container_item sm-menu-container_summary",
         iconSrc: 'user'
 

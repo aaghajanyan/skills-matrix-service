@@ -22,16 +22,7 @@ function SMMenu(props) {
     };
 
     return(
-        <Menu
-            key={props.key || undefined}
-            type={props.type || undefined}
-            defaultSelectedKeys={props.defaultSelectedKeys || []}
-            defaultOpenKeys={props.defaultOpenKeys || []}
-            mode={props.mode || undefined}
-            theme={props.theme || undefined}
-            className={props.className || undefined}
-            onSelect={props.onSelect || undefined}
-        >
+        <Menu {...props} >
             {renderFormItems()}
         </Menu>
     );
@@ -49,6 +40,7 @@ SMMenu.propTypes = {
         iconSrc: PropTypes.string
     })),
     defaultSelectedKeys: PropTypes.array,
+    selectedKeys: PropTypes.array,
     mode: PropTypes.string,
     theme: PropTypes.string
 };

@@ -17,6 +17,20 @@
             margin-bottom: 10px;
         }
 
+        .ant-menu-item-selected:first-child {
+            background: none;
+        }
+
+        .sm-menu-container_item:not(:first-child):hover {
+            border-radius: 10px;
+            background-color: rgba(16, 39, 57, 0.27);
+        }
+
+        .ant-menu-item-selected:not(:first-child),
+        .ant-menu-item-selected:not(:first-child):hover {
+            background-color: rgba(16, 39, 57, 0.50);
+        }
+
         .sm-menu-container_item > i  {
             height: 45px;
             width: 40px;
@@ -26,16 +40,6 @@
             height: 40px;
             width: 40px;
             margin-top: 10px;
-        }
-
-        .sm-menu-container_item:hover {
-            border-radius: 10px;
-            background-color: rgba(16, 39, 57, 0.27);
-        }
-
-        .ant-menu-item-selected,
-        .ant-menu-item-selected:hover {
-            background-color: rgba(16, 39, 57, 0.50);
         }
 
         .sm-menu-container_home {

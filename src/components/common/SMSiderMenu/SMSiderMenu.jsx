@@ -29,7 +29,7 @@ function SMSiderMenuInitial(props) {
             className={classes}
             items={props.items}
             onSelect={handleSelect}
-            defaultSelectedKeys={
+            selectedKeys={
                 [props.history.location.pathname === '/' ? '/home': props.history.location.pathname ]
             }
         >
