@@ -8,7 +8,7 @@ const siderMenuItems = [
         iconSrc: 'sm'
     },
     {
-        key: "/home",
+        key: "home",
         disabled: "false",
         title: "My Profile",
         href: "/home",
@@ -17,7 +17,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/employees",
+        key: "employees",
         disabled: "false",
         title: "Employees",
         href: "/employees",
@@ -26,7 +26,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/find_employees",
+        key: "find_employees",
         disabled: "false",
         title: "Find Employees",
         href: "/find_employees",
@@ -35,7 +35,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/branches",
+        key: "branches",
         disabled: "false",
         title: "Branches",
         href: "/branches",
@@ -44,7 +44,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/categories",
+        key: "categories",
         disabled: "false",
         title: "Categories",
         href: "/categories",
@@ -53,7 +53,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/skills",
+        key: "skills",
         disabled: "false",
         title: "Skills",
         href: "/skills",
@@ -62,7 +62,7 @@ const siderMenuItems = [
 
     },
     {
-        key: "/settings",
+        key: "settings",
         disabled: "false",
         title: "Settings",
         href: "/settings",

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { SMMenu } from '../SMMenu/SMMenu';
-import { withRouter} from "react-router-dom"
+import { withRouter } from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { authService } from 'client/lib/AuthService';
@@ -9,17 +9,19 @@ import { authService } from 'client/lib/AuthService';
 function SMSiderMenuInitial(props) {
 
     const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container_collapsed-mode' :
-    props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
+        props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
     const classes = classNames(
         props.className,
         siderStyle ,
     );
 
-    const handleSelect = ( {item, key}  ) => {
-        const {href} = item.props;
+    const handleSelect = ({ item, key }) => {
+        const { href } = item.props;
         key === 'logOut' && authService.logOut();
         props.history.push(href)
     }
+
+    const selectedKeys = [props.history.location.pathname === '/' ? '/home' : props.history.location.pathname.split('/')[1]];
 
     return (
         <SMMenu
@@ -29,9 +31,7 @@ function SMSiderMenuInitial(props) {
             className={classes}
             items={props.items}
             onSelect={handleSelect}
-            selectedKeys={
-                [props.history.location.pathname === '/' ? '/home': props.history.location.pathname ]
-            }
+            selectedKeys={selectedKeys}
         >
         </SMMenu>
     );
@@ -40,8 +40,8 @@ function SMSiderMenuInitial(props) {
 SMSiderMenuInitial.propTypes = {
     isCollapsed: PropTypes.bool,
     type: PropTypes.string.isRequired,
-    mode: PropTypes.string ,
-    theme: PropTypes.string ,
+    mode: PropTypes.string,
+    theme: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string,
         disabled: PropTypes.string,
