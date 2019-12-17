@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { post } from 'client/lib/axiosWrapper';
+import React, { useState, useEffect } from 'react';
+import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
+import { SMTable } from 'components/common/SMTable/SMTable';
 import { SMModal } from 'components/common/SMModal/SMModal';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMButton } from 'components/common/SMButton/SMButton';
@@ -9,17 +10,19 @@ import { sendInvitationsMessages } from 'src/constants/constants';
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
-function Employees() {
+function Employees(props) {
 
-    const [visible, setVisible ] = useState(false);
-    const [ modalValue, setModalValue ] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const [modalValue, setModalValue] = useState(null);
+
+    const [users, setUsers] = useState(null);
 
     const emailRules = { rules: [{ validator: emailValidator }] };
 
     const handleOk = () => {
         const options = {
-            url : 'invitations/',
-            data: {email: modalValue}
+            url: 'invitations/',
+            data: { email: modalValue }
         }
         post(options)
             .then(result => {
@@ -27,7 +30,7 @@ function Employees() {
             })
             .catch(error => {
                 error.response.status === 409 &&
-                SMNotification('error', sendInvitationsMessages.error)
+                    SMNotification('error', sendInvitationsMessages.error)
             })
         setVisible(false);
     }
@@ -44,9 +47,59 @@ function Employees() {
         setModalValue(a.target.value)
     }
 
+    useEffect(() => {
+        !users && get({ url: 'users/' })
+            .then(result => {
+                result.data = result.data.map(item => {
+                    item.key = item.guid
+                    item.fname = item.fname + ' ' + item.lname;
+                    return item;
+                })
+                setUsers(result.data)
+            })
+            .catch(error => {
+                //TODO handle error
+            })
+    })
+
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'fname',
+            width: '20%',
+        },
+        {
+            title: 'Position',
+            dataIndex: 'position',
+            width: '20%',
+        },
+        {
+            title: 'Branch',
+            dataIndex: 'branchName',
+            width: '20%',
+        },
+        {
+            title: 'Date',
+            dataIndex: 'startedToWorkDate',
+            width: '20%'
+        }
+    ];
+
+    const onEmployeeSelect = (record, rowIndex) => ({
+        onClick: () => props.history.push(`employees/${record.guid}`)
+    })
+
     return (
         <div className="employees-content">
             <SMButton id='employees-modal-button' onClick={openModal}> Add employ </SMButton>
+            <SMTable
+                onRow={onEmployeeSelect}
+                loading={!users}
+                columns={columns}
+                showHeader={true}
+                dataSource={users}
+                pagination={false}>
+            </SMTable>
             <SMModal
                 className='add-employ-modal'
                 title="Send invitations email"

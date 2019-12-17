@@ -10,6 +10,7 @@ import { Branches } from 'pages/Branches/Branches';
 import { Categories } from 'pages/Categories/Categories';
 import { Skills } from 'pages/Skills/Skills';
 import { Settings } from 'pages/Settings/Settings';
+import { SMEmployee } from 'components/common/SMEmployee/SMEmployee'
 import './App.scss';
 
 class App extends Component {
@@ -21,7 +22,8 @@ class App extends Component {
                     <Route path="/register/:token" component={(props) => <SMPageLoggedOut {...props} />} />
                     <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute path="/home" component={Home} />
-                    <PrivateRoute path="/employees" component={Employees} />
+                    <PrivateRoute exact path="/employees" component={Employees} />
+                    <PrivateRoute exact path="/employees/:id" component={SMEmployee} />
                     <PrivateRoute path="/find_employees" component={FindEmployees} />
                     <PrivateRoute path="/branches" component={Branches} />
                     <PrivateRoute path="/categories" component={Categories} />
