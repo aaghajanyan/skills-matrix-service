@@ -77,11 +77,6 @@ function Employees(props) {
             title: 'Branch',
             dataIndex: 'branchName',
             width: '20%',
-        },
-        {
-            title: 'Date',
-            dataIndex: 'startedToWorkDate',
-            width: '20%'
         }
     ];
 
