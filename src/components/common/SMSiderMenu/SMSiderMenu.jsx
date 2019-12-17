@@ -24,12 +24,14 @@ function SMSiderMenuInitial(props) {
     return (
         <SMMenu
             type={props.type || undefined}
-            defaultSelectedKeys={[props.history.location.pathname === '/' ? '/home': props.history.location.pathname ]}
             mode={props.mode || ''}
             theme={props.theme || ''}
             className={classes}
             items={props.items}
             onSelect={handleSelect}
+            defaultSelectedKeys={
+                [props.history.location.pathname === '/' ? '/home': props.history.location.pathname ]
+            }
         >
         </SMMenu>
     );

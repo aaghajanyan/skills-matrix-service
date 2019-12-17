@@ -1,6 +1,6 @@
 const headerMenuItems = [
     {
-        key: "settings",
+        key: "/settings",
         disabled: "false",
         title: "Settings",
         href: "/settings",

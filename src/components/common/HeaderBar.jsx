@@ -27,10 +27,10 @@ function HeaderBar(props) {
             }}>
                 <SMIconLink parentType={props.type} iconSrc={isCollapsed ? 'hideSider' : 'openSider'}
                     className='sider-container_collapsed-icon'
-                    title={props.title} href={props.href}/>
+                    title={props.title} href={'#'}/>
             </SMButton>
 
-            <Input onChange={onChange} className='sider-container_search-btn' 
+            <Input onChange={onChange} className='sider-container_search-btn'
                 prefix={<Svg className='search-icon' name={'search'} svg={SvgIcons['search']} iconClickHandler={iconClickHandler} />} 
                 placeholder="Search data"/>
 
