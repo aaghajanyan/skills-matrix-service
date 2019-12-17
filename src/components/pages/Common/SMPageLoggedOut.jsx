@@ -5,8 +5,8 @@ import logo from 'assets/images/logo.png';
 import { authService } from 'client/lib/AuthService';
 import { Redirect } from 'react-router-dom';
 import { SMButton } from 'components/common/SMButton/SMButton';
-import { RegisterForm } from 'pages/Register/RegisterForm';
-import { LoginForm } from 'pages/Login/LoginForm';
+import { RegisterForm } from 'components/forms/RegisterForm';
+import { LoginForm } from 'components/forms/LoginForm';
 const { Header, Content, Footer } = Layout;
 
 function SMPageLoggedOut(props) {
