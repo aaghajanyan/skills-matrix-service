@@ -8,7 +8,7 @@ import { authService } from 'client/lib/AuthService';
 
 function SMSiderMenuInitial(props) {
 
-    const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container  sm-menu-container_collapsed-mode' :
+    const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container_collapsed-mode' :
     props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
     const classes = classNames(
         props.className,

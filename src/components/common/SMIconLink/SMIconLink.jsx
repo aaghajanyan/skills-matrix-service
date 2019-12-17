@@ -16,10 +16,11 @@ function SMIconLink(props) {
     return (
         <div className='icon-container'>
             <Link className='icon-container_link' to={props.href || ''}>
-                {props.iconSrc && props.iconSrc==='sm' ? 
-                    <img src={logo} alt={props.title} /> 
+                {props.iconSrc && props.iconSrc==='sm' ?
+                    <img src={logo} alt={props.title} />
                     : props.iconSrc ?
                     <Svg name={props.iconSrc}
+                        className={props.className}
                         svg={SvgIcons[props.iconSrc]}
                     /> : null }
                 {props.title && <span className={classes}> {props.title} </span>}
@@ -30,6 +31,7 @@ function SMIconLink(props) {
 
 SMIconLink.propTypes = {
     type: PropTypes.string,
+    className: PropTypes.string,
     iconSrc: PropTypes.string.isRequired,
     title: PropTypes.string,
     href: PropTypes.string

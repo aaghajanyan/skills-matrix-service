@@ -33,6 +33,12 @@
     background: rgba(16, 39, 57, 0.77);
 }
 
+.sider-container_collapsed-icon {
+    & > svg {
+        vertical-align: middle;
+    }
+}
+
 .sm-page-content {
     width: 100%;
     padding-right: 1%;

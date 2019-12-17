@@ -25,7 +25,8 @@ function HeaderBar(props) {
                 setIsCollapsed(!isCollapsed)
                 props.collapseSideBar()
             }}>
-                <SMIconLink parentType={props.type} iconSrc={isCollapsed ? 'hideSider' : 'openSider'} 
+                <SMIconLink parentType={props.type} iconSrc={isCollapsed ? 'hideSider' : 'openSider'}
+                    className='sider-container_collapsed-icon'
                     title={props.title} href={props.href}/>
             </SMButton>
 
