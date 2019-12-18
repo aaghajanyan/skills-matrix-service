@@ -10,14 +10,12 @@ function SMTable(props) {
 SMTable.propTypes = {
     className: PropTypes.string,
     id: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string,
-    style: PropTypes.string,
-    htmlType: PropTypes.string,
-    href: PropTypes.string,
+    onRow: PropTypes.func,
     loading: PropTypes.bool,
-    onClick: PropTypes.func,
-    target: PropTypes.string,
+    columns: PropTypes.arrayOf(PropTypes.object),
+    showHeader: PropTypes.bool,
+    dataSource: PropTypes.arrayOf(PropTypes.object),
+    pagination: PropTypes.bool
 };
 
 export { SMTable };
