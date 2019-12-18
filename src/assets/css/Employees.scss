@@ -3,11 +3,13 @@
 }
 
 #employees-modal-button {
-    background-color: #266494 ;
-    border-color: #266494 ;
+    background-color: #266494;
+    border-color: #266494;
     color: white;
     border-radius: 10px;
     height: 40px;
+    width: 150px;
+    margin-left: calc(100% - 150px);
 }
 
 #send-invitation-btn {
