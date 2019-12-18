@@ -18,7 +18,7 @@ function SMEmployee(props) {
 
     return (
         <SMSpinner isLoading={!user}>
-            {user && <SMUserBar firstName={user.fname} lastName={user.lname}/>}
+            {user && <SMUserBar firstName={user.fname} lastName={user.lname} size='medium'/>}
         </SMSpinner>
     )
 }

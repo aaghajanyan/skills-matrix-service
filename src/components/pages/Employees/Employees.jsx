@@ -67,7 +67,7 @@ function Employees(props) {
             title: 'Name',
             dataIndex: 'fname',
             width: '20%',
-            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname}/>
+            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname} size='medium'/>
         },
         {
             title: 'Position',
