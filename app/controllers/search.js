@@ -78,7 +78,7 @@ const getModel = async (conditionsObj, condition, type, next) => {
         case 'user':
             conditionsObj.usersCondition.push(condition[0]);
             return userModel;
-        case 'branches':
+        case 'branch':
             condition[0].branchName = condition[0].name;
             delete condition[0].name;
             conditionsObj.usersCondition.push(condition[0]);

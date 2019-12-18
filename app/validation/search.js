@@ -4,7 +4,7 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
     type: Joi.string().required(),
     opCondition: Joi.string().valid([
         "equal",
-        "notEqual"
+        "not equal"
     ]),
     relCondition: Joi.string().valid([
         "and",
