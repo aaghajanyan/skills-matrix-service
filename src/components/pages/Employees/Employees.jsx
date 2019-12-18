@@ -86,7 +86,12 @@ function Employees(props) {
 
     return (
         <div className="employees-content">
-            <SMButton id='employees-modal-button' onClick={openModal}> Add employ </SMButton>
+            <SMButton
+                id='employees-modal-button'
+                className='sm-button'
+                onClick={openModal}
+            > Add employ
+            </SMButton>
             <SMTable
                 className='sm-table employees-table'
                 onRow={onEmployeeSelect}
@@ -112,7 +117,7 @@ function Employees(props) {
                         Cancel
                     </SMButton>,
                     <SMButton
-                        id='send-invitation-btn'
+                        className='sm-button'
                         key='ok'
                         type='primary'
                         onClick={handleOk}

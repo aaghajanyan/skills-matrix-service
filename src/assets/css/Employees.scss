@@ -3,23 +3,9 @@
 }
 
 #employees-modal-button {
-    background-color: #266494;
-    border-color: #266494;
-    color: white;
-    border-radius: 10px;
     height: 40px;
     width: 150px;
     margin-left: calc(100% - 150px);
-}
-
-#send-invitation-btn {
-    background-color: #266494 ;
-    border-color: #266494 ;
-    border-radius: 5px;
-    &:hover {
-        background-color:  #3A79AA ;
-        border-color: #3A79AA ;
-    }
 }
 
 #cancel-invitation-btn {
@@ -35,6 +21,7 @@
 
 .employees-table {
     margin-top: 20px;
+    margin-bottom: 20px;
     background-color: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }

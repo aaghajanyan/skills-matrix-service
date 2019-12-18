@@ -99,7 +99,7 @@ function LoginForm(props) {
                         children: 'Forgot Password?',
                     }),
                     SMButton({
-                        className: 'login-submit-btn',
+                        className: 'login-submit-btn sm-button',
                         name: 'submit',
                         type: 'primary',
                         htmlType: 'submit',
