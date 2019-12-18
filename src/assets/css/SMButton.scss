@@ -12,5 +12,12 @@
 }
 
 .sm-link {
-    //TODO move all link button styles here
+    & > span  {
+        font-size: initial;
+        text-decoration-line: underline;
+    }
+    color: #266494 !important;
+    &:hover {
+        color: #3A79AA !important;
+    }
 }

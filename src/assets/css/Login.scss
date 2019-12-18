@@ -9,14 +9,6 @@
 
 #SMForm_forgot-password {
     float: right;
-    & > span  {
-        font-size: initial;
-        text-decoration-line: underline;
-    }
-    color: #266494;
-    &:hover {
-        color: #3A79AA;
-    }
 }
 
 .sm-footer {
@@ -24,15 +16,4 @@
     margin-bottom: 0;
     text-align: center;
     background: transparent;
-}
-
-#sm-footer-btn {
-    color: #266494;
-    &:hover {
-        color: #3A79AA ;
-    }
-    & > span  {
-        font-size: initial;
-        text-decoration-line: underline;
-    }
 }

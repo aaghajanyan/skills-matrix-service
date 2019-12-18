@@ -109,7 +109,7 @@ function Employees(props) {
                 onCancel={handleCancel}
                 footer={[
                     <SMButton
-                        id='cancel-invitation-btn'
+                        className='sm-link'
                         key='cancel'
                         type='link'
                         onClick={handleCancel}

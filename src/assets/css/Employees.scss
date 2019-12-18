@@ -8,17 +8,6 @@
     margin-left: calc(100% - 150px);
 }
 
-#cancel-invitation-btn {
-    & > span  {
-        font-size: initial;
-        text-decoration-line: underline;
-    }
-    color: #266494;
-    &:hover {
-        color: #3A79AA;
-    }
-}
-
 .employees-table {
     margin-top: 20px;
     margin-bottom: 20px;

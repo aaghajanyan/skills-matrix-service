@@ -92,7 +92,7 @@ function LoginForm(props) {
                 ]}
                 buttons={[
                     SMButton({
-                        className: 'login-forgot-password-btn',
+                        className: 'login-forgot-password-btn sm-link',
                         name: 'forgot-password',
                         type: 'link',
                         href: '#',
