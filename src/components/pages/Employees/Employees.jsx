@@ -8,6 +8,7 @@ import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants';
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
+import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
 function Employees(props) {
@@ -48,11 +49,10 @@ function Employees(props) {
     }
 
     useEffect(() => {
-        !users && get({ url: 'users/' })
+        get({ url: 'users/' })
             .then(result => {
                 result.data = result.data.map(item => {
                     item.key = item.guid
-                    item.fname = item.fname + ' ' + item.lname;
                     return item;
                 })
                 setUsers(result.data)
@@ -60,13 +60,14 @@ function Employees(props) {
             .catch(error => {
                 //TODO handle error
             })
-    })
+    }, [])
 
     const columns = [
         {
             title: 'Name',
             dataIndex: 'fname',
             width: '20%',
+            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname}/>
         },
         {
             title: 'Position',
