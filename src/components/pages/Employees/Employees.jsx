@@ -88,6 +88,7 @@ function Employees(props) {
         <div className="employees-content">
             <SMButton id='employees-modal-button' onClick={openModal}> Add employ </SMButton>
             <SMTable
+                className='sm-table employees-table'
                 onRow={onEmployeeSelect}
                 loading={!users}
                 columns={columns}

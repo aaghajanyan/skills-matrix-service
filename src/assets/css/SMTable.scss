@@ -1,0 +1,8 @@
+.sm-table {
+    table tr:hover td{
+        background-color:rgba(58, 121, 170, 0.1) !important;
+    }
+    tr > th {
+        font-weight: 600;
+    }
+}
