@@ -26,7 +26,7 @@ const findData = async function(request, response, next) {
         request.body.forEach(async (item) => {
             const { type, condition, items } = item;
             const where = collectCondition(items, condition);
-            const model = await getModel(whereCondition, where, type, next);
+            const _ = await getModel(whereCondition, where, type, next);
         })
         const users = await getUsers(whereCondition);
         response.status(200).send({
@@ -35,6 +35,7 @@ const findData = async function(request, response, next) {
             users: users
         })
     } catch (error) {
+        console.log("ERROR: ", error);
         response.status(409).send({
             success: false,
             message: 'Could not search users.',
@@ -77,6 +78,12 @@ const getModel = async (conditionsObj, condition, type, next) => {
         case 'user':
             conditionsObj.usersCondition.push(condition[0]);
             return userModel;
+        case 'branches':
+            conditionsObj.usersCondition.push(condition[0]);
+            return userModel;
+        case 'position':
+            conditionsObj.usersCondition.push(condition[0]);
+        return userModel;
         default: {
             let err = new Error('Invalid type to search employees');
             err.status = 400;
