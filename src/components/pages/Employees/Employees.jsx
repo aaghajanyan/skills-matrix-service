@@ -90,7 +90,8 @@ function Employees(props) {
                 id='employees-modal-button'
                 className='sm-button'
                 onClick={openModal}
-            > Add employ
+            >
+                Send invitation email
             </SMButton>
             <SMTable
                 className='sm-table employees-table'
@@ -103,7 +104,7 @@ function Employees(props) {
             </SMTable>
             <SMModal
                 className='add-employ-modal'
-                title="Send invitations email"
+                title="Send invitation email"
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -122,7 +123,7 @@ function Employees(props) {
                         type='primary'
                         onClick={handleOk}
                     >
-                        Send invitation
+                        Send
                     </SMButton>
                 ]}
             >
