@@ -92,14 +92,14 @@ function LoginForm(props) {
                 ]}
                 buttons={[
                     SMButton({
-                        className: 'login-forgot-password-btn',
+                        className: 'login-forgot-password-btn sm-link',
                         name: 'forgot-password',
                         type: 'link',
                         href: '#',
                         children: 'Forgot Password?',
                     }),
                     SMButton({
-                        className: 'login-submit-btn',
+                        className: 'login-submit-btn sm-button',
                         name: 'submit',
                         type: 'primary',
                         htmlType: 'submit',

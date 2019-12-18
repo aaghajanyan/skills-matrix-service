@@ -1,0 +1,8 @@
+#register-submit-btn {
+    height: 40px;
+    margin-left: 25%;
+    width: 50%;
+    & > span {
+        font-size: large;
+    }
+}

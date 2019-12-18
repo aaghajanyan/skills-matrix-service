@@ -158,7 +158,7 @@ function RegisterForm(props) {
                 ]}
                 buttons={[
                     SMButton({
-                        className: 'login-submit-btn',
+                        className: 'register-submit-btn sm-button',
                         name: 'submit',
                         type: 'primary',
                         htmlType: 'submit',

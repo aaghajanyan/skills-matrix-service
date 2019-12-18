@@ -1,32 +1,25 @@
+.employees-content {
+    margin-left: 1%;
+    width: 98%;
+}
+
 .employees-email-icon {
     width: 24px;
 }
 
 #employees-modal-button {
-    background-color: #266494 ;
-    border-color: #266494 ;
-    color: white;
-    border-radius: 10px;
     height: 40px;
+    width: 200px;
+    margin-left: calc(100% - 200px);
 }
 
-#send-invitation-btn {
-    background-color: #266494 ;
-    border-color: #266494 ;
-    border-radius: 5px;
-    &:hover {
-        background-color:  #3A79AA ;
-        border-color: #3A79AA ;
-    }
-}
-
-#cancel-invitation-btn {
-    & > span  {
-        font-size: initial;
-        text-decoration-line: underline;
-    }
-    color: #266494;
-    &:hover {
-        color: #3A79AA;
+.employees-table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    table tr:hover td {
+        cursor: pointer;
+        transition: all 0.5s;
     }
 }

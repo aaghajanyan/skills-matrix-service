@@ -38,7 +38,7 @@ function SMPageLoggedOut(props) {
             </Content>
             <Footer className="sm-footer">
                 <SMButton
-                    id="sm-footer-btn"
+                    className='sm-link'
                     type="link"
                     target="_blank"
                     href="https://ggg.instigatemobile.com/"

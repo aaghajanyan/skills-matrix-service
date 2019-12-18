@@ -8,6 +8,7 @@ import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants';
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
+import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
 function Employees(props) {
@@ -48,11 +49,10 @@ function Employees(props) {
     }
 
     useEffect(() => {
-        !users && get({ url: 'users/' })
+        get({ url: 'users/' })
             .then(result => {
                 result.data = result.data.map(item => {
                     item.key = item.guid
-                    item.fname = item.fname + ' ' + item.lname;
                     return item;
                 })
                 setUsers(result.data)
@@ -60,13 +60,14 @@ function Employees(props) {
             .catch(error => {
                 //TODO handle error
             })
-    })
+    }, [])
 
     const columns = [
         {
             title: 'Name',
             dataIndex: 'fname',
             width: '20%',
+            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname} size='medium'/>
         },
         {
             title: 'Position',
@@ -81,13 +82,20 @@ function Employees(props) {
     ];
 
     const onEmployeeSelect = (record, rowIndex) => ({
-        onClick: () => props.history.push({ pathname: `employees/${record.guid}`, state: { data: record } })
+        onClick: () => props.history.push(`employees/${record.guid}`)
     })
 
     return (
         <div className="employees-content">
-            <SMButton id='employees-modal-button' onClick={openModal}> Add employ </SMButton>
+            <SMButton
+                id='employees-modal-button'
+                className='sm-button'
+                onClick={openModal}
+            >
+                Send invitation email
+            </SMButton>
             <SMTable
+                className='sm-table employees-table'
                 onRow={onEmployeeSelect}
                 loading={!users}
                 columns={columns}
@@ -97,13 +105,13 @@ function Employees(props) {
             </SMTable>
             <SMModal
                 className='add-employ-modal'
-                title="Send invitations email"
+                title="Send invitation email"
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[
                     <SMButton
-                        id='cancel-invitation-btn'
+                        className='sm-link'
                         key='cancel'
                         type='link'
                         onClick={handleCancel}
@@ -111,12 +119,12 @@ function Employees(props) {
                         Cancel
                     </SMButton>,
                     <SMButton
-                        id='send-invitation-btn'
+                        className='sm-button'
                         key='ok'
                         type='primary'
                         onClick={handleOk}
                     >
-                        Send invitation
+                        Send
                     </SMButton>
                 ]}
             >
