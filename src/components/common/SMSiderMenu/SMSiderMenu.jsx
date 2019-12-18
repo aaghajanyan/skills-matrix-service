@@ -21,7 +21,7 @@ function SMSiderMenuInitial(props) {
         props.history.push(href)
     }
 
-    const selectedKeys = [props.history.location.pathname === '/' ? '/home' : props.history.location.pathname.split('/')[1]];
+    const selectedKeys = [props.history.location.pathname === '/' ? 'home' : props.history.location.pathname.split('/')[1]];
 
     return (
         <SMMenu
