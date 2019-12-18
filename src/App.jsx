@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from 'components/routers/PrivateRoute'
 import { NotFound } from 'pages/NotFound/NotFound';
 import { Employees } from 'pages/Employees/Employees';
-import { FindEmployees } from 'pages/FindEmployees/FindEmployees'
+import { FindEmployees } from 'components/pages/FindEmployees/FindEmployees';
 import { Branches } from 'pages/Branches/Branches';
 import { Categories } from 'pages/Categories/Categories';
 import { Skills } from 'pages/Skills/Skills';
