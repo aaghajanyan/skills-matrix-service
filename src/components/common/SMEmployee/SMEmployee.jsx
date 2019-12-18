@@ -1,7 +1,7 @@
 import React from 'react'
 
 function SMEmployee(props) {
-    return <h1> {props.location.state && props.location.state.data.email} </h1>
+    return <h1> {`Users id: ${props.match.params.id}`} </h1>
 }
 
 export { SMEmployee }

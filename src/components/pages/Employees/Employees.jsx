@@ -81,7 +81,7 @@ function Employees(props) {
     ];
 
     const onEmployeeSelect = (record, rowIndex) => ({
-        onClick: () => props.history.push({ pathname: `employees/${record.guid}`, state: { data: record } })
+        onClick: () => props.history.push(`employees/${record.guid}`)
     })
 
     return (
