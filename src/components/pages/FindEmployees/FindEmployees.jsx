@@ -69,7 +69,6 @@ function PeopleFind(props){
     }, []);
 
     const handleAddEvent = () => {
-        debugger
         const rows = {
           id: id,
           criteriaValue: "",
@@ -98,10 +97,9 @@ function PeopleFind(props){
     const handleDisabled = (e) => {
         const { getFieldsValue, getFieldValue } = props.form;
 
-        // getFieldValue(defaultObj[0].id)["Condition"] ?  setDisabledBtn(false) : setDisabledBtn(true);
     }
 
-    const aaa = (data, index) => {
+    const renderFields = (data, index) => {
         if (dataFields[index]) {
             return getFieldDecorator(`${dataFields[index].id}[${data.name}]`)(
                 <Select key={index} placeholder={data.name} onSelect={handleDisabled}>
@@ -118,7 +116,6 @@ function PeopleFind(props){
     }
 
     const addSelectField = (index1, rowIndex) => {
-        debugger
         return (Object.values(CRITERIA).map((criteria, index) => {
             if((criteria.name !== rowIndex) ){
                 return null;
@@ -126,7 +123,7 @@ function PeopleFind(props){
             if(!dataFields.length) {}
             return criteria.input.map((data, indexs) => (
                 <Col key={indexs} span={5}>
-                    {aaa(data, index1)}
+                    {renderFields(data, index1)}
                 </Col>
             ))
 
@@ -150,9 +147,8 @@ function PeopleFind(props){
         setCollapseFind(true);
         props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values,"??????????????")
                 post({url: "search", data: bodyObj}).then(result => {
-                    console.log(result);
+                    //TODO
                 })
             }
           });
@@ -163,8 +159,6 @@ function PeopleFind(props){
     }
       
     const { getFieldDecorator } = props.form;
-
-    console.log(props.form.getFieldsValue())
 
     return (
         <div className={`main_container_people_finder ${collapseFind && "default_main_container"} `}>
