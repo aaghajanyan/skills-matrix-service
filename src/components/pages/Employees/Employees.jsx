@@ -53,6 +53,13 @@ function Employees(props) {
             .then(result => {
                 result.data = result.data.map(item => {
                     item.key = item.guid
+                    const colorCode = Math.floor(100000 + Math.random() * 900000);
+                    item.avatar = <SMUserBar
+                                    colorCode={colorCode}
+                                    firstName={item.fname}
+                                    lastName={item.lname}
+                                    size='medium'
+                                />
                     return item;
                 })
                 setUsers(result.data)
@@ -64,10 +71,9 @@ function Employees(props) {
 
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'fname',
+            title: 'Employee',
+            dataIndex: 'avatar',
             width: '20%',
-            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname} size='medium'/>
         },
         {
             title: 'Position',
