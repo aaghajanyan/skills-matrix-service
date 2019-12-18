@@ -1,10 +1,10 @@
 export const CRITERIA = {
   "categories": {
     "name": "Category",
-    "key": "categories",
     "input": [
       {
         "name": "Condition",
+        "key": "opCondition",
         "items": [
           {
             "id": 1,
@@ -18,6 +18,7 @@ export const CRITERIA = {
       },
       {
         "name": "List Category",
+        "key": "list",
         "items": [
           {
             "id": 1,
@@ -31,6 +32,7 @@ export const CRITERIA = {
       },
       {
         "name": "Experince",
+        "key": "experience",
         "items": [
           {
             "id": 1,
@@ -61,6 +63,7 @@ export const CRITERIA = {
       },
       {
         "name": "Profeciency",
+        "key": "profeciency",
         "items": [
           {
             "id": 1,
@@ -84,10 +87,10 @@ export const CRITERIA = {
   },
   "skills": {
     "name": "Skills",
-    "key": "skills",
     "input": [
       {
         "name": "Condition",
+        "key": "opCondition",
         "items": [
           {
             "id": 1,
@@ -101,6 +104,7 @@ export const CRITERIA = {
       },
       {
         "name": "List Skills",
+        "key": "list",
         "items": [
           {
             "id": 1,
@@ -114,6 +118,7 @@ export const CRITERIA = {
       },
       {
         "name": "Experince",
+        "key": "experince",
         "items": [
           {
             "id": 1,
@@ -144,6 +149,7 @@ export const CRITERIA = {
       },
       {
         "name": "Profeciency",
+        "key": "profeciency",
         "items": [
           {
             "id": 1,
@@ -167,10 +173,10 @@ export const CRITERIA = {
   },
   "branch": {
       "name": "Branch",
-      "key": "branch",
       "input": [
         {
           "name": "Condition",
+          "key": "opCondition",
           "items": [
             {
               "id": 1,
@@ -184,6 +190,7 @@ export const CRITERIA = {
         },
         {
           "name": "Branch",
+          "key": "branch",
           "items": [
             {
               "id": 1,
@@ -217,10 +224,10 @@ export const CRITERIA = {
   
   "position": {
     "name": "Position",
-    "key": "position",
     "input": [
       {
         "name": "Condition",
+        "key": "opCondition",
         "items": [
           {
             "id": 1,
@@ -234,6 +241,7 @@ export const CRITERIA = {
       },
       {
         "name": "Position",
+        "key": "position",
         "items": [
           {
             "id": 1,
