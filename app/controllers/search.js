@@ -59,7 +59,7 @@ const separateConditionsByType = async (conditionObj, relatedConditionObj, condi
         const tmpCondition = {};
         tmpCondition[keyName] = item[keyName];
         if(keyName != 'name') {
-            tmpCondition[keyName] = {[Op.gte]: item[keyName]}; //{experience: {[Op.gt]: 5}}
+            tmpCondition[keyName] = {[Op.gte]: item[keyName]};
             relatedConditionObj.push(tmpCondition);
         } else {
             conditionObj.push(tmpCondition);
@@ -79,9 +79,13 @@ const getModel = async (conditionsObj, condition, type, next) => {
             conditionsObj.usersCondition.push(condition[0]);
             return userModel;
         case 'branches':
+            condition[0].branchName = condition[0].name;
+            delete condition[0].name;
             conditionsObj.usersCondition.push(condition[0]);
             return userModel;
         case 'position':
+            condition[0].position = condition[0].name;
+            delete condition[0].name;
             conditionsObj.usersCondition.push(condition[0]);
         return userModel;
         default: {
@@ -101,8 +105,12 @@ const getUsers = async(conditionsByCriteria) => {
         usersCategoriesCondition
     } = conditionsByCriteria;
 
+    const skillsConditionQuery = skillsCondition.length > 0 ? {[Op.or]: skillsCondition } : skillsCondition;
+    const categoriesConditionQuery = categoriesCondition.length > 0 ? {[Op.or]: categoriesCondition } : categoriesCondition;
+
     const users = await userModel.findAll({
         where:   usersCondition,
+        required: usersCondition.length > 0 ? true : false,
         attributes: { exclude: ["id", "password", "roleGroupId"] },
         include: [
             {
@@ -125,12 +133,13 @@ const getUsers = async(conditionsByCriteria) => {
             {
                 attributes: { exclude: ["id"] },
                 model: skillModel,
-                where: {[Op.or]: skillsCondition },
+                where: skillsConditionQuery,
                 as: "skills",
                 required: skillsCondition.length > 0 ? true : false,
                 through: {
                     model: userSkillsModel,
-                    where: usersSkillsCondition, //{experience: {[Op.gt]: 5}},//
+                    where: usersSkillsCondition,
+                    required: usersSkillsCondition.length > 0 ? true : false,
                     as: "skillMark",
                     attributes: ["currentMark", "experience", "profficience", "guid"]
                 }
@@ -138,12 +147,13 @@ const getUsers = async(conditionsByCriteria) => {
             {
                 attributes: { exclude: ["id"] },
                 model: categoryModel,
-                where: categoriesCondition,
+                where: categoriesConditionQuery,
                 as: "categories",
                 required: categoriesCondition.length > 0  ? true : false,
                 through: {
                     model: userCategoriesModel,
                     where: usersCategoriesCondition,
+                    required: usersCategoriesCondition.length > 0  ? true : false,
                     as: "categoryMark",
                     attributes: ["experience", "profficience", "guid"]
                 },

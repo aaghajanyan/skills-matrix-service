@@ -6,6 +6,10 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
         "equal",
         "notEqual"
     ]),
+    relCondition: Joi.string().valid([
+        "and",
+        "or"
+    ]),
     items: Joi.object().keys({
         name: Joi.string(),
         branchName: Joi.string().valid([
