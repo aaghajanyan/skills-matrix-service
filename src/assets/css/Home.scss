@@ -1,4 +1,54 @@
 .home-content {
+    width: 100%;
+}
+
+.skills-table, .summary_skills-list, .summary_skills-chart {
     background-color: white;
     width: 100%;
+    padding: 20px;
+    margin: 10px 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.home-content h1 , .summary_skills-list > h1, .summary_skills-chart > h1 {
+    color: #B0B0B0;
+    font-weight: bold;
+}
+
+.home-content .ant-table-thead > tr > th {
+    color: #000000;
+}
+
+table tr:hover td {
+    background-color:rgba(58, 121, 170, 0.1) !important;
+}
+
+
+
+
+
+.summary_skills-list-container {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    grid-column-gap: 2%;
+}
+
+.summary_skills-list {
+    width: 100%;
+}
+
+.summary_skills-chart {
+    div {
+        margin: auto;
+    }
+}
+
+.home_tabs-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    width: 100%;
+    padding: 20px;
+    margin: 10px 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

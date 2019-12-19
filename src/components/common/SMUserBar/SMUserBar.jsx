@@ -22,7 +22,6 @@ SMUserBar.propTypes = {
     lastName: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string,
     colorCode: PropTypes.number,
-    size: PropTypes.string,
 }
 
 export { SMUserBar };

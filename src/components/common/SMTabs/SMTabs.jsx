@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 import PropTypes from "prop-types";
 const { TabPane } = Tabs;
 
-function SMTabs({children, ...rest}) {
+function SMTabs({ children, ...rest }) {
 
     const renderItems = () => {
         return React.Children.map(children, item => {
@@ -27,6 +27,7 @@ SMTabs.propTypes = {
     components: PropTypes.arrayOf(PropTypes.element),
     defaultActiveKey: PropTypes.string,
     onChange: PropTypes.func,
+    renderTabBar: PropTypes.func
 }
 
 export { SMTabs };
