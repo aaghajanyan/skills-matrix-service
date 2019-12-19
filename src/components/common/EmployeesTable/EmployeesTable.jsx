@@ -7,17 +7,17 @@ function EmployeesTable(props) {
         {
             title: 'Employee',
             dataIndex: 'avatar',
-            width: '20%',
+            width: '33%',
         },
         {
             title: 'Position',
             dataIndex: 'position',
-            width: '20%',
+            width: '33%',
         },
         {
             title: 'Branch',
             dataIndex: 'branchName',
-            width: '20%',
+            width: '33%',
         }
     ];
 
