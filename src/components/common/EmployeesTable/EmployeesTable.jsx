@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from "prop-types"
 import { SMTable } from 'components/common/SMTable/SMTable';
 
 function EmployeesTable(props) {
@@ -26,6 +27,15 @@ function EmployeesTable(props) {
     })
 
     return <SMTable columns={columns} onRow={onEmployeeSelect} {...props} />
+}
+
+EmployeesTable.propTypes = {
+    history: PropTypes.object.isRequired,
+    dataSource: PropTypes.arrayOf(PropTypes.object),
+    className: PropTypes.string,
+    loading: PropTypes.bool,
+    showHeader: PropTypes.bool,
+    pagination: PropTypes.bool,
 }
 
 export { EmployeesTable };
