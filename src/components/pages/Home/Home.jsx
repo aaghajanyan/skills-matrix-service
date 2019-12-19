@@ -11,7 +11,7 @@ function Home() {
                 renderTabBar={(tabBarProps, TabBar) => (
                     <div className='home_tabs-header'>
                         <SMUserBar
-                            className='aaa'
+                            className='home_tabs-header-user-bar'
                             firstName='Admin'
                             lastName='Admin'
                             colorCode={15551}
@@ -21,10 +21,10 @@ function Home() {
                 }
                 defaultActiveKey='summary'
             >
-                <Summary key='SUMMARY' />
-                <Assessment key='ASSESSMENT' />
-                <div key='HISTORY'> <h1> HISTORY </h1> </div>
-                <div key='ABOUT'> <h1> ABOUT </h1> </div>
+                <Summary key='Summary' />
+                <Assessment key='Assessment' />
+                <div key='History'> <h1> History </h1> </div>
+                <div key='About'> <h1> About </h1> </div>
             </SMTabs>
         </div>
     );
