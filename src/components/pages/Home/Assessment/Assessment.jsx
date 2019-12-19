@@ -4,7 +4,7 @@ import { CategorySkills } from './CategorySkills';
 
 function Assessment() {
     return (
-        <div className="home-content">
+        <div className="assessment-content">
             <Categories className='skills-table'></Categories>
             <CategorySkills className='skills-table'></CategorySkills>
         </div>
