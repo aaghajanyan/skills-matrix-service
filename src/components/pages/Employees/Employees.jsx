@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
-import { SMTable } from 'components/common/SMTable/SMTable';
 import { SMModal } from 'components/common/SMModal/SMModal';
 import { SMForm } from 'components/common/Forms/SMForm/SMForm';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMInput } from 'components/common/Forms/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants';
+import { EmployeesTable } from 'components/common/EmployeesTable/EmployeesTable'
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
 import login_email_icon from 'assets/images/login_email_icon.svg';
@@ -53,6 +53,13 @@ function Employees(props) {
             .then(result => {
                 result.data = result.data.map(item => {
                     item.key = item.guid
+                    const colorCode = Math.floor(100000 + Math.random() * 900000);
+                    item.avatar = <SMUserBar
+                                    colorCode={colorCode}
+                                    firstName={item.fname}
+                                    lastName={item.lname}
+                                    size='medium'
+                                />
                     return item;
                 })
                 setUsers(result.data)
@@ -61,29 +68,6 @@ function Employees(props) {
                 //TODO handle error
             })
     }, [])
-
-    const columns = [
-        {
-            title: 'Name',
-            dataIndex: 'fname',
-            width: '20%',
-            render: (_, record) => <SMUserBar avatarUrl={record.avatarUrl} firstName={record.fname} lastName={record.lname} size='medium'/>
-        },
-        {
-            title: 'Position',
-            dataIndex: 'position',
-            width: '20%',
-        },
-        {
-            title: 'Branch',
-            dataIndex: 'branchName',
-            width: '20%',
-        }
-    ];
-
-    const onEmployeeSelect = (record, rowIndex) => ({
-        onClick: () => props.history.push(`employees/${record.guid}`)
-    })
 
     return (
         <div className="employees-content">
@@ -94,15 +78,15 @@ function Employees(props) {
             >
                 Send invitation email
             </SMButton>
-            <SMTable
+            <EmployeesTable
                 className='sm-table employees-table'
-                onRow={onEmployeeSelect}
+                history={props.history}
                 loading={!users}
-                columns={columns}
                 showHeader={true}
                 dataSource={users}
-                pagination={false}>
-            </SMTable>
+                pagination={false}
+            >
+            </EmployeesTable>
             <SMModal
                 className='add-employ-modal'
                 title="Send invitation email"

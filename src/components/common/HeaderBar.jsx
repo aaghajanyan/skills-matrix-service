@@ -38,7 +38,8 @@ function HeaderBar(props) {
                 className='layout-container_page-header'
                 subTitle={props.subTitle}
                 extra={[ <SMDropdownMenu key="ant-dropdown-link" menu={props.menu}/>]}
-                avatar={{ src: props.avatarSrc }}
+                //TODO: replace with common userbar component
+                avatar={{ src: `https://ui-avatars.com/api/?name=Admin+Admin&background=40AB85&color=fff&SameSite=None&Secure` }}
             >
 
             </PageHeader>

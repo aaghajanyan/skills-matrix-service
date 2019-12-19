@@ -16,9 +16,11 @@ function SMEmployee(props) {
             })
     }, [props.match.params.id])
 
+    const colorCode = Math.floor(100000 + Math.random() * 900000);
+
     return (
         <SMSpinner isLoading={!user}>
-            {user && <SMUserBar firstName={user.fname} lastName={user.lname} size='medium'/>}
+            {user && <SMUserBar colorCode={colorCode} firstName={user.fname} lastName={user.lname} size='medium'/>}
         </SMSpinner>
     )
 }
