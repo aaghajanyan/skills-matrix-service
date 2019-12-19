@@ -30,6 +30,7 @@ const invite = (email, host, expiration) => {
             return reject(err);
         }
     }).catch((err) => {
+        console.log(err);
         // TODO add logger
         // log.error(err, 'emails::invite');
     });
@@ -98,9 +99,11 @@ const sendEmail = (template, context) => {
             });
         }
         catch(err) {
+            console.log(err)
             return reject(err);
         }
     }).catch((err) => {
+        console.log(err)
         // TODO add logger
         // log.error(err, 'emails::sendEmail');
     });

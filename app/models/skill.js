@@ -8,7 +8,7 @@ class Skill {
     static async addedNewCategories(categoriesId, skill, sendedList, categoriesRequired) {
         sendedList.addedCategories = [];
         sendedList.errors = [];
-        
+
         if (categoriesId && categoriesId.length > 0) {
             const promise = categoriesId.map(async function (categoryGuid) {
                 const category = await categoryModel.findOne({
@@ -18,7 +18,7 @@ class Skill {
                     message: `Category with ${categoryGuid} guid doesn't exist`,
                     success: false
                 }
-    
+
                 if (category) {
                     const skillRelation = await skillRelationModel.findOrCreate({
                         where: {

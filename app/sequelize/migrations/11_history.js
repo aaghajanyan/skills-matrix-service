@@ -21,7 +21,7 @@ module.exports = {
                     as: "userSkillId"
                 }
             },
-            value: {
+            mark: {
                 allowNull: false,
                 type: Sequelize.INTEGER
             },

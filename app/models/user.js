@@ -41,7 +41,7 @@ class User {
                     through: {
                         model: userSkillsModel,
                         as: "skillMark",
-                        attributes: ["currentMark", "experience", "profficience", "guid"]
+                        attributes: ["experience", "profficience", "guid"]
                     },
                     include: {
                         model: categoryModel,
@@ -82,14 +82,14 @@ class User {
                     }
                 },
                 {
-                    attributes: { exclude: ["id"] },
+                    // attributes: { exclude: ["id"] },
                     model: skillModel,
                     as: "skills",
                     required: false,
                     through: {
                         model: userSkillsModel,
                         as: "skillMark",
-                        attributes: ["currentMark", "experience", "profficience", "guid"]
+                        attributes: ["experience", "profficience", "guid"]
                     },
                     include: {
                         model: categoryModel,
@@ -104,7 +104,7 @@ class User {
                     }
                 },
                 {
-                    attributes: { exclude: ["id"] },
+                    // attributes: { exclude: ["id"] },
                     model: categoryModel,
                     as: "categories",
                     required: false,

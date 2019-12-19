@@ -37,12 +37,7 @@ module.exports = {
             },
             profficience: {
                 allowNull: false,
-                type: Sequelize.ENUM(
-                    "Juniore",
-                    "Mid 1",
-                    "Mid 2",
-                    "Senior"
-                )
+                type: Sequelize.INTEGER
             }
         }).then(() => queryInterface.addConstraint(
             'users_categories',

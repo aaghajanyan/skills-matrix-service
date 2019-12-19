@@ -11,13 +11,13 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
         "or"
     ]),
     items: Joi.object().keys({
-        name: Joi.string(),
-        branchName: Joi.string().valid([
-            "Vanadzor",
-            "Erevan",
-            "Goris"
-        ]),
-        position: Joi.string().valid([
+        // name: Joi.string(),
+        // branchName: Joi.string().valid([
+        //     "Vanadzor",
+        //     "Erevan",
+        //     "Goris"
+        // ]),
+        name: Joi.string().valid([
             "Beginner SW Engineer",
             "SW Engineer",
             "Senior SW Engineer",
@@ -34,17 +34,15 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
             "Project Manager",
             "3D modeler",
             "UIUX designer",
-            "SW Architect"
+            "SW Architect",
+            "Vanadzor",
+            "Erevan",
+            "Goris"
         ]),
         fname: Joi.string(),
         lname: Joi.string(),
-        experience: Joi.number().integer().min(0). max(10),
-        profficience: Joi.string().valid([
-            "Juniore",
-            "Mid 1",
-            "Mid 2",
-            "Senior"
-        ]),
+        experience: Joi.number().integer().min(0). max(100),
+        profficience: Joi.number().integer().min(0). max(5),
       }),
     isActive: Joi.boolean()
 }));
@@ -54,11 +52,16 @@ const validateSearchBodySchema = (request, response, next) => {
 };
 
 function validateBody(request, response, next, schema) {
-    const result = Joi.validate(request.body, schema);
-    if (result.error) {
-        return response.status(400).json(result.error.details);
+    try {
+        const result = Joi.validate(request.body, schema);
+        if (result.error) {
+            return response.status(400).json(result.error.details);
+        }
+        next();
+    } catch(error) {
+        return response.status(400).json(error.details);
     }
-    next();
+
 }
 
 module.exports = {

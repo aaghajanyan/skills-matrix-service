@@ -63,7 +63,7 @@ const loginBodySchema = Joi.object().keys({
         .required(),
     password: Joi.string()
         .regex(passwordExp)
-        .required(), 
+        .required(),
 });
 
 const validateLoginBody = (request, response, next) => {

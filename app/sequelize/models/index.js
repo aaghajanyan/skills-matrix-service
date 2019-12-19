@@ -4,8 +4,21 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const dbConfig = require(__dirname + "/../../../config/env-settings.json").db;
 const db = {};
+const Op = Sequelize.Op;
 
 let sequelize;
+const operatorsAliases = {
+    $eq: Op.eq,
+    $ne: Op.ne,
+    $notIn: Op.notIn,
+    $or: Op.or,
+    $and: Op.and,
+    $gte: Op.gte,
+    $lte: Op.lte
+  };
+
+  dbConfig.options.operatorsAliases = operatorsAliases;
+
 sequelize = new Sequelize(
     dbConfig.database,
     dbConfig.username,

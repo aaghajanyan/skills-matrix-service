@@ -141,7 +141,7 @@ const getUsers = async(conditionsByCriteria) => {
                     where: usersSkillsCondition,
                     required: usersSkillsCondition.length > 0 ? true : false,
                     as: "skillMark",
-                    attributes: ["currentMark", "experience", "profficience", "guid"]
+                    attributes: ["profficience", "experience", "guid"]
                 }
             },
             {

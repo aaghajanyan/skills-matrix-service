@@ -21,12 +21,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             profficience: {
                 allowNull: false,
-                type: DataTypes.ENUM(
-                    "Juniore",
-                    "Mid 1",
-                    "Mid 2",
-                    "Senior"
-                )
+                type: DataTypes.INTEGER
+
             }
         },
         {

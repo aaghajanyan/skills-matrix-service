@@ -15,22 +15,13 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.UUID,
             },
-            currentMark: {
-                allowNull: false,
-                type: DataTypes.INTEGER
-            },
             experience: {
                 allowNull: false,
                 type: DataTypes.INTEGER
             },
             profficience: {
                 allowNull: false,
-                type: DataTypes.ENUM(
-                    "Juniore",
-                    "Mid 1",
-                    "Mid 2",
-                    "Senior"
-                )
+                type: DataTypes.INTEGER
             }
         },
         {

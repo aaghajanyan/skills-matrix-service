@@ -4,24 +4,14 @@ const addBodySchema = Joi.object().keys({
     userGuid: Joi.string().uuid().required(),
     categoryGuid: Joi.string().uuid().required(),
     experience: Joi.number().integer().required(),
-    profficience: Joi.string().valid([
-        "Juniore",
-        "Mid 1",
-        "Mid 2",
-        "Senior"
-    ]),
+    profficience: Joi.number().integer().min(0). max(5),
 });
 
 const updateBodySchema = Joi.object().keys({
     userGuid: Joi.string().uuid().required(),
     categoryGuid: Joi.string().uuid().required(),
     experience: Joi.number().integer().required(),
-    profficience: Joi.string().valid([
-        "Juniore",
-        "Mid 1",
-        "Mid 2",
-        "Senior"
-    ]),
+    profficience: Joi.number().integer().min(0). max(5),
 });
 
 const validateAddBody = (request, response, next) => {
