@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { SMTable } from 'components/common/SMTable/SMTable';
-// import { Svg } from 'components/common/Svg';
-// import { SvgIcons } from 'components/common/SvgIcons';
-// import { SkillsIcon } from 'components/common/SkillsIcon';
 import { Popconfirm } from 'antd';
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-library.add(fab)
+library.add(fab, far, fas)
 
 
 function CategorySkills({ className }) {
@@ -67,20 +65,14 @@ function CategorySkills({ className }) {
 
   const columns = [
     {
-
-      children: [
-        {
-          title: 'Skill',
-          dataIndex: 'icon',
-
-        },
-        {
-          dataIndex: 'skill',
-        },
-      ]
-
-
+      title: 'Skill',
+      dataIndex: 'icon',
     },
+    {
+      dataIndex: 'skill',
+    },
+
+  
     {
       title: 'Assessment',
       dataIndex: 'assesment',
@@ -96,9 +88,9 @@ function CategorySkills({ className }) {
         data.length >= 1 ? (
           <div>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-              {/* <span> <Svg name="delete" svg={SvgIcons['delete']}/> </span> */}
+            <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px', color: '#42982C' }} /> </span>
+              <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', color: '#961616', marginLeft: '10px' }} /> </span>
             </Popconfirm>
-            {/* <span> <Svg name="edit" svg={SvgIcons['edit']}/> </span> */}
 
           </div>
         ) : null,

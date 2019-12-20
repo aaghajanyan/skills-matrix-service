@@ -150,7 +150,7 @@ function Summary(props) {
                 <SkillsList className='summary_skills-list' title='Top Skills' data={topSkills} />
                 <SkillsList className='summary_skills-list' title='Need To Improve' data={needToImprove} />
                 <SkillsList className='summary_skills-list' title='Top Interests' data={topInterests} />
-                <SkillsList className='summary_skills-list' title='Top Interests' data={peopleWithSimilarSkills} isUsers={true} />
+                <SkillsList className='summary_skills-list' title='People With Similar Skills' data={peopleWithSimilarSkills} isUsers={true} />
             </div>
         </React.Fragment>
     )

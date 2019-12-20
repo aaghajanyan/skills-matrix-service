@@ -27,14 +27,10 @@ table tr:hover td {
     background-color:rgba(58, 121, 170, 0.1) !important;
 }
 
-
-
-
-
 .summary_skills-list-container {
     display: grid;
-    grid-template-columns: 48% 48%;
-    grid-column-gap: 2%;
+    grid-template-columns: 50% 50%;
+    grid-column-gap: 20px;
 }
 
 .summary_skills-list {
