@@ -22,7 +22,7 @@ function SMEmployee(props) {
     }, [])
 
     return (
-        <SMSpinner isLoading={!user}>
+        <SMSpinner isLoading={!user} className='sm-spinner' size='large'>
             <SMTabs
                 defaultActiveKey='Summary'
                 renderTabBar={(tabBarProps, TabBar) => (
