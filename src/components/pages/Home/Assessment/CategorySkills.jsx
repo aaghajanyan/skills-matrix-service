@@ -92,6 +92,7 @@ function CategorySkills({ className }) {
     {
       title: 'Skill',
       dataIndex: 'icon',
+      width: '3rem'
     },
     {
       dataIndex: 'skill',
@@ -117,12 +118,13 @@ function CategorySkills({ className }) {
         data.length >= 1 ? (
           <div>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-              <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px', color: '#42982C' }} /> </span>
-              <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', color: '#961616', marginLeft: '10px' }} /> </span>
+              <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px' }} /> </span>
+              <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', marginLeft: '10px' }} /> </span>
             </Popconfirm>
 
           </div>
         ) : null,
+        width: '8rem'
     }
   ];
   const pagination = false;
