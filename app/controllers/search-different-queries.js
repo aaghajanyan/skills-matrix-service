@@ -16,7 +16,7 @@ const User = require("../models/user");
 let skillIdsList = [];
 let categoriesIdsList = [];
 
-const findDataWithDifferentQueries = async function(request, response, next) {
+const searchData = async function(request, response, next) {
     try {
         skillIdsList = [];
         categoriesIdsList = [];
@@ -311,5 +311,5 @@ const filterUsers = async (users, expectedCount, queryWhere) => {
 };
 
 module.exports = {
-    findDataWithDifferentQueries
+    searchData
 };
