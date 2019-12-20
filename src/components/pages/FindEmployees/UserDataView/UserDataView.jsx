@@ -13,7 +13,7 @@ function UserDataView(props){
         <SMTable
             history={props.history}
             columns={AddColumns({userData: props.userData})}
-            className='sm-table employees-table employees-table'
+            className='sm-table employees-table'
             loading={!props.userData}
             showHeader={true}
             dataSource={AddDataInColumns({userData: props.userData})}

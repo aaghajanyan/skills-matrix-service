@@ -108,8 +108,8 @@
         }
     }
 
-    .employees-table{
-        overflow-x: auto;
+    .employees-table .ant-table-body{
+        overflow-x: auto !important;
     }
 }
 
