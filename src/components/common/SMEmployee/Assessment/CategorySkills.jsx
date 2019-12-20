@@ -1,5 +1,6 @@
 import React from 'react';
 import { SMTable } from 'components/common/SMTable/SMTable';
+import { SMButton } from 'components/common/SMButton/SMButton';
 // import { Popconfirm } from 'antd';
 import { Tag } from 'antd'; //TODO : move to common components
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -139,8 +140,12 @@ function CategorySkills({ className }) {
 
   return (
     <div className={className}>
-      <h1>All Skills</h1>
-
+      <div className='skills-table-header'>
+        <h1>All Skills</h1>
+        <SMButton className='sm-button skills-table-add-skill-button'>
+          Add Skill
+        </SMButton>
+      </div>
       <SMTable className="b c" columns={columns} showHeader={showHeader} dataSource={items} pagination={pagination} ></SMTable>
     </div>
   )
