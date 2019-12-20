@@ -7,7 +7,7 @@ const { verifyLoginToken } = require('../validation/token');
 const router = express.Router();
 
 router.post("/", verifyLoginToken, validateSearchBodySchema, findData);
-router.post("/test", verifyLoginToken, validateSearchBodySchema, findDataTest);
-router.post("/testik", verifyLoginToken, findDataWithDifferentQueries);
+router.post("/v0", verifyLoginToken, validateSearchBodySchema, findDataTest);
+router.post("/v1", verifyLoginToken, validateSearchBodySchema, findDataWithDifferentQueries);
 
 module.exports = router;

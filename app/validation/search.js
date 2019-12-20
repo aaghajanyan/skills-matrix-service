@@ -1,14 +1,20 @@
 const Joi = require("joi");
 
 const searchBodySchema = Joi.array().items(Joi.object().keys({
-    type: Joi.string().required(),
+    type: Joi.string().valid([
+        "user",
+        "branch",
+        "position",
+        "skill",
+        "category"
+    ]),
     opCondition: Joi.string().valid([
         "equal",
         "not equal"
     ]),
     relCondition: Joi.string().valid([
-        "and",
-        "or"
+        "and"
+        // "or"
     ]),
     items: Joi.object().keys({
         // name: Joi.string(),
@@ -43,6 +49,8 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
         lname: Joi.string(),
         experience: Joi.number().integer().min(0). max(100),
         profficience: Joi.number().integer().min(0). max(5),
+        id: Joi.number().integer(),
+
       }),
     isActive: Joi.boolean()
 }));

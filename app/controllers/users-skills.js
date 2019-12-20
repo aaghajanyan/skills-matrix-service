@@ -10,7 +10,10 @@ const getUsersSkills = async function(_, response) {
         response.status(200).json(usersSkills);
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not get user skill`
+        });
     }
 
 };
@@ -23,7 +26,10 @@ const getUserSkills = async function(request, response) {
         response.status(200).json(userSkills);
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not get users skills`
+        });
     }
 };
 
@@ -57,7 +63,10 @@ const addUserSkill =  async function(request, response) {
         }
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not add user skill`
+        });
     }
 };
 
@@ -89,7 +98,10 @@ const updateUserSkill =  async function(request, response) {
         }
     } catch(err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not update user skill`
+        });
     }
 };
 
@@ -119,7 +131,10 @@ const deleteUserSkill =  async function(request, response) {
         }
     } catch(err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not delete user skill`
+        });
     }
 };
 

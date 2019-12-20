@@ -10,7 +10,10 @@ const getUsersCategories = async function(_, response) {
         response.status(200).json(usersCategories);
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not get user categories`
+        });
     }
 
 };
@@ -23,7 +26,10 @@ const getUserCategories = async function(request, response) {
         response.status(200).json(userCategories);
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not get users categories`
+        });;
     }
 };
 
@@ -57,7 +63,10 @@ const addUserCategory =  async function(request, response) {
         }
     } catch (err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not add user categories`
+        });;
     }
 };
 
@@ -89,7 +98,10 @@ const updateUserCategory =  async function(request, response) {
         }
     } catch(err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not update user categories`
+        });;
     }
 };
 
@@ -119,7 +131,10 @@ const deleteUserCategory =  async function(request, response) {
         }
     } catch(err) {
         console.log(err);
-        response.status(409).send();
+        response.status(409).json({
+            success: false,
+            message: `Could not delete user category`
+        });;
     }
 };
 
@@ -129,7 +144,10 @@ const deleteUserCategoryById =  async function(request, response) {
         response.status(202).end();
     } catch(err) {
         console.log(err);
-        response.status(409).end();
+        response.status(409).json({
+            success: false,
+            message: `Could not delete user category`
+        });;
     }
 };
 

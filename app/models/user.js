@@ -54,6 +54,17 @@ class User {
                             attributes: []
                         }
                     }
+                },
+                {
+                    // attributes: { exclude: ["id"] },
+                    model: categoryModel,
+                    as: "categories",
+                    required: false,
+                    through: {
+                        model: userCategoriesModel,
+                        as: "categoryMark",
+                        attributes: ["experience", "profficience", "guid"]
+                    },
                 }
             ]
         });
