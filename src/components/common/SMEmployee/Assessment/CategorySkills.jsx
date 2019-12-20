@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SMTable } from 'components/common/SMTable/SMTable';
-import { Popconfirm } from 'antd';
+// import { Popconfirm } from 'antd';
 import { Tag } from 'antd'; //TODO : move to common components
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -11,7 +11,7 @@ library.add(fab, far, fas)
 
 
 function CategorySkills({ className }) {
-  const item = [
+  const items = [
     {
       key: '1',
       icon: <FontAwesomeIcon icon={['fab', 'js']} style={{ width: '30px', height: '30px' }} />,
@@ -115,12 +115,14 @@ function CategorySkills({ className }) {
       title: "",
       dataIndex: "operation",
       render: (text, record) =>
-        data.length >= 1 ? (
-          <div>
+        items.length >= 1 ? (
+          <div style={{cursor : 'not-allowed', opacity: '0.5'}}>
+              <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px'}} /> </span>
+              <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', marginLeft: '10px'}} /> </span>
+            {/*
+            //TODO check if current user is admin
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-              <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px' }} /> </span>
-              <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', marginLeft: '10px' }} /> </span>
-            </Popconfirm>
+            </Popconfirm> */}
 
           </div>
         ) : null,
@@ -129,16 +131,17 @@ function CategorySkills({ className }) {
   ];
   const pagination = false;
   const showHeader = true;
-  const [data, setData] = useState(item);
-  const handleDelete = key => {
-    setData(data.filter(item => item.key !== key))
-  };
+
+  //TODO
+  // const handleDelete = key => {
+  //   setData(data.filter(item => item.key !== key))
+  // };
 
   return (
     <div className={className}>
       <h1>All Skills</h1>
 
-      <SMTable className="b c" columns={columns} showHeader={showHeader} dataSource={data} pagination={pagination} ></SMTable>
+      <SMTable className="b c" columns={columns} showHeader={showHeader} dataSource={items} pagination={pagination} ></SMTable>
     </div>
   )
 }
