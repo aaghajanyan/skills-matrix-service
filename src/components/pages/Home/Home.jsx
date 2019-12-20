@@ -19,7 +19,7 @@ function Home() {
                         <TabBar {...tabBarProps} />
                     </div>)
                 }
-                defaultActiveKey='summary'
+                defaultActiveKey='Summary'
             >
                 <Summary key='Summary' />
                 <Assessment key='Assessment' />

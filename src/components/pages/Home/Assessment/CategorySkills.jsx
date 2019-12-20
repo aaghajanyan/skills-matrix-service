@@ -19,9 +19,9 @@ function CategorySkills({ className }) {
       assesment: "5",
       date: "25.07.2018",
       categories: [
-          <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>,
-          <Tag color="cyan" className='skills-categories-tags'>Scripting</Tag>,
-          <Tag color="orange" className='skills-categories-tags'>Back End</Tag>
+        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>,
+        <Tag key='2' color="cyan" className='skills-categories-tags'>Scripting</Tag>,
+        <Tag key='3' color="orange" className='skills-categories-tags'>Back End</Tag>
       ]
     },
     {
@@ -31,7 +31,7 @@ function CategorySkills({ className }) {
       assesment: "2",
       date: "14.06.2017",
       categories: [
-        <Tag color="blue" className='skills-categories-tags'>Tools</Tag>
+        <Tag key='4' color="blue" className='skills-categories-tags'>Tools</Tag>
       ]
     },
     {
@@ -41,7 +41,7 @@ function CategorySkills({ className }) {
       assesment: "5",
       date: "25.07.2018",
       categories: [
-          <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>
+        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>
       ]
     },
     {
@@ -51,7 +51,7 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "14.06.2017",
       categories: [
-        <Tag color="green" className='skills-categories-tags'>Mobile</Tag>
+        <Tag key='1' color="green" className='skills-categories-tags'>Mobile</Tag>
       ]
     },
     {
@@ -61,7 +61,7 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "14.06.2017",
       categories: [
-        <Tag color="purple" className='skills-categories-tags'>Cloud</Tag>
+        <Tag key='1' color="purple" className='skills-categories-tags'>Cloud</Tag>
       ]
     },
     {
@@ -71,8 +71,8 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "14.06.2017",
       categories: [
-        <Tag color="cyan" className='skills-categories-tags'>Scripting</Tag>,
-        <Tag color="orange" className='skills-categories-tags'>Back End</Tag>
+        <Tag key='1' color="cyan" className='skills-categories-tags'>Scripting</Tag>,
+        <Tag key='2' color="orange" className='skills-categories-tags'>Back End</Tag>
       ]
     },
     {
@@ -82,8 +82,8 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "14.06.2017",
       categories: [
-        <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>
-    ]
+        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>
+      ]
     },
 
   ];
@@ -99,6 +99,7 @@ function CategorySkills({ className }) {
     {
       title: 'Assessment',
       dataIndex: 'assesment',
+      sorter: (a, b) => a.assesment > b.assesment ? a.assesment : b.assesment,
     },
     {
       title: "Date",
@@ -116,7 +117,7 @@ function CategorySkills({ className }) {
         data.length >= 1 ? (
           <div>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px', color: '#42982C' }} /> </span>
+              <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px', color: '#42982C' }} /> </span>
               <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', color: '#961616', marginLeft: '10px' }} /> </span>
             </Popconfirm>
 
@@ -128,8 +129,6 @@ function CategorySkills({ className }) {
   const showHeader = true;
   const [data, setData] = useState(item);
   const handleDelete = key => {
-    // const dataSources = [...data];
-    // debugger;
     setData(data.filter(item => item.key !== key))
   };
 
