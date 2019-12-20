@@ -15,7 +15,7 @@ function Home() {
                             firstName='Admin'
                             lastName='Admin'
                             colorCode={15551}
-                            size={64} />
+                            size={55} />
                         <TabBar {...tabBarProps} />
                     </div>)
                 }

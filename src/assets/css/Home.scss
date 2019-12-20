@@ -8,9 +8,9 @@
 
 .skills-table, .summary_skills-list, .summary_skills-chart {
     background-color: white;
-    width: 100%;
+    width: 99%;
     padding: 20px;
-    margin: 10px 5px;
+    margin: 20px 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -29,12 +29,12 @@ table tr:hover td {
 
 .summary_skills-list-container {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 49% 49%;
     grid-column-gap: 20px;
 }
 
 .summary_skills-list {
-    width: 100%;
+    width: 99%;
 }
 
 .summary_skills-chart {
@@ -45,9 +45,10 @@ table tr:hover td {
 
 .home_tabs-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background-color: white;
-    width: 100%;
+    width: 99%;
     padding: 20px 40px 20px 40px;
     margin: 10px 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -74,4 +75,10 @@ table tr:hover td {
     .ant-tabs-ink-bar:hover {
         background-color: #3A79AA;
     }
+}
+
+.skills-categories-tags {
+    //TODO move to common components
+    margin-bottom: 4px;
+    margin-top: 4px;
 }

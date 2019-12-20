@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SMTable } from 'components/common/SMTable/SMTable';
 import { Popconfirm } from 'antd';
+import { Tag } from 'antd'; //TODO : move to common components
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -17,48 +18,72 @@ function CategorySkills({ className }) {
       skill: "JavaScript",
       assesment: "5",
       date: "25.07.2018",
+      categories: [
+          <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>,
+          <Tag color="cyan" className='skills-categories-tags'>Scripting</Tag>,
+          <Tag color="orange" className='skills-categories-tags'>Back End</Tag>
+      ]
     },
     {
       key: '2',
+      icon: <FontAwesomeIcon icon={['fab', 'git-alt']} style={{ width: '30px', height: '30px' }} />,
+      skill: "Git",
+      assesment: "2",
+      date: "14.06.2017",
+      categories: [
+        <Tag color="blue" className='skills-categories-tags'>Tools</Tag>
+      ]
+    },
+    {
+      key: '3',
       icon: <FontAwesomeIcon icon={['fab', 'react']} style={{ width: '30px', height: '30px' }} />,
       skill: "React JS",
       assesment: "5",
       date: "25.07.2018",
-    },
-    {
-      key: '3',
-      icon: <FontAwesomeIcon icon={['fab', 'angular']} style={{ width: '30px', height: '30px' }} />,
-      skill: "Angular JS",
-      assesment: "4",
-      date: "14.06.2017",
+      categories: [
+          <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>
+      ]
     },
     {
       key: '4',
-      icon: <FontAwesomeIcon icon={['fab', 'html5']} style={{ width: '30px', height: '30px' }} />,
-      skill: "HTML",
-      assesment: "4",
+      icon: <FontAwesomeIcon icon={['fab', 'android']} style={{ width: '30px', height: '30px' }} />,
+      skill: "Android",
+      assesment: "3",
       date: "14.06.2017",
+      categories: [
+        <Tag color="green" className='skills-categories-tags'>Mobile</Tag>
+      ]
     },
     {
       key: '5',
+      icon: <FontAwesomeIcon icon={['fab', 'aws']} style={{ width: '30px', height: '30px' }} />,
+      skill: "AWS",
+      assesment: "3",
+      date: "14.06.2017",
+      categories: [
+        <Tag color="purple" className='skills-categories-tags'>Cloud</Tag>
+      ]
+    },
+    {
+      key: '6',
+      icon: <FontAwesomeIcon icon={['fab', 'python']} style={{ width: '30px', height: '30px' }} />,
+      skill: "Python",
+      assesment: "3",
+      date: "14.06.2017",
+      categories: [
+        <Tag color="cyan" className='skills-categories-tags'>Scripting</Tag>,
+        <Tag color="orange" className='skills-categories-tags'>Back End</Tag>
+      ]
+    },
+    {
+      key: '7',
       icon: <FontAwesomeIcon icon={['fab', 'wordpress']} style={{ width: '30px', height: '30px' }} />,
       skill: "Wordpress",
       assesment: "3",
       date: "14.06.2017",
-    },
-    {
-      key: '6',
-      icon: <FontAwesomeIcon icon={['fab', 'css3']} style={{ width: '30px', height: '30px' }} />,
-      skill: "CSS",
-      assesment: "3",
-      date: "14.06.2017",
-    },
-    {
-      key: '7',
-      icon: <FontAwesomeIcon icon={['fab', 'sass']} style={{ width: '30px', height: '30px' }} />,
-      skill: "SCSS",
-      assesment: "2",
-      date: "14.06.2017",
+      categories: [
+        <Tag color="volcano" className='skills-categories-tags'>Front End</Tag>
+    ]
     },
 
   ];
@@ -71,8 +96,6 @@ function CategorySkills({ className }) {
     {
       dataIndex: 'skill',
     },
-
-  
     {
       title: 'Assessment',
       dataIndex: 'assesment',
@@ -80,6 +103,11 @@ function CategorySkills({ className }) {
     {
       title: "Date",
       dataIndex: "date",
+    },
+    {
+      title: 'Categories',
+      dataIndex: 'categories',
+      width: '30%'
     },
     {
       title: "",
@@ -94,7 +122,7 @@ function CategorySkills({ className }) {
 
           </div>
         ) : null,
-    },
+    }
   ];
   const pagination = false;
   const showHeader = true;
@@ -107,7 +135,7 @@ function CategorySkills({ className }) {
 
   return (
     <div className={className}>
-      <h1>Front End</h1>
+      <h1>All Skills</h1>
 
       <SMTable className="b c" columns={columns} showHeader={showHeader} dataSource={data} pagination={pagination} ></SMTable>
     </div>
