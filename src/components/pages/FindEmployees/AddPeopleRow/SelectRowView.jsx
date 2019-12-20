@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Select, Button } from 'antd';
-import {CRITERIA} from 'config/crieterias';
+import {Criteria} from 'components/pages/FindEmployees/Criteria';
 
 const { Option } = Select;
 
@@ -12,22 +12,25 @@ function SelectRowView(props){
     }
 
     const onDelEvent = () => {
-        props.onRowDel(props.rows);
+        props.onRowDel(props.rowIndex);
     }
 
     return (
         <Row gutter={16} >
             <Col span={5}>
+                <>
+                <Col className="label_select"><span>Criteria</span></Col>
                 {props.formItem.getFieldDecorator(`${props.cellData.id}[type]`)(
-                    <Select
+                        <Select
                         placeholder="Criteria"
                         onSelect={handleClick}
                     >
-                        {Object.values(CRITERIA).map((item, index) => 
+                        {Object.values(Criteria()).map((item, index) =>
                             <Option key={index} value={item.name}>{item.name}</Option>
                         )}
                     </Select>
                 )}
+                </>
             </Col>
             <Col span={18}>
                 <Row gutter={16}>

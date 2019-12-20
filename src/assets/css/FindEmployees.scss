@@ -78,7 +78,7 @@
         background: #fff;
         width: 100%;
         font-size: 20px;
-        height: 41px;
+        height: 80px;
         bottom: 0;
         left: 0;
         text-align: center;
@@ -89,16 +89,32 @@
         }
         i {
             transform: rotate(90deg);
+            margin: 40px;
         }
     }
-    
+
     .collapses_hidden {
         display: none;
+    }
+
+    .label_select{
+        border-bottom: 1px solid #eee;
+        span{
+            color: #777;
+            top: 5px;
+            position: relative;
+            font-weight: 600;
+            font-size: 12px;
+        }
+    }
+
+    .employees-table{
+        overflow-x: auto;
     }
 }
 
 .default_main_container {
-    max-height: 159px;
+    max-height: 250px;
     min-height: auto;
     overflow: hidden;
     transition: 0.3s ease-out;
