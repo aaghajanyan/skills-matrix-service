@@ -7,7 +7,7 @@ import { emailValidator, passwordValidator } from 'helpers/FormValidators';
 import { Redirect } from 'react-router-dom';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 import login_password_icon from 'assets/images/login_password_icon.svg';
-import { authService } from 'client/lib/AuthService';
+import { login } from 'client/lib/Auth.js';
 
 function LoginForm(props) {
 
@@ -31,7 +31,7 @@ function LoginForm(props) {
 
     const handleSubmit = formData => {
         setLoading(true);
-        authService.login(formData)
+        login(formData)
             .then(() => {
                 setLoading(false);
                 onAlertClose(null);
