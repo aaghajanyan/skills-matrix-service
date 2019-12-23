@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dropdown } from 'antd';
-import { SMSiderMenu } from '../common/SMSiderMenu/SMSiderMenu';
-import { SMButton } from './SMButton/SMButton';
-import { Svg } from './Svg';
-import { SvgIcons } from './SvgIcons';
+import { SMSiderMenu } from '../../../common/SMSiderMenu/SMSiderMenu';
+import { SMButton } from '../../../common/SMButton/SMButton';
+import { Svg } from '../../../common/Svg';
+import { SvgIcons } from '../../../common/SvgIcons';
 import PropTypes from 'prop-types';
 
 function SMDropdownMenu(props) {

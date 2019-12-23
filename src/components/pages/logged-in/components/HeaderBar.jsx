@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { SMButton } from '../common/SMButton/SMButton';
-import { SMDropdownMenu } from '../common/SMDropdownMenu';
+import { SMButton } from '../../../common/SMButton/SMButton';
+import { SMDropdownMenu } from './SMDropdownMenu';
 import { Input } from 'antd';
-import { SMIconLink } from './SMIconLink/SMIconLink';
-import { Svg } from './Svg';
-import { SvgIcons } from './SvgIcons';
+import { SMIconLink } from '../../../common/SMIconLink/SMIconLink';
+import { Svg } from '../../../common/Svg';
+import { SvgIcons } from '../../../common/SvgIcons';
 import PropTypes from 'prop-types';
-import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMUserBar } from './SMUserBar';
+
 function HeaderBar(props) {
 
     const [isCollapsed, setIsCollapsed] = useState(false);

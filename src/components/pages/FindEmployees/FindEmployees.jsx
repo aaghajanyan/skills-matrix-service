@@ -4,7 +4,7 @@ import { post } from 'client/lib/axiosWrapper';
 import {Criteria} from 'components/pages/FindEmployees/Criteria';
 import {PeopleRow} from 'components/pages/FindEmployees/PeopleRow';
 import {UserDataView} from 'components/pages/FindEmployees/UserDataView/UserDataView';
-import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMUserBar } from 'pages/logged-in/components';
 import { SMButton } from 'components/common/SMButton/SMButton';
 
 const { Option } = Select;

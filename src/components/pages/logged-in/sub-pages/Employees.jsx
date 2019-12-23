@@ -8,7 +8,7 @@ import { SMInput } from 'components/common/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants';
 import { EmployeesTable } from 'components/pages/logged-in/components'
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
-import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMUserBar } from '../components';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 
 function Employees(props) {

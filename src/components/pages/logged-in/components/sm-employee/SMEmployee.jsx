@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'client/lib/axiosWrapper';
-import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMUserBar } from '../SMUserBar';
 import {SMSpinner} from 'components/common/SMSpinner/SMSpinner';
 
 import { Summary } from './Summary';

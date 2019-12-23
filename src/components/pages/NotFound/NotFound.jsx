@@ -1,14 +1,15 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
-import { SMHeader } from 'components/common/SMHeader'
 import not_found_404 from 'assets/images/404.png';
+import logo from 'assets/images/instigate.svg';
 const { Header, Content } = Layout;
 
 function NotFound() {
     return (
         <Layout className="page-not-found">
             <Header className="sm-layout-header">
-                <SMHeader title="Instigate Mobile - Skills Matrix"/>
+                <img className="sm-header-icon" src={logo} alt="instigate mobile logo"/>
+                <span className="sm-header-title"> Instigate Mobile - Skills Matrix </span>
             </Header>
             <Content className="page-not-found-content">
                 <Row className="page-not-found-row-1" type="flex" justify="center">

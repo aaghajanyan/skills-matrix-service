@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 import { SMSiderMenu } from 'components/common/SMSiderMenu/SMSiderMenu';
-import { HeaderBar } from 'components/common/HeaderBar';
+import { HeaderBar } from './components/HeaderBar';
 import { siderMenuItems } from 'components/common/SMSiderMenu/SiderMenuItems';
 import { headerMenuItems } from 'components/common/SMSiderMenu/HeaderMenuItems';
 

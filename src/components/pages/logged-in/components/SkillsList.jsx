@@ -1,6 +1,6 @@
 import React from 'react'
 import { List } from 'antd';
-import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMUserBar } from '../components/SMUserBar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

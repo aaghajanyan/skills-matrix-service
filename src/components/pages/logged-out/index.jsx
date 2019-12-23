@@ -1,6 +1,5 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
-import { SMHeader } from 'components/common/SMHeader';
 import logo from 'assets/images/logo.png';
 import { authService } from 'client/lib/AuthService';
 import { Redirect } from 'react-router-dom';
@@ -20,7 +19,8 @@ function SMPageLoggedOut(props) {
     ) : (
         <Layout className="sm-layout">
             <Header className="sm-layout-header">
-                <SMHeader title="Instigate Mobile - Skills Matrix" />
+                <img className="sm-header-icon" src={logo} alt="instigate mobile logo"/>
+                <span className="sm-header-title"> Instigate Mobile - Skills Matrix </span>
             </Header>
             <Content className="sm-content">
                 <Row className="sm-content-row" type="flex" justify="center">
