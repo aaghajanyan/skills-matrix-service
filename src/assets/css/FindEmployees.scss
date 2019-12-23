@@ -8,6 +8,11 @@
     transition: 0.3s ease-out;
     position: relative;
     .people_finder_header {
+        display: flex;
+        justify-content: space-between;
+        div:first-child {
+            width: 100%;
+        }
         h1{
             font-size: 22px;
             color: #B0B0B0;
@@ -98,10 +103,9 @@
     }
 
     .label_select{
-        border-bottom: 1px solid #eee;
         span{
             color: #777;
-            top: 5px;
+            top: 15px;
             position: relative;
             font-weight: 600;
             font-size: 12px;
@@ -113,10 +117,19 @@
     }
 }
 
+.left_col_skill_info{
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .default_main_container {
     max-height: 250px;
     min-height: auto;
     overflow: hidden;
     transition: 0.3s ease-out;
     position: relative;
+}
+
+.classNameOfCell {
+    padding: 0 !important;
 }

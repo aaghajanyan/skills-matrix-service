@@ -92,8 +92,8 @@ function Criteria() {
           ]
         },
         {
-          "name": "Profeciency",
-          "key": "profeciency",
+          "name": "Proficiency",
+          "key": "proficiency",
           "items": [
             {
               "name": "1"
@@ -172,8 +172,8 @@ function Criteria() {
           ]
         },
         {
-          "name": "Profeciency",
-          "key": "profeciency",
+          "name": "Proficiency",
+          "key": "proficiency",
           "items": [
             {
               "name": "1"

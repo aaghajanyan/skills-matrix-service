@@ -5,6 +5,7 @@ import {Criteria} from 'components/pages/FindEmployees/Criteria';
 import {PeopleRow} from 'components/pages/FindEmployees/PeopleRow';
 import {UserDataView} from 'components/pages/FindEmployees/UserDataView/UserDataView';
 import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
+import { SMButton } from 'components/common/SMButton/SMButton';
 
 const { Option } = Select;
 
@@ -46,7 +47,7 @@ function FindPeople(props){
     const handleDisabled = () => {
         const fieldsValue = getFieldsValue();
         const fieldsRow = fieldsValue[rowIndex];
-        if( (fieldsRow.opCondition) && (fieldsRow.profeciency || fieldsRow.list || fieldsRow.experince || fieldsRow.branch || fieldsRow.position)) {
+        if( (fieldsRow.opCondition) && (fieldsRow.proficiency || fieldsRow.list || fieldsRow.experince || fieldsRow.branch || fieldsRow.position)) {
             setDisabledBtn(false);
         }
     }
@@ -131,9 +132,10 @@ function FindPeople(props){
                     (item.type === "Position") ?
                         { name: item.position } :
                     {
-                        // id: getIdValues(item.type, item.list),
-                        name: item.list,
+                        id: getIdValues(item.type, item.list),
+                        // name: item.list,
                         experience: item.experience,
+                        profficience: item.proficiency
                     }
                 );
 
@@ -145,7 +147,7 @@ function FindPeople(props){
                     }
                 })
 
-                post({url: "search", data: bodyObject}).then(result => {
+                post({url: "search/v1", data: bodyObject}).then(result => {
                         result.data.users = result.data.users.map(item => {
                         item.key = item.guid
                         const colorCode = Math.floor(100000 + Math.random() * 900000);
@@ -180,7 +182,10 @@ function FindPeople(props){
         <>
         <div ref={refForScroll} className={`main_container_people_finder ${collapseFind && "default_main_container"} `}>
             <Row className="people_finder_header">
-                <h1>Find people </h1>
+                <div><h1>Find people </h1></div>
+                <div> <SMButton className='sm-button skills-table-add-skill-button'>
+                    Export AS
+                </SMButton></div>
             </Row>
             <Row className= {collapseFind ? "collapses_visible" : "collapses_hidden"}>
                 <Icon onClick={collapsesOut} type="double-right" />

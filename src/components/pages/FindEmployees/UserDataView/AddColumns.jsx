@@ -1,11 +1,13 @@
 import React from 'react';
+import { arrayTypeAnnotation } from '@babel/types';
 
 function AddColumns(props){
 
+    const skills = [];
     const columns = [
         {
             title: 'Employee',
-            width: 200,
+            width: 250,
             dataIndex: 'avatar',
             key: 'avatar',
             fixed: 'left'
@@ -27,11 +29,24 @@ function AddColumns(props){
       ];
 
     props.userData.map((item) => item.skills.map( (skill, index) => {
-        columns.splice(2, 0, {
-            title: skill.name,
-            dataIndex: skill.name,
-            key: skill.name
-        })
+        if(!skills.includes(skill.name)) {
+            columns.splice(2, 0, {
+                title: skill.name,
+                dataIndex: skill.name,
+                key: skill.name,
+                width:200,
+                className: "classNameOfColumn",
+                render: (text, record) => {
+                    return {
+                      props: {
+                        className: "classNameOfCell"
+                      },
+                      children: text,
+                    };
+                  },
+            })
+            skills.push(skill.name);
+        }
     }))
 
     return columns
