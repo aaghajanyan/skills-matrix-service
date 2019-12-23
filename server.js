@@ -24,6 +24,8 @@ app.use((error, req, res, next) => {
       message: error.message
   })
 })
-app.listen(config.node_port, () => {
+let server = app.listen(config.node_port, () => {
   console.log(`\n\nServer listening ${config.node_port} port...\n\n`);
 });
+
+server.timeout = 60000;

@@ -81,11 +81,29 @@ const collectCondition = (items, opCondition) => {
 };
 
 const calculatePossibleCombination = () => {
+    console.log("\n\nskillIdsList.length = ", skillIdsList.length);
+    console.log("categoriesIdsList.length = ", categoriesIdsList.length);
+
     try {
-        const count = skillIdsList.flatMap(skillItem =>
-            categoriesIdsList.map(catItem => skillItem + catItem)
-        );
-        return count.length;
+        if ((skillIdsList.length >= 1) && (categoriesIdsList.length >= 1)) {
+            console.log("\n\n IF > 1 \n");
+            const combList = skillIdsList.flatMap(skillItem =>
+                categoriesIdsList.map(catItem => skillItem + catItem)
+            );
+            console.log("\n\ncombList.length = ", combList.length);
+
+            return combList.length;
+        } else {
+            console.log("\n\n IF < 1 \n");
+
+            if (skillIdsList.length < 1) {
+                console.log("skillIdsList.length < 1");
+                return -1;
+            } else if (categoriesIdsList.length < 1) {
+                console.log("categoriesIdsList.length < 1");
+                return -1;
+            }
+        }
     } catch (error) {
         console.log(error);
     }
@@ -106,6 +124,7 @@ const changeKeyName = ( keyFromName, keyToName, receivedType, neededType, obj, $
             item[keyToName] = item[keyFromName];
             delete item[keyFromName];
             idsList.push(item[keyToName].$eq);
+            // console.log("idsList = ", idsList);
         }
         $and.push(item);
     });
@@ -210,11 +229,14 @@ const getUsers = async queryWhere => {
         usersCategoriesCondition
     );
 
+    console.log("\n\n queryWhere.usersSkillsCondition = ",  queryWhere.usersSkillsCondition);
+    console.log("\n\n queryWhere.usersCategoriesCondition = ",  queryWhere.usersCategoriesCondition);
+    console.log("\n\n skillIdsList.length > 0 && categoriesIdsList.length > 0 = ",  skillIdsList.length > 0 && categoriesIdsList.length > 0);
     const users = await userModel.findAll({
         where: queryWhere.usersCondition,
         required: userQueryCount,
         attributes: { exclude: ["password", "roleGroupId"] },
-        raw: true,
+        raw: skillIdsList.length > 0 && categoriesIdsList.length > 0,
         include: [
             {
                 // attributes: { exclude: ["id"] },
@@ -253,15 +275,18 @@ const getUsers = async queryWhere => {
         // having: Sequelize.literal(`count("user"."id") = 2`),
     });
     // const expectedCount = userQueryCount + userSkillQueryCount + userCategoryQueryCount;
+
+    console.log("\n\n USERS = ", users);
     const expectedCount = calculatePossibleCombination();
 
-    return filterUsers(users, expectedCount, queryWhere);
+    return await filterUsers(users, expectedCount, queryWhere);
 };
 
 const filterUsers = async (users, expectedCount, queryWhere) => {
-    if (users.length < 1 || expectedCount == 1) {
-        return users;
-    }
+    console.log("\n\n expected count = ", expectedCount);
+    // if (users.length < 1 || expectedCount <= 1) {
+    //     return users;
+    // }
     const expectedResult = {};
     const usersGuids = [];
 
@@ -273,36 +298,64 @@ const filterUsers = async (users, expectedCount, queryWhere) => {
         expectedResult[element.id].push(element);
     });
 
+
+    // console.log("\n\n Expected result: ", expectedResult);
     /* delete wrong users */
-    let allKeys = Object.keys(expectedResult);
-    allKeys.forEach(key => {
-        if (expectedResult[key].length != expectedCount) {
-            delete expectedResult[key];
-        }
-    });
+    if (expectedCount != -1) {
+        console.log("\n\n != -1")
+        let allKeys = Object.keys(expectedResult);
+        allKeys.forEach(key => {
+            if (expectedResult[key].length != expectedCount) {
+                delete expectedResult[key];
+            }
+        });
+    } else {
+        console.log("\n\n == -1")
+    }
+
 
     /* check users list leave only correct users*/
-    allKeys = Object.keys(expectedResult);
-    allKeys.forEach(key => {
-        for (let i = 0; i < expectedResult[key].length; ++i) {
-            let user = expectedResult[key][i];
-            if (
-                !skillIdsList.includes(user["skills.id"]) ||
-                !categoriesIdsList.includes(user["categories.id"])
-            ) {
-                delete expectedResult[key][i];
+
+    if (expectedCount != -1) {
+
+        allKeys = Object.keys(expectedResult);
+        allKeys.forEach(key => {
+            for (let i = 0; i < expectedResult[key].length; ++i) {
+                let user = expectedResult[key][i];
+                if (
+                    !skillIdsList.includes(user["skills.id"]) ||
+                    !categoriesIdsList.includes(user["categories.id"])
+                ) {
+                    delete expectedResult[key][i];
+                }
             }
-        }
-    });
+        });
+    }
 
     /* collect users guids */
-    allKeys.forEach(key => {
-        if (expectedResult[key].length == expectedCount) {
+    if (expectedCount != -1) {
+        allKeys = Object.keys(expectedResult);
+
+        allKeys.forEach(key => {
+            if (expectedResult[key].length == expectedCount) {
+                usersGuids.push(expectedResult[key][0].guid);
+            }
+        });
+    } else {
+        // console.log("\n\n else expectedResult = ", expectedResult);
+        allKeys = Object.keys(expectedResult);
+
+        for (key of allKeys) {
             usersGuids.push(expectedResult[key][0].guid);
         }
-    });
+
+        // allKeys.forEach(key => {
+        //     usersGuids.push(expectedResult[key][0].guid);
+        // });
+    }
 
     /* get users */
+    console.log("\n\nusersGuids = ", usersGuids);
     const usersList = [];
     for (item of usersGuids) {
         usersList.push(await User.getByGuid(item));

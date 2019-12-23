@@ -3,22 +3,12 @@ const config = require("../config/config");
 class DefaultRoles {
 
     static async initializeRoleTable(models) {
-        let rolesObjArr = [];
-        config.roles.forEach(role => {
-            let roleObj = {};
-            roleObj.name = role;
-            rolesObjArr.push(roleObj);
-        });
+        let rolesObjArr = await config.roles.map((role) => { return {name: role}});
         await models.roles.bulkCreate(rolesObjArr).catch((err) => {});
     }
 
     static async initializeRolesGroupsTable(models) {
-        let rolesGroupsObjArr = [];
-        config.rolesGroups.forEach(rolegroup => {
-            let roleGroupObj = {};
-            roleGroupObj.name = rolegroup;
-            rolesGroupsObjArr.push(roleGroupObj);
-        });
+        let rolesGroupsObjArr = config.rolesGroups.map((roleGroup) => {return {name: roleGroup }} );
         await models.roles_groups.bulkCreate(rolesGroupsObjArr).catch((err) => {});
     }
 
