@@ -94,6 +94,7 @@ function CategorySkills({ className }) {
     if (a < b) { return 1; }
     return 0;
   }
+
   const  comparatorDate =  (a, b) => {
     const date1 = new Date(a)
     const date2 = new Date(b)
