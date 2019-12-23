@@ -9,10 +9,10 @@ const generateAvatarUrl = (firstname, lastname, colorCode) =>
 function SMUserBar({ className, firstName, lastName, colorCode, size, avatarUrl = generateAvatarUrl(firstName, lastName, colorCode) }) {
 
     return (
-        <span className={classNames("sm-user-bar", className)} >
+        <div className={classNames("sm-user-bar", className)} >
             <Avatar src={avatarUrl} alt={`${firstName} ${lastName}`} size={size} />
-            {firstName} {lastName}
-        </span>
+            <span>{firstName} {lastName}</span>
+        </div>
     )
 }
 
@@ -22,7 +22,6 @@ SMUserBar.propTypes = {
     lastName: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string,
     colorCode: PropTypes.number,
-    size: PropTypes.string,
 }
 
 export { SMUserBar };

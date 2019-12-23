@@ -6,8 +6,6 @@
 
 .sm-layout-container {
     .sm-layout-container_header {
-        background: white;
-        padding: 0;
         .sider-container_search-btn {
             input {
                 padding-left: 30px;
@@ -18,16 +16,14 @@
         }
         .layout-container_page-header {
             border: none;
-            position: absolute;
             right: 0;
             height: 64px;
-            z-index: 2;
         }
     }
 }
 
 .layout-container_page-header.ant-page-header-ghost {
-    border: none!important;
+    border: none !important;
     display: flex;
 }
 
