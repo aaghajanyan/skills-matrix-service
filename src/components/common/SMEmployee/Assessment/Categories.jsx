@@ -39,22 +39,30 @@ function Categories({ className }) {
 
   ];
 
+  const  comparator =  (a, b) =>{
+    if (a > b) { return -1; }
+    if (a < b) { return 1; }
+    return 0;
+  }
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
-      width: '33%'
+      width: '33%',
+      sorter: (a, b) => comparator(a.name, b.name),
 
     },
     {
       title: 'Average',
       dataIndex: 'average',
-      width: '33%'
+      width: '33%',
+      sorter: (a, b) => comparator(a.average, b.average),
     },
     {
       title: "Date",
       dataIndex: "date",
-      width: '33%'
+      width: '33%',
     },
   ];
 

@@ -89,6 +89,12 @@ function CategorySkills({ className }) {
 
   ];
 
+  const  comparator =  (a, b) =>{
+    if (a > b) { return -1; }
+    if (a < b) { return 1; }
+    return 0;
+  }
+
   const columns = [
     {
       title: 'Skill',
@@ -97,12 +103,13 @@ function CategorySkills({ className }) {
     },
     {
       dataIndex: 'skill',
-      width: '15%'
+      width: '15%',
+      sorter: (a, b) => comparator(a.skill, b.skill),
     },
     {
       title: 'Assessment',
       dataIndex: 'assesment',
-      sorter: (a, b) => a.assesment > b.assesment ? a.assesment : b.assesment,
+      sorter: (a, b) => comparator(a.assesment, b.assesment),
       width: '20%'
     },
     {
