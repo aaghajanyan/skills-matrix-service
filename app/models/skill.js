@@ -5,6 +5,46 @@ const {
 } = require("../sequelize/models");
 
 class Skill {
+
+    static async getSkillAllData(guid) {
+        const skill = await skillModel.findOne({
+            where: {guid: guid},
+            include: [
+                {
+                    model: categoryModel,
+                    as: "categories",
+                    required: false,
+                    attributes: ["id", "name"],
+                    through: {
+                        model: skillRelationModel,
+                        as: "skillRelation",
+                        attributes: []
+                    }
+                }
+            ]
+        });
+        return skill;
+    };
+
+    static async getSkillsAllData() {
+        const skills = await skillModel.findAll({
+            include: [
+                {
+                    model: categoryModel,
+                    as: "categories",
+                    required: false,
+                    attributes: ["id", "name"],
+                    through: {
+                        model: skillRelationModel,
+                        as: "skillRelation",
+                        attributes: []
+                    }
+                }
+            ]
+        });
+        return skills;
+    };
+
     static async addedNewCategories(categoriesId, skill, sendedList, categoriesRequired) {
         sendedList.addedCategories = [];
         sendedList.errors = [];
@@ -38,7 +78,7 @@ class Skill {
                 }
                 return message;
             });
-    
+
             await Promise.all(promise).then((list) => {
                 list.forEach(item => {
                     sendedList.addedCategories.push(item);
@@ -50,7 +90,7 @@ class Skill {
             }
         }
     }
-    
+
     static async removeCategories(removedCategories, sendedList, skill) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
@@ -69,19 +109,30 @@ class Skill {
                         categoryId: category.id
                     }
                 });
-    
+
                 if (existingSkillCategory) {
                     obj.status = 'passed';
                     await existingSkillCategory.destroy();
                 }
                 return obj;
             })
-    
+
             await Promise.all(promise).then((list) => {
                 sendedList.removedCategories.push(list);
             });
         }
     }
+
+    static async getStatus(sendedList, keyName) {
+        let status = false;
+        sendedList[keyName].forEach((item) => {
+            if (item.success == true) {
+                status = true;
+            }
+        });
+        return status;
+    }
+
 }
 
 module.exports = Skill;

@@ -31,23 +31,7 @@ const getSkill = async function (request, response) {
 
 const getSkillAllData = async function(request, response) {
     try {
-        const skill = await skillModel
-            .findOne({
-                where: {guid: request.params.guid},
-                include: [
-                    {
-                        model: categoryModel,
-                        as: "categories",
-                        required: false,
-                        attributes: ["id", "name"],
-                        through: {
-                            model: skillRelationModel,
-                            as: "skillRelation",
-                            attributes: []
-                        }
-                    }
-                ]
-        });
+        const skill = await Skill.getSkillAllData(request.params.guid);
         return response.status(200).json(skill);
     } catch(err) {
         return response.status(409).json({
@@ -59,22 +43,7 @@ const getSkillAllData = async function(request, response) {
 
 const getSkillsAllData = async function(request, response) {
     try {
-        const skills = await skillModel
-            .findAll({
-                include: [
-                    {
-                        model: categoryModel,
-                        as: "categories",
-                        required: false,
-                        attributes: ["id", "name"],
-                        through: {
-                            model: skillRelationModel,
-                            as: "skillRelation",
-                            attributes: []
-                        }
-                    }
-                ]
-        });
+        const skills = await Skill.getSkillsAllData();
         return response.status(200).json(skills);
     } catch(err) {
         return response.status(409).json({
@@ -84,21 +53,11 @@ const getSkillsAllData = async function(request, response) {
     }
 };
 
-const getStatus = async function(sendedList, keyName) {
-    let status = false;
-    sendedList[keyName].forEach((item) => {
-        if (item.success == true) {
-            status = true;
-        }
-    });
-    return status;
-}
-
 const addSkill = async function (request, response) {
     const errMessageReqCategory = {
         message: 'Required field <categoriesId> doesn\'t exist or empty',
         success: false
-    } 
+    }
     const { categoriesId, ...skillData } = request.body;
     if (categoriesId && categoriesId.length > 0) {
         try {
@@ -111,7 +70,7 @@ const addSkill = async function (request, response) {
             }
             const sendedList = [];
             await Skill.addedNewCategories(categoriesId, skill[0], sendedList, true);
-            let status = await getStatus(sendedList, 'addedCategories') ? 201 : 409;
+            let status = await Skill.getStatus(sendedList, 'addedCategories') ? 201 : 409;
             return response.status(status).json({
                 'name': skill[0].name,
                 'guid': skill[0].guid,
