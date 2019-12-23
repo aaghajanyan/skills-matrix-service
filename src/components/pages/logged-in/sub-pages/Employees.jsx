@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
 import { SMModal } from 'components/common/SMModal/SMModal';
-import { SMForm } from 'components/common/Forms/SMForm/SMForm';
+import { SMForm } from 'components/common/SMForm/SMForm';
 import { SMButton } from 'components/common/SMButton/SMButton';
-import { SMInput } from 'components/common/Forms/SMInput/SMInput';
+import { SMInput } from 'components/common/SMInput/SMInput';
 import { sendInvitationsMessages } from 'src/constants/constants';
-import { EmployeesTable } from 'components/common/EmployeesTable/EmployeesTable'
+import { EmployeesTable } from 'components/pages/logged-in/components'
 import { SMNotification } from 'components/common/SMNotification/SMNotification';
 import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
 import login_email_icon from 'assets/images/login_email_icon.svg';

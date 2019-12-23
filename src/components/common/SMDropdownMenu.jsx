@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown } from 'antd';
 import { SMSiderMenu } from '../common/SMSiderMenu/SMSiderMenu';
-import { SMButton } from './Forms/SMButton/SMButton';
+import { SMButton } from './SMButton/SMButton';
 import { Svg } from './Svg';
 import { SvgIcons } from './SvgIcons';
 import PropTypes from 'prop-types';

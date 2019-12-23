@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { post, head } from 'client/lib/axiosWrapper';
-import { SMForm } from 'components/common/Forms/SMForm/SMForm';
-import { SMInput } from 'components/common/Forms/SMInput/SMInput';
+import { SMForm } from 'components/common/SMForm/SMForm';
+import { SMInput } from 'components/common/SMInput/SMInput';
 import { SMSelect } from 'components/common/SMSelect/SMSelect';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { SMSpinner } from 'components/common/SMSpinner/SMSpinner';

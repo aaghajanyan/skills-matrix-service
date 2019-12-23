@@ -1,6 +1,6 @@
 import React from 'react'
-import { SMChart } from 'components/common/SMChart/SMChart'
-import { SkillsList } from 'components/common/SkillsList/SkillsList';
+import { SMChart } from '../SMChart'
+import { SkillsList } from '../SkillsList';
 
 function Summary(props) {
 

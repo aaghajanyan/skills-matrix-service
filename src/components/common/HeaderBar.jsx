@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SMButton } from '../common/Forms/SMButton/SMButton';
+import { SMButton } from '../common/SMButton/SMButton';
 import { SMDropdownMenu } from '../common/SMDropdownMenu';
 import { Input } from 'antd';
 import { SMIconLink } from './SMIconLink/SMIconLink';

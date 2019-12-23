@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert } from 'antd';
-import { SMForm } from 'components/common/Forms/SMForm/SMForm';
-import { SMInput } from 'components/common/Forms/SMInput/SMInput';
+import { SMForm } from 'components/common/SMForm/SMForm';
+import { SMInput } from 'components/common/SMInput/SMInput';
 import { SMButton } from 'components/common/SMButton/SMButton';
 import { emailValidator, passwordValidator } from 'helpers/FormValidators';
 import { Redirect } from 'react-router-dom';
