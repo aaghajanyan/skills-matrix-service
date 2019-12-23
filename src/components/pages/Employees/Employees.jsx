@@ -18,18 +18,23 @@ function Employees(props) {
 
     const [users, setUsers] = useState(null);
 
+    const [loading, setLoading] = useState(false);
+
     const emailRules = { rules: [{ validator: emailValidator }] };
 
     const handleOk = () => {
+        setLoading(true);
         const options = {
             url: 'invitations/',
             data: { email: modalValue }
         }
         post(options)
             .then(result => {
+                setLoading(false);
                 SMNotification('success', sendInvitationsMessages.success)
             })
             .catch(error => {
+                setLoading(false);
                 error.response.status === 409 &&
                     SMNotification('error', sendInvitationsMessages.error)
             })
@@ -75,6 +80,7 @@ function Employees(props) {
                 id='employees-modal-button'
                 className='sm-button'
                 onClick={openModal}
+                loading={loading}
             >
                 Send invitation email
             </SMButton>
