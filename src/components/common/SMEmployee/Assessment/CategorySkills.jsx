@@ -93,19 +93,22 @@ function CategorySkills({ className }) {
     {
       title: 'Skill',
       dataIndex: 'icon',
-      width: '3rem'
+      width: '5%'
     },
     {
       dataIndex: 'skill',
+      width: '15%'
     },
     {
       title: 'Assessment',
       dataIndex: 'assesment',
       sorter: (a, b) => a.assesment > b.assesment ? a.assesment : b.assesment,
+      width: '20%'
     },
     {
       title: "Date",
       dataIndex: "date",
+      width: '20%'
     },
     {
       title: 'Categories',
@@ -117,7 +120,7 @@ function CategorySkills({ className }) {
       dataIndex: "operation",
       render: (text, record) =>
         items.length >= 1 ? (
-          <div style={{cursor : 'not-allowed', opacity: '0.5'}}>
+          <div style={{cursor : 'not-allowed', opacity: '0.5', width: '100px', paddingLeft: '45px'}}>
               <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px'}} /> </span>
               <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', marginLeft: '10px'}} /> </span>
             {/*
@@ -127,7 +130,7 @@ function CategorySkills({ className }) {
 
           </div>
         ) : null,
-        width: '8rem'
+        width: '10%'
     }
   ];
   const pagination = false;

@@ -43,15 +43,18 @@ function Categories({ className }) {
     {
       title: 'Name',
       dataIndex: 'name',
+      width: '33%'
 
     },
     {
       title: 'Average',
       dataIndex: 'average',
+      width: '33%'
     },
     {
       title: "Date",
       dataIndex: "date",
+      width: '33%'
     },
   ];
 
