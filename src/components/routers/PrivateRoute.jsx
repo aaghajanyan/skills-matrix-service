@@ -2,7 +2,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { authService } from 'client/lib/AuthService';
-import { SMPageLoggedIn } from 'pages/Common/SMPageLoggedIn'
+import { SMPageLoggedIn } from 'pages/logged-in'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
     const isLoggedIn = authService.isLoggedIn();

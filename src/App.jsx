@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Home } from 'pages/Home/Home';
-import { SMPageLoggedOut } from 'pages/Common/SMPageLoggedOut'
+import { SMPageLoggedOut } from 'pages/logged-out'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from 'components/routers/PrivateRoute'
 import { NotFound } from 'pages/NotFound/NotFound';
-import { Employees } from 'pages/Employees/Employees';
+import { Home } from 'pages/logged-in/sub-pages';
+import { Employees } from 'pages/logged-in/sub-pages';
+import { Branches } from 'pages/logged-in/sub-pages';
+import { Categories } from 'pages/logged-in/sub-pages';
+import { Skills } from 'pages/logged-in/sub-pages';
+import { Settings } from 'pages/logged-in/sub-pages';
+import { SMEmployee } from 'pages/logged-in/components'
 import { FindEmployees } from 'components/pages/FindEmployees/FindEmployees';
-import { Branches } from 'pages/Branches/Branches';
-import { Categories } from 'pages/Categories/Categories';
-import { Skills } from 'pages/Skills/Skills';
-import { Settings } from 'pages/Settings/Settings';
-import { SMEmployee } from 'components/common/SMEmployee/SMEmployee'
 import './App.scss';
 
 class App extends Component {

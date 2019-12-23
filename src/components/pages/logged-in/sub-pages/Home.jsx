@@ -1,5 +1,5 @@
 import React from 'react';
-import { SMEmployee } from 'components/common/SMEmployee/SMEmployee'
+import { SMEmployee } from 'pages/logged-in/components'
 
 function Home() {
 
