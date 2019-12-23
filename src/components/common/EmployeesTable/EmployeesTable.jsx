@@ -4,21 +4,31 @@ import { SMTable } from 'components/common/SMTable/SMTable';
 
 function EmployeesTable(props) {
 
+
+    const  comparator =  (a, b) =>{
+        if (a > b) { return -1; }
+        if (a < b) { return 1; }
+        return 0;
+    }
+
     const columns = [
         {
             title: 'Employee',
             dataIndex: 'avatar',
             width: '33%',
+            sorter: (a, b) => comparator(a.fname, b.fname),
         },
         {
             title: 'Position',
             dataIndex: 'position',
             width: '33%',
+            sorter: (a, b) => comparator(a.position, b.position),
         },
         {
             title: 'Branch',
             dataIndex: 'branchName',
             width: '33%',
+            sorter: (a, b) => comparator(a.branchName, b.branchName),
         }
     ];
 

@@ -1,5 +1,4 @@
 import cookie from 'react-cookies'
-import { post } from 'client/lib/axiosWrapper';
 
 class AuthService {
     isLoggedIn() {
