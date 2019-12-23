@@ -19,7 +19,6 @@ function SMPageLoggedOut(props) {
     ) : (
         <Layout className="sm-layout">
             <Header className="sm-layout-header">
-                <img className="sm-header-icon" src={logo} alt="instigate mobile logo"/>
                 <span className="sm-header-title"> Instigate Mobile - Skills Matrix </span>
             </Header>
             <Content className="sm-content">
