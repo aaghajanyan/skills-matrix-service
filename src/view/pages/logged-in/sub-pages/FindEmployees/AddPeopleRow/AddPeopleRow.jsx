@@ -1,6 +1,6 @@
 import React from 'react';
-import {RelationView} from 'components/pages/FindEmployees/AddPeopleRow/RelationView';
-import {SelectRowView} from 'components/pages/FindEmployees/AddPeopleRow/SelectRowView';
+import {RelationView} from './RelationView';
+import {SelectRowView} from './SelectRowView';
 
 
 function AddPeopleRow(props){

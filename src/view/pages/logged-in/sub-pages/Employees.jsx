@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
-import { SMModal } from 'components/common';
-import { SMForm } from 'components/common';
-import { SMButton } from 'components/common';
-import { SMInput } from 'components/common';
+import { SMModal } from 'view/components';
+import { SMForm } from 'view/components';
+import { SMButton } from 'view/components';
+import { SMInput } from 'view/components';
 import { sendInvitationsMessages } from 'src/constants/constants';
-import { EmployeesTable } from 'components/pages/logged-in/components'
-import { SMNotification } from 'components/common';
+import { EmployeesTable } from 'view/pages/logged-in/components'
+import { SMNotification } from 'view/components';
 import { SMUserBar } from '../components';
 import login_email_icon from 'assets/images/login_email_icon.svg';
 

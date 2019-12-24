@@ -3,7 +3,7 @@ import { Layout, Row, Col } from 'antd';
 import logo from 'assets/images/logo.png';
 import { authService } from 'client/lib/AuthService';
 import { Redirect } from 'react-router-dom';
-import { SMButton } from 'components/common';
+import { SMButton } from 'view/components';
 import { RegisterForm } from './RegisterForm';
 import { LoginForm } from './LoginForm';
 const { Header, Content, Footer } = Layout;

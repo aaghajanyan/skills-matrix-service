@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {AddPeopleRow} from 'components/pages/FindEmployees/AddPeopleRow/AddPeopleRow';
+import {AddPeopleRow} from './AddPeopleRow/AddPeopleRow';
 
 function PeopleRow(props) {
 

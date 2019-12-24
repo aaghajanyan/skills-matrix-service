@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { SMButton } from '../../../common/SMButton';
+import { SMButton } from '../../../components/SMButton';
 import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
 import { Input } from 'antd';
-import { SMIconLink } from 'components/common';
+import { SMIconLink } from 'view/components';
 import { SVG } from 'assets/svg/SVG';
 import { SVGIcons } from 'assets/svg/SVGIcons';
 import PropTypes from 'prop-types';

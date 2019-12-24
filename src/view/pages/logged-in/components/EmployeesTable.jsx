@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types"
-import { SMTable } from 'components/common';
+import { SMTable } from 'view/components';
 
 function EmployeesTable(props) {
 

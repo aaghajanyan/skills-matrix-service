@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SMPageLoggedOut } from 'pages/logged-out'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PrivateRoute } from 'components/routers/PrivateRoute'
+import { PrivateRoute } from 'view/routers/PrivateRoute'
 import { NotFound } from 'pages/NotFound/NotFound';
 import { Home } from 'pages/logged-in/sub-pages';
 import { Employees } from 'pages/logged-in/sub-pages';
@@ -10,7 +10,7 @@ import { Categories } from 'pages/logged-in/sub-pages';
 import { Skills } from 'pages/logged-in/sub-pages';
 import { Settings } from 'pages/logged-in/sub-pages';
 import { SMEmployee } from 'pages/logged-in/components'
-import { FindEmployees } from 'components/pages/FindEmployees/FindEmployees';
+import { FindEmployees } from 'pages/logged-in/sub-pages';
 import './App.scss';
 
 class App extends Component {

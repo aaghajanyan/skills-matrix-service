@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Select, Button } from 'antd';
-import {Criteria} from 'components/pages/FindEmployees/Criteria';
+import {Criteria} from '../Criteria';
 
 const { Option } = Select;
 

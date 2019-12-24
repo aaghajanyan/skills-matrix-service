@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown } from 'antd';
 import { SideMenu } from '../side-menu/SideMenu';
-import { SMButton } from 'components/common';
+import { SMButton } from 'view/components';
 import { SVG } from 'assets/svg/SVG';
 import { SVGIcons } from 'assets/svg/SVGIcons';
 import PropTypes from 'prop-types';
