@@ -61,19 +61,16 @@ const addSkill = async function (request, response) {
     const { categoriesId, ...skillData } = request.body;
     if (categoriesId && categoriesId.length > 0) {
         try {
-            const skill = await skillModel.findOrCreate({
-                where: { name: skillData.name }
-            });
-            if(!skill[1]) {
-                response.status(409).send(`${skillData.name} skill already exist`);
-                return;
+            const { skill, isNewRecord } = await Skill.findOrCreateSkill({name: skillData.name});
+            if(!isNewRecord) {
+                return response.status(409).send(`${skillData.name} skill already exist.`);
             }
             const sendedList = [];
-            await Skill.addedNewCategories(categoriesId, skill[0], sendedList, true);
+            await Skill.addedNewCategories(categoriesId, skill, sendedList, true);
             let status = await Skill.getStatus(sendedList, 'addedCategories') ? 201 : 409;
             return response.status(status).json({
-                'name': skill[0].name,
-                'guid': skill[0].guid,
+                'name': skill.name,
+                'guid': skill.guid,
                 'addedCategories': sendedList.addedCategories,
                 ...sendedList
             });
@@ -92,18 +89,15 @@ const updateSkillAllData = async function (request, response) {
     try {
         const { addCategories, deleteCategories, ...skillData } = request.body;
         const sendedList = [];
-        const existingSkill = await skillModel.findOne({where : {guid: request.params.guid}});
+        const existingSkill = await Skill.findOneSkill({guid: request.params.guid});
 
         if(!existingSkill) {
-            response.status(409).json({
+            return response.status(409).json({
                 success: false,
                 message: `Skill with ${request.params.guid} id doesn't exist`
             });
-            return;
         }
-        await skillModel.update(skillData,
-            { where: { guid: request.params.guid }
-        });
+        await Skill.updateSkill(skillData, { guid: request.params.guid })
         await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
         await Skill.removeCategories(deleteCategories, sendedList, existingSkill);
         return response.status(201).json({
@@ -111,6 +105,7 @@ const updateSkillAllData = async function (request, response) {
             'removedCategories': sendedList.removedCategories,
         });
     } catch(err) {
+        console.log(err)
         return response.status(409).json({
             success: false,
             message: `Could not get skill with ${request.params.guid} guid.`
@@ -120,9 +115,7 @@ const updateSkillAllData = async function (request, response) {
 
 const updateSkill = async function (request, response) {
     try {
-        await skillModel.update(request.body, {
-            where: { guid: request.params.guid }
-        });
+        await Skill.updateSkill(request.body, {guid: request.params.guid});
         return response.status(202).json({success: true});
     } catch(err) {
         return response.status(409).json({
@@ -134,9 +127,7 @@ const updateSkill = async function (request, response) {
 
 const deleteSkill = async function (request, response) {
     try {
-        const skill = await skillModel.findOne({
-            where: { guid: request.params.guid }
-        });
+        const skill = await Skill.findOneSkill({ guid: request.params.guid });
         if (!skill) {
             return response.status(409).json({
                 success: false,

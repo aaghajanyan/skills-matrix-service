@@ -1,8 +1,9 @@
 const DefaultRoles = require("../utils/DefaultRoles");
+const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
     const RoleRelation = sequelize.define(
-        "roles_relations",
+        Constants.ModelNames.RolesRelation,
         {
             id: {
                 autoIncrement: true,
@@ -17,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: "Please enter role group id"
+                    msg: Constants.ModelErrors.RoleGroupIdMissing
                 }
             },
             roleId: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: "Please enter role id"
+                    msg: Constants.ModelErrors.RoleIdMissing
                 }
             }
         },

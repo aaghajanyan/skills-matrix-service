@@ -1,16 +1,18 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = (sequelize, DataTypes) => {
     const Skill = sequelize.define(
-        "skill",
+        Constants.ModelNames.Skills,
         {
             name: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter name"
+                    msg: Constants.ModelErrors.NameMissing
                 },
                 unique: {
                     args: true,
-                    msg: "Skill already exists"
+                    msg: Constants.ModelErrors.SkillAlreadyExists
                 }
             },
             guid: {
@@ -24,14 +26,14 @@ module.exports = (sequelize, DataTypes) => {
     );
     Skill.associate = models => {
         Skill.belongsToMany(models.category, {
-            through: "skills_relations",
-            as: "categories",
-            foreignKey: "skillId"
+            through: Constants.TableNames.SkillsRelations,
+            as: Constants.Associate.Aliases.categories,
+            foreignKey: Constants.Migrations.skillId,
         }),
         Skill.belongsToMany(models.user, {
-            through: "users_skills",
-            as: "skills",
-            foreignKey: "skillId"
+            through: Constants.TableNames.UsersSkills,
+            as: Constants.Associate.Aliases.skills,
+            foreignKey: Constants.Migrations.skillId
         });
     };
     return Skill;

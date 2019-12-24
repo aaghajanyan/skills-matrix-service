@@ -1,16 +1,18 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = (sequelize, DataTypes) => {
     const Category = sequelize.define(
-        "category",
+        Constants.ModelNames.Category,
         {
             name: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter name"
+                    msg: Constants.ModelErrors.NameMissing
                 },
                 unique: {
                     args: true,
-                    msg: "Category already exists"
+                    msg: Constants.ModelErrors.CategoryAlreadyExists
                 }
             },
             guid: {
@@ -24,30 +26,30 @@ module.exports = (sequelize, DataTypes) => {
     );
     Category.associate = models => {
         Category.belongsToMany(models.category, {
-            through: "categories_relations",
-            as: "relatedCategories",
-            foreignKey: "relatedCategoryId",
-            otherKey: "categoryId",
+            through: Constants.TableNames.CategoriesRelations,
+            as: Constants.Associate.Aliases.relatedCategories,
+            foreignKey: Constants.Migrations.relatedCategoryId,
+            otherKey: Constants.Migrations.categoryId,
             timestamps: false
         })
         Category.belongsToMany(models.category, {
-            through: "categories_relations",
-            as: "relatedCategoriesRef",
-            foreignKey: "categoryId",
-            otherKey: "relatedCategoryId",
+            through: Constants.TableNames.CategoriesRelations,
+            as: Constants.Associate.Aliases.relatedCategoriesRef,
+            foreignKey: Constants.Migrations.categoryId,
+            otherKey: Constants.Migrations.relatedCategoryId,
             timestamps: false
         })
         Category.belongsToMany(models.skill, {
-            through: "skills_relations",
-            as: "skills",
-            foreignKey: "categoryId",
-            otherKey: "skillId",
+            through: Constants.TableNames.SkillsRelations,
+            as: Constants.Associate.Aliases.skills,
+            foreignKey: Constants.Migrations.categoryId,
+            otherKey: Constants.Migrations.skillId,
             timestamps: false
         }),
         Category.belongsToMany(models.user, {
-            through: "users_categories",
-            as: "categories",
-            foreignKey: "categoryId"
+            through: Constants.TableNames.UsersCategories,
+            as: Constants.Associate.Aliases.categories,
+            foreignKey: Constants.Migrations.categoryId,
         });
     };
     return Category;

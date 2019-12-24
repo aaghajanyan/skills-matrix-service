@@ -9,7 +9,7 @@ const Category = require("../models/category");
 
 const getCategories = async function(_, response) {
     try {
-        const categories = await categoryModel.findAll();
+        const categories = await Category.findAllCategories();
         return response.status(200).json(categories);
     } catch(err) {
         return response.status(409).json({
@@ -21,7 +21,7 @@ const getCategories = async function(_, response) {
 
 const getCategory = async function(request, response) {
     try {
-        const category = await categoryModel.findOne({ where: {guid: request.params.guid}});
+        const category = await Category.findOneCategory({ guid: request.params.guid });
         response.status(200).json(category);
     } catch(err) {
         return response.status(409).json({
@@ -33,9 +33,7 @@ const getCategory = async function(request, response) {
 
 const updateCategory = async function(request, response) {
     try {
-        await categoryModel.update(request.body,
-            { where: { guid: request.params.guid }
-        });
+        await Category.updateCategory(request.body, { guid: request.params.guid });
         response.status(202).json({success: true});
     } catch(err) {
         return response.status(400).json({
@@ -47,7 +45,7 @@ const updateCategory = async function(request, response) {
 
 const deleteCategory = async function(request, response) {
     try {
-        const category = await categoryModel.findOne({ where: { guid: request.params.guid } })
+        const category = await Category.findOneCategory({ guid: request.params.guid });
         if (!category) {
             return response.status(409).json({
                 success: false,
@@ -57,7 +55,7 @@ const deleteCategory = async function(request, response) {
         category.destroy();
         response.status(202).json({success: true});
     } catch(err) {
-        return response.status(400).json({
+        return response.status(500).json({
             success: false,
             message: `Could not delete category with ${request.params.guid} guid`
         });
@@ -111,7 +109,7 @@ const getCategoriesAllData = async function(_, response) {
                 includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
             ]
         })
-        response.status(200).json(mergeRelatedCategories(
+        response.status(200).json(await Category.mergeRelatedCategories(
             JSON.parse(JSON.stringify(categories))
         ));
     } catch(err) {
@@ -164,34 +162,22 @@ const getCategoryAllData = async function(request, response) {
     }
 };
 
-const mergeRelatedCategories = categories => {
-    categories.forEach(category => {
-        category.relatedCategories = category.relatedCategories.concat(
-            category.relatedCategoriesRef
-        );
-        delete category.relatedCategoriesRef;
-    });
-    return categories;
-};
-
 const addCategory = async function (request, response) {
     try {
         const sendedList = [];
-        const { relatedCategoriesIds, skillsIds, ... categoryData} = request.body;
-        const newCategory = await categoryModel.findOrCreate({
-            where: { name: categoryData.name }
-        });
-        if(!newCategory[1]) {
+        const { relatedCategoriesIds, skillsIds, ... categoryData } = request.body;
+        const { category, isNewRecord } = await Category.findOrCreateCategory({ name: categoryData.name });
+        if(!isNewRecord) {
             response.status(409).json({success: false,
                 message: `${categoryData.name} category already exist`
             });
             return;
         }
-        await Category.addRelatedCategories(relatedCategoriesIds, newCategory[0], sendedList);
-        await Category.addSkills(skillsIds, newCategory[0], sendedList);
+        await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
+        await Category.addSkills(skillsIds, category, sendedList);
         return response.status(201).json({
-            'name': newCategory[0].name,
-            'guid': newCategory[0].guid,
+            'name': category.name,
+            'guid': category.guid,
             'addRelatedCategories': sendedList.addedCategories,
             'addedSkills': sendedList.addedSkills
         });
@@ -207,25 +193,19 @@ const updateCategoryAllData = async function (request, response) {
     try {
         const sendedList = [];
         const { addedCategories, removedCategories, addedskills, removedSkills, ...categoryData} = request.body;
-        const existingCategory = await categoryModel.findOne({where: {guid: request.params.guid}});
+        const existingCategory = await Category.findOneCategory({ guid: request.params.guid });
 
         if(!existingCategory) {
-            response.status(409).json({
+            return response.status(409).json({
                 success: false,
                 message: `Category with ${request.params.guid} guid doesn't exist`
             });
-            return;
         }
-
-        await categoryModel.update(categoryData,
-            { where: { guid: request.params.guid }
-        });
-
+        await Category.updateCategory(categoryData, { guid: request.params.guid });
         await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
         await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList);
         await Category.addSkills(addedskills, existingCategory, sendedList);
         await Category.removeSkills(removedSkills, existingCategory, sendedList);
-
         return response.status(201).json({
             'addRelatedCategories': sendedList.addedCategories,
             'removedRelatedCategories': sendedList.removedCategories,

@@ -1,19 +1,20 @@
 const rolesGroups = require("../config/config").rolesGroups;
+const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
     const RoleGroup = sequelize.define(
-        "roles_groups",
+        Constants.ModelNames.RolesGroup,
         {
             name: {
                 type: DataTypes.ENUM,
                 values: rolesGroups,
                 allowNull: {
                     args: false,
-                    msg: "Please enter name"
+                    msg: Constants.ModelErrors.NameMissing
                 },
                 unique: {
                     args: true,
-                    msg: "Role group already exists"
+                    msg: Constants.ModelErrors.RoleGroupAlreadyExists
                 }
             },
             guid: {
@@ -28,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
 
     RoleGroup.associate = models => {
         RoleGroup.belongsToMany(models.roles, {
-            through: "roles_relations",
-            as: "roles",
-            foreignKey: "roleGroupId",
+            through: Constants.TableNames.RolesRelation,
+            as: Constants.Associate.Aliases.roles,
+            foreignKey: Constants.Migrations.roleGroupId,
             timestamps: false
         });
     };

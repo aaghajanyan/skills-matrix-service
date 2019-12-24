@@ -1,8 +1,9 @@
 const rolesGroups = require("../config/config").rolesGroups;
+const { Constants } = require("../../constants/Constants");
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("roles_groups", {
+        return queryInterface.createTable(Constants.TableNames.RolesGroup, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -20,5 +21,5 @@ module.exports = {
             }
         });
     },
-    down: queryInterface => queryInterface.dropTable("roles_groups")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.RolesGroup)
 };

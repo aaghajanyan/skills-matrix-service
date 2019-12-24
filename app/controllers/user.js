@@ -72,7 +72,7 @@ const signUp = async function(request, response) {
 
 const login = async function(request, response) {
     try {
-        const user = await userModel.findOne({ where: { email: request.body.email } });
+        const user = await User.findOneUser({ email: request.body.email });
         if(!user) {
             return response.status(400).json({
                 success: false,
@@ -97,13 +97,13 @@ const login = async function(request, response) {
             tokenSecret,
             { expiresIn: '1 d' }
         );
-        response.header('Authorization', token).json({
+        return response.header('Authorization', token).json({
             success: true,
             'token': token,
             'guid': user.guid
         });
     } catch (err) {
-        response.status(401).json({
+        return response.status(401).json({
             success: false,
             message: Messages.get('Users.errors.unauthorized')
         });

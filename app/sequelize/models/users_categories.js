@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = (sequelize, DataTypes) => {
     const UserCategory = sequelize.define(
-        "users_categories",
+        Constants.ModelNames.UsersCategories,
         {
             guid: {
                 type: DataTypes.UUID,

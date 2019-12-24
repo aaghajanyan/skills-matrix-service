@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("users", {
+        return queryInterface.createTable(Constants.TableNames.Users, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -52,11 +54,11 @@ module.exports = {
             roleGroupId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "roles_groups",
-                    key: "id",
-                    as: "roleGroupId"
+                    model: Constants.TableNames.RolesGroup,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.roleGroupId
                 }
             },
             position: {
@@ -84,5 +86,5 @@ module.exports = {
             }
         });
     },
-    down: queryInterface => queryInterface.dropTable("users")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Users)
 };

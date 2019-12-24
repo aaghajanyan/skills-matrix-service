@@ -1,24 +1,25 @@
 const DefaultUsers = require("../utils/DefaultUsers");
 const DefaultRoles = require("../utils/DefaultRoles");
+const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
-        "user",
+        Constants.ModelNames.User,
         {
             email: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter email address"
+                    msg: Constants.ModelErrors.EmailMissing
                 },
                 unique: {
                     args: true,
-                    msg: "Email already exists"
+                    msg: Constants.ModelErrors.EmailAlreadyExists
                 },
                 validate: {
                     isEmail: {
                         args: true,
-                        msg: "Please enter a valid email address"
+                        msg: Constants.ModelErrors.EmailAdressIsInvalid
                     }
                 }
             },
@@ -26,21 +27,21 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter a password"
+                    msg: Constants.ModelErrors.PasswordMissing
                 },
             },
             fname: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter a firstname."
+                    msg: Constants.ModelErrors.FirstnameMissing
                 },
             },
             lname: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter a lastname."
+                    msg: Constants.ModelErrors.LastnameMissing
                 },
             },
             branchName: {
@@ -52,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
                 ],
                 allowNull: {
                     args: false,
-                    msg: "Please choose your branch"
+                    msg: Constants.ModelErrors.BranchMissing
                 }
             },
             guid: {
@@ -71,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: {
                     args: false,
-                    msg: "Please enter started to work date."
+                    msg: Constants.ModelErrors.StartedToWorkMissing
                 },
             },
             roleGroupId: {
@@ -102,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
                 ],
                 allowNull: {
                     args: false,
-                    msg: "Please choose your position"
+                    msg: Constants.ModelErrors.PositionMissing
                 }
             }
         },
@@ -112,19 +113,19 @@ module.exports = (sequelize, DataTypes) => {
     );
     User.associate = models => {
         User.belongsTo(models.roles_groups, {
-            as: "roleGroup",
-            foreignKey: "roleGroupId",
-            targetkey: 'id'
+            as: Constants.Associate.Aliases.roleGroup,
+            foreignKey: Constants.Migrations.roleGroupId,
+            targetkey: Constants.Migrations.id,
         }),
         User.belongsToMany(models.skill, {
-            through: "users_skills",
-            foreignKey: "userId",
-            as: "skills"
+            through: Constants.TableNames.UsersSkills,
+            foreignKey: Constants.Migrations.userId,
+            as: Constants.Associate.Aliases.skills,
         }),
         User.belongsToMany(models.category, {
-            through: "users_categories",
-            foreignKey: "userId",
-            as: "categories"
+            through: Constants.TableNames.UsersCategories,
+            foreignKey: Constants.Migrations.userId,
+            as: Constants.Associate.Aliases.categories,
         });
     };
 

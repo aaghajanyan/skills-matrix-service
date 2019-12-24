@@ -1,16 +1,29 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    name: Joi.string().required(),
-    relatedCategoriesIds: Joi.array().items(Joi.string().uuid()).unique(),
-    skillsIds: Joi.array().items(Joi.string().uuid()).unique()
+    name: Joi.string()
+        .required(),
+    relatedCategoriesIds: Joi.array()
+        .items(Joi.string().uuid())
+        .unique(),
+    skillsIds: Joi.array()
+        .items(Joi.string().uuid())
+        .unique()
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
-    addedCategories: Joi.array().items(Joi.string().uuid()).unique(),
-    removedCategories: Joi.array().items(Joi.string().uuid()).unique(),
-    addedskills: Joi.array().items(Joi.string().uuid()).unique(),
-    removedSkills: Joi.array().items(Joi.string().uuid()).unique()
+    addedCategories: Joi.array()
+        .items(Joi.string().uuid())
+        .unique(),
+    removedCategories: Joi.array()
+        .items(Joi.string().uuid())
+        .unique(),
+    addedskills: Joi.array()
+        .items(Joi.string().uuid())
+        .unique(),
+    removedSkills: Joi.array()
+        .items(Joi.string().uuid())
+        .unique()
 });
 
 const validateAddBody = (request, response, next) => {

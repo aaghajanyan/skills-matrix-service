@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("users_skills", {
+        return queryInterface.createTable(Constants.TableNames.UsersSkills, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,21 +16,21 @@ module.exports = {
             userId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "users",
-                    key: "id",
-                    as: "userId"
+                    model: Constants.TableNames.Users,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.userId
                 }
             },
             skillId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "skills",
-                    key: "id",
-                    as: "skillId"
+                    model: Constants.TableNames.Skills,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.skillId
                 }
             },
             experience: {
@@ -40,12 +42,12 @@ module.exports = {
                 type: Sequelize.INTEGER
             }
         }).then(() => queryInterface.addConstraint(
-            'users_skills',
-            ['userId', 'skillId'],
+            Constants.TableNames.UsersSkills,
+            [Constants.Migrations.userId, Constants.Migrations.skillId],
             {
-                type: 'unique',
-                name: 'uniqueUserSkill'
-            }));;
+                type: Constants.Migrations.unique,
+                name: Constants.Migrations.UserSkill.uniqueUserSkill
+            }));
     },
-    down: queryInterface => queryInterface.dropTable("users_skills")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.UsersSkills)
 };

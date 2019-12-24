@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("history", {
+        return queryInterface.createTable(Constants.TableNames.History, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,11 +16,11 @@ module.exports = {
             userSkillId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "users_skills",
-                    key: "id",
-                    as: "userSkillId"
+                    model: Constants.TableNames.UsersSkills,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.History.userSkillId
                 }
             },
             mark: {
@@ -31,5 +33,5 @@ module.exports = {
             }
         });
     },
-    down: queryInterface => queryInterface.dropTable("history")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.History)
 };

@@ -17,12 +17,6 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
         // "or"
     ]),
     items: Joi.object().keys({
-        // name: Joi.string(),
-        // branchName: Joi.string().valid([
-        //     "Vanadzor",
-        //     "Erevan",
-        //     "Goris"
-        // ]),
         name: Joi.string().valid([
             "Beginner SW Engineer",
             "SW Engineer",

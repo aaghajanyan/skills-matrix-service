@@ -123,6 +123,23 @@ class Skill {
         }
     }
 
+    static async findOneSkill(condition) {
+        const skill =  await skillModel.findOne({where : { ...condition } });
+        return skill;
+    }
+
+    static async updateSkill(data, condition) {
+        await skillModel.update(data, { where: { ...condition } });
+    }
+
+    static async findOrCreateSkill(condition) {
+        const skill = await skillModel.findOrCreate({ where: { ...condition } });
+        return {
+            skill: skill[0],
+            isNewRecord: skill[1]
+        }
+    }
+
     static async getStatus(sendedList, keyName) {
         let status = false;
         sendedList[keyName].forEach((item) => {

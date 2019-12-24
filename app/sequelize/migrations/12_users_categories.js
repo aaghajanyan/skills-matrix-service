@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("users_categories", {
+        return queryInterface.createTable(Constants.TableNames.UsersCategories, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,21 +16,21 @@ module.exports = {
             userId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "users",
-                    key: "id",
-                    as: "userId"
+                    model: Constants.TableNames.Users,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.userId
                 }
             },
             categoryId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "categories",
-                    key: "id",
-                    as: "categoryId"
+                    model: Constants.TableNames.Categories,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.categoryId
                 }
             },
             experience: {
@@ -40,12 +42,12 @@ module.exports = {
                 type: Sequelize.INTEGER
             }
         }).then(() => queryInterface.addConstraint(
-            'users_categories',
-            ['userId', 'categoryId'],
+            Constants.TableNames.UsersCategories,
+            [Constants.Migrations.userId, Constants.Migrations.categoryId],
             {
-                type: 'unique',
-                name: 'uniqueUserCategory'
-            }));;
+                type: Constants.Migrations.unique,
+                name: Constants.Migrations.UsersCategories.uniqueUserCategory
+            }));
     },
-    down: queryInterface => queryInterface.dropTable("users_categories")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.UsersCategories)
 };

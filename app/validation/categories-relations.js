@@ -6,7 +6,6 @@ const addBodySchema = Joi.object().keys({
         .required(),
     relatedCategoryId: Joi.number()
         .integer()
-        .disallow(Joi.ref("categoryId"))
         .required()
 });
 const updateBodySchema = Joi.object().keys({

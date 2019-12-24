@@ -6,6 +6,29 @@ const {
 } = require("../sequelize/models");
 
 class Category {
+
+    static async findAllCategories() {
+        const categories = await categoryModel.findAll();
+        return categories;
+    }
+
+    static async findOneCategory(condition) {
+        const category =  await categoryModel.findOne({where : { ...condition } });
+        return category;
+    }
+
+    static async updateCategory(data, condition) {
+        await categoryModel.update(data, { where: { ...condition } });
+    }
+
+    static async findOrCreateCategory(condition) {
+        const category = await categoryModel.findOrCreate({ where: { ...condition } });
+        return {
+            category: category[0],
+            isNewRecord: category[1]
+        }
+    }
+
     static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
         sendedList.addedCategories = [];
         if (relatedCategoriesIds && relatedCategoriesIds.length) {
@@ -35,6 +58,16 @@ class Category {
             });
         }
     }
+
+    static async mergeRelatedCategories(categories) {
+        categories.forEach(category => {
+            category.relatedCategories = category.relatedCategories.concat(
+                category.relatedCategoriesRef
+            );
+            delete category.relatedCategoriesRef;
+        });
+        return categories;
+    };
 
     static async removeRelatedCategories(removedCategories, category, sendedList) {
         sendedList.removedCategories = [];

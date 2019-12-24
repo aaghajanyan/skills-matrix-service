@@ -1,17 +1,35 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    userGuid: Joi.string().uuid().required(),
-    categoryGuid: Joi.string().uuid().required(),
-    experience: Joi.number().integer().required(),
-    profficience: Joi.number().integer().min(0). max(5),
+    userGuid: Joi.string()
+    .uuid()
+    .required(),
+    categoryGuid: Joi.string()
+        .uuid()
+        .required(),
+    experience: Joi.number()
+        .integer()
+        .required(),
+    profficience: Joi.number()
+        .integer()
+        .min(0)
+        .max(5),
 });
 
 const updateBodySchema = Joi.object().keys({
-    userGuid: Joi.string().uuid().required(),
-    categoryGuid: Joi.string().uuid().required(),
-    experience: Joi.number().integer().required(),
-    profficience: Joi.number().integer().min(0). max(5),
+    userGuid: Joi.string()
+        .uuid()
+        .required(),
+    categoryGuid: Joi.string()
+        .uuid()
+        .required(),
+    experience: Joi.number()
+        .integer()
+        .required(),
+    profficience: Joi.number()
+        .integer()
+        .min(0)
+        .max(5),
 });
 
 const validateAddBody = (request, response, next) => {

@@ -1,13 +1,21 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    name: Joi.string().required(),
-    categoriesId: Joi.array().items(Joi.string().uuid()).unique().required()
+    name: Joi.string()
+        .required(),
+    categoriesId: Joi.array()
+        .items(Joi.string().uuid())
+        .unique()
+        .required()
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
-    addCategories: Joi.array().items(Joi.string().uuid()).unique(),
-    deleteCategories: Joi.array().items(Joi.string().uuid()).unique()
+    addCategories: Joi.array()
+        .items(Joi.string().uuid())
+        .unique(),
+    deleteCategories: Joi.array()
+        .items(Joi.string().uuid())
+        .unique()
 });
 
 const validateAddBody = (request, response, next) => {

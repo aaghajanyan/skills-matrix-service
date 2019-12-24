@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = (sequelize, DataTypes) => {
     const CategoryRelation = sequelize.define(
-        "categories_relation",
+        Constants.ModelNames.CategoriesRelation,
         {
             guid: {
                 type: DataTypes.UUID,
@@ -10,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: "Please enter category id"
+                    msg: Constants.ModelErrors.CategoryIdMissing
                 }
             },
             relatedCategoryId: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: "Please enter related category id"
+                    msg: Constants.ModelErrors.RelatedCategoryIdMissing
                 }
             }
         },

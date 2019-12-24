@@ -12,6 +12,12 @@ const {
 const bcrypt = require("bcrypt");
 
 class User {
+
+    static async findOneUser(condition) {
+        const user =  await userModel.findOne({where : { ...condition } });
+        return user;
+    }
+
     static async getByGuid(guid) {
         const user = await userModel.findOne({
             where: { guid: guid },

@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = (sequelize, DataTypes) => {
     const Invitation = sequelize.define(
-        "invitation",
+        Constants.ModelNames.Invitations,
         {
             id: {
                 primaryKey: true,
@@ -11,16 +13,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: "Please enter email address"
+                    msg: Constants.ModelErrors.EmailMissing
                 },
                 unique: {
                     args: true,
-                    msg: "Email already exists"
+                    msg: Constants.ModelErrors.EmailAlreadyExists
                 },
                 validate: {
                     isEmail: {
                         args: true,
-                        msg: "Please enter a valid email address"
+                        msg: Constants.ModelErrors.EmailAdressIsInvalid
                     }
                 }
             }

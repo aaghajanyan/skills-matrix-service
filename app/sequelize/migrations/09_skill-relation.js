@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("skills_relations", {
+        return queryInterface.createTable(Constants.TableNames.SkillsRelations, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,30 +16,30 @@ module.exports = {
             skillId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "skills",
-                    key: "id",
-                    as: "skillId"
+                    model: Constants.TableNames.Skills,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.skillId
                 }
             },
             categoryId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "categories",
-                    key: "id",
-                    as: "categoryId"
+                    model: Constants.TableNames.Categories,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.categoryId
                 }
             }
         }).then(() => queryInterface.addConstraint(
-            'skills_relations',
-            ['skillId', 'categoryId'],
+            Constants.TableNames.SkillsRelations,
+            [Constants.Migrations.skillId, Constants.Migrations.categoryId],
             {
-                type: 'unique',
-                name: 'uniqueSkillRel'
+                type: Constants.Migrations.unique,
+                name: Constants.Migrations.SkillRelation.uniqueSkillRel
             }));
     },
-    down: queryInterface => queryInterface.dropTable("skills_relations"),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.SkillsRelations),
 };

@@ -1,12 +1,18 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    skillId: Joi.number().integer().required(),
-    categoryId: Joi.number().integer().required(),
+    skillId: Joi.number()
+        .integer()
+        .required(),
+    categoryId: Joi.number()
+        .integer()
+        .required(),
     uniqueSkillRel: Joi.string()
 });
 const updateBodySchema = Joi.object().keys({
-    categoryId: Joi.number().integer().required()
+    categoryId: Joi.number()
+        .integer()
+        .required()
 });
 
 const validateAddBody = (request, response, next) => {

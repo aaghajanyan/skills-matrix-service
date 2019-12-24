@@ -1,7 +1,8 @@
-'use strict';
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('skills', {
+    return queryInterface.createTable(Constants.TableNames.Skills, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,5 +21,5 @@ module.exports = {
       }
     });
   },
-  down: queryInterface => queryInterface.dropTable("skills")
+  down: queryInterface => queryInterface.dropTable(Constants.TableNames.Skills)
 };

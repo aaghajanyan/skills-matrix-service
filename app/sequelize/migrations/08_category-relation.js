@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("categories_relations", {
+        return queryInterface.createTable(Constants.TableNames.CategoriesRelations, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,24 +16,24 @@ module.exports = {
             categoryId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "categories",
-                    key: "id",
-                    as: "categoryId"
+                    model: Constants.TableNames.Categories,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.categoryId
                 }
             },
             relatedCategoryId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "categories",
-                    key: "id",
-                    as: "relatedCategoryId"
+                    model: Constants.TableNames.Categories,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.CategoryRelation.relatedCategoryId
                 }
             }
         });
     },
-    down: queryInterface => queryInterface.dropTable("categories_relations")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.CategoriesRelations)
 };

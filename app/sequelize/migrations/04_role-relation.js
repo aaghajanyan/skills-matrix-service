@@ -1,6 +1,8 @@
+const { Constants } = require("../../constants/Constants");
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("roles_relations", {
+        return queryInterface.createTable(Constants.TableNames.RolesRelation, {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
@@ -14,30 +16,30 @@ module.exports = {
             roleGroupId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "roles_groups",
-                    key: "id",
-                    as: "roleGroupId"
+                    model: Constants.TableNames.RolesGroup,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.roleGroupId
                 }
             },
             roleId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
-                onDelete: "CASCADE",
+                onDelete: Constants.CASCADE,
                 references: {
-                    model: "roles",
-                    key: "id",
-                    as: "roleId"
+                    model: Constants.TableNames.Roles,
+                    key: Constants.Migrations.id,
+                    as: Constants.Migrations.RoleRelation.roleId
                 }
             }
         }).then(() => queryInterface.addConstraint(
-            'roles_relations', 
-            ['roleId', 'roleGroupId'],
+            Constants.TableNames.RolesRelation,
+            [Constants.Migrations.RoleRelation.roleId, Constants.Migrations.roleGroupId],
             {
-                type: 'unique',
-                name: 'uniqueRoleRel'
+                type: Constants.Migrations.unique,
+                name: Constants.Migrations.RoleRelation.uniqueRoleRel
             }));
     },
-    down: queryInterface => queryInterface.dropTable("roles_relations")
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.RolesRelation)
 };
