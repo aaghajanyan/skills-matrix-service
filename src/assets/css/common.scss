@@ -1,0 +1,39 @@
+@use 'variables';
+
+.sm-button {
+    color: white;
+    border-radius: 10px;
+    background-color: variables.$primary-color !important;
+    border-color: variables.$primary-color !important;
+    box-shadow: variables.$shadow;
+    &:hover {
+        color: white;
+        background-color:  variables.$primary-color-hover !important;
+        border-color: variables.$primary-color-hover !important;
+    }
+}
+
+.sm-link {
+    & > span  {
+        font-size: initial;
+        text-decoration-line: underline;
+    }
+    color: variables.$primary-color !important;
+    &:hover {
+        color: variables.$primary-color-hover !important;
+    }
+}
+
+.sm-table {
+    table tr:hover td {
+        background-color: variables.$table-row-color-hover !important;
+    }
+    tr > th {
+        font-weight: 600;
+    }
+}
+
+.sm-spinner {
+    width: 100%;
+    margin-top: 10%;
+}

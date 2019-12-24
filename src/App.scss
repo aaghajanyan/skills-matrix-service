@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+@import "./assets/css/common.scss";
 @import "./assets/css/SMPageLoggedOut.scss";
 @import "./assets/css/SMPageLoggedIn.scss";
 @import "./assets/css/Home.scss";
@@ -13,11 +14,8 @@
 @import "./assets/css/SMIconLink.scss";
 @import "./assets/css/SVG.scss";
 @import "./assets/css/FindEmployees.scss";
-@import "./assets/css/SMTable.scss";
-@import "./assets/css/SMButton.scss";
 @import "./assets/css/SMUserBar.scss";
 @import "./assets/css/SMEmployee.scss";
-@import "./assets/css/SMSpinner.scss";
 
 
 body::-webkit-scrollbar  {
