@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.NameMissing
+                    msg: Constants.ModelErrors.NAME_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.CategoryAlreadyExists
+                    msg: Constants.ModelErrors.CATEGORY_ALREADY_EXITS
                 }
             },
             guid: {

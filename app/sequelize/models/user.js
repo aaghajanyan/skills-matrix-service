@@ -10,16 +10,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.EmailMissing
+                    msg: Constants.ModelErrors.EMAIL_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.EmailAlreadyExists
+                    msg: Constants.ModelErrors.EMAIL_ALREADY_EXISTS
                 },
                 validate: {
                     isEmail: {
                         args: true,
-                        msg: Constants.ModelErrors.EmailAdressIsInvalid
+                        msg: Constants.ModelErrors.EMAIL_IS_INVALID
                     }
                 }
             },
@@ -27,21 +27,21 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.PasswordMissing
+                    msg: Constants.ModelErrors.PASSWORD_IS_MISSING
                 },
             },
             fname: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.FirstnameMissing
+                    msg: Constants.ModelErrors.FIRSTNAME_IS_MISSING
                 },
             },
             lname: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.LastnameMissing
+                    msg: Constants.ModelErrors.LASTNAME_IS_MISSING
                 },
             },
             branchName: {
@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
                 ],
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.BranchMissing
+                    msg: Constants.ModelErrors.BRANCH_IS_MISSING
                 }
             },
             guid: {
@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.StartedToWorkMissing
+                    msg: Constants.ModelErrors.STARTED_TO_WORK_DATE_IS_MISSING
                 },
             },
             roleGroupId: {
@@ -103,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
                 ],
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.PositionMissing
+                    msg: Constants.ModelErrors.POSITION_IS_MISSING
                 }
             }
         },

@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
                 values: rolesGroups,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.NameMissing
+                    msg: Constants.ModelErrors.NAME_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.RoleGroupAlreadyExists
+                    msg: Constants.ModelErrors.ROLE_GROUP_ALREADY_EXISTS
                 }
             },
             guid: {

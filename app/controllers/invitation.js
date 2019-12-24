@@ -1,3 +1,11 @@
+const { OK,
+    INTERNAL_SERVER_ERROR,
+    BAD_REQUEST,
+    NOT_FOUND,
+    CONFLICT,
+    NO_CONTENT,
+    UNAUTHORIZED,
+    getStatusText } = require('http-status-codes');
 const {
     invitation: invitationModel,
     user: userModel
@@ -7,6 +15,8 @@ const tokenSecret = require('../../config/invitationSecretKey.json').token_secre
 const jwt = require('jsonwebtoken');
 const mailer = require('../mailSender/mailSender');
 const client = require('../../config/env-settings.json').client;
+const { Constants } = require('../constants/Constants');
+
 
 const checkInvitationInDB = async function(request, response) {
     try {
@@ -16,16 +26,16 @@ const checkInvitationInDB = async function(request, response) {
             where: { id: decodedToken.guid }
         });
         if (!invitation) {
-            return response.status(404).json({
+            return response.status(NOT_FOUND).json({
                 success: false,
-                message: Messages.get("Users.errors.invitation")
+                message: getStatusText(NOT_FOUND)
             });
         }
-        return response.status(204).send();
+        return response.status(NO_CONTENT).send();
     } catch (err) {
-        return response.status(401).json({
+        return response.status(UNAUTHORIZED).json({
             success: false,
-            message: "Unauthorized.Access denied."
+            message: getStatusText(UNAUTHORIZED)
         });
     }
 };
@@ -47,39 +57,41 @@ const addInvitation = async function(request, response) {
                         createdDate: Date().now
                     },
                     tokenSecret,
-                    { expiresIn: '30 m' }
+                    { expiresIn: Constants.INVITATION_TOKEN_EXPiRE_DATE }
                 );
                 try {
                     const expiration = new Date().setDate(new Date().getDate()+7);
-                    const host = `${client.protocol}${client.host}:${client.port}/registration/${token}`;
+                    const host = `${client.protocol}${client.host}:${client.port}${Constants.REGISTRATION_ENDPOINT}${token}`;
                     await mailer.invite(request.body.email, host, expiration);
                 } catch(err) {
-                    console.log(err);
                     currInvitation.destroy();
-                    return response.status(400).json({
+                    return response.status(BAD_REQUEST).json({
                         success: false,
-                        message: 'Could not send email.'
+                        message: getStatusText(BAD_REQUEST)
                     });
                 };
-                return response.status(200).json({
+                return response.status(OK).json({
                     success: true,
-                    'token': token,
+                    [Constants.TOKEN]: token,
                     guid: currInvitation.id
                 });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: 'Email already exists in users.'
+                    message: Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_USER_MODEL
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: 'Email already exists in invitations'
+                message: Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_INVITATION_MODEL
             });
         }
     } catch(error) {
-        return response.status(409).send('Error');
+        return response.status(INTERNAL_SERVER_ERROR).send({
+            success: false,
+            message: `${Constants.Controllers.Invitation.COULD_NOT_ADD_INVITATION} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+        });
     }
 }
 

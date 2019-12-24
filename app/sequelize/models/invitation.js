@@ -13,16 +13,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.EmailMissing
+                    msg: Constants.ModelErrors.EMAIL_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.EmailAlreadyExists
+                    msg: Constants.ModelErrors.EMAIL_ALREADY_EXISTS
                 },
                 validate: {
                     isEmail: {
                         args: true,
-                        msg: Constants.ModelErrors.EmailAdressIsInvalid
+                        msg: Constants.ModelErrors.EMAIL_IS_INVALID
                     }
                 }
             }

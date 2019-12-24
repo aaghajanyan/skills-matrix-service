@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.RoleGroupIdMissing
+                    msg: Constants.ModelErrors.ROLE_GROUP_ID_IS_MISSING
                 }
             },
             roleId: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.RoleIdMissing
+                    msg: Constants.ModelErrors.ROLE_ID_IS_MISSING
                 }
             }
         },

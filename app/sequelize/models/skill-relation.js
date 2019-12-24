@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.SkillIdMissing
+                    msg: Constants.ModelErrors.SKILL_ID_IS_MISSING
                 }
             },
             categoryId: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.CategoryIdMissing
+                    msg: Constants.ModelErrors.CATEGORY_ID_IS_MISSING
                 }
             }
         },

@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: "employee",
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.NameMissing
+                    msg: Constants.ModelErrors.NAME_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.RoleAlreadyExists
+                    msg: Constants.ModelErrors.ROLE_ALREADY_EXISTS
                 }
             },
             guid: {
