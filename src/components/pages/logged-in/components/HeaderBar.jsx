@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { SMButton } from '../../../common/SMButton/SMButton';
-import { SMDropdownMenu } from './SMDropdownMenu';
+import { SMButton } from '../../../common/SMButton';
+import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
 import { Input } from 'antd';
-import { SMIconLink } from '../../../common/SMIconLink/SMIconLink';
-import { Svg } from '../../../common/Svg';
-import { SvgIcons } from '../../../common/SvgIcons';
+import { SMIconLink } from 'components/common';
+import { SVG } from 'assets/svg/SVG';
+import { SVGIcons } from 'assets/svg/SVGIcons';
 import PropTypes from 'prop-types';
 import { SMUserBar } from './SMUserBar';
 
@@ -32,7 +32,7 @@ function HeaderBar(props) {
                 </SMButton>
 
                 <Input onChange={onChange} className='sider-container_search-btn'
-                    prefix={<Svg className='search-icon' name={'search'} svg={SvgIcons['search']} iconClickHandler={iconClickHandler} />}
+                    prefix={<SVG className='search-icon' name={'search'} svg={SVGIcons['search']} iconClickHandler={iconClickHandler} />}
                     placeholder="Search data" />
             </div>
 
@@ -43,7 +43,7 @@ function HeaderBar(props) {
                     lastName='Admin'
                     colorCode={15551}
                     size={'medium'} />
-                <SMDropdownMenu key="ant-dropdown-link" menu={props.menu} />
+                <DropdownMenu key="ant-dropdown-link" menu={props.menu} />
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import {Criteria} from 'components/pages/FindEmployees/Criteria';
 import {PeopleRow} from 'components/pages/FindEmployees/PeopleRow';
 import {UserDataView} from 'components/pages/FindEmployees/UserDataView/UserDataView';
 import { SMUserBar } from 'pages/logged-in/components';
-import { SMButton } from 'components/common/SMButton/SMButton';
+import { SMButton } from 'components/common';
 
 const { Option } = Select;
 

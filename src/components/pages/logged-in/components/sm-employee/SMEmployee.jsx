@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'client/lib/axiosWrapper';
 import { SMUserBar } from '../SMUserBar';
-import {SMSpinner} from 'components/common/SMSpinner/SMSpinner';
+import {SMSpinner} from 'components/common';
 
 import { Summary } from './Summary';
-import { SMTabs } from 'components/common/SMTabs/SMTabs';
+import { SMTabs } from 'components/common';
 import { Assessment } from './Assessment/Assessment';
 
 function SMEmployee(props) {

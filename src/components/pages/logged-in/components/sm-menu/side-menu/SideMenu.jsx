@@ -1,12 +1,13 @@
 
 import React from 'react';
-import { SMMenu } from '../SMMenu/SMMenu';
+import { SMMenu } from 'components/common';
 import { withRouter } from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { logOut } from 'client/lib/Auth.js';
+import {sideMenuItems} from './sideMenuItems'
 
-function SMSiderMenuInitial(props) {
+function SideMenuInitial(props) {
 
     const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container_collapsed-mode' :
         props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
@@ -29,7 +30,7 @@ function SMSiderMenuInitial(props) {
             mode={props.mode || ''}
             theme={props.theme || ''}
             className={classes}
-            items={props.items}
+            items={sideMenuItems}
             onSelect={handleSelect}
             selectedKeys={selectedKeys}
         >
@@ -37,7 +38,7 @@ function SMSiderMenuInitial(props) {
     );
 }
 
-SMSiderMenuInitial.propTypes = {
+SideMenuInitial.propTypes = {
     isCollapsed: PropTypes.bool,
     type: PropTypes.string.isRequired,
     mode: PropTypes.string,
@@ -52,6 +53,6 @@ SMSiderMenuInitial.propTypes = {
     }))
 };
 
-const SMSiderMenu = withRouter(SMSiderMenuInitial)
+const SideMenu = withRouter(SideMenuInitial)
 
-export { SMSiderMenu };
+export { SideMenu };

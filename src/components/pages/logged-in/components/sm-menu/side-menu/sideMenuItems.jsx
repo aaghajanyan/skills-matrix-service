@@ -1,4 +1,4 @@
-const siderMenuItems = [
+const sideMenuItems = [
     {
         key: "/",
         disabled: "false",
@@ -81,4 +81,4 @@ const siderMenuItems = [
     }
 ];
 
-export { siderMenuItems };
+export { sideMenuItems };

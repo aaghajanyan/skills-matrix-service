@@ -1,4 +1,4 @@
-const headerMenuItems = [
+const dropdownMenuItems = [
     {
         key: "settings",
         disabled: "false",
@@ -17,4 +17,4 @@ const headerMenuItems = [
     }
 ];
 
-export { headerMenuItems };
+export { dropdownMenuItems };

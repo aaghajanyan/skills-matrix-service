@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { SMIconLink } from '../SMIconLink/SMIconLink';
+import { SMIconLink } from './SMIconLink';
 import PropTypes from 'prop-types';
 
 function SMMenu(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SMTable } from 'components/common/SMTable/SMTable';
+import { SMTable } from 'components/common';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 library.add(fab)

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Svg } from '../Svg';
-import { SvgIcons } from '../SvgIcons';
+import { SVG } from 'assets/svg/SVG';
+import { SVGIcons } from 'assets/svg/SVGIcons';
 import classNames from 'classnames';
-import logo from '../../../assets/images/instigate.svg';
+import logo from 'assets/images/instigate.svg';
 import PropTypes from 'prop-types';
 
 function SMIconLink(props) {
@@ -19,9 +19,9 @@ function SMIconLink(props) {
                 {props.iconSrc && props.iconSrc==='sm' ?
                     <img src={logo} alt={props.title} />
                     : props.iconSrc ?
-                    <Svg name={props.iconSrc}
+                    <SVG name={props.iconSrc}
                         className={props.className}
-                        svg={SvgIcons[props.iconSrc]}
+                        svg={SVGIcons[props.iconSrc]}
                     /> : null }
                 {props.title && <span className={classes}> {props.title} </span>}
             </Link>

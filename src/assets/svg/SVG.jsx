@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-function Svg(props) {
+function SVG(props) {
     const classes = classnames(`svg-wrapper__${props.name}`, props.className);
     return (
         <div
@@ -13,11 +13,11 @@ function Svg(props) {
     );
 }
 
-Svg.propTypes = {
+SVG.propTypes = {
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
     svg: PropTypes.string.isRequired,
     iconClickHandler: PropTypes.func
 };
 
-export {Svg};
+export {SVG};

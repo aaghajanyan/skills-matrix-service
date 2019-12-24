@@ -1,7 +1,6 @@
-import { SMEmployee } from "./sm-employee/SMEmployee"
-import { EmployeesTable } from './EmployeesTable'
-import { HeaderBar } from './HeaderBar'
-import { SMDropdownMenu } from './SMDropdownMenu'
-import { SMUserBar } from './SMUserBar'
-
-export { SMEmployee, EmployeesTable, HeaderBar, SMDropdownMenu, SMUserBar }
+export { SMEmployee } from "./sm-employee/SMEmployee"
+export { EmployeesTable } from './EmployeesTable'
+export { HeaderBar } from './HeaderBar'
+export { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu'
+export { SMUserBar } from './SMUserBar'
+export { SideMenu } from './sm-menu/side-menu/SideMenu'

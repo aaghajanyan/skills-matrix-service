@@ -1,7 +1,7 @@
 import React from 'react';
 import { AddColumns } from 'components/pages/FindEmployees/UserDataView/AddColumns';
 import { AddDataInColumns } from 'components/pages/FindEmployees/UserDataView/AddDataInColumns';
-import { SMTable } from 'components/common/SMTable/SMTable';
+import { SMTable } from 'components/common';
 
 function UserDataView(props){
 
