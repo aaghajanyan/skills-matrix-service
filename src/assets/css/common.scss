@@ -33,7 +33,7 @@
         background-color: $sm-table-row-color-hover !important;
     }
     tr > th {
-        font-weight: 600;
+        font-weight: $sm-subheading-font-weight;
     }
 }
 
