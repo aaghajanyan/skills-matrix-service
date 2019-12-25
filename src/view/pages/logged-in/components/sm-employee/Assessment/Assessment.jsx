@@ -4,9 +4,9 @@ import { CategorySkills } from './CategorySkills';
 
 function Assessment() {
     return (
-        <div className="assessment-content">
-            <Categories className='skills-table'></Categories>
-            <CategorySkills className='skills-table'></CategorySkills>
+        <div>
+            <Categories className='sm-table sm-component'></Categories>
+            <CategorySkills className='sm-table sm-component'></CategorySkills>
         </div>
     );
 }

@@ -38,7 +38,6 @@ function HeaderBar(props) {
 
             <div className="sm-layout-container_header-bar-col-2">
                 <SMUserBar
-                    className='home_tabs-header-user-bar'
                     firstName='Admin'
                     lastName='Admin'
                     colorCode={15551}

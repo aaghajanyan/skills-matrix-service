@@ -20,9 +20,9 @@ function CategorySkills({ className }) {
       assesment: "5",
       date: "2018.07.25",
       categories: [
-        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>,
-        <Tag key='2' color="cyan" className='skills-categories-tags'>Scripting</Tag>,
-        <Tag key='3' color="orange" className='skills-categories-tags'>Back End</Tag>
+        <Tag key='1' color="volcano" className='sm-tag'>Front End</Tag>,
+        <Tag key='2' color="cyan" className='sm-tag'>Scripting</Tag>,
+        <Tag key='3' color="orange" className='sm-tag'>Back End</Tag>
       ]
     },
     {
@@ -32,7 +32,7 @@ function CategorySkills({ className }) {
       assesment: "2",
       date: "2017.06.14",
       categories: [
-        <Tag key='4' color="blue" className='skills-categories-tags'>Tools</Tag>
+        <Tag key='4' color="blue" className='sm-tag'>Tools</Tag>
       ]
     },
     {
@@ -42,7 +42,7 @@ function CategorySkills({ className }) {
       assesment: "5",
       date: "2018.07.25",
       categories: [
-        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>
+        <Tag key='1' color="volcano" className='sm-tag'>Front End</Tag>
       ]
     },
     {
@@ -52,7 +52,7 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "2018.06.15",
       categories: [
-        <Tag key='1' color="green" className='skills-categories-tags'>Mobile</Tag>
+        <Tag key='1' color="green" className='sm-tag'>Mobile</Tag>
       ]
     },
     {
@@ -62,7 +62,7 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "2017.06.14",
       categories: [
-        <Tag key='1' color="purple" className='skills-categories-tags'>Cloud</Tag>
+        <Tag key='1' color="purple" className='sm-tag'>Cloud</Tag>
       ]
     },
     {
@@ -72,8 +72,8 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "2017.04.29",
       categories: [
-        <Tag key='1' color="cyan" className='skills-categories-tags'>Scripting</Tag>,
-        <Tag key='2' color="orange" className='skills-categories-tags'>Back End</Tag>
+        <Tag key='1' color="cyan" className='sm-tag'>Scripting</Tag>,
+        <Tag key='2' color="orange" className='sm-tag'>Back End</Tag>
       ]
     },
     {
@@ -83,7 +83,7 @@ function CategorySkills({ className }) {
       assesment: "3",
       date: "2019.06.16",
       categories: [
-        <Tag key='1' color="volcano" className='skills-categories-tags'>Front End</Tag>
+        <Tag key='1' color="volcano" className='sm-tag'>Front End</Tag>
       ]
     },
 
@@ -160,7 +160,7 @@ function CategorySkills({ className }) {
   return (
     <div className={className}>
       <div className='skills-table-header'>
-        <h1>All Skills</h1>
+        <h1 className='sm-subheading' >All Skills</h1>
         <SMButton className='sm-button skills-table-add-skill-button'>
           Add Skill
         </SMButton>

@@ -145,12 +145,12 @@ function Summary(props) {
 
     return (
         <React.Fragment>
-            <SMChart className='summary_skills-chart' data={chartData} width={800} height={200} keys={chartKeys}></SMChart>
-            <div className='summary_skills-list-container' >
-                <SkillsList className='summary_skills-list' title='Top Skills' data={topSkills} />
-                <SkillsList className='summary_skills-list' title='Need To Improve' data={needToImprove} />
-                <SkillsList className='summary_skills-list' title='Top Interests' data={topInterests} />
-                <SkillsList className='summary_skills-list' title='People With Similar Skills' data={peopleWithSimilarSkills} isUsers={true} />
+            <SMChart className='sm-component' data={chartData} width={800} height={200} keys={chartKeys}></SMChart>
+            <div className='home_sm-component-container' >
+                <SkillsList className='sm-component' title='Top Skills' data={topSkills} />
+                <SkillsList className='sm-component' title='Need To Improve' data={needToImprove} />
+                <SkillsList className='sm-component' title='Top Interests' data={topInterests} />
+                <SkillsList className='sm-component' title='People With Similar Skills' data={peopleWithSimilarSkills} isUsers={true} />
             </div>
         </React.Fragment>
     )

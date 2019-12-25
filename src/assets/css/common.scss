@@ -1,39 +1,84 @@
-@use 'variables';
+@import 'variables';
 
-.sm-button {
-    color: white;
+.sm-content {
+    margin-bottom: $sm-components-distance;
+}
+
+.sm-button, .sm-button:active, .sm-button:focus {
+    color: $sm-light-color;
     border-radius: 10px;
-    background-color: variables.$primary-color !important;
-    border-color: variables.$primary-color !important;
-    box-shadow: variables.$shadow;
+    background-color: $sm-primary-color ;
+    border-color: $sm-primary-color ;
+    box-shadow: $sm-shadow;
     &:hover {
-        color: white;
-        background-color:  variables.$primary-color-hover !important;
-        border-color: variables.$primary-color-hover !important;
+        color: $sm-light-color;
+        background-color: $sm-primary-color-hover ;
+        border-color: $sm-primary-color-hover ;
     }
 }
 
-.sm-link {
+.sm-link, .sm-link:active, .sm-link:focus {
     & > span  {
         font-size: initial;
         text-decoration-line: underline;
     }
-    color: variables.$primary-color !important;
+    color: $sm-primary-color;
     &:hover {
-        color: variables.$primary-color-hover !important;
+        color: $sm-primary-color-hover;
     }
 }
 
 .sm-table {
     table tr:hover td {
-        background-color: variables.$table-row-color-hover !important;
+        background-color: $sm-table-row-color-hover !important;
     }
     tr > th {
         font-weight: 600;
     }
 }
 
+.sm-component {
+    background-color: $sm-light-color;
+    width: 99%;
+    padding: 20px;
+    margin-bottom: $sm-components-distance;
+    box-shadow: $sm-shadow;
+}
+
 .sm-spinner {
     width: 100%;
     margin-top: 10%;
+}
+
+.sm-subheading {
+    color: $sm-subheading-color;
+    font-weight: $sm-subheading-font-weight;
+}
+
+.sm-chart {
+    margin: auto;
+}
+
+.sm-tag {
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.sm-tabs {
+    .ant-tabs-tab {
+        color: $sm-subheading-color;
+        font-weight: 500;
+        font-size: large;
+    }
+    .ant-tabs-tab:hover {
+        color: $sm-subheading-color;
+    }
+
+    .ant-tabs-ink-bar {
+        background-color: $sm-primary-color;
+        height: 4px;
+    }
+    .ant-tabs-ink-bar:hover {
+        background-color: $sm-primary-color-hover;
+    }
 }

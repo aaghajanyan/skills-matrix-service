@@ -4,7 +4,7 @@ import { SMEmployee } from 'pages/logged-in/components'
 function Home() {
 
     return (
-        <div className='home-container'>
+        <div className='home-content sm-content'>
             <SMEmployee />
         </div>
     );

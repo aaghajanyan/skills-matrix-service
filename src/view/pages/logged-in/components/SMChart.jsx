@@ -10,7 +10,7 @@ function SMChart(props) {
   }
   return (
     <div className={props.className}>
-      <h1> Top Skills Categories</h1>
+      <h1 className='sm-subheading'> Top Skills Categories</h1>
       <BarChart
         margin={{
           // top: 20, right: 30, left: 20, bottom: 5,
@@ -18,6 +18,7 @@ function SMChart(props) {
         width={props.width}
         height={props.height}
         data={props.data}
+        className='sm-chart'
 
       >
         <CartesianGrid strokeDasharray="3 3" />

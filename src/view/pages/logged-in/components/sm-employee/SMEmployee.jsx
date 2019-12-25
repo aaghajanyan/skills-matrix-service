@@ -24,11 +24,12 @@ function SMEmployee(props) {
     return (
         <SMSpinner isLoading={!user} className='sm-spinner' size='large'>
             <SMTabs
+                className='sm-tabs'
                 defaultActiveKey='Summary'
                 renderTabBar={(tabBarProps, TabBar) => (
-                    <div className='home_tabs-header'>
+                    <div className='home_sm-tabs-container sm-component'>
                         <SMUserBar
-                            className='home_tabs-header-user-bar'
+                            className='sm-user'
                             firstName={user.fname}
                             lastName={user.lname}
                             colorCode={15551}
