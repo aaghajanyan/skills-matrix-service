@@ -18,7 +18,7 @@
         justify-content: space-between;
         width: $sm-component-width;
         .sm-component {
-            width: calc(50% - 10px);
+            width: calc(50% - #{$sm-components-distance} / 2);
         }
     }
 }

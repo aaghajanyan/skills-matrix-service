@@ -1,7 +1,7 @@
 @import 'variables';
 
 .sm-main-content {
-    min-height: calc(100vh - 64px - 64px);
+    min-height: calc(100vh - #{$sm-header-height} - #{$sm-footer-height});
 }
 
 .sm-content {
