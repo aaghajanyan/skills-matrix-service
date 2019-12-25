@@ -20,11 +20,15 @@
         background-color: $sm-primary-color-hover ;
         border-color: $sm-primary-color-hover ;
     }
+    & span {
+        font-size: medium;
+    }
 }
 
 .sm-link, .sm-link:active, .sm-link:focus {
     color: $sm-primary-color;
     & > span  {
+        font-size: medium;
         text-decoration-line: underline;
     }
     &:hover {
@@ -56,7 +60,7 @@
 }
 
 .sm-subheading {
-    color: $sm-subheading-color;
+    color: $sm-grey-color;
     font-weight: $sm-subheading-font-weight;
 }
 
@@ -71,12 +75,12 @@
 
 .sm-tabs {
     .ant-tabs-tab {
-        color: $sm-subheading-color;
+        color: $sm-grey-color;
         font-weight: 500;
         font-size: large;
     }
     .ant-tabs-tab:hover {
-        color: $sm-subheading-color;
+        color: $sm-grey-color;
     }
 
     .ant-tabs-ink-bar {
@@ -86,4 +90,30 @@
     .ant-tabs-ink-bar:hover {
         background-color: $sm-primary-color-hover;
     }
+}
+
+.sm-input {
+    border-radius: $sm-border-radius;
+    height: $sm-input-height;
+    box-shadow: $sm-shadow;
+    & > input {
+        border-radius: $sm-border-radius;
+        border: 0.5px solid $sm-grey-color; /* TODO */
+        padding-left: 60px !important;
+    }
+    & > span {
+        width: 36px;
+        border-right: 2px solid $sm-grey-color;
+    }
+    & > input::placeholder {
+        color: $sm-grey-color;
+        font-size: larger;
+    }
+}
+
+
+.sm-footer {
+    height: $sm-footer-height;
+    text-align: center;
+    background: transparent;
 }

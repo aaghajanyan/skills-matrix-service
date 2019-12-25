@@ -1,19 +1,10 @@
-#SMForm_submit {
-    height: 40px;
-    margin-left: 25%;
-    width: 50%;
-    & > span {
-        font-size: large;
+.login-form {
+    .sm-button {
+        height: 40px;
+        width: 50%;
+        margin-left: 25%;
     }
-}
-
-#SMForm_forgot-password {
-    float: right;
-}
-
-.sm-footer {
-    height: 64px;
-    margin-bottom: 0;
-    text-align: center;
-    background: transparent;
+    .sm-link {
+        float: right;
+    }
 }

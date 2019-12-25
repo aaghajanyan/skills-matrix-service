@@ -57,7 +57,7 @@ function LoginForm(props) {
                 />
             )}
             <SMForm
-                className="sm-form"
+                className="sm-form login-form"
                 items={[
                     SMInput({
                         className: 'sm-input',
@@ -92,14 +92,14 @@ function LoginForm(props) {
                 ]}
                 buttons={[
                     SMButton({
-                        className: 'login-forgot-password-btn sm-link',
+                        className: 'sm-link',
                         name: 'forgot-password',
                         type: 'link',
                         href: '#',
                         children: 'Forgot Password?',
                     }),
                     SMButton({
-                        className: 'login-submit-btn sm-button',
+                        className: 'sm-button',
                         name: 'submit',
                         type: 'primary',
                         htmlType: 'submit',
