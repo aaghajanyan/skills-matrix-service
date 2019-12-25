@@ -2,17 +2,9 @@ import React from 'react';
 import { Modal } from 'antd';
 import PropTypes, { element } from 'prop-types';
 
-function SMModal({className, title, visible, onOk, onCancel, footer, children }) {
+function SMModal(props) {
     return (
-        <Modal
-            title={title}
-            visible={visible}
-            onOk={onOk}
-            onCancel={onCancel}
-            footer={footer}
-        >
-            {children}
-        </Modal>
+        <Modal {...props}> {props.children} </Modal>
     )
 }
 

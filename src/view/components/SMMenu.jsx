@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function SMMenu(props) {
 
-    const renderFormItems = () => {
+    const renderMenuItems = () => {
         return props.items.map((item) => {
             return (
                 <Menu.Item
@@ -23,7 +23,7 @@ function SMMenu(props) {
 
     return(
         <Menu {...props} >
-            {renderFormItems()}
+            {renderMenuItems()}
         </Menu>
     );
 }
