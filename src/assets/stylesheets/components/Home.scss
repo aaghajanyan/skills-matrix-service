@@ -1,24 +1,5 @@
 @import '../variables';
 
 .home-content {
-    .home_sm-tabs-container {
-        display: flex;
-        align-items: center;
-        height: 80px;
-        justify-content: space-between;
-        .sm-user {
-            font-size: large;
-            font-weight: $sm-subheading-font-weight;
-            color: $sm-subheading-color;
-        }
-    }
-    .home_sm-component-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: $sm-component-width;
-        .sm-component {
-            width: calc(50% - #{$sm-components-distance} / 2);
-        }
-    }
+
 }

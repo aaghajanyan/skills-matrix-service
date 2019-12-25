@@ -161,7 +161,7 @@ function CategorySkills({ className }) {
     <div className={className}>
       <div className='skills-table-header'>
         <h3 className='sm-subheading' >All Skills</h3>
-        <SMButton className='sm-button skills-table-add-skill-button'>
+        <SMButton className='sm-button'>
           Add Skill
         </SMButton>
       </div>

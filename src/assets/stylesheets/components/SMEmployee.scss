@@ -1,9 +1,28 @@
-.skills-table-header {
-    display: flex;
-    justify-content: space-between;
+.sm-tabs {
+    .sm-tabs-header {
+        display: flex;
+        align-items: center;
+        height: 80px;
+        justify-content: space-between;
+        .sm-user {
+            font-size: large;
+            font-weight: $sm-subheading-font-weight;
+            color: $sm-subheading-color;
+        }
+    }
+    .sm-tabs_component-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: $sm-component-width;
+        .sm-component {
+            width: calc(50% - #{$sm-components-distance} / 2);
+        }
+    }
 }
 
 .skills-table-add-skill-button {
+    /* TODO: Remove */
     cursor: not-allowed;
     margin-bottom: 10px;
     opacity: 0.5;

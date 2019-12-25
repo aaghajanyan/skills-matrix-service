@@ -27,7 +27,7 @@ function SMEmployee(props) {
                 className='sm-tabs'
                 defaultActiveKey='Summary'
                 renderTabBar={(tabBarProps, TabBar) => (
-                    <div className='home_sm-tabs-container sm-component'>
+                    <div className='sm-tabs-header sm-component'>
                         <SMUserBar
                             className='sm-user'
                             firstName={user.fname}
