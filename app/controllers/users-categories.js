@@ -1,153 +1,214 @@
 const {
-    user: userModel,
-    category: categoryModel,
-    "users_categories": usersCategoriesModel
-} = require("../sequelize/models");
+    OK,
+    INTERNAL_SERVER_ERROR,
+    CONFLICT,
+    ACCEPTED,
+    CREATED,
+    getStatusText
+} = require("http-status-codes");
+const { Constants } = require("../constants/Constants");
+const User = require("../models/user");
+const Category = require("../models/category");
+const UserCategory = require("../models/users-categories");
 
 const getUsersCategories = async function(_, response) {
     try {
-        const usersCategories = await categoryModel.findAll();
-        response.status(200).json(usersCategories);
+        const usersCategories = await Category.findAll();
+        response.status(OK).json(usersCategories);
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get user categories`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
         });
     }
-
 };
 
 const getUserCategories = async function(request, response) {
     try {
-        const userCategories = await usersCategoriesModel.findOne({
-            where: { guid: request.params.userCategoryGuid }
+        const userCategories = await UserCategory.find({
+            guid: request.params.userCategoryGuid
         });
-        response.status(200).json(userCategories);
+        return response.status(OK).json(userCategories);
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get users categories`
-        });;
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
+        });
     }
 };
 
-const addUserCategory =  async function(request, response) {
+const addUserCategory = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
-
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const category = await categoryModel.findOne({
-                where: { guid: request.body.categoryGuid }
+            const category = await Category.find({
+                guid: request.body.categoryGuid
             });
             if (category) {
                 const obj = request.body;
                 obj.userId = user.id;
                 obj.categoryId = category.id;
-                const userCategory = await usersCategoriesModel.create(obj);
-                return response.status(201).json({ userCategory })
+                const userCategory = await UserCategory.create(obj);
+                return response.status(CREATED).json({ userCategory });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Category doesn't exist`
+                    message: `${getStatusText(
+                        INTERNAL_SERVER_ERROR
+                    )}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.CATEGORY
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `User doesn't exist`
+                message: `${getStatusText(
+                    INTERNAL_SERVER_ERROR
+                )}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not add user categories`
-        });;
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
+        });
     }
 };
 
-const updateUserCategory =  async function(request, response) {
+const updateUserCategory = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const category = await skillModel.findOne({
-                where: { guid: request.body.categoryGuid }
+            const category = await Category.find({
+                guid: request.body.categoryGuid
             });
             if (category) {
-                await usersCategoriesModel.update(request.body, {
-                    where: { userId: user.id, categoryId: category.id }
+                await UserCategory.update(request.body, {
+                    userId: user.id,
+                    categoryId: category.id
                 });
-                return response.status(202).end();
+                return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Category doesn't exist`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.CATEGORY
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `User doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not update user categories`
-        });;
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
+        });
     }
 };
 
-const deleteUserCategory =  async function(request, response) {
+const deleteUserCategory = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
+            const category = await Category.find({
+                guid: request.body.categoryGuid
             });
             if (category) {
-                await usersCategoriesModel.destroy({ where: { userId: user.id, categoryId: category.id } });
-                return response.status(202).end();
+                await UserCategory.delete({
+                    userId: user.id,
+                    categoryId: category.id
+                });
+                return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Could not delete item. Skill doesn't exist`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                        Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                    )}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `Could not delete item. User doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                    Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                )} ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not delete user category`
-        });;
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
+        });
     }
 };
 
-const deleteUserCategoryById =  async function(request, response) {
+const deleteUserCategoryById = async function(request, response) {
     try {
-        await usersCategoriesModel.destroy({ where: { id: request.params.userCategoryGuid } });
-        response.status(202).end();
-    } catch(err) {
+        await UserCategory.delete({ id: request.params.userCategoryGuid });
+        return response.status(ACCEPTED).end();
+    } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not delete user category`
-        });;
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+            )}`
+        });
     }
 };
 

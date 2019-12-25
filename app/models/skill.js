@@ -6,6 +6,21 @@ const {
 
 class Skill {
 
+    static async findAll() {
+        const skills = await skillModel.findAll();
+        return skills;
+    }
+
+    static async findByPk(pk) {
+        const skill =  await skillModel.findByPk(pk);
+        return skill;
+    }
+
+    static async find(condition) {
+        const skill =  await skillModel.findOne({where : { ...condition } });
+        return skill;
+    }
+
     static async getSkillAllData(guid) {
         const skill = await skillModel.findOne({
             where: {guid: guid},

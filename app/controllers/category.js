@@ -1,69 +1,107 @@
 const {
+    OK,
+    INTERNAL_SERVER_ERROR,
+    CONFLICT,
+    ACCEPTED,
+    getStatusText
+} = require("http-status-codes");
+const {
     category: categoryModel,
     skill: skillModel,
-    "categories_relation": categoryRelationModel,
-    "skills_relation": skillRelationModel
+    categories_relation: categoryRelationModel,
+    skills_relation: skillRelationModel
 } = require("../sequelize/models");
-
+const { Constants } = require("../constants/Constants");
 const Category = require("../models/category");
 
 const getCategories = async function(_, response) {
     try {
-        const categories = await Category.findAllCategories();
-        return response.status(200).json(categories);
-    } catch(err) {
-        return response.status(409).json({
+        const categories = await Category.findAll();
+        return response.status(OK).json(categories);
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Could not get categories.'
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
 const getCategory = async function(request, response) {
     try {
-        const category = await Category.findOneCategory({ guid: request.params.guid });
+        const category = await Category.find({ guid: request.params.guid });
         response.status(200).json(category);
-    } catch(err) {
-        return response.status(409).json({
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get category with ${request.params.guid} guid.`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
 const updateCategory = async function(request, response) {
     try {
-        await Category.updateCategory(request.body, { guid: request.params.guid });
-        response.status(202).json({success: true});
-    } catch(err) {
-        return response.status(400).json({
+        await Category.update(request.body, { guid: request.params.guid });
+        response.status(202).json({ success: true });
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not update category with ${request.params.guid} guid`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
 const deleteCategory = async function(request, response) {
     try {
-        const category = await Category.findOneCategory({ guid: request.params.guid });
+        const category = await Category.find({ guid: request.params.guid });
         if (!category) {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `Category with ${request.params.guid} guid does not exists`
+                message: Constants.notExists(
+                    Constants.Migrations.CATEGORY,
+                    request.params.guid,
+                    Constants.Migrations.id
+                )
             });
         }
         category.destroy();
-        response.status(202).json({success: true});
-    } catch(err) {
+        response.status(ACCEPTED).json({ success: true });
+    } catch (err) {
         return response.status(500).json({
             success: false,
-            message: `Could not delete category with ${request.params.guid} guid`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
-
 };
 
-const includeModel = (modelName, alians, required, attributes, through_modelName, through_alians, through_attributes) => {
+const includeModel = (
+    modelName,
+    alians,
+    required,
+    attributes,
+    through_modelName,
+    through_alians,
+    through_attributes
+) => {
     return {
         model: modelName,
         as: alians,
@@ -74,13 +112,12 @@ const includeModel = (modelName, alians, required, attributes, through_modelName
             as: through_alians,
             attributes: through_attributes
         }
-    }
-}
+    };
+};
 
 const getCategoriesAllData = async function(_, response) {
     try {
-        const categories = await categoryModel
-        .findAll({
+        const categories = await categoryModel.findAll({
             include: [
                 {
                     model: categoryModel,
@@ -92,7 +129,15 @@ const getCategoriesAllData = async function(_, response) {
                         as: "categoryRelation",
                         attributes: []
                     },
-                    include: includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                    include: includeModel(
+                        skillModel,
+                        "skills",
+                        false,
+                        ["id", "name"],
+                        skillRelationModel,
+                        "skillRelation",
+                        []
+                    )
                 },
                 {
                     model: categoryModel,
@@ -104,27 +149,51 @@ const getCategoriesAllData = async function(_, response) {
                         as: "categoryRelation",
                         attributes: []
                     },
-                    include: includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                    include: includeModel(
+                        skillModel,
+                        "skills",
+                        false,
+                        ["id", "name"],
+                        skillRelationModel,
+                        "skillRelation",
+                        []
+                    )
                 },
-                includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                includeModel(
+                    skillModel,
+                    "skills",
+                    false,
+                    ["id", "name"],
+                    skillRelationModel,
+                    "skillRelation",
+                    []
+                )
             ]
-        })
-        response.status(200).json(await Category.mergeRelatedCategories(
-            JSON.parse(JSON.stringify(categories))
-        ));
-    } catch(err) {
-        response.status(400).json({
+        });
+        response
+            .status(OK)
+            .json(
+                await Category.mergeRelatedCategories(
+                    JSON.parse(JSON.stringify(categories))
+                )
+            );
+    } catch (err) {
+        response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Could not get categories.'
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
 const getCategoryAllData = async function(request, response) {
     try {
-        const categories = await categoryModel
-        .findOne({
-            where: {guid: request.params.guid},
+        const categories = await categoryModel.findOne({
+            where: { guid: request.params.guid },
             include: [
                 {
                     model: categoryModel,
@@ -136,7 +205,15 @@ const getCategoryAllData = async function(request, response) {
                         as: "categoryRelation",
                         attributes: []
                     },
-                    include: includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                    include: includeModel(
+                        skillModel,
+                        "skills",
+                        false,
+                        ["id", "name"],
+                        skillRelationModel,
+                        "skillRelation",
+                        []
+                    )
                 },
                 {
                     model: categoryModel,
@@ -148,74 +225,146 @@ const getCategoryAllData = async function(request, response) {
                         as: "categoryRelation",
                         attributes: []
                     },
-                    include: includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                    include: includeModel(
+                        skillModel,
+                        "skills",
+                        false,
+                        ["id", "name"],
+                        skillRelationModel,
+                        "skillRelation",
+                        []
+                    )
                 },
-                includeModel(skillModel, 'skills', false, ['id', 'name'], skillRelationModel, 'skillRelation', [])
+                includeModel(
+                    skillModel,
+                    "skills",
+                    false,
+                    ["id", "name"],
+                    skillRelationModel,
+                    "skillRelation",
+                    []
+                )
             ]
         });
-        return response.status(200).json(categories);
-    } catch(err) {
-        return response.status(400).json({
+        return response.status(OK).json(categories);
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get category with ${request.params.guid} guid.`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
-const addCategory = async function (request, response) {
+const addCategory = async function(request, response) {
     try {
         const sendedList = [];
-        const { relatedCategoriesIds, skillsIds, ... categoryData } = request.body;
-        const { category, isNewRecord } = await Category.findOrCreateCategory({ name: categoryData.name });
-        if(!isNewRecord) {
-            response.status(409).json({success: false,
-                message: `${categoryData.name} category already exist`
+        const {
+            relatedCategoriesIds,
+            skillsIds,
+            ...categoryData
+        } = request.body;
+        const { category, isNewRecord } = await Category.findOrCreate({
+            name: categoryData.name
+        });
+        if (!isNewRecord) {
+            return response.status(CONFLICT).json({
+                success: false,
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
+                    Constants.Controllers.TypeNames.CATEGORY
+                )}`
             });
-            return;
         }
-        await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
+        await Category.addRelatedCategories(
+            relatedCategoriesIds,
+            category,
+            sendedList
+        );
         await Category.addSkills(skillsIds, category, sendedList);
         return response.status(201).json({
-            'name': category.name,
-            'guid': category.guid,
-            'addRelatedCategories': sendedList.addedCategories,
-            'addedSkills': sendedList.addedSkills
+            [Constants.Migrations.name]: category.name,
+            [Constants.Migrations.guid]: category.guid,
+            [Constants.Migrations.addRelatedCategories]:
+                sendedList.addedCategories,
+            [Constants.Migrations.addedSkills]: sendedList.addedSkills
         });
-    } catch(err) {
-        return response.status(400).json({
+    } catch (err) {
+        console.log(err);
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Could not add new category.'
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+            )}`
         });
     }
 };
 
-const updateCategoryAllData = async function (request, response) {
+const updateCategoryAllData = async function(request, response) {
     try {
         const sendedList = [];
-        const { addedCategories, removedCategories, addedskills, removedSkills, ...categoryData} = request.body;
-        const existingCategory = await Category.findOneCategory({ guid: request.params.guid });
+        const {
+            addedCategories,
+            removedCategories,
+            addedskills,
+            removedSkills,
+            ...categoryData
+        } = request.body;
+        const existingCategory = await Category.findOneCategory({
+            guid: request.params.guid
+        });
 
-        if(!existingCategory) {
-            return response.status(409).json({
+        if (!existingCategory) {
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `Category with ${request.params.guid} guid doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.notExists(
+                    Constants.Migrations.CATEGORY,
+                    request.params.guid,
+                    Constants.Migrations.id
+                )}`
             });
         }
-        await Category.updateCategory(categoryData, { guid: request.params.guid });
-        await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
-        await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList);
+        await Category.update(categoryData, { guid: request.params.guid });
+        await Category.addRelatedCategories(
+            addedCategories,
+            existingCategory,
+            sendedList
+        );
+        await Category.removeRelatedCategories(
+            removedCategories,
+            existingCategory,
+            sendedList
+        );
         await Category.addSkills(addedskills, existingCategory, sendedList);
-        await Category.removeSkills(removedSkills, existingCategory, sendedList);
+        await Category.removeSkills(
+            removedSkills,
+            existingCategory,
+            sendedList
+        );
         return response.status(201).json({
-            'addRelatedCategories': sendedList.addedCategories,
-            'removedRelatedCategories': sendedList.removedCategories,
-            'addedSkills': sendedList.addedSkills,
-            'removedSkills': sendedList.removedSkills
+            [Constants.Migrations.addRelatedCategories]:
+                sendedList.addedCategories,
+            [Constants.Migrations.removedRelatedCategories]:
+                sendedList.removedCategories,
+            [Constants.Migrations.addedSkills]: sendedList.addedSkills,
+            [Constants.Migrations.removedSkills]: sendedList.removedSkills
         });
-    } catch(err) {
-        return response.status(409).json({
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Category with ${request.body.name} name already exists`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
+                Constants.Controllers.TypeNames.CATEGORY
+            )}`
         });
     }
 };

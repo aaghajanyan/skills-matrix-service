@@ -1,58 +1,143 @@
 const {
+    OK,
+    INTERNAL_SERVER_ERROR,
+    ACCEPTED,
+    CONFLICT,
+    CREATED,
+    getStatusText
+} = require("http-status-codes");
+const {
     skill: skillModel,
     category: categoryModel,
-    "skills_relation": skillRelationModel
+    skills_relation: skillRelationModel
 } = require("../sequelize/models");
+const { Constants } = require("../constants/Constants");
+const Skill = require("../models/skill");
+const Category = require("../models/category");
+const SkillRelation = require("../models/skill-relation");
 
 const getSkillsRelations = async function(_, response) {
-    const skillsRelations = await skillRelationModel.findAll();
-    response.status(200).json(skillsRelations);
+    try {
+        const skillsRelations = await SkillRelation.findAll();
+        return response.status(OK).json(skillsRelations);
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
+            success: false,
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL_REL.toLowerCase()
+            )}`
+        });
+    }
 };
 
 const getSkillRelation = async function(request, response) {
-    const skillRelation = await skillRelationModel.findByPk(request.params.skillRelationId);
-    response.status(200).json(skillRelation);
+    try {
+        const skillRelation = await SkillRelation.findByPk(
+            request.params.skillRelationId
+        );
+        response.status(OK).json(skillRelation);
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
+            success: false,
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL_REL.toLowerCase()
+            )}`
+        });
+    }
 };
 
-const addSkillRelation =  async function(request, response) {
-    const category = await categoryModel.findByPk(request.body.categoryId);
-    if (category) {
-        const skill = await skillModel.findByPk(request.body.skillId);
-        if (skill) {
-            const skillRelation = await skillRelationModel.create(request.body);
-            response.status(201).json({ id: skillRelation.id })
+const addSkillRelation = async function(request, response) {
+    try {
+        const category = await Category.findByPk(request.body.categoryId);
+        if (category) {
+            const skill = await Skill.findByPk(request.body.skillId);
+            if (skill) {
+                const skillRelation = await SkillRelation.create(request.body);
+                response.status(CREATED).json({ id: skillRelation.id });
+            } else {
+                return response.status(CONFLICT).json({
+                    success: false,
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
+                });
+            }
         } else {
-            response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `Skill doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.CATEGORY
+                )}`
             });
         }
-    } else {
-        response.status(409).json({
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `Category doesn't exist`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.SKILL_REL
+            )}`
         });
     }
 };
 
-const updateSkillRelation =  async function(request, response) {
-    const category = await categoryModel.findByPk(request.body.categoryId);
-    if (category) {
-        await skillRelationModel.update(request.body, {
+const updateSkillRelation = async function(request, response) {
+    try {
+        const category = await Category.findByPk(request.body.categoryId);
+        if (category) {
+            await SkillRelation.update(request.body, {
+                id: request.params.skillRelationId
+            });
+            response.status(ACCEPTED).json({ success: true });
+        } else {
+            return response.status(CONFLICT).json({
+                success: false,
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.CATEGORY
+                )}`
+            });
+        }
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
+            success: false,
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.SKILL_REL.toLowerCase()
+            )}`
+        });
+    }
+};
+
+const deleteSkillRelation = async function(request, response) {
+    try {
+        await skillRelationModel.destroy({
             where: { id: request.params.skillRelationId }
         });
-        response.status(202).send();
-    } else {
-        response.status(409).json({
+        response.status(ACCEPTED).json({ success: true });
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `Category doesn't exist`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.SKILL_REL.toLowerCase()
+            )}`
         });
     }
-};
-
-const deleteSkillRelation =  async function(request, response) {
-    await skillRelationModel.destroy({ where: { id: request.params.skillRelationId } });
-    response.status(202).send();
 };
 
 module.exports = {

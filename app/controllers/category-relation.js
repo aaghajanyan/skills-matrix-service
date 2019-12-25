@@ -1,71 +1,163 @@
 const {
-    category: categoryModel,
-    "categories_relation": categoryRelationModel
-} = require("../sequelize/models");
+    OK,
+    INTERNAL_SERVER_ERROR,
+    ACCEPTED,
+    CONFLICT,
+    CREATED,
+    getStatusText
+} = require("http-status-codes");
+const { Constants } = require("../constants/Constants");
+const Category = require("../models/category");
+const CategoryRelation = require("../models/category-relation");
 
 const getCategoriesRelations = async function(_, response) {
-    const categoriesRelations = await categoryRelationModel.findAll();
-    if(categoriesRelations && categoriesRelations.length == 0) {
-        response.status(409).json({
+    try {
+        const categoriesRelations = await CategoryRelation.findAll();
+        if (categoriesRelations && categoriesRelations.length == 0) {
+            return response.status(CONFLICT).json({
+                success: false,
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.REL_CATEGORY
+                )}`
+            });
+        }
+        return response.status(OK).json(categoriesRelations);
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: 'Relation categories does not exist.'
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+            )}`
         });
-        return;
     }
-    response.status(200).json(categoriesRelations);
 };
 
 const getCategoryRelation = async function(request, response) {
-    const categoryRelation = await categoryRelationModel.findByPk(request.params.categoryRelationId)
-    if(!categoryRelation) {
-        response.status(409).json({
+    try {
+        const categoryRelation = await CategoryRelation.findByPk(
+            request.params.categoryRelationId
+        );
+        if (!categoryRelation) {
+            return response.status(CONFLICT).json({
+                success: false,
+                message: `${getStatusText(CONFLICT)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.REL_CATEGORY
+                    )}`
+            });
+        }
+        return response.status(OK).json(categoryRelation);
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: 'Relation category does not exist.'
+            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
+                ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                    Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                )}`
         });
-        return;
     }
-    response.status(200).json(categoryRelation);
 };
 
 const addCategoryRelation = async function(request, response) {
-    const category = await categoryModel.findByPk(request.body.categoryId);
-    if (category) {
-        const existingCategory = await categoryModel.findByPk(request.body.relatedCategoryId);
-        if (existingCategory) {
-            const categoryRelation = await categoryRelationModel.create(request.body);
-            response.status(201).json({ id: categoryRelation.id });
+    try {
+        const category = await Category.findByPk(request.body.categoryId);
+        if (category) {
+            const existingCategory = await Category.findByPk(
+                request.body.relatedCategoryId
+            );
+            if (existingCategory) {
+                const categoryRelation = await CategoryRelation.create(
+                    request.body
+                );
+                return response
+                    .status(CREATED)
+                    .json({ id: categoryRelation.id });
+            } else {
+                return response.status(CONFLICT).json({
+                    success: false,
+                    message: `${getStatusText(CONFLICT)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.REL_CATEGORY
+                    )}`
+                });
+            }
         } else {
-            response.status(409).json({
+            response.status(CONFLICT).json({
                 success: false,
-                message: 'Related category doesn\'t exist'
+                message: `${getStatusText(CONFLICT)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.REL_CATEGORY
+                    )}`
             });
         }
-    } else {
-        response.status(409).json({
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: 'Category doesn\'t exist'
+            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                    )}`
         });
     }
 };
 
 const updateCategoryRelation = async function(request, response) {
-    const category = await categoryModel.findByPk(request.body.relatedCategoryId);
-    if (category) {
-        await categoryRelationModel.update(request.body, {
-            where: { id: request.params.categoryRelationId }
-        });
-        response.status(202).send();
-    } else {
-        response.status(409).json({
+    try {
+        const category = await Category.findByPk(
+            request.body.relatedCategoryId
+        );
+        if (category) {
+            await CategoryRelation.update(request.body, {
+                id: request.params.categoryRelationId
+            });
+            return response.status(ACCEPTED).json({ success: true });
+        } else {
+            return response.status(CONFLICT).json({
+                success: false,
+                message: `${getStatusText(CONFLICT)}.
+                ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.REL_CATEGORY
+                )}`
+            });
+        }
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: 'Related category doesn\'t exist'
+            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                    )}`
         });
     }
 };
 
 const deleteCategoryRelation = async function(request, response) {
-    await categoryRelationModel.destroy({ where: { id: request.params.categoryRelationId } });
-    response.status(202).send();
+    try {
+        await CategoryRelation.delete({
+            id: request.params.categoryRelationId
+        });
+        return response.status(ACCEPTED).json({ success: true });
+    } catch (error) {
+        return response.status(INTERNAL_SERVER_ERROR).send({
+            success: false,
+            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
+                    ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                    )}`
+        });
+    }
 };
 
 module.exports = {

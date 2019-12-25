@@ -1,30 +1,29 @@
-const { OK,
+const {
+    OK,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
     NOT_FOUND,
     CONFLICT,
     NO_CONTENT,
     UNAUTHORIZED,
-    getStatusText } = require('http-status-codes');
-const {
-    invitation: invitationModel,
-    user: userModel
-} = require("../sequelize/models");
-const jwtDecode = require('jwt-decode');
-const tokenSecret = require('../../config/invitationSecretKey.json').token_secret;
-const jwt = require('jsonwebtoken');
-const mailer = require('../mailSender/mailSender');
-const client = require('../../config/env-settings.json').client;
-const { Constants } = require('../constants/Constants');
-
+    getStatusText
+} = require("http-status-codes");
+const jwtDecode = require("jwt-decode");
+const tokenSecret = require("../../config/invitationSecretKey.json")
+    .token_secret;
+const jwt = require("jsonwebtoken");
+const mailer = require("../mailSender/mailSender");
+const client = require("../../config/env-settings.json").client;
+const { Constants } = require("../constants/Constants");
+const Invitation = require("../models/invitation");
+const User = require("../models/user");
 
 const checkInvitationInDB = async function(request, response) {
     try {
         const token = await request.params.token;
         const decodedToken = await jwtDecode(token, tokenSecret);
-        const invitation = await invitationModel.findOne({
-            where: { id: decodedToken.guid }
-        });
+        const invitation = await Invitation.findByPk(decodedToken.guid);
+        // const invitation = await Invitation.find({ guid: decodedToken.guid });
         if (!invitation) {
             return response.status(NOT_FOUND).json({
                 success: false,
@@ -42,15 +41,11 @@ const checkInvitationInDB = async function(request, response) {
 
 const addInvitation = async function(request, response) {
     try {
-        const invitation = await invitationModel.findOne({
-            where: { email: request.body.email }
-        });
+        const invitation = await Invitation.find({ email: request.body.email });
         if (!invitation) {
-            const user = await userModel.findOne({
-                where: { email: request.body.email }
-            });
+            const user = await User.findOneUser({ email: request.body.email });
             if (!user) {
-                const currInvitation = await invitationModel.create(request.body);
+                const currInvitation = await Invitation.create(request.body);
                 const token = jwt.sign(
                     {
                         guid: currInvitation.id,
@@ -60,16 +55,22 @@ const addInvitation = async function(request, response) {
                     { expiresIn: Constants.INVITATION_TOKEN_EXPiRE_DATE }
                 );
                 try {
-                    const expiration = new Date().setDate(new Date().getDate()+7);
+                    const expiration = new Date().setDate(
+                        new Date().getDate() + 7
+                    );
                     const host = `${client.protocol}${client.host}:${client.port}${Constants.REGISTRATION_ENDPOINT}${token}`;
                     await mailer.invite(request.body.email, host, expiration);
-                } catch(err) {
+                } catch (error) {
+                    console.log("\n\n1 - ", error);
                     currInvitation.destroy();
-                    return response.status(BAD_REQUEST).json({
+                    return response.status(INTERNAL_SERVER_ERROR).json({
                         success: false,
-                        message: getStatusText(BAD_REQUEST)
+                        message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
+                            Constants.Controllers.Invitation
+                                .COULD_NOT_SEND_EMAIL
+                        }`
                     });
-                };
+                }
                 return response.status(OK).json({
                     success: true,
                     [Constants.TOKEN]: token,
@@ -78,22 +79,32 @@ const addInvitation = async function(request, response) {
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_USER_MODEL
+                    message:
+                        Constants.Controllers.Invitation
+                            .EMAIL_ALREADY_EXISTS_USER_MODEL
                 });
             }
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_INVITATION_MODEL
+                message:
+                    Constants.Controllers.Invitation
+                        .EMAIL_ALREADY_EXISTS_INVITATION_MODEL
             });
         }
-    } catch(error) {
+    } catch (error) {
+        console.log("\n\n2 - ", error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${Constants.Controllers.Invitation.COULD_NOT_ADD_INVITATION} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.INVITATION.toLowerCase()
+            )}`
         });
     }
-}
+};
 
 module.exports = {
     addInvitation,

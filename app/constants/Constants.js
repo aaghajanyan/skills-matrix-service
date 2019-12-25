@@ -3,9 +3,11 @@ const Constants = {
     TOKEN: 'token',
     CASCADE: 'CASCADE',
     LOGIN_TOKEN_EXPiRE_DATE: '1 d',
+    FORGOT_PASSWORD_TOKEN_EXPiRE_DATE: '1 d',
     INVITATION_TOKEN_EXPiRE_DATE: '7 d',
 
     REGISTRATION_ENDPOINT: '/registration/',
+    FORGOT_PASSWORD_ENDPOINT: '/forgot_password/change/',
     TableNames : {
         Users: 'users',
         Invitations: 'invitations',
@@ -48,8 +50,14 @@ const Constants = {
         guid: 'guid',
         addedCategories: 'addedCategories',
         removedCategories: 'removedCategories',
+        addRelatedCategories: 'addRelatedCategories',
+        removedRelatedCategories: 'removedRelatedCategories',
+        addedSkills: 'addedSkills',
+        removedSkills: 'removedSkills',
 
         SKILL: 'Skill',
+        CATEGORY: 'Category',
+
         RoleRelation: {
             id: 'id',
             roleId: 'roleId',
@@ -107,9 +115,28 @@ const Constants = {
         }
     },
     Controllers: {
+        ErrorMessages: {
+            COULD_NOT_GET: 'Could not get %s.',
+            COULD_NOT_ADD: 'Could not add %s.',
+            COULD_NOT_UPDATE: 'Could not update %s.',
+            COULD_NOT_DELETE: 'Could not delete %s.',
+            DOES_NOT_EXSTS: '%s does not exists.',
+            ALREADY_EXISTS: '%s already exists.',
+        },
+        TypeNames: {
+            USER: 'User',
+            INVITATION: 'Invitation',
+            SKILL: 'Skill',
+            CATEGORY: 'Category',
+            REL_CATEGORY: 'Related categories',
+            SKILL_REL: 'Skill Relation',
+            ROLE_GROUP: 'Role Group',
+            USER_CATEGORY: 'User categories',
+            USER_SKILL: 'User skill',
+        },
         Users: {
-            COULD_NOT_GET_USER: 'Could not get user.',
-            COULD_NOT_UPDATE_USER: 'Could not update user.',
+            // COULD_NOT_GET_USER: 'Could not get user.',
+            // COULD_NOT_UPDATE_USER: 'Could not update user.',
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
             COULD_NOT_LOGIN: 'Could not make login.',
             invitationId: 'invitationId',
@@ -118,20 +145,60 @@ const Constants = {
         Invitation: {
             EMAIL_ALREADY_EXISTS_USER_MODEL: 'Email already exists in users.',
             EMAIL_ALREADY_EXISTS_INVITATION_MODEL: 'Email already exists in invitations',
-            COULD_NOT_ADD_INVITATION: 'Could not add new invitation.'
+            COULD_NOT_SEND_EMAIL: 'Could not send email',
+            // COULD_NOT_ADD_INVITATION: 'Could not add invitation.'
 
         },
         Skills: {
-            COULD_NOT_GET_SKILL: 'Could not get skill.',
-            COULD_NOT_UPDATE_SKILL: 'Could not update skill.',
-            COULD_NOT_ADD_SKILL: 'Could not add new skill.',
-            COULD_NOT_DELETE_SKILL: 'Could not delete skill.',
+            // COULD_NOT_GET_SKILL: 'Could not get skill.',
+            // COULD_NOT_UPDATE_SKILL: 'Could not update skill.',
+            // COULD_NOT_ADD_SKILL: 'Could not add new skill.',
+            // COULD_NOT_DELETE_SKILL: 'Could not delete skill.',
             SKILL_ALREADY_EXISTS: ' skill already exists.',
-        }
+        },
+        Categories: {
+            // COULD_NOT_GET_CATEGORY: 'Could not get category.',
+            // COULD_NOT_UPDATE_CATEGORY: 'Could not update category.',
+            // COULD_NOT_ADD_CATEGORY: 'Could not add new category.',
+            // COULD_NOT_DELETE_CATEGORY: 'Could not delete category.',
+            CATEGORY_ALREADY_EXISTS: ' category already exists.',
+        },
+        ForgotPassword: {
+            // USER_DOES_NOT_EXISTS: 'User does not exists.',
+            COULD_NOT_SEND_EMAIL: 'Could not send email.',
+            SENDED_MAIL_ADDRESS: 'Mail sended to %s email.',
+            COULD_NOT_CHANGE_PASSWORD: 'Could not change password.'
+        },
+        CategoryRelation: {
+            REL_CATEGORY_DOES_NOT_EXISTS: 'Related categories does not exists.',
+            CATEGORY_DOES_NOT_EXISTS: 'Category does not exists.',
+            // COULD_NOT_GET_REL_CATEGORY: 'Could not get related category.',
+        },
+        RolesGroup: {
+            COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %s guid.',
+            // COULD_NOT_GET_ROLES_GROUP: 'Could not get roles groups.',
+        },
+        SkillRelation: {
+            // COULD_NOT_GET_SKILL_REL: 'Could not get skill relation.',
+            // COULD_NOT_ADD_SKILL_REL: 'Could not add skill relation.',
+            // COULD_NOT_DELETE_SKILL_REL: 'Could not delete skill relation.',
+            // COULD_NOT_UPDATE_SKILL_REL: 'Could not update skill relation.',
+            // SKILL_DOES_NOT_EXISTS: 'Skill does not exists.',
+            // CATEGORYL_DOES_NOT_EXISTS: 'Category does not exists.',
+
+        },
     },
     notExists: function(type, param, paramName) {
         return `${type} with ${param} ${paramName} does not exists`;
-     }
+    },
+    couldNot: function(type, modelName) {
+        return `Could not ${type} ${modelName}`;
+    },
+    parse: function(str) {
+        let args = [].slice.call(arguments, 1),
+        i = 0;
+        return str.replace(/%s/g, () => args[i++]);
+    }
 
 }
 

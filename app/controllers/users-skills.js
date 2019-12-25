@@ -1,150 +1,201 @@
 const {
-    user: userModel,
-    skill: skillModel,
-    "users_skills": usersSkillsModel
-} = require("../sequelize/models");
+    OK,
+    INTERNAL_SERVER_ERROR,
+    CONFLICT,
+    ACCEPTED,
+    CREATED,
+    getStatusText
+} = require("http-status-codes");
+const { Constants } = require("../constants/Constants");
+const User = require("../models/user");
+const Skill = require("../models/skill");
+const UserSkill = require("../models/users-skills");
 
 const getUsersSkills = async function(_, response) {
     try {
-        const usersSkills = await usersSkillsModel.findAll();
-        response.status(200).json(usersSkills);
+        const usersSkills = await UserSkill.findAll();
+        return response.status(OK).json(usersSkills);
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get user skill`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
         });
     }
-
 };
 
 const getUserSkills = async function(request, response) {
     try {
-        const userSkills = await usersSkillsModel.findOne({
-            where: { guid: request.params.userSkillGuid }
+        const userSkills = await UserSkill.find({
+            guid: request.params.userSkillGuid
         });
-        response.status(200).json(userSkills);
+        response.status(OK).json(userSkills);
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get users skills`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const addUserSkill =  async function(request, response) {
+const addUserSkill = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
-
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
-            });
+            const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
                 const obj = request.body;
                 obj.userId = user.id;
                 obj.skillId = skill.id;
-                const userSkill = await usersSkillsModel.create(obj);
-                return response.status(201).json({ userSkill })
+                const userSkill = await UserSkill.create(obj);
+                return response.status(CREATED).json({ userSkill });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Skill doesn't exist`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `User doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
     } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not add user skill`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const updateUserSkill =  async function(request, response) {
+const updateUserSkill = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
-            });
+            const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
-                await usersSkillsModel.update(request.body, {
-                    where: { userId: user.id, skillId: skill.id }
+                await UserSkill.update(request.body, {
+                    userId: user.id,
+                    skillId: skill.id
                 });
-                return response.status(202).end();
+                return response.status(ACCEPTED).end();
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Skill doesn't exist`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `User doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not update user skill`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const deleteUserSkill =  async function(request, response) {
+const deleteUserSkill = async function(request, response) {
     try {
-        const user = await userModel.findOne({
-            where: { guid: request.body.userGuid }
-        });
+        const user = await User.findOneUser({ guid: request.body.userGuid });
         if (user) {
-            const skill = await skillModel.findOne({
-                where: { guid: request.body.skillGuid }
-            });
+            const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
-                await usersSkillsModel.destroy({ where: { userId: user.id, skillId: skill.id } });
-                return response.status(202).end();
+                await UserSkill.delete({ userId: user.id, skillId: skill.id });
+                return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(409).json({
+                return response.status(CONFLICT).json({
                     success: false,
-                    message: `Could not delete item. Skill doesn't exist`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                        Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                    )} ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
                 });
             }
         } else {
-            return response.status(409).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: `Could not delete item. User doesn't exist`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                    Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                )} ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.USER
+                )}`
             });
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        response.status(409).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not delete user skill`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const deleteUserSkillById =  async function(request, response) {
+const deleteUserSkillById = async function(request, response) {
     try {
-        await usersSkillsModel.destroy({ where: { id: request.params.userSkillGuid } });
-        response.status(202).end();
-    } catch(err) {
+        await UserSkill.delete({ id: request.params.userSkillGuid });
+        response.status(ACCEPTED).end();
+    } catch (err) {
         console.log(err);
-        response.status(409).end();
+        return response.status(INTERNAL_SERVER_ERROR).json({
+            success: false,
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+            )}`
+        });
     }
 };
 

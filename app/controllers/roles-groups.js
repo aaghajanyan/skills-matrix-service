@@ -1,33 +1,46 @@
 const {
-    "roles_groups": rolesGroupsModel
-} = require("../sequelize/models");
+    OK,
+    INTERNAL_SERVER_ERROR,
+    getStatusText
+} = require("http-status-codes");
+const { Constants } = require("../constants/Constants");
+const RoleGroup = require("../models/roles-groups");
 
-const getRoleGroup = async function(request, response) {
+const getRoleGroup = async function(requesfind, response) {
     try {
-        const roleGroup = await rolesGroupsModel.findOne({where: {guid: request.params.guid}});
-        response.status(200).json(roleGroup);
-    } catch(err) {
-        return response.status(409).json({
+        const roleGroup = await RoleGroup.find({ guid: request.params.guid });
+        return response.status(OK).json(roleGroup);
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get role group with ${request.params.guid} guid.`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.RolesGroup.COULD_NOT_GET_ROLE_GROUP_F,
+                request.params.guid
+            )}`
         });
     }
-}
+};
 
 const getRoleGroups = async function(request, response) {
     try {
-        const roleGroup = await rolesGroupsModel.findAll();
-        response.status(200).json(roleGroup);
-    } catch(err) {
-        return response.status(409).json({
+        const roleGroup = await RoleGroup.findAll();
+        response.status(OK).json(roleGroup);
+    } catch (err) {
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `Could not get roles groups.`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.ROLE_GROUP.toLowerCase()
+            )}`
         });
     }
-
-}
+};
 
 module.exports = {
     getRoleGroup,
     getRoleGroups
-}
+};

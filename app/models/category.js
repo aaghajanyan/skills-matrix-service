@@ -1,40 +1,54 @@
 const {
     category: categoryModel,
     skill: skillModel,
-    "categories_relation": categoryRelationModel,
-    "skills_relation": skillRelationModel
+    categories_relation: categoryRelationModel,
+    skills_relation: skillRelationModel
 } = require("../sequelize/models");
 
 class Category {
-
-    static async findAllCategories() {
+    static async findAll() {
         const categories = await categoryModel.findAll();
         return categories;
     }
 
-    static async findOneCategory(condition) {
-        const category =  await categoryModel.findOne({where : { ...condition } });
+    static async find(condition) {
+        const category = await categoryModel.findOne({
+            where: { ...condition }
+        });
         return category;
     }
 
-    static async updateCategory(data, condition) {
+    static async findByPk(pk) {
+        const category = await categoryModel.findByPk(pk);
+        return category;
+    }
+
+    static async update(data, condition) {
         await categoryModel.update(data, { where: { ...condition } });
     }
 
-    static async findOrCreateCategory(condition) {
-        const category = await categoryModel.findOrCreate({ where: { ...condition } });
+    static async findOrCreate(condition) {
+        const category = await categoryModel.findOrCreate({
+            where: { ...condition }
+        });
         return {
             category: category[0],
             isNewRecord: category[1]
-        }
+        };
     }
 
-    static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
+    static async addRelatedCategories(
+        relatedCategoriesIds,
+        category,
+        sendedList
+    ) {
         sendedList.addedCategories = [];
         if (relatedCategoriesIds && relatedCategoriesIds.length) {
-            const promise = relatedCategoriesIds.map(async function(categoryGuid) {
+            const promise = relatedCategoriesIds.map(async function(
+                categoryGuid
+            ) {
                 const relatedCategory = await categoryModel.findOne({
-                    where: {guid: categoryGuid}
+                    where: { guid: categoryGuid }
                 });
                 const obj = {
                     categoryGuid: category.guid,
@@ -53,7 +67,7 @@ class Category {
                 }
                 return obj;
             });
-            await Promise.all(promise).then((list) => {
+            await Promise.all(promise).then(list => {
                 sendedList.addedCategories.push(list);
             });
         }
@@ -67,20 +81,24 @@ class Category {
             delete category.relatedCategoriesRef;
         });
         return categories;
-    };
+    }
 
-    static async removeRelatedCategories(removedCategories, category, sendedList) {
+    static async removeRelatedCategories(
+        removedCategories,
+        category,
+        sendedList
+    ) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async function(categoryGuid) {
                 const relatedCategory = await categoryModel.findOne({
-                    where: {guid: categoryGuid}
+                    where: { guid: categoryGuid }
                 });
                 const obj = {
                     categoryGuid: category.guid,
                     relatedCategoryGuid: categoryGuid,
                     success: false
-                }
+                };
                 const categoryRelation = await categoryRelationModel.findOne({
                     where: {
                         categoryId: category.id,
@@ -93,8 +111,8 @@ class Category {
                     await categoryRelation.destroy();
                 }
                 return obj;
-            })
-            await Promise.all(promise).then((list) => {
+            });
+            await Promise.all(promise).then(list => {
                 sendedList.removedCategories.push(list);
             });
         }
@@ -110,7 +128,7 @@ class Category {
                     success: false
                 };
                 const existingSkill = await skillModel.findOne({
-                    where: {guid: skillGuid}
+                    where: { guid: skillGuid }
                 });
 
                 if (existingSkill) {
@@ -125,7 +143,7 @@ class Category {
                 return obj;
             });
 
-            await Promise.all(promise).then((list) => {
+            await Promise.all(promise).then(list => {
                 sendedList.addedSkills.push(list);
             });
         }
@@ -154,12 +172,11 @@ class Category {
                 return obj;
             });
 
-            await Promise.all(promise).then((list) => {
+            await Promise.all(promise).then(list => {
                 sendedList.removedSkills.push(list);
-            })
+            });
         }
     }
-
 }
 
 module.exports = Category;

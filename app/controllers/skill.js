@@ -1,38 +1,45 @@
-const { OK,
+const {
+    OK,
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    getStatusText } = require('http-status-codes');
-
-const {
-    skill: skillModel,
-    category: categoryModel,
-    "skills_relation": skillRelationModel
-} = require("../sequelize/models");
+    CREATED,
+    getStatusText
+} = require("http-status-codes");
 const Skill = require("../models/skill");
-const { Constants } = require('../constants/Constants');
+const { Constants } = require("../constants/Constants");
 
-
-const getSkills = async function (_, response) {
+const getSkills = async function(_, response) {
     try {
-        const skills = await skillModel.findAll();
+        const skills = await Skill.findAll();
         return response.status(OK).json(skills);
-    } catch(err) {
+    } catch (err) {
+        console.log(err);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_GET_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const getSkill = async function (request, response) {
+const getSkill = async function(request, response) {
     try {
-        const skill = await skillModel.findOne({where: {guid: request.params.guid}});
+        const skill = await Skill.find({ guid: request.params.guid });
         return response.status(OK).json(skill);
-    } catch(err) {
+    } catch (err) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_GET_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
@@ -41,10 +48,15 @@ const getSkillAllData = async function(request, response) {
     try {
         const skill = await Skill.getSkillAllData(request.params.guid);
         return response.status(OK).json(skill);
-    } catch(err) {
+    } catch (err) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_GET_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
@@ -53,105 +65,182 @@ const getSkillsAllData = async function(request, response) {
     try {
         const skills = await Skill.getSkillsAllData();
         return response.status(OK).json(skills);
-    } catch(err) {
+    } catch (err) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_GET_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const addSkill = async function (request, response) {
+const addSkill = async function(request, response) {
     const { categoriesId, ...skillData } = request.body;
     if (categoriesId && categoriesId.length > 0) {
         try {
-            const { skill, isNewRecord } = await Skill.findOrCreateSkill({name: skillData.name});
-            if(!isNewRecord) {
+            const { skill, isNewRecord } = await Skill.findOrCreateSkill({
+                name: skillData.name
+            });
+            if (!isNewRecord) {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)} ${skillData.name} ${Constants.Controllers.Skills.SKILL_ALREADY_EXISTS}`
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
+                        Constants.Controllers.TypeNames.SKILL
+                    )}`
                 });
             }
             const sendedList = [];
-            await Skill.addedNewCategories(categoriesId, skill, sendedList, true);
-            let status = await Skill.getStatus(sendedList, Constants.Migrations.addedCategories) ? CREATED : CONFLICT;
-            const u = 5;
-            ++u
+            await Skill.addedNewCategories(
+                categoriesId,
+                skill,
+                sendedList,
+                true
+            );
+            let status = (await Skill.getStatus(
+                sendedList,
+                Constants.Migrations.addedCategories
+            ))
+                ? CREATED
+                : CONFLICT;
+
+            if (status == CONFLICT && categoriesId.length == 1) {
+                skill.destroy();
+                return response.status(CONFLICT).json({
+                    success: false,
+                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                        Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                        Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                    )}`
+                });
+            }
+
             return response.status(status).json({
                 [Constants.Migrations.name]: skill.name,
                 [Constants.Migrations.guid]: skill.guid,
-                [Constants.Migrations.addedCategories]: sendedList.addedCategories,
+                [Constants.Migrations.addedCategories]:
+                    sendedList.addedCategories,
                 ...sendedList
             });
-        } catch(err) {
+        } catch (err) {
+            console.log(err);
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${Constants.Controllers.Skills.COULD_NOT_ADD_SKILL} ${getStatusText(CONFLICT)}`
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                    Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                )}`
             });
         }
     } else {
+        console.log(err);
+
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_ADD_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const updateSkillAllData = async function (request, response) {
+const updateSkillAllData = async function(request, response) {
     try {
         const { addCategories, deleteCategories, ...skillData } = request.body;
         const sendedList = [];
-        const existingSkill = await Skill.findOneSkill({guid: request.params.guid});
+        const existingSkill = await Skill.findOneSkill({
+            guid: request.params.guid
+        });
 
-        if(!existingSkill) {
+        if (!existingSkill) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(Constants.Migrations.SKILL, request.params.guid, Constants.Migrations.id)
+                message: Constants.notExists(
+                    Constants.Migrations.SKILL,
+                    request.params.guid,
+                    Constants.Migrations.id
+                )
             });
         }
-        await Skill.updateSkill(skillData, { guid: request.params.guid })
-        await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
-        await Skill.removeCategories(deleteCategories, sendedList, existingSkill);
+        await Skill.updateSkill(skillData, { guid: request.params.guid });
+        await Skill.addedNewCategories(
+            addCategories,
+            existingSkill,
+            sendedList,
+            false
+        );
+        await Skill.removeCategories(
+            deleteCategories,
+            sendedList,
+            existingSkill
+        );
         return response.status(201).json({
             [Constants.Migrations.addedCategories]: sendedList.addedCategories,
-            [Constants.Migrations.removedCategories]: sendedList.removedCategories,
+            [Constants.Migrations.removedCategories]:
+                sendedList.removedCategories
         });
-    } catch(err) {
-        console.log(err)
+    } catch (err) {
+        console.log(err);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_UPDATE_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const updateSkill = async function (request, response) {
+const updateSkill = async function(request, response) {
     try {
-        await Skill.updateSkill(request.body, {guid: request.params.guid});
-        return response.status(ACCEPTED).json({success: true});
-    } catch(err) {
+        await Skill.updateSkill(request.body, { guid: request.params.guid });
+        return response.status(ACCEPTED).json({ success: true });
+    } catch (err) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_UPDATE_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
 
-const deleteSkill = async function (request, response) {
+const deleteSkill = async function(request, response) {
     try {
         const skill = await Skill.findOneSkill({ guid: request.params.guid });
         if (!skill) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(Constants.Migrations.SKILL, request.params.guid, Constants.Migrations.id)
+                message: Constants.notExists(
+                    Constants.Migrations.SKILL,
+                    request.params.guid,
+                    Constants.Migrations.id
+                )
             });
         }
         skill.destroy();
-        return response.status(ACCEPTED).json({success: true});
-    } catch(err) {
+        return response.status(ACCEPTED).json({ success: true });
+    } catch (err) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.Controllers.Skills.COULD_NOT_DELETE_SKILL} ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
+                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+            )}`
         });
     }
 };
