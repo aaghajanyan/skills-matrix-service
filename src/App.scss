@@ -1,21 +1,22 @@
 @import '~antd/dist/antd.css';
-@import "./assets/css/common.scss";
-@import "./assets/css/SMPageLoggedOut.scss";
-@import "./assets/css/SMPageLoggedIn.scss";
-@import "./assets/css/Home.scss";
-@import "./assets/css/Employees.scss";
-@import "./assets/css/Register.scss";
-@import "./assets/css/Login.scss";
-@import "./assets/css/SideMenu.scss";
-@import "./assets/css/SMMenu.scss";
-@import "./assets/css/NotFound.scss";
-@import "./assets/css/HeaderBar.scss";
-@import "./assets/css/SMDropdownMenu.scss";
-@import "./assets/css/SMIconLink.scss";
-@import "./assets/css/SVG.scss";
-@import "./assets/css/FindEmployees.scss";
-@import "./assets/css/SMUserBar.scss";
-@import "./assets/css/SMEmployee.scss";
+@import "./assets/stylesheets/common.scss";
+
+@import "./assets/stylesheets/components/SMPageLoggedOut.scss";
+@import "./assets/stylesheets/components/SMPageLoggedIn.scss";
+@import "./assets/stylesheets/components/Home.scss";
+@import "./assets/stylesheets/components/Employees.scss";
+@import "./assets/stylesheets/components/Register.scss";
+@import "./assets/stylesheets/components/Login.scss";
+@import "./assets/stylesheets/components/SideMenu.scss";
+@import "./assets/stylesheets/components/SMMenu.scss";
+@import "./assets/stylesheets/components/NotFound.scss";
+@import "./assets/stylesheets/components/HeaderBar.scss";
+@import "./assets/stylesheets/components/SMDropdownMenu.scss";
+@import "./assets/stylesheets/components/SMIconLink.scss";
+@import "./assets/stylesheets/components/SVG.scss";
+@import "./assets/stylesheets/components/FindEmployees.scss";
+@import "./assets/stylesheets/components/SMUserBar.scss";
+@import "./assets/stylesheets/components/SMEmployee.scss";
 
 
 body::-webkit-scrollbar  {
