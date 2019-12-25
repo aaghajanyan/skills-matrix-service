@@ -75,17 +75,18 @@ function Employees(props) {
     }, [])
 
     return (
-        <div className="employees-content">
-            <SMButton
-                id='employees-modal-button'
-                className='sm-button'
-                onClick={openModal}
-                loading={loading}
-            >
-                Send invitation email
-            </SMButton>
+        <div className="employees-content sm-content">
+            <div className='employees_send-invitation-container'>
+                <SMButton
+                    className='sm-button'
+                    onClick={openModal}
+                    loading={loading}
+                >
+                    Send invitation email
+                </SMButton>
+            </div>
             <EmployeesTable
-                className='sm-table employees-table'
+                className='sm-table sm-component'
                 history={props.history}
                 loading={!users}
                 showHeader={true}
@@ -93,6 +94,7 @@ function Employees(props) {
                 pagination={false}
             >
             </EmployeesTable>
+
             <SMModal
                 className='add-employ-modal'
                 title="Send invitation email"

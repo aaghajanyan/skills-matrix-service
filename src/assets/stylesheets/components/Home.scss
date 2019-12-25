@@ -16,7 +16,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 99%;
+        width: $sm-component-width;
         .sm-component {
             width: calc(50% - 10px);
         }

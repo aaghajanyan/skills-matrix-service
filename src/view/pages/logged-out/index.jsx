@@ -21,7 +21,7 @@ function SMPageLoggedOut(props) {
             <Header className="sm-layout-header">
                 <span className="sm-header-title"> Instigate Mobile - Skills Matrix </span>
             </Header>
-            <Content className="sm-content">
+            <Content className="sm-main-content">
                 <Row className="sm-content-row" type="flex" justify="center">
                     <Col xs={22} sm={18} md={12} lg={10} xl={8} xxl={6}>
                         <div className="sm-form-container">

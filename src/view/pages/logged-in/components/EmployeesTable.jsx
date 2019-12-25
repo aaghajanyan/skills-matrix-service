@@ -36,7 +36,13 @@ function EmployeesTable(props) {
         onClick: () => props.history.push(`employees/${record.guid}`)
     })
 
-    return <SMTable columns={columns} onRow={onEmployeeSelect} {...props} />
+    return (
+        <div className={props.className}>
+            <h1 className='sm-subheading'> Employees </h1>
+
+            <SMTable columns={columns} onRow={onEmployeeSelect} {...props} className={null}/>
+        </div>
+    )
 }
 
 EmployeesTable.propTypes = {

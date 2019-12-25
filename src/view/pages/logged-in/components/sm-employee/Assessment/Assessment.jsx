@@ -4,10 +4,10 @@ import { CategorySkills } from './CategorySkills';
 
 function Assessment() {
     return (
-        <div>
+        <React.Fragment>
             <Categories className='sm-table sm-component'></Categories>
             <CategorySkills className='sm-table sm-component'></CategorySkills>
-        </div>
+        </React.Fragment>
     );
 }
 

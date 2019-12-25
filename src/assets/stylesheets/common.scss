@@ -1,15 +1,20 @@
 @import 'variables';
 
+.sm-main-content {
+    min-height: calc(100vh - 64px - 64px);
+}
+
 .sm-content {
-    margin-bottom: $sm-components-distance;
+    /* TODO */
 }
 
 .sm-button, .sm-button:active, .sm-button:focus {
     color: $sm-light-color;
-    border-radius: 10px;
+    border-radius: $sm-border-radius;
     background-color: $sm-primary-color ;
     border-color: $sm-primary-color ;
     box-shadow: $sm-shadow;
+    height: $sm-button-height;
     &:hover {
         color: $sm-light-color;
         background-color: $sm-primary-color-hover ;
@@ -18,11 +23,10 @@
 }
 
 .sm-link, .sm-link:active, .sm-link:focus {
+    color: $sm-primary-color;
     & > span  {
-        font-size: initial;
         text-decoration-line: underline;
     }
-    color: $sm-primary-color;
     &:hover {
         color: $sm-primary-color-hover;
     }
@@ -30,6 +34,8 @@
 
 .sm-table {
     table tr:hover td {
+        cursor: pointer;
+        transition: $sm-transition;
         background-color: $sm-table-row-color-hover !important;
     }
     tr > th {
@@ -39,15 +45,14 @@
 
 .sm-component {
     background-color: $sm-light-color;
-    width: 99%;
-    padding: 20px;
+    width: $sm-component-width;
+    padding: $sm-component-padding;
     margin-bottom: $sm-components-distance;
     box-shadow: $sm-shadow;
 }
 
 .sm-spinner {
-    width: 100%;
-    margin-top: 10%;
+    /* TODO */
 }
 
 .sm-subheading {
