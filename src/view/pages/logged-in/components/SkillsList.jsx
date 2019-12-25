@@ -27,7 +27,7 @@ function SkillsList({className, data, title, isUsers}) {
 
     return (
         <div className={className}>
-            <h1 className='sm-subheading' > {title} </h1>
+            <h3 className='sm-subheading' > {title} </h3>
             <List
                 itemLayout="horizontal"
                 dataSource={data}

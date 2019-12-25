@@ -160,7 +160,7 @@ function CategorySkills({ className }) {
   return (
     <div className={className}>
       <div className='skills-table-header'>
-        <h1 className='sm-subheading' >All Skills</h1>
+        <h3 className='sm-subheading' >All Skills</h3>
         <SMButton className='sm-button skills-table-add-skill-button'>
           Add Skill
         </SMButton>

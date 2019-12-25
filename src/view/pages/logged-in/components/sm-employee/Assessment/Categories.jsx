@@ -77,7 +77,7 @@ function Categories({ className }) {
 
   return (
     <div className={className}>
-      <h1 className='sm-subheading'>Categories</h1>
+      <h3 className='sm-subheading'>Categories</h3>
 
       <SMTable columns={columns} dataSource={items} pagination={false} ></SMTable>
     </div>

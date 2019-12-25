@@ -38,7 +38,7 @@ function EmployeesTable(props) {
 
     return (
         <div className={props.className}>
-            <h1 className='sm-subheading'> Employees </h1>
+            <h3 className='sm-subheading'> Employees </h3>
 
             <SMTable columns={columns} onRow={onEmployeeSelect} {...props} className={null}/>
         </div>

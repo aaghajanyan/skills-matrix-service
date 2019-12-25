@@ -10,7 +10,7 @@ function SMChart(props) {
   }
   return (
     <div className={props.className}>
-      <h1 className='sm-subheading'> Top Skills Categories</h1>
+      <h3 className='sm-subheading'> Top Skills Categories</h3>
       <BarChart
         margin={{
           // top: 20, right: 30, left: 20, bottom: 5,

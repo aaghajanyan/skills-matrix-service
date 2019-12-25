@@ -97,7 +97,11 @@ function Employees(props) {
 
             <SMModal
                 className='add-employ-modal'
-                title="Send invitation email"
+                title={
+                    <h3 className='sm-subheading'>
+                        Send invitation email
+                    </h3>
+                }
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}

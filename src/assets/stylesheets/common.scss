@@ -60,8 +60,9 @@
 }
 
 .sm-subheading {
-    color: $sm-grey-color;
+    color: $sm-subheading-color;
     font-weight: $sm-subheading-font-weight;
+    font-size: $sm-subheading-font-size;
 }
 
 .sm-chart {
@@ -75,12 +76,12 @@
 
 .sm-tabs {
     .ant-tabs-tab {
-        color: $sm-grey-color;
+        color: $sm-subheading-color;
         font-weight: 500;
         font-size: large;
     }
     .ant-tabs-tab:hover {
-        color: $sm-grey-color;
+        color: $sm-subheading-color;
     }
 
     .ant-tabs-ink-bar {
@@ -98,7 +99,7 @@
     box-shadow: $sm-shadow;
     & > input {
         border-radius: $sm-border-radius;
-        border: 0.5px solid $sm-grey-color; /* TODO */
+        border: 1px solid $sm-grey-color;
         padding-left: 60px !important;
     }
     & > span {
