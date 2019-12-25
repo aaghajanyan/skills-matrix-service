@@ -9,7 +9,10 @@ function SMModal(props) {
 }
 
 SMModal.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+    ]),
     visible: PropTypes.bool,
     onOk: PropTypes.func,
     onCancel: PropTypes.func,
