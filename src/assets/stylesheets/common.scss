@@ -154,3 +154,13 @@
     height: $sm-input-height;
     margin-top: 10%;
 }
+
+.sm-icon {
+    path {
+        fill: none;
+    }
+    width: 24px !important;
+    height: 24px;
+    stroke: $sm-grey-color;
+    stroke-width: 30;
+}

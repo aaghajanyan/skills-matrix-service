@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Alert } from 'antd';
-import { SMForm } from 'view/components';
-import { SMInput } from 'view/components';
-import { SMButton } from 'view/components';
+import { SMForm, SMInput, SMButton, SMIcon } from 'view/components';
 import { emailValidator, passwordValidator } from 'helpers/FormValidators';
 import { Redirect } from 'react-router-dom';
-import login_email_icon from 'assets/images/login_email_icon.svg';
-import login_password_icon from 'assets/images/login_password_icon.svg';
 import { login } from 'client/lib/Auth.js';
 
 function LoginForm(props) {
@@ -66,10 +62,10 @@ function LoginForm(props) {
                         placeholder: 'Email',
                         rules: emailRules.rules,
                         prefix: (
-                            <img
-                                className="sm-form-icon"
-                                src={login_email_icon}
-                                alt="email"
+                            <SMIcon
+                                className='sm-icon'
+                                iconType='fas'
+                                icon='envelope'
                             />
                         ),
                         autoComplete: 'username',
@@ -81,10 +77,10 @@ function LoginForm(props) {
                         placeholder: 'Password',
                         rules: passwordRules.rules,
                         prefix: (
-                            <img
-                                className="sm-form-icon"
-                                src={login_password_icon}
-                                alt="password"
+                            <SMIcon
+                                className='sm-icon'
+                                iconType='fas'
+                                icon='lock'
                             />
                         ),
                         autoComplete: 'new-password',
