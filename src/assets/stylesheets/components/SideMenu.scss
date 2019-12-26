@@ -1,33 +1,22 @@
 .sider-container {
     .sm-menu-container, .sm-menu-container_collapsed-mode {
-
-        height: 100%;
-        background-color: #266494;
-
+        background: none;
         .sm-menu-container_item {
             height: 50px;
             display: flex;
             padding-left: 25px !important;
-        }
-
-        .sm-menu-container_item:not(:first-child) {
             margin-left: 10px;
             border-radius: 10px;
             transition: all 0.5s;
             margin-bottom: 10px;
         }
 
-        .ant-menu-item-selected:first-child {
-            background: none;
-        }
-
-        .sm-menu-container_item:not(:first-child):hover {
+        .sm-menu-container_item:hover {
             border-radius: 10px;
             background-color: rgba(16, 39, 57, 0.27);
         }
 
-        .ant-menu-item-selected:not(:first-child),
-        .ant-menu-item-selected:not(:first-child):hover {
+        .ant-menu-item-selected, .ant-menu-item-selected:hover {
             background-color: rgba(16, 39, 57, 0.50);
         }
 
@@ -70,7 +59,7 @@
         width: 100px;
         transition: 5s;
 
-        .sm-menu-container_item:not(:first-child) {
+        .sm-menu-container_item {
             width: 80px;
         }
 
@@ -82,7 +71,7 @@
 
 .sider-container {
     .sm-menu-container {
-        .sm-menu-container_item:not(:first-child) {
+        .sm-menu-container_item {
             width: 280px;
         }
 

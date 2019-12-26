@@ -1,13 +1,5 @@
 const sideMenuItems = [
     {
-        key: "/",
-        disabled: "false",
-        title: "Skills Matrix",
-        href: "/",
-        className: "sm-menu-container_item sm-menu-container_home",
-        icon: 'sm'
-    },
-    {
         key: "home",
         disabled: "false",
         title: "My Profile",

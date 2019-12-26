@@ -188,3 +188,33 @@
     height: 20px;
     color: $sm-light-color;
 }
+
+
+
+
+.sm-sider > div {
+    background-color: $sm-primary-color;
+}
+
+.sm-logo-container {
+    height:$sm-header-height;
+    min-width: 300px;  /* TODO: make variable */
+    display: flex;
+    align-items: center;
+
+    .sm-logo-image {
+        height: 40px; /* TODO: make variable */
+        cursor: pointer;
+        margin-left: 30px;
+    }
+    h1 {
+        font-weight: bold;
+        font-size: x-large;
+        margin: 0 0 0 30px;
+        color: white;
+        transition: $sm-transition;
+    }
+    .collapsed {
+        opacity: 0;
+    }
+}

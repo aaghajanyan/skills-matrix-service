@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { SMButton } from '../../../components/SMButton';
-import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
-import { Input } from 'antd';
-import { SMIcon } from 'view/components';
 import PropTypes from 'prop-types';
+import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
+import { SMButton, SMInput, SMIcon } from 'view/components';
 import { SMUserBar } from './SMUserBar';
 
 function HeaderBar(props) {
@@ -13,10 +11,14 @@ function HeaderBar(props) {
     return (
         <div className={props.className}>
             <div className="sm-layout-container_header-bar-col-1">
-                <SMButton className='sider-container_collapse-btn' type="" onClick={() => {
-                    setIsCollapsed(!isCollapsed)
-                    props.collapseSideBar()
-                }}>
+                <SMButton
+                    className='sider-container_collapse-btn'
+                    type=""
+                    onClick={() => {
+                        setIsCollapsed(!isCollapsed)
+                        props.collapseSideBar()
+                    }}
+                    >
                     <div>
                         <SMIcon
                             icon={isCollapsed ? 'list' : 'ellipsis-v'}
@@ -25,10 +27,18 @@ function HeaderBar(props) {
                     </div>
                 </SMButton>
 
-                <Input
+                <SMInput
                     className='sider-container_search-btn'
-                    prefix={<SMIcon className='sm-icon-fill-grey' iconType='fas' icon='search' />}
-                    placeholder="Search data" />
+                    prefix={
+                        <SMIcon
+                            className='sm-icon-fill-grey'
+                            iconType='fas'
+                            icon='search'
+                        />
+                    }
+                    placeholder="Search data"
+                />
+
             </div>
 
             <div className="sm-layout-container_header-bar-col-2">
