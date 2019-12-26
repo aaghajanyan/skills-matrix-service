@@ -19,7 +19,7 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.UsersSkills,
-                    key: Constants.Migrations.id,
+                    key: Constants.Keys.id,
                     as: Constants.Migrations.History.userSkillId
                 }
             },

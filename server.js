@@ -2,6 +2,7 @@ const config = require("./config/env-settings.json");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const logger = require('./app/helper/logger');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use((error, req, res, next) => {
   })
 })
 let server = app.listen(config.node_port, () => {
-  console.log(`\n\nServer listening ${config.node_port} port...\n\n`);
+  logger.info(`Server listening ${config.node_port} port...`);
 });
 
 server.timeout = 60000;

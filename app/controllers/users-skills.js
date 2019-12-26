@@ -10,13 +10,14 @@ const { Constants } = require("../constants/Constants");
 const User = require("../models/user");
 const Skill = require("../models/skill");
 const UserSkill = require("../models/users-skills");
+const logger = require("../helper/logger");
 
 const getUsersSkills = async function(_, response) {
     try {
         const usersSkills = await UserSkill.findAll();
         return response.status(OK).json(usersSkills);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -34,10 +35,10 @@ const getUserSkills = async function(request, response) {
         const userSkills = await UserSkill.find({
             guid: request.params.userSkillGuid
         });
-        response.status(OK).json(userSkills);
-    } catch (err) {
-        console.log(err);
-        response.status(INTERNAL_SERVER_ERROR).json({
+        return response.status(OK).json(userSkills);
+    } catch (error) {
+        logger.error(error, '');
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
@@ -78,8 +79,8 @@ const addUserSkill = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -121,8 +122,8 @@ const updateUserSkill = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -167,8 +168,8 @@ const deleteUserSkill = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -185,8 +186,8 @@ const deleteUserSkillById = async function(request, response) {
     try {
         await UserSkill.delete({ id: request.params.userSkillGuid });
         response.status(ACCEPTED).end();
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

@@ -28,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         Skill.belongsToMany(models.category, {
             through: Constants.TableNames.SkillsRelations,
             as: Constants.Associate.Aliases.categories,
-            foreignKey: Constants.Migrations.skillId,
+            foreignKey: Constants.Keys.skillId,
         }),
         Skill.belongsToMany(models.user, {
             through: Constants.TableNames.UsersSkills,
             as: Constants.Associate.Aliases.skills,
-            foreignKey: Constants.Migrations.skillId
+            foreignKey: Constants.Keys.skillId
         });
     };
     return Skill;

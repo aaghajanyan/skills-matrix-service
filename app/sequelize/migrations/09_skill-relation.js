@@ -19,8 +19,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Skills,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.skillId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.skillId
                 }
             },
             categoryId: {
@@ -29,15 +29,15 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.categoryId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.categoryId
                 }
             }
         }).then(() => queryInterface.addConstraint(
             Constants.TableNames.SkillsRelations,
-            [Constants.Migrations.skillId, Constants.Migrations.categoryId],
+            [Constants.Keys.skillId, Constants.Keys.categoryId],
             {
-                type: Constants.Migrations.unique,
+                type: Constants.Keys.unique,
                 name: Constants.Migrations.SkillRelation.uniqueSkillRel
             }));
     },

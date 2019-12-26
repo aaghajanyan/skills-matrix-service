@@ -28,42 +28,42 @@ class User {
     static async getByGuid(guid) {
         const user = await userModel.findOne({
             where: { guid: guid },
-            attributes: { exclude: ["password", "roleGroupId"] },
+            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
             include: [
                 {
                     model: rolesGroupsModel,
-                    as: "roleGroup",
+                    as: Constants.Associate.Aliases.roleGroup,
                     required: false,
                     include: {
                         model: rolesModel,
-                        as: "roles",
-                        attributes: ["name"],
+                        as: Constants.Associate.Aliases.roles,
+                        attributes: [Constants.Keys.name],
                         required: false,
                         through: {
                             model: rolesRelationModel,
-                            as: "roleRelation",
+                            as: Constants.Associate.Aliases.roleRelation,
                             attributes: []
                         }
                     }
                 },
                 {
-                    attributes: { exclude: ["id"] },
+                    attributes: { exclude: [Constants.Keys.id] },
                     model: skillModel,
-                    as: "skills",
+                    as: Constants.Associate.Aliases.skills,
                     required: false,
                     through: {
                         model: userSkillsModel,
-                        as: "skillMark",
-                        attributes: ["experience", "profficience", "guid"]
+                        as: Constants.Associate.Aliases.skillMark,
+                        attributes: [Constants.Controllers.Search.EXPERIENCE, Constants.Controllers.Search.PROFFICIENCE, Constants.Keys.guid]
                     },
                     include: {
                         model: categoryModel,
-                        as: "categories",
-                        attributes: ["name", "guid"],
+                        as: Constants.Associate.Aliases.categories,
+                        attributes: [Constants.Keys.name, Constants.Keys.guid],
                         required: false,
                         through: {
                             model: skillsRelationModel,
-                            as: "skillsRelationModel",
+                            as: Constants.Associate.Aliases.skillsRelationModel,
                             attributes: []
                         }
                     }
@@ -71,12 +71,12 @@ class User {
                 {
                     // attributes: { exclude: ["id"] },
                     model: categoryModel,
-                    as: "categories",
+                    as: Constants.Associate.Aliases.categories,
                     required: false,
                     through: {
                         model: userCategoriesModel,
-                        as: "categoryMark",
-                        attributes: ["experience", "profficience", "guid"]
+                        as: Constants.Associate.Aliases.categoryMark,
+                        attributes: [Constants.Controllers.Search.EXPERIENCE, Constants.Controllers.Search.PROFFICIENCE, Constants.Keys.guid]
                     },
                 }
             ]
@@ -86,21 +86,21 @@ class User {
 
     static async getUsers() {
         const users = await userModel.findAll({
-            attributes: { exclude: ["id", "password", "roleGroupId"] },
+            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId] },
             include: [
                 {
-                    attributes: { exclude: ["id"] },
+                    attributes: { exclude: [Constants.Keys.id] },
                     model: rolesGroupsModel,
-                    as: "roleGroup",
+                    as: Constants.Associate.Aliases.roleGroup,
                     required: false,
                     include: {
                         model: rolesModel,
-                        as: "roles",
-                        attributes: ["name"],
+                        as: Constants.Associate.Aliases.roles,
+                        attributes: [Constants.Keys.name],
                         required: false,
                         through: {
                             model: rolesRelationModel,
-                            as: "roleRelation",
+                            as: Constants.Associate.Aliases.roleRelation,
                             attributes: []
                         }
                     }
@@ -108,21 +108,21 @@ class User {
                 {
                     // attributes: { exclude: ["id"] },
                     model: skillModel,
-                    as: "skills",
+                    as: Constants.Associate.Aliases.skills,
                     required: false,
                     through: {
                         model: userSkillsModel,
-                        as: "skillMark",
-                        attributes: ["experience", "profficience", "guid"]
+                        as: Constants.Associate.Aliases.skillMark,
+                        attributes: [Constants.Controllers.Search.EXPERIENCE, Constants.Controllers.Search.PROFFICIENCE, Constants.Keys.guid]
                     },
                     include: {
                         model: categoryModel,
-                        as: "categories",
-                        attributes: ["name", "guid"],
+                        as: Constants.Associate.Aliases.categories,
+                        attributes: [Constants.Keys.name, Constants.Keys.guid],
                         required: false,
                         through: {
                             model: skillsRelationModel,
-                            as: "skillsRelationModel",
+                            as: Constants.Associate.Aliases.skillsRelationModel,
                             attributes: []
                         }
                     }
@@ -130,12 +130,12 @@ class User {
                 {
                     // attributes: { exclude: ["id"] },
                     model: categoryModel,
-                    as: "categories",
+                    as: Constants.Associate.Aliases.categories,
                     required: false,
                     through: {
                         model: userCategoriesModel,
-                        as: "categoryMark",
-                        attributes: ["experience", "profficience", "guid"]
+                        as: Constants.Associate.Aliases.categoryMark,
+                        attributes: [Constants.Controllers.Search.EXPERIENCE, Constants.Controllers.Search.PROFFICIENCE, Constants.Keys.guid]
                     },
                 }
             ]
@@ -181,10 +181,10 @@ class User {
         const users = await userModel.findAll({
             where: usersCondition,
             required: userQueryCount > 0,
-            attributes: { exclude: [Constants.Migrations.password, Constants.Migrations.roleGroupId] },
+            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
             include: [
                 {
-                    // attributes: { exclude: [Constants.Migrations.id] },
+                    // attributes: { exclude: [Constants.Keys.id] },
                     model: skillModel,
                     as: Constants.Associate.Aliases.skills,
                     required: userSkillQueryCount > 0,
@@ -193,11 +193,11 @@ class User {
                         where: usersSkillsCondition,
                         required: userSkillQueryCount > 0,
                         as: Constants.Associate.Aliases.skillMark,
-                        attributes: { exclude: [Constants.Migrations.id] },
+                        attributes: { exclude: [Constants.Keys.id] },
                     }
                 },
                 {
-                    // attributes: { exclude: [Constants.Migrations.id] },
+                    // attributes: { exclude: [Constants.Keys.id] },
                     model: categoryModel,
                     as: Constants.Associate.Aliases.categories,
                     required: userCategoryQueryCount > 0,
@@ -206,7 +206,7 @@ class User {
                         where: usersCategoriesCondition,
                         required: userCategoryQueryCount > 0,
                         as: Constants.Associate.Aliases.categoryMark,
-                        attributes: { exclude: [Constants.Migrations.id] },
+                        attributes: { exclude: [Constants.Keys.id] },
                     }
                 }
             ]

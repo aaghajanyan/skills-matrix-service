@@ -19,8 +19,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Users,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.userId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.userId
                 }
             },
             categoryId: {
@@ -29,8 +29,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.categoryId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.categoryId
                 }
             },
             experience: {
@@ -43,9 +43,9 @@ module.exports = {
             }
         }).then(() => queryInterface.addConstraint(
             Constants.TableNames.UsersCategories,
-            [Constants.Migrations.userId, Constants.Migrations.categoryId],
+            [Constants.Keys.userId, Constants.Keys.categoryId],
             {
-                type: Constants.Migrations.unique,
+                type: Constants.Keys.unique,
                 name: Constants.Migrations.UsersCategories.uniqueUserCategory
             }));
     },

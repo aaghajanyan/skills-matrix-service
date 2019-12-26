@@ -46,7 +46,7 @@ const collectCondition = (items, opCondition) => {
 const changeKeyName = ( keyFromName, keyToName, receivedType, neededType, obj, $and, idsList) => {
     obj.map(item => {
         const keyName = Object.keys(item)[0];
-        if (keyName == Constants.Migrations.id && receivedType == neededType) {
+        if (keyName == Constants.Keys.id && receivedType == neededType) {
             item[keyToName] = item[keyFromName];
             delete item[keyFromName];
             idsList.push(item[keyToName].$eq);
@@ -65,25 +65,24 @@ const changeKeyNameUserType = ( obj, keyFromName, keyToName, needToDelOld, final
     });
 };
 
-const collectQueryWhere = async (queryWhere, currWhere, type, next, skillIdsList, categoriesIdsList) => {
+const collectQueryWhere = async (queryWhere, currWhere, type, skillIdsList, categoriesIdsList, next) => {
     const $and = [];
-    changeKeyName(Constants.Migrations.id, Constants.Migrations.skillId, type, Constants.Migrations.skill, currWhere, $and, skillIdsList);
-    changeKeyName(Constants.Migrations.id, Constants.Migrations.categoryId, type, Constants.Migrations.category, currWhere, $and, categoriesIdsList);
-
     switch (type) {
-        case Constants.Migrations.branch:
-            changeKeyNameUserType(currWhere, Constants.Migrations.name, Constants.Migrations.branchName, true, queryWhere.usersCondition.$and);
+        case Constants.Keys.branch:
+            changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.branchName, true, queryWhere.usersCondition.$and);
             break;
-        case Constants.Migrations.position:
-            changeKeyNameUserType(currWhere, Constants.Migrations.name, Constants.Migrations.position, true, queryWhere.usersCondition.$and);
+        case Constants.Keys.position:
+            changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.position, true, queryWhere.usersCondition.$and);
             break;
-        case Constants.Migrations.user:
-            changeKeyNameUserType(currWhere, Constants.Migrations.name, Constants.Migrations.position, false, queryWhere.usersCondition.$and);
+        case Constants.Keys.user:
+            changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.position, false, queryWhere.usersCondition.$and);
             break;
-        case Constants.Migrations.skill:
+        case Constants.Keys.skill:
+            changeKeyName(Constants.Keys.id, Constants.Keys.skillId, type, Constants.Keys.skill, currWhere, $and, skillIdsList);
             queryWhere.usersSkillsCondition.$or.push($and);
             break;
-        case Constants.Migrations.category:
+        case Constants.Keys.category:
+            changeKeyName(Constants.Keys.id, Constants.Keys.categoryId, type, Constants.Keys.category, currWhere, $and, categoriesIdsList);
             queryWhere.usersCategoriesCondition.$or.push($and);
             break;
         default: {

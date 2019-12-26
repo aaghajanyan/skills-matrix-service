@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const tokenSecret = require("../../config/secretKey.json").token_secret;
 const jwtDecode = require('jwt-decode');
 const User = require("../models/user");
+const logger = require("../helper/logger");
 
 async function verifyPermissions(request, response, next) {
     try {
@@ -22,8 +23,8 @@ async function verifyPermissions(request, response, next) {
         }
         request.user = verified;
         next();
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(401).send({
             success: false,
             message: "Unauthorized.Access denied"

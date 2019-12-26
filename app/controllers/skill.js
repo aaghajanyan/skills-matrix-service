@@ -8,13 +8,14 @@ const {
 } = require("http-status-codes");
 const Skill = require("../models/skill");
 const { Constants } = require("../constants/Constants");
+const logger = require("../helper/logger");
 
 const getSkills = async function(_, response) {
     try {
         const skills = await Skill.findAll();
         return response.status(OK).json(skills);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -31,7 +32,8 @@ const getSkill = async function(request, response) {
     try {
         const skill = await Skill.find({ guid: request.params.guid });
         return response.status(OK).json(skill);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -48,7 +50,8 @@ const getSkillAllData = async function(request, response) {
     try {
         const skill = await Skill.getSkillAllData(request.params.guid);
         return response.status(OK).json(skill);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -65,7 +68,8 @@ const getSkillsAllData = async function(request, response) {
     try {
         const skills = await Skill.getSkillsAllData();
         return response.status(OK).json(skills);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -103,7 +107,7 @@ const addSkill = async function(request, response) {
             );
             let status = (await Skill.getStatus(
                 sendedList,
-                Constants.Migrations.addedCategories
+                Constants.Keys.addedCategories
             ))
                 ? CREATED
                 : CONFLICT;
@@ -120,14 +124,14 @@ const addSkill = async function(request, response) {
             }
 
             return response.status(status).json({
-                [Constants.Migrations.name]: skill.name,
-                [Constants.Migrations.guid]: skill.guid,
-                [Constants.Migrations.addedCategories]:
+                [Constants.Keys.name]: skill.name,
+                [Constants.Keys.guid]: skill.guid,
+                [Constants.Keys.addedCategories]:
                     sendedList.addedCategories,
                 ...sendedList
             });
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            logger.error(error, '');
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${getStatusText(CONFLICT)}. ${Constants.parse(
@@ -137,8 +141,6 @@ const addSkill = async function(request, response) {
             });
         }
     } else {
-        console.log(err);
-
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -165,7 +167,7 @@ const updateSkillAllData = async function(request, response) {
                 message: Constants.notExists(
                     Constants.Migrations.SKILL,
                     request.params.guid,
-                    Constants.Migrations.id
+                    Constants.Keys.id
                 )
             });
         }
@@ -182,12 +184,12 @@ const updateSkillAllData = async function(request, response) {
             existingSkill
         );
         return response.status(201).json({
-            [Constants.Migrations.addedCategories]: sendedList.addedCategories,
-            [Constants.Migrations.removedCategories]:
+            [Constants.Keys.addedCategories]: sendedList.addedCategories,
+            [Constants.Keys.removedCategories]:
                 sendedList.removedCategories
         });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -204,7 +206,8 @@ const updateSkill = async function(request, response) {
     try {
         await Skill.updateSkill(request.body, { guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -226,13 +229,14 @@ const deleteSkill = async function(request, response) {
                 message: Constants.notExists(
                     Constants.Migrations.SKILL,
                     request.params.guid,
-                    Constants.Migrations.id
+                    Constants.Keys.id
                 )
             });
         }
         skill.destroy();
         return response.status(ACCEPTED).json({ success: true });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

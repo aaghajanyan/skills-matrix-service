@@ -114,17 +114,17 @@ module.exports = (sequelize, DataTypes) => {
     User.associate = models => {
         User.belongsTo(models.roles_groups, {
             as: Constants.Associate.Aliases.roleGroup,
-            foreignKey: Constants.Migrations.roleGroupId,
-            targetkey: Constants.Migrations.id,
+            foreignKey: Constants.Keys.roleGroupId,
+            targetkey: Constants.Keys.id,
         }),
         User.belongsToMany(models.skill, {
             through: Constants.TableNames.UsersSkills,
-            foreignKey: Constants.Migrations.userId,
+            foreignKey: Constants.Keys.userId,
             as: Constants.Associate.Aliases.skills,
         }),
         User.belongsToMany(models.category, {
             through: Constants.TableNames.UsersCategories,
-            foreignKey: Constants.Migrations.userId,
+            foreignKey: Constants.Keys.userId,
             as: Constants.Associate.Aliases.categories,
         });
     };

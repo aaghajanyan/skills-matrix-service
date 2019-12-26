@@ -177,6 +177,146 @@ class Category {
             });
         }
     }
+
+    // static async includeModel(
+    //     modelName,
+    //     alians,
+    //     required,
+    //     attributes,
+    //     through_modelName,
+    //     through_alians,
+    //     through_attributes
+    // ) {
+    //     return {
+    //         model: modelName,
+    //         as: alians,
+    //         required: required,
+    //         attributes: attributes,
+    //         through: {
+    //             model: through_modelName,
+    //             as: through_alians,
+    //             attributes: through_attributes
+    //         }
+    //     };
+    // };
+
+    // static async getCategoriesAllData() {
+    //         const categories = await categoryModel.findAll({
+    //             include: [
+    //                 {
+    //                     model: categoryModel,
+    //                     as: "relatedCategories",
+    //                     required: false,
+    //                     attributes: ["id", "name"],
+    //                     through: {
+    //                         model: categoryRelationModel,
+    //                         as: "categoryRelation",
+    //                         attributes: []
+    //                     },
+    //                     // include: Category.includeModel(
+    //                     //     skillModel,
+    //                     //     "skills",
+    //                     //     false,
+    //                     //     ["id", "name"],
+    //                     //     skillRelationModel,
+    //                     //     "skillRelation",
+    //                     //     []
+    //                     // )
+    //                 },
+    //                 {
+    //                     model: categoryModel,
+    //                     as: "relatedCategoriesRef",
+    //                     required: false,
+    //                     attributes: ["id", "name"],
+    //                     through: {
+    //                         model: categoryRelationModel,
+    //                         as: "categoryRelation",
+    //                         attributes: []
+    //                     },
+    //                     // include: Category.includeModel(
+    //                     //     skillModel,
+    //                     //     "skills",
+    //                     //     false,
+    //                     //     ["id", "name"],
+    //                     //     skillRelationModel,
+    //                     //     "skillRelation",
+    //                     //     []
+    //                     // )
+    //                 },
+    //                 Category.includeModel(
+    //                     skillModel,
+    //                     "skills",
+    //                     false,
+    //                     ["id", "name"],
+    //                     skillRelationModel,
+    //                     "skillRelation",
+    //                     []
+    //                 )
+    //             ]
+    //         });
+    //         await Category.mergeRelatedCategories(JSON.parse(JSON.stringify(categories)));
+    //         return categories;
+    // };
+
+    // static async getCategoryAllData() {
+    //         const categories = await categoryModel.findOne({
+    //             where: { guid: request.params.guid },
+    //             include: [
+    //                 {
+    //                     model: categoryModel,
+    //                     as: "relatedCategories",
+    //                     required: false,
+    //                     attributes: ["id", "name"],
+    //                     through: {
+    //                         model: categoryRelationModel,
+    //                         as: "categoryRelation",
+    //                         attributes: []
+    //                     },
+    //                     include: includeModel(
+    //                         skillModel,
+    //                         "skills",
+    //                         false,
+    //                         ["id", "name"],
+    //                         skillRelationModel,
+    //                         "skillRelation",
+    //                         []
+    //                     )
+    //                 },
+    //                 {
+    //                     model: categoryModel,
+    //                     as: "relatedCategoriesRef",
+    //                     required: false,
+    //                     attributes: ["id", "name"],
+    //                     through: {
+    //                         model: categoryRelationModel,
+    //                         as: "categoryRelation",
+    //                         attributes: []
+    //                     },
+    //                     include: includeModel(
+    //                         skillModel,
+    //                         "skills",
+    //                         false,
+    //                         ["id", "name"],
+    //                         skillRelationModel,
+    //                         "skillRelation",
+    //                         []
+    //                     )
+    //                 },
+    //                 includeModel(
+    //                     skillModel,
+    //                     "skills",
+    //                     false,
+    //                     ["id", "name"],
+    //                     skillRelationModel,
+    //                     "skillRelation",
+    //                     []
+    //                 )
+    //             ]
+    //         });
+    //         return categories;
+    // };
+
+
 }
 
 module.exports = Category;

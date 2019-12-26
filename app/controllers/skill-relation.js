@@ -6,21 +6,18 @@ const {
     CREATED,
     getStatusText
 } = require("http-status-codes");
-const {
-    skill: skillModel,
-    category: categoryModel,
-    skills_relation: skillRelationModel
-} = require("../sequelize/models");
 const { Constants } = require("../constants/Constants");
 const Skill = require("../models/skill");
 const Category = require("../models/category");
 const SkillRelation = require("../models/skill-relation");
+const logger = require("../helper/logger");
 
 const getSkillsRelations = async function(_, response) {
     try {
         const skillsRelations = await SkillRelation.findAll();
         return response.status(OK).json(skillsRelations);
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -40,6 +37,7 @@ const getSkillRelation = async function(request, response) {
         );
         response.status(OK).json(skillRelation);
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -79,6 +77,7 @@ const addSkillRelation = async function(request, response) {
             });
         }
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -109,6 +108,7 @@ const updateSkillRelation = async function(request, response) {
             });
         }
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -123,11 +123,10 @@ const updateSkillRelation = async function(request, response) {
 
 const deleteSkillRelation = async function(request, response) {
     try {
-        await skillRelationModel.destroy({
-            where: { id: request.params.skillRelationId }
-        });
+        await SkillRelation.delete({ id: request.params.skillRelationId });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(

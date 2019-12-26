@@ -17,13 +17,13 @@ const client = require("../../config/env-settings.json").client;
 const { Constants } = require("../constants/Constants");
 const Invitation = require("../models/invitation");
 const User = require("../models/user");
+const logger = require("../helper/logger");
 
 const checkInvitationInDB = async function(request, response) {
     try {
         const token = await request.params.token;
         const decodedToken = await jwtDecode(token, tokenSecret);
         const invitation = await Invitation.findByPk(decodedToken.guid);
-        // const invitation = await Invitation.find({ guid: decodedToken.guid });
         if (!invitation) {
             return response.status(NOT_FOUND).json({
                 success: false,
@@ -31,7 +31,8 @@ const checkInvitationInDB = async function(request, response) {
             });
         }
         return response.status(NO_CONTENT).send();
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(UNAUTHORIZED).json({
             success: false,
             message: getStatusText(UNAUTHORIZED)
@@ -61,6 +62,7 @@ const addInvitation = async function(request, response) {
                     const host = `${client.protocol}${client.host}:${client.port}${Constants.REGISTRATION_ENDPOINT}${token}`;
                     await mailer.invite(request.body.email, host, expiration);
                 } catch (error) {
+                    logger.error(error, '');
                     currInvitation.destroy();
                     return response.status(INTERNAL_SERVER_ERROR).json({
                         success: false,
@@ -92,6 +94,7 @@ const addInvitation = async function(request, response) {
             });
         }
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(

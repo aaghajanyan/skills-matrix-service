@@ -19,8 +19,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.categoryId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.categoryId
                 }
             },
             relatedCategoryId: {
@@ -29,8 +29,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.CategoryRelation.relatedCategoryId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.CategoryRelation.relatedCategoryId
                 }
             }
         });

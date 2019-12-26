@@ -15,12 +15,14 @@ const {
 const User = require("../models/user");
 const Invitation = require("../models/invitation");
 const { Constants } = require("../constants/Constants");
+const logger = require("../helper/logger");
 
 const getUsers = async function(_, response) {
     try {
         const users = await User.getUsers();
-        response.status(OK).json(users);
-    } catch (err) {
+        return response.status(OK).json(users);
+    } catch (error) {
+        logger.error(error, '');
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -36,9 +38,10 @@ const getUsers = async function(_, response) {
 const getUser = async function(request, response) {
     try {
         const user = await User.getByGuid(request.params.guid);
-        response.status(OK).json(user);
-    } catch (err) {
-        response.status(INTERNAL_SERVER_ERROR).json({
+        return response.status(OK).json(user);
+    } catch (error) {
+        logger.error(error, '');
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
@@ -54,7 +57,8 @@ const updateUser = async function(request, response) {
     try {
         await User.update(request.params.guid, request.body);
         return response.status(ACCEPTED).json({ success: true });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -85,9 +89,9 @@ const signUp = async function(request, response) {
         const user = await User.create(request.body);
         await invitation.destroy();
         response.status(CREATED).json({ guid: user.guid });
-    } catch (err) {
-        console.log(err);
-        response.status(INTERNAL_SERVER_ERROR).json({
+    } catch (error) {
+        logger.error(error, '');
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${
                 Constants.Controllers.Users.COULD_NOT_REGISTER_USER
@@ -131,7 +135,8 @@ const login = async function(request, response) {
             [Constants.TOKEN]: token,
             [Constants.Controllers.Users.guid]: user.guid
         });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${

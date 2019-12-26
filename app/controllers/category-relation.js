@@ -9,6 +9,7 @@ const {
 const { Constants } = require("../constants/Constants");
 const Category = require("../models/category");
 const CategoryRelation = require("../models/category-relation");
+const logger = require("../helper/logger");
 
 const getCategoriesRelations = async function(_, response) {
     try {
@@ -24,6 +25,7 @@ const getCategoriesRelations = async function(_, response) {
         }
         return response.status(OK).json(categoriesRelations);
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -53,6 +55,7 @@ const getCategoryRelation = async function(request, response) {
         }
         return response.status(OK).json(categoryRelation);
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -89,7 +92,7 @@ const addCategoryRelation = async function(request, response) {
                 });
             }
         } else {
-            response.status(CONFLICT).json({
+            return response.status(CONFLICT).json({
                 success: false,
                 message: `${getStatusText(CONFLICT)}.
                     ${Constants.parse(
@@ -99,6 +102,7 @@ const addCategoryRelation = async function(request, response) {
             });
         }
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -131,6 +135,7 @@ const updateCategoryRelation = async function(request, response) {
             });
         }
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -149,6 +154,7 @@ const deleteCategoryRelation = async function(request, response) {
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.

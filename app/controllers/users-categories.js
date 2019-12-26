@@ -10,13 +10,14 @@ const { Constants } = require("../constants/Constants");
 const User = require("../models/user");
 const Category = require("../models/category");
 const UserCategory = require("../models/users-categories");
+const logger = require("../helper/logger");
 
 const getUsersCategories = async function(_, response) {
     try {
         const usersCategories = await Category.findAll();
         response.status(OK).json(usersCategories);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -35,8 +36,8 @@ const getUserCategories = async function(request, response) {
             guid: request.params.userCategoryGuid
         });
         return response.status(OK).json(userCategories);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -84,8 +85,8 @@ const addUserCategory = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -129,8 +130,8 @@ const updateUserCategory = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -180,8 +181,8 @@ const deleteUserCategory = async function(request, response) {
                 )}`
             });
         }
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -198,8 +199,8 @@ const deleteUserCategoryById = async function(request, response) {
     try {
         await UserCategory.delete({ id: request.params.userCategoryGuid });
         return response.status(ACCEPTED).end();
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

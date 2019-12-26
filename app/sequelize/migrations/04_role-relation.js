@@ -19,8 +19,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.RolesGroup,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.roleGroupId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.roleGroupId
                 }
             },
             roleId: {
@@ -29,15 +29,15 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Roles,
-                    key: Constants.Migrations.id,
+                    key: Constants.Keys.id,
                     as: Constants.Migrations.RoleRelation.roleId
                 }
             }
         }).then(() => queryInterface.addConstraint(
             Constants.TableNames.RolesRelation,
-            [Constants.Migrations.RoleRelation.roleId, Constants.Migrations.roleGroupId],
+            [Constants.Migrations.RoleRelation.roleId, Constants.Keys.roleGroupId],
             {
-                type: Constants.Migrations.unique,
+                type: Constants.Keys.unique,
                 name: Constants.Migrations.RoleRelation.uniqueRoleRel
             }));
     },

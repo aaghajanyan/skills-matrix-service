@@ -14,6 +14,7 @@ const jwtDecode = require("jwt-decode");
 const mailer = require("../mailSender/mailSender");
 const client = require("../../config/env-settings.json").client;
 const { Constants } = require("../constants/Constants");
+const logger = require("../helper/logger");
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
@@ -33,7 +34,8 @@ const checkForgotPasswordUser = async function(request, response) {
             success: true,
             token: token
         });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(UNAUTHORIZED).json({
             success: false,
             message: getStatusText(UNAUTHORIZED)
@@ -65,7 +67,8 @@ const forgotPassword = async function(request, response) {
             const expiration = new Date().setDate(new Date().getDate() + 1);
             const host = `${client.protocol}${client.host}:${client.port}${Constants.FORGOT_PASSWORD_ENDPOINT}${token}`;
             await mailer.resetPassword(request.body.email, host, expiration);
-        } catch (err) {
+        } catch (error) {
+            logger.error(error, '');
             return response.status(INTERNAL_SERVER_ERROR).json({
                 success: false,
                 message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
@@ -82,6 +85,7 @@ const forgotPassword = async function(request, response) {
             token: token
         });
     } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: getStatusText(INTERNAL_SERVER_ERROR)
@@ -95,7 +99,8 @@ async function changePassword(request, response) {
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         await User.update(decodedToken.guid, request.body);
         return response.status(ACCEPTED).json({ success: true });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${

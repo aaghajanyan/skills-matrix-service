@@ -1,4 +1,5 @@
 const config = require("../config/config");
+const logger = require("../../helper/logger");
 
 class DefaultRoles {
 
@@ -44,9 +45,13 @@ class DefaultRoles {
                                 roleGroupId: existingRoleGroup.dataValues.id
                             }).save();
                         }
-                    } catch (error) { console.log(error); }
+                    } catch(error) {
+                        logger.error(error, '');
+                    }
                 });
-            } catch (err) { console.log(err); }
+            } catch (error) {
+                logger.error(error, '');
+            }
         });
     }
 }

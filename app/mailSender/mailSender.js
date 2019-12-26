@@ -5,6 +5,7 @@ const adminData = require(__dirname + "/../../config/nodeMailer").nodeMailer;
 const EmailTemplates = require('swig-email-templates');
 const DATETIME_FORMAT_LONG = 'dddd, MMMM Do YYYY';
 const DATE_FORMAT = 'dddd, MMMM Do YYYY';
+const logger = require("../helper/logger");
 
 
 /**
@@ -26,11 +27,12 @@ const invite = (email, host, expiration) => {
             const resp = sendEmail('invite', context);
             return resolve(resp);
         }
-        catch(err) {
+        catch(error) {
+            logger.error(error);
             return reject(err);
         }
-    }).catch((err) => {
-        console.log(err);
+    }).catch((error) => {
+        logger.error(error);
         // TODO add logger
         // log.error(err, 'emails::invite');
     });
@@ -98,14 +100,12 @@ const sendEmail = (template, context) => {
                 transport.sendMail(options, (err, info) => err ? reject(err) : resolve(info));
             });
         }
-        catch(err) {
-            console.log(err)
+        catch(error) {
+            logger.error(error, '');
             return reject(err);
         }
-    }).catch((err) => {
-        console.log(err)
-        // TODO add logger
-        // log.error(err, 'emails::sendEmail');
+    }).catch((error) => {
+        logger.error(error, '');
     });
 };
 

@@ -5,12 +5,14 @@ const {
 } = require("http-status-codes");
 const { Constants } = require("../constants/Constants");
 const RoleGroup = require("../models/roles-groups");
+const logger = require("../helper/logger");
 
 const getRoleGroup = async function(requesfind, response) {
     try {
         const roleGroup = await RoleGroup.find({ guid: request.params.guid });
         return response.status(OK).json(roleGroup);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -27,7 +29,8 @@ const getRoleGroups = async function(request, response) {
     try {
         const roleGroup = await RoleGroup.findAll();
         response.status(OK).json(roleGroup);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

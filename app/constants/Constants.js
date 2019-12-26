@@ -37,7 +37,7 @@ const Constants = {
         UsersCategories: 'users_categories'
     },
 
-    Migrations: {
+    Keys: {
         id: 'id',
         roleGroupId: 'roleGroupId',
         roleId: 'roleId',
@@ -46,6 +46,7 @@ const Constants = {
         userId: 'userId',
         skillId: 'skillId',
         skill: 'skill',
+        skills: 'skills',
         unique: 'unique',
         relatedCategoryId: 'relatedCategoryId',
         name: 'name',
@@ -61,7 +62,9 @@ const Constants = {
         removedRelatedCategories: 'removedRelatedCategories',
         addedSkills: 'addedSkills',
         removedSkills: 'removedSkills',
+    },
 
+    Migrations: {
         SKILL: 'Skill',
         CATEGORY: 'Category',
 
@@ -114,11 +117,14 @@ const Constants = {
     Associate: {
         Aliases: {
             relatedCategories: 'relatedCategories',
+            categoryRelation: 'categoryRelation',
+            skillRelation: 'skillRelation',
             relatedCategoriesRef: 'relatedCategoriesRef',
             skills: 'skills',
             categories: 'categories',
             roles: 'roles',
             roleGroup: 'roleGroup',
+            roleRelation: 'roleRelation',
             skillMark: 'skillMark',
             categoryMark: 'categoryMark'
         }

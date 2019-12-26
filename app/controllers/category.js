@@ -13,12 +13,14 @@ const {
 } = require("../sequelize/models");
 const { Constants } = require("../constants/Constants");
 const Category = require("../models/category");
+const logger = require("../helper/logger");
 
 const getCategories = async function(_, response) {
     try {
         const categories = await Category.findAll();
         return response.status(OK).json(categories);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -35,7 +37,8 @@ const getCategory = async function(request, response) {
     try {
         const category = await Category.find({ guid: request.params.guid });
         response.status(200).json(category);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -52,7 +55,8 @@ const updateCategory = async function(request, response) {
     try {
         await Category.update(request.body, { guid: request.params.guid });
         response.status(202).json({ success: true });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -74,14 +78,15 @@ const deleteCategory = async function(request, response) {
                 message: Constants.notExists(
                     Constants.Migrations.CATEGORY,
                     request.params.guid,
-                    Constants.Migrations.id
+                    Constants.Keys.id
                 )
             });
         }
         category.destroy();
         response.status(ACCEPTED).json({ success: true });
-    } catch (err) {
-        return response.status(500).json({
+    } catch (error) {
+        logger.error(error, '');
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
@@ -93,15 +98,7 @@ const deleteCategory = async function(request, response) {
     }
 };
 
-const includeModel = (
-    modelName,
-    alians,
-    required,
-    attributes,
-    through_modelName,
-    through_alians,
-    through_attributes
-) => {
+const includeModel = ( modelName, alians, required, attributes, through_modelName, through_alians, through_attributes ) => {
     return {
         model: modelName,
         as: alians,
@@ -117,67 +114,65 @@ const includeModel = (
 
 const getCategoriesAllData = async function(_, response) {
     try {
+        // const categories = await Category.getCategoriesAllData();
         const categories = await categoryModel.findAll({
             include: [
                 {
                     model: categoryModel,
-                    as: "relatedCategories",
+                    as: Constants.Associate.Aliases.relatedCategories,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: categoryRelationModel,
-                        as: "categoryRelation",
+                        as: Constants.Associate.Aliases.categoryRelation,
                         attributes: []
                     },
                     include: includeModel(
                         skillModel,
-                        "skills",
+                        Constants.Keys.skills,
                         false,
-                        ["id", "name"],
+                        [Constants.Keys.id, Constants.Keys.name],
                         skillRelationModel,
-                        "skillRelation",
+                        Constants.Associate.Aliases.skillRelation,
                         []
                     )
                 },
                 {
                     model: categoryModel,
-                    as: "relatedCategoriesRef",
+                    as: Constants.Associate.Aliases.relatedCategoriesRef,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: categoryRelationModel,
-                        as: "categoryRelation",
+                        as: Constants.Associate.Aliases.categoryRelation,
                         attributes: []
                     },
                     include: includeModel(
                         skillModel,
-                        "skills",
+                        Constants.Keys.skills,
                         false,
-                        ["id", "name"],
+                        [Constants.Keys.id, Constants.Keys.name],
                         skillRelationModel,
-                        "skillRelation",
+                        Constants.Associate.Aliases.skillRelation,
                         []
                     )
                 },
                 includeModel(
                     skillModel,
-                    "skills",
+                    Constants.Keys.skills,
                     false,
-                    ["id", "name"],
+                    [Constants.Keys.id, Constants.Keys.name],
                     skillRelationModel,
-                    "skillRelation",
+                    Constants.Associate.Aliases.skillRelation,
                     []
                 )
             ]
         });
-        response
-            .status(OK)
-            .json(
-                await Category.mergeRelatedCategories(
-                    JSON.parse(JSON.stringify(categories))
-                )
-            );
-    } catch (err) {
+        return response.status(OK).json(
+            await Category.mergeRelatedCategories(JSON.parse(JSON.stringify(categories)))
+        );
+    } catch (error) {
+        logger.error(error, '');
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -197,57 +192,58 @@ const getCategoryAllData = async function(request, response) {
             include: [
                 {
                     model: categoryModel,
-                    as: "relatedCategories",
+                    as: Constants.Associate.Aliases.relatedCategories,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: categoryRelationModel,
-                        as: "categoryRelation",
+                        as: Constants.Associate.Aliases.categoryRelation,
                         attributes: []
                     },
                     include: includeModel(
                         skillModel,
-                        "skills",
+                        Constants.Keys.skills,
                         false,
-                        ["id", "name"],
+                        [Constants.Keys.id, Constants.Keys.name],
                         skillRelationModel,
-                        "skillRelation",
+                        Constants.Associate.Aliases.skillRelation,
                         []
                     )
                 },
                 {
                     model: categoryModel,
-                    as: "relatedCategoriesRef",
+                    as: Constants.Associate.Aliases.relatedCategoriesRef,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: categoryRelationModel,
-                        as: "categoryRelation",
+                        as: Constants.Associate.Aliases.categoryRelation,
                         attributes: []
                     },
                     include: includeModel(
                         skillModel,
-                        "skills",
+                        Constants.Keys.skills,
                         false,
-                        ["id", "name"],
+                        [Constants.Keys.id, Constants.Keys.name],
                         skillRelationModel,
-                        "skillRelation",
+                        Constants.Associate.Aliases.skillRelation,
                         []
                     )
                 },
                 includeModel(
                     skillModel,
-                    "skills",
+                    Constants.Keys.skills,
                     false,
-                    ["id", "name"],
+                    [Constants.Keys.id, Constants.Keys.name],
                     skillRelationModel,
-                    "skillRelation",
+                    Constants.Associate.Aliases.skillRelation,
                     []
                 )
             ]
         });
         return response.status(OK).json(categories);
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -280,21 +276,16 @@ const addCategory = async function(request, response) {
                 )}`
             });
         }
-        await Category.addRelatedCategories(
-            relatedCategoriesIds,
-            category,
-            sendedList
-        );
+        await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
         await Category.addSkills(skillsIds, category, sendedList);
         return response.status(201).json({
-            [Constants.Migrations.name]: category.name,
-            [Constants.Migrations.guid]: category.guid,
-            [Constants.Migrations.addRelatedCategories]:
-                sendedList.addedCategories,
-            [Constants.Migrations.addedSkills]: sendedList.addedSkills
+            [Constants.Keys.name]: category.name,
+            [Constants.Keys.guid]: category.guid,
+            [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
+            [Constants.Keys.addedSkills]: sendedList.addedSkills
         });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -327,36 +318,25 @@ const updateCategoryAllData = async function(request, response) {
                 message: `${getStatusText(CONFLICT)}. ${Constants.notExists(
                     Constants.Migrations.CATEGORY,
                     request.params.guid,
-                    Constants.Migrations.id
+                    Constants.Keys.id
                 )}`
             });
         }
         await Category.update(categoryData, { guid: request.params.guid });
-        await Category.addRelatedCategories(
-            addedCategories,
-            existingCategory,
-            sendedList
-        );
-        await Category.removeRelatedCategories(
-            removedCategories,
-            existingCategory,
-            sendedList
+        await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
+        await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList
         );
         await Category.addSkills(addedskills, existingCategory, sendedList);
-        await Category.removeSkills(
-            removedSkills,
-            existingCategory,
-            sendedList
+        await Category.removeSkills(removedSkills, existingCategory, sendedList
         );
         return response.status(201).json({
-            [Constants.Migrations.addRelatedCategories]:
-                sendedList.addedCategories,
-            [Constants.Migrations.removedRelatedCategories]:
-                sendedList.removedCategories,
-            [Constants.Migrations.addedSkills]: sendedList.addedSkills,
-            [Constants.Migrations.removedSkills]: sendedList.removedSkills
+            [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
+            [Constants.Keys.removedRelatedCategories]: sendedList.removedCategories,
+            [Constants.Keys.addedSkills]: sendedList.addedSkills,
+            [Constants.Keys.removedSkills]: sendedList.removedSkills
         });
-    } catch (err) {
+    } catch (error) {
+        logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

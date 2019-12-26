@@ -57,8 +57,8 @@ module.exports = {
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.RolesGroup,
-                    key: Constants.Migrations.id,
-                    as: Constants.Migrations.roleGroupId
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.roleGroupId
                 }
             },
             position: {
