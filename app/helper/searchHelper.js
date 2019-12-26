@@ -1,4 +1,6 @@
 const { Constants } = require("../constants/Constants");
+const Category = require("../models/category");
+const Skill = require("../models/skill");
 
 const getCondition = (condition, fieldName) => {
     switch (condition) {
@@ -35,6 +37,11 @@ const collectCondition = (items, opCondition) => {
     return where;
 };
 
+const changeGuidToId = async ( item, keyName, model, next) => {
+        const id = item[keyName].$eq;
+        const data = model == Constants.Keys.skill ? await Skill.find({guid: id}) : await Category.find({guid: id});
+        item[keyName].$eq = data.id;
+}
 /*
  * change key name which received from requiest.body from id to skillId / categoryId
  * receivedType (e.g branch, skill, category ...)
@@ -43,16 +50,24 @@ const collectCondition = (items, opCondition) => {
  * $and
  * idsList
  */
-const changeKeyName = ( keyFromName, keyToName, receivedType, neededType, obj, $and, idsList) => {
-    obj.map(item => {
+const changeKeyName = async ( keyFromName, keyToName, receivedType, neededType, obj, $and, idsList, next) => {
+    for(item of obj) {
         const keyName = Object.keys(item)[0];
-        if (keyName == Constants.Keys.id && receivedType == neededType) {
-            item[keyToName] = item[keyFromName];
-            delete item[keyFromName];
-            idsList.push(item[keyToName].$eq);
+        if (keyName == Constants.Keys.id) {
+            if (neededType == Constants.Keys.skill) {
+                await changeGuidToId( item, keyName, Constants.Keys.skill, next);
+            }
+            if (neededType == Constants.Keys.category) {
+                await changeGuidToId( item, keyName, neededType, Constants.Keys.category, next);
+            }
+            if (receivedType == neededType) {
+                item[keyToName] = item[keyFromName];
+                delete item[keyFromName];
+                idsList.push(item[keyToName].$eq);
+            }
         }
         $and.push(item);
-    });
+    }
 };
 
 const changeKeyNameUserType = ( obj, keyFromName, keyToName, needToDelOld, finallyObj) => {
@@ -78,11 +93,11 @@ const collectQueryWhere = async (queryWhere, currWhere, type, skillIdsList, cate
             changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.position, false, queryWhere.usersCondition.$and);
             break;
         case Constants.Keys.skill:
-            changeKeyName(Constants.Keys.id, Constants.Keys.skillId, type, Constants.Keys.skill, currWhere, $and, skillIdsList);
+            await changeKeyName(Constants.Keys.id, Constants.Keys.skillId, type, Constants.Keys.skill, currWhere, $and, skillIdsList, next);
             queryWhere.usersSkillsCondition.$or.push($and);
             break;
         case Constants.Keys.category:
-            changeKeyName(Constants.Keys.id, Constants.Keys.categoryId, type, Constants.Keys.category, currWhere, $and, categoriesIdsList);
+            await changeKeyName(Constants.Keys.id, Constants.Keys.categoryId, type, Constants.Keys.category, currWhere, $and, categoriesIdsList, next);
             queryWhere.usersCategoriesCondition.$or.push($and);
             break;
         default: {
@@ -172,8 +187,6 @@ const filterBy = async (users, expectedSkillOrCat, actualSkillOrCat) => {
         })
     }
 }
-
-
 
 module.exports = {
     collectCondition,

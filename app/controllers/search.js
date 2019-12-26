@@ -25,6 +25,7 @@ const search = async function(request, response, next) {
         for (const item of request.body) {
             const { type, opCondition, relCondition, items } = item;
             const currWhere = await collectCondition(items, opCondition);
+            console.log("\n\n jj = ", currWhere);
             await collectQueryWhere(queryWhere, currWhere, type, skillIdsList, categoriesIdsList, next);
         }
         const users = await User.searchUser(queryWhere, skillIdsList, categoriesIdsList);

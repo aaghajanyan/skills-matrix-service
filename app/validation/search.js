@@ -43,8 +43,7 @@ const searchBodySchema = Joi.array().items(Joi.object().keys({
         lname: Joi.string(),
         experience: Joi.number().integer().min(0). max(100),
         profficience: Joi.number().integer().min(0). max(5),
-        id: Joi.number().integer(),
-
+        id: Joi.string().uuid(),
       }),
     isActive: Joi.boolean()
 }));
