@@ -61,7 +61,6 @@ const addInvitation = async function(request, response) {
                     const host = `${client.protocol}${client.host}:${client.port}${Constants.REGISTRATION_ENDPOINT}${token}`;
                     await mailer.invite(request.body.email, host, expiration);
                 } catch (error) {
-                    console.log("\n\n1 - ", error);
                     currInvitation.destroy();
                     return response.status(INTERNAL_SERVER_ERROR).json({
                         success: false,
@@ -93,7 +92,6 @@ const addInvitation = async function(request, response) {
             });
         }
     } catch (error) {
-        console.log("\n\n2 - ", error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(

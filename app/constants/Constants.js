@@ -42,11 +42,18 @@ const Constants = {
         roleGroupId: 'roleGroupId',
         roleId: 'roleId',
         categoryId: 'categoryId',
+        category: 'category',
         userId: 'userId',
         skillId: 'skillId',
+        skill: 'skill',
         unique: 'unique',
         relatedCategoryId: 'relatedCategoryId',
         name: 'name',
+        password: 'password',
+        branch: 'branch',
+        branchName: 'branchName',
+        position: 'position',
+        user: 'user',
         guid: 'guid',
         addedCategories: 'addedCategories',
         removedCategories: 'removedCategories',
@@ -111,7 +118,9 @@ const Constants = {
             skills: 'skills',
             categories: 'categories',
             roles: 'roles',
-            roleGroup: 'roleGroup'
+            roleGroup: 'roleGroup',
+            skillMark: 'skillMark',
+            categoryMark: 'categoryMark'
         }
     },
     Controllers: {
@@ -164,6 +173,27 @@ const Constants = {
             COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %s guid.',
         },
         SkillRelation: {
+
+        },
+        Search: {
+            COULD_NOT_SEARCH_DATA: 'Could not search data.',
+            INVALID_TYPE_TO_SEARCH: 'Invalid type to search employees',
+            EQUAL: 'equal',
+            NOT_EQUAL: 'not equal',
+            EXPERIENCE: 'experience',
+            PROFFICIENCE: 'profficience',
+            GREATER: 'greater',
+            LESSER: 'lesser',
+            OR: 'or',
+            AND: 'and',
+            Op: {
+                EQ: '$eq',
+                GTE: '$gte',
+                LTE: '$lte',
+                OR: '$or',
+                AND: '$and',
+                NE: '$ne',
+            }
 
         },
     },
