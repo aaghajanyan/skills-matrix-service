@@ -5,7 +5,7 @@ const sideMenuItems = [
         title: "Skills Matrix",
         href: "/",
         className: "sm-menu-container_item sm-menu-container_home",
-        iconSrc: 'sm'
+        icon: 'sm'
     },
     {
         key: "home",
@@ -13,7 +13,7 @@ const sideMenuItems = [
         title: "My Profile",
         href: "/home",
         className: "sm-menu-container_item sm-menu-container_summary",
-        iconSrc: 'user'
+        icon: 'user'
 
     },
     {
@@ -22,7 +22,7 @@ const sideMenuItems = [
         title: "Employees",
         href: "/employees",
         className: "sm-menu-container_item sm-menu-container_employees",
-        iconSrc: 'employees'
+        icon: 'users'
 
     },
     {
@@ -31,7 +31,7 @@ const sideMenuItems = [
         title: "Find Employees",
         href: "/find_employees",
         className: "sm-menu-container_item sm-menu-container_find-employees",
-        iconSrc: 'findEmployees'
+        icon: 'sliders-h'
 
     },
     {
@@ -40,7 +40,7 @@ const sideMenuItems = [
         title: "Branches",
         href: "/branches",
         className: "sm-menu-container_item sm-menu-container_branches",
-        iconSrc: 'branches'
+        icon: 'code-branch'
 
     },
     {
@@ -49,7 +49,7 @@ const sideMenuItems = [
         title: "Categories",
         href: "/categories",
         className: "sm-menu-container_item sm-menu-container_categories",
-        iconSrc: 'categories'
+        icon: 'code'
 
     },
     {
@@ -58,7 +58,7 @@ const sideMenuItems = [
         title: "Skills",
         href: "/skills",
         className: "sm-menu-container_item sm-menu-container_skills",
-        iconSrc: 'skills'
+        icon: 'graduation-cap'
 
     },
     {
@@ -67,7 +67,7 @@ const sideMenuItems = [
         title: "Settings",
         href: "/settings",
         className: "sm-menu-container_item sm-menu-container_settings",
-        iconSrc: 'settings'
+        icon: 'cog'
 
     },
     {
@@ -76,7 +76,7 @@ const sideMenuItems = [
         title: "Sign Out",
         href: "/login",
         className: "sm-menu-container_item sm-menu-container_signout",
-        iconSrc: 'signOut'
+        icon: 'sign-out-alt'
 
     }
 ];

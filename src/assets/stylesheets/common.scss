@@ -155,7 +155,19 @@
     margin-top: 10%;
 }
 
-.sm-icon {
+
+
+.sm-icon-light {
+    path {
+        fill: none;
+    }
+    width: 24px !important;
+    height: 24px !important;
+    stroke: $sm-light-color;
+    stroke-width: 20;
+}
+
+.sm-icon-grey {
     path {
         fill: none;
     }
@@ -163,4 +175,16 @@
     height: 24px;
     stroke: $sm-grey-color;
     stroke-width: 30;
+}
+
+.sm-icon-fill-grey {
+    width: 20px !important;
+    height: 20px;
+    color: $sm-grey-color;
+}
+
+.sm-icon-fill-light {
+    width: 20px !important;
+    height: 20px;
+    color: $sm-light-color;
 }

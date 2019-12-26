@@ -48,7 +48,7 @@ SideMenuInitial.propTypes = {
         title: PropTypes.string,
         href: PropTypes.string,
         className: PropTypes.string,
-        iconSrc: PropTypes.string
+        icon: PropTypes.string
     }))
 };
 

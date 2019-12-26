@@ -15,7 +15,12 @@ function SMMenu(props) {
                     href={item.href}
                     type={'sider'}
                 >
-                    <SMIconLink parentType={props.type} iconSrc={item.iconSrc} title={item.title}/>
+                    <SMIconLink
+                        className='sm-icon-light'
+                        parentType={props.type}
+                        icon={item.icon}
+                        title={item.title}
+                    />
                 </Menu.Item>
             );
         });
@@ -37,7 +42,7 @@ SMMenu.propTypes = {
         title: PropTypes.string,
         keyPath: PropTypes.string,
         className: PropTypes.string,
-        iconSrc: PropTypes.string
+        icon: PropTypes.string
     })),
     defaultSelectedKeys: PropTypes.array,
     selectedKeys: PropTypes.array,

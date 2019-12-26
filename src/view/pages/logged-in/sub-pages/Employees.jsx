@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
-import { SMModal } from 'view/components';
-import { SMForm } from 'view/components';
-import { SMButton } from 'view/components';
-import { SMInput } from 'view/components';
+
 import { sendInvitationsMessages } from 'src/constants/constants';
 import { EmployeesTable } from 'view/pages/logged-in/components'
-import { SMNotification } from 'view/components';
 import { SMUserBar } from '../components';
-import login_email_icon from 'assets/images/login_email_icon.svg';
+
+import { SMModal, SMForm, SMButton, SMInput, SMNotification, SMIcon } from 'view/components';
+
 
 function Employees(props) {
 
@@ -134,10 +132,10 @@ function Employees(props) {
                             rules: emailRules.rules,
                             onChange: handleChange,
                             prefix: (
-                                <img
-                                    className="sm-form-icon"
-                                    src={login_email_icon}
-                                    alt="email"
+                                <SMIcon
+                                    className='sm-icon-grey'
+                                    iconType='fas'
+                                    icon='envelope'
                                 />
                             ),
                             autoComplete: 'username',

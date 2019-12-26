@@ -63,7 +63,7 @@ function LoginForm(props) {
                         rules: emailRules.rules,
                         prefix: (
                             <SMIcon
-                                className='sm-icon'
+                                className='sm-icon-grey'
                                 iconType='fas'
                                 icon='envelope'
                             />
@@ -78,7 +78,7 @@ function LoginForm(props) {
                         rules: passwordRules.rules,
                         prefix: (
                             <SMIcon
-                                className='sm-icon'
+                                className='sm-icon-grey'
                                 iconType='fas'
                                 icon='lock'
                             />

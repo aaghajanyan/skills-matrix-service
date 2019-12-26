@@ -2,22 +2,13 @@ import React, { useState } from 'react';
 import { SMButton } from '../../../components/SMButton';
 import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
 import { Input } from 'antd';
-import { SMIconLink } from 'view/components';
-import { SVG } from 'assets/svg/SVG';
-import { SVGIcons } from 'assets/svg/SVGIcons';
+import { SMIcon } from 'view/components';
 import PropTypes from 'prop-types';
 import { SMUserBar } from './SMUserBar';
 
 function HeaderBar(props) {
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [searchData, setSearchData] = useState('');
-    const iconClickHandler = (e) => {
-        console.log("searchedValue: ", searchData);
-    }
-    const onChange = (e) => {
-        setSearchData(e.target.value);
-    }
 
     return (
         <div className={props.className}>
@@ -26,13 +17,17 @@ function HeaderBar(props) {
                     setIsCollapsed(!isCollapsed)
                     props.collapseSideBar()
                 }}>
-                    <SMIconLink parentType={props.type} iconSrc={isCollapsed ? 'hideSider' : 'openSider'}
-                        className='sider-container_collapsed-icon'
-                        title={props.title} href={'#'} />
+                    <div>
+                        <SMIcon
+                            icon={isCollapsed ? 'list' : 'ellipsis-v'}
+                            className='sm-icon-fill-light'
+                        />
+                    </div>
                 </SMButton>
 
-                <Input onChange={onChange} className='sider-container_search-btn'
-                    prefix={<SVG className='search-icon' name={'search'} svg={SVGIcons['search']} iconClickHandler={iconClickHandler} />}
+                <Input
+                    className='sider-container_search-btn'
+                    prefix={<SMIcon className='sm-icon-fill-grey' iconType='fas' icon='search' />}
                     placeholder="Search data" />
             </div>
 
@@ -58,7 +53,7 @@ HeaderBar.propTypes = {
         title: PropTypes.string,
         href: PropTypes.string,
         className: PropTypes.string,
-        iconSrc: PropTypes.string
+        icon: PropTypes.string
     }))
 };
 

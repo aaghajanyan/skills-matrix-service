@@ -5,7 +5,7 @@ const dropdownMenuItems = [
         title: "Settings",
         href: "/settings",
         className: "",
-        iconSrc: 'settingsNav'
+        icon: 'cog'
     },
     {
         key: "logOut",
@@ -13,7 +13,7 @@ const dropdownMenuItems = [
         title: "Sign Out",
         href: "/login",
         className: "",
-        iconSrc: 'signOutNav'
+        icon: 'sign-out-alt'
     }
 ];
 
