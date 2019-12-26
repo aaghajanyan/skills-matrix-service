@@ -1,6 +1,5 @@
 import React from 'react';
-import { SMTable } from 'view/components';
-import { SMButton } from 'view/components';
+import { SMTable, SMButton } from 'view/components';
 // import { Popconfirm } from 'antd';
 import { Tag } from 'antd'; //TODO : move to common components
 import { library } from '@fortawesome/fontawesome-svg-core'

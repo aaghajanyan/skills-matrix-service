@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { post, head } from 'client/lib/axiosWrapper';
-import { SMForm } from 'view/components';
-import { SMInput } from 'view/components';
-import { SMSelect } from 'view/components';
-import { SMButton } from 'view/components';
-import { SMSpinner } from 'view/components';
-import { SMDatePicker } from 'view/components'
 import { nonexistentInvitationMessage } from 'src/constants/constants';
-import { SMNotification } from 'view/components';
-import { passwordValidator, nameValidator, confirmPasswordValidator } from 'helpers/FormValidators';
+import {
+    nameValidator,
+    passwordValidator,
+    confirmPasswordValidator
+} from 'helpers/FormValidators';
+import {
+    SMForm,
+    SMInput,
+    SMSelect,
+    SMButton,
+    SMSpinner,
+    SMDatePicker,
+    SMNotification
+} from 'view/components';
 
 function RegisterForm(props) {
 

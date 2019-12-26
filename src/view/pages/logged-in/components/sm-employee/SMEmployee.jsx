@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'client/lib/axiosWrapper';
 import { SMUserBar } from '../SMUserBar';
-import {SMSpinner} from 'view/components';
-
+import { SMSpinner, SMTabs } from 'view/components';
 import { Summary } from './Summary';
-import { SMTabs } from 'view/components';
 import { Assessment } from './Assessment/Assessment';
 
 function SMEmployee(props) {
 
-    const [user, setUser] = useState(props.match ? null : {fname: 'Admin', lname: 'Admin' })
+    const [user, setUser] = useState(props.match ? null : { fname: 'Admin', lname: 'Admin' })
 
     useEffect(() => {
         !user && get({ url: `users/${props.match.params.id}` })
@@ -37,11 +35,11 @@ function SMEmployee(props) {
                         <TabBar {...tabBarProps} />
                     </div>)
                 }
-        >
-            <Summary key='Summary' />
-            <Assessment key='Assessment' />
-            <div key='History'> <h1> History </h1> </div>
-            <div key='About'> <h1> About </h1> </div>
+            >
+                <Summary key='Summary' />
+                <Assessment key='Assessment' />
+                <div key='History'> <h1> History </h1> </div>
+                <div key='About'> <h1> About </h1> </div>
             </SMTabs>
         </SMSpinner>
     )
