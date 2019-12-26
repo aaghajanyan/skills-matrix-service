@@ -1,5 +1,4 @@
 import React from 'react';
-import { arrayTypeAnnotation } from '@babel/types';
 
 function AddColumns(props){
 
