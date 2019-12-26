@@ -1,8 +1,8 @@
-#register-submit-btn {
-    height: 40px;
-    margin-left: 25%;
-    width: 50%;
-    & > span {
-        font-size: large;
+
+.register-form {
+    .sm-button {
+        height: 40px;
+        width: 50%;
+        margin-left: 25%;
     }
 }

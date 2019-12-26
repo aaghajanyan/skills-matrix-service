@@ -97,9 +97,9 @@ function RegisterForm(props) {
     ]
 
     return (
-        <SMSpinner isLoading={loading} className='register-form-load' size='large'>
+        <SMSpinner isLoading={loading} className='sm-spin' size='large'>
             <SMForm
-                className="sm-form"
+                className="sm-form register-form"
                 items={[
                     SMInput({
                         className: 'sm-input',
@@ -158,7 +158,7 @@ function RegisterForm(props) {
                 ]}
                 buttons={[
                     SMButton({
-                        className: 'register-submit-btn sm-button',
+                        className: 'sm-button',
                         name: 'submit',
                         type: 'primary',
                         htmlType: 'submit',

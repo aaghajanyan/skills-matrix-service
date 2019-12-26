@@ -55,7 +55,7 @@
     box-shadow: $sm-shadow;
 }
 
-.sm-spinner {
+.sm-spin {
     /* TODO */
 }
 
@@ -63,6 +63,7 @@
     color: $sm-subheading-color;
     font-weight: $sm-subheading-font-weight;
     font-size: $sm-subheading-font-size;
+    height: 40px;
 }
 
 .sm-chart {
@@ -92,13 +93,17 @@
     }
 }
 
+.sm-footer {
+    height: $sm-footer-height;
+    text-align: center;
+    background: transparent;
+}
+
 .sm-input {
     border-radius: $sm-border-radius;
     height: $sm-input-height;
     box-shadow: $sm-shadow;
     & > input {
-        border-radius: $sm-border-radius;
-        border: 1px solid $sm-grey-color;
         padding-left: 60px !important;
     }
     & > span {
@@ -111,9 +116,41 @@
     }
 }
 
+.sm-select > div {
+    border-radius: $sm-border-radius;
+    height: $sm-input-height;
+    box-shadow: $sm-shadow;
+    & > div > div {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin-top: -10px;
+        line-height: 20px;
+    }
+    & > div {
+        height: 100%;
+    }
+}
 
-.sm-footer {
-    height: $sm-footer-height;
-    text-align: center;
-    background: transparent;
+.sm-date-picker {
+    border-radius: $sm-border-radius;
+    height: $sm-input-height;
+    box-shadow: $sm-shadow;
+    width: 100%;
+    & > div > input {
+        height: 100%;
+    }
+    & > div {
+        height: 100%;
+    }
+}
+
+.sm-form {
+    margin-top: 10%;
+}
+
+.sm-alert {
+    border-radius: $sm-border-radius;
+    height: $sm-input-height;
+    margin-top: 10%;
 }

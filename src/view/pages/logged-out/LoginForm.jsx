@@ -49,7 +49,7 @@ function LoginForm(props) {
         <React.Fragment>
             {errorMessage && (
                 <Alert
-                    className="sm-alert-error"
+                    className="sm-alert"
                     message={errorMessage}
                     type="error"
                     closable
