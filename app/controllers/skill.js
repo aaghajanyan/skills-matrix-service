@@ -105,13 +105,9 @@ const addSkill = async function(request, response) {
                 sendedList,
                 true
             );
-            let status = (await Skill.getStatus(
-                sendedList,
-                Constants.Keys.addedCategories
-            ))
+            let status = (await Skill.getStatus(sendedList, Constants.Keys.addedCategories))
                 ? CREATED
                 : CONFLICT;
-
             if (status == CONFLICT && categoriesId.length == 1) {
                 skill.destroy();
                 return response.status(CONFLICT).json({

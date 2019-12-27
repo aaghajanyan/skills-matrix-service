@@ -4,32 +4,40 @@ const addBodySchema = Joi.object().keys({
     userGuid: Joi.string()
         .uuid()
         .required(),
-    skillGuid: Joi.string()
-        .uuid()
-        .required(),
-    experience: Joi.number()
-        .integer()
-        .required(),
-    profficience: Joi.number()
-        .integer()
-        .min(0)
-        .max(5),
+    skills: Joi.array()
+        .items(Joi.object().keys({
+            skillGuid: Joi.string()
+                .uuid()
+                .required(),
+			experience: Joi.number()
+                .integer()
+                .required(),
+            profficience: Joi.number()
+                .integer()
+                .min(0)
+                .max(5),
+        }).required()
+    ),
 });
 
 const updateBodySchema = Joi.object().keys({
     userGuid: Joi.string()
         .uuid()
         .required(),
-    skillGuid: Joi.string()
-        .uuid()
-        .required(),
-    experience: Joi.number()
-        .integer()
-        .required(),
-    profficience: Joi.number()
-        .integer()
-        .min(0)
-        .max(5),
+    skills: Joi.array()
+        .items(Joi.object().keys({
+            skillGuid: Joi.string()
+                .uuid()
+                .required(),
+			experience: Joi.number()
+                .integer()
+                .required(),
+            profficience: Joi.number()
+                .integer()
+                .min(0)
+                .max(5),
+        }).required()
+    ),
 });
 
 const validateAddBody = (request, response, next) => {

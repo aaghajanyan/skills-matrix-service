@@ -30,7 +30,7 @@ module.exports = {
                 references: {
                     model: Constants.TableNames.Categories,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.CategoryRelation.relatedCategoryId
+                    as: Constants.Keys.relatedCategoryId
                 }
             }
         });

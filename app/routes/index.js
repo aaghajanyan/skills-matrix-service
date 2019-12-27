@@ -10,6 +10,7 @@ const forgotPassword = require("./forgot-password");
 const usersSkills = require("./users-skills");
 const usersCategories = require("./users-categories");
 const search = require("./search");
+const criteria = require("./criteria");
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.use("/forgot_password", forgotPassword);
 router.use("/users_skills", usersSkills);
 router.use("/users_categories", usersCategories);
 router.use("/search", search);
+router.use("/criteria", criteria);
 
 module.exports = router;

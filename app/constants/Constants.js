@@ -20,7 +20,8 @@ const Constants = {
         SkillsRelations: 'skills_relations',
         UsersSkills: 'users_skills',
         History: 'history',
-        UsersCategories: 'users_categories'
+        UsersCategories: 'users_categories',
+        Criteria: 'criteria'
     },
     ModelNames : {
         User: 'user',
@@ -34,7 +35,33 @@ const Constants = {
         SkillsRelations: 'skills_relation',
         UsersSkills: 'users_skills',
         History: 'history',
-        UsersCategories: 'users_categories'
+        UsersCategories: 'users_categories',
+        Criteria: 'criteria'
+    },
+
+    ModelErrors: {
+        CATEGORY_ID_IS_MISSING: 'Category id is missing.',
+        RELATED_CATEGORY_ID_IS_MISSING: 'Related category id is missing.',
+        NAME_IS_MISSING: 'Name is missing.',
+        NAME_ALREADY_EXISTS: 'Name already exists.',
+        TYPE_IS_MISSING: 'Type is missing.',
+        CATEGORY_ALREADY_EXITS: 'Category already exists.',
+        EMAIL_IS_MISSING: 'Email address is missing.',
+        EMAIL_ALREADY_EXISTS: 'Email already exists.',
+        EMAIL_IS_INVALID: 'Email address is invalid.',
+        ROLE_GROUP_ALREADY_EXISTS: 'Role Group already exists.',
+        ROLE_ALREADY_EXISTS: 'Role already exists.',
+        ROLE_ID_IS_MISSING: 'Role id is missing.',
+        ROLE_GROUP_ID_IS_MISSING: 'Role Group id is missing.',
+        SKILL_ID_IS_MISSING: "Skill id is missing",
+        CATEGORY_ID_IS_MISSING: "Category id is missing",
+        SKILL_ALREADY_EXISTS: "Skill already exists",
+        PASSWORD_IS_MISSING: "Password is missing",
+        FIRSTNAME_IS_MISSING: "FirstName is missing",
+        LASTNAME_IS_MISSING: "LastName is missing",
+        BRANCH_IS_MISSING: "Branch is missing",
+        STARTED_TO_WORK_DATE_IS_MISSING: "Started to work date is missing",
+        POSITION_IS_MISSING: "Position is missing",
     },
 
     Keys: {
@@ -67,6 +94,7 @@ const Constants = {
     Migrations: {
         SKILL: 'Skill',
         CATEGORY: 'Category',
+        CRITERIA: 'Criteria',
 
         RoleRelation: {
             id: 'id',
@@ -89,29 +117,6 @@ const Constants = {
         UsersCategories: {
             uniqueUserCategory: 'uniqueUserCategory'
         },
-    },
-
-    ModelErrors: {
-        CATEGORY_ID_IS_MISSING: 'Category id is missing.',
-        RELATED_CATEGORY_ID_IS_MISSING: 'Related category id is missing.',
-        NAME_IS_MISSING: 'Name is missing.',
-        CATEGORY_ALREADY_EXITS: 'Category already exists.',
-        EMAIL_IS_MISSING: 'Email address is missing.',
-        EMAIL_ALREADY_EXISTS: 'Email already exists.',
-        EMAIL_IS_INVALID: 'Email address is invalid.',
-        ROLE_GROUP_ALREADY_EXISTS: 'Role Group already exists.',
-        ROLE_ALREADY_EXISTS: 'Role already exists.',
-        ROLE_ID_IS_MISSING: 'Role id is missing.',
-        ROLE_GROUP_ID_IS_MISSING: 'Role Group id is missing.',
-        SKILL_ID_IS_MISSING: "Skill id is missing",
-        CATEGORY_ID_IS_MISSING: "Category id is missing",
-        SKILL_ALREADY_EXISTS: "Skill already exists",
-        PASSWORD_IS_MISSING: "Password is missing",
-        FIRSTNAME_IS_MISSING: "FirstName is missing",
-        LASTNAME_IS_MISSING: "LastName is missing",
-        BRANCH_IS_MISSING: "Branch is missing",
-        STARTED_TO_WORK_DATE_IS_MISSING: "Started to work date is missing",
-        POSITION_IS_MISSING: "Position is missing",
     },
 
     Associate: {
@@ -148,6 +153,7 @@ const Constants = {
             ROLE_GROUP: 'Role Group',
             USER_CATEGORY: 'User categories',
             USER_SKILL: 'User skill',
+            CRITERIA: 'Criteria',
         },
         Users: {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
@@ -178,8 +184,11 @@ const Constants = {
         RolesGroup: {
             COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %s guid.',
         },
-        SkillRelation: {
-
+        UserSkills: {
+            ALREADY_EXISTS: 'Skill with %s already exists.',
+        },
+        UserCategory: {
+            ALREADY_EXISTS: 'Category with %s already exists.',
         },
         Search: {
             COULD_NOT_SEARCH_DATA: 'Could not search data.',
@@ -210,11 +219,9 @@ const Constants = {
         return `Could not ${type} ${modelName}`;
     },
     parse: function(str) {
-        let args = [].slice.call(arguments, 1),
-        i = 0;
-        return str.replace(/%s/g, () => args[i++]);
+        let args = [].slice.call(arguments, 1);
+        return str.replace(/%s/g, () => args[0]);
     }
-
 }
 
 module.exports = { Constants };
