@@ -1,20 +1,19 @@
 import React, {useState, useRef} from 'react';
 import { Row, Form, Col, Icon, Select, Button } from 'antd';
-import { post } from 'client/lib/axiosWrapper';
-import {Criteria} from 'components/pages/FindEmployees/Criteria';
-import {PeopleRow} from 'components/pages/FindEmployees/PeopleRow';
-import {UserDataView} from 'components/pages/FindEmployees/UserDataView/UserDataView';
+import { PeopleRow } from 'components/pages/FindEmployees/PeopleRow';
+import { UserDataView } from 'components/pages/FindEmployees/UserDataView/UserDataView';
 import { SMUserBar } from 'components/common/SMUserBar/SMUserBar';
 import { SMButton } from 'components/common/SMButton/SMButton';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { CRITERIA } from '../../../configSearch/criteria';
+import {getSearchParams, getUsers, searchParams } from '../../../actions/search';
 
 const { Option } = Select;
 
 function FindPeople(props){
-
-    const CRITERIA = Criteria();
     const id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
     const [criteriaValue, setCriteriaValue] = useState("");
-    const [userData, setUserData] = useState(null);
     const [disabledBtn, setDisabledBtn] = useState(true);
     const [collapseFind, setCollapseFind] = useState(false);
     const [dataFields, setdataFields] = useState([
@@ -29,6 +28,8 @@ function FindPeople(props){
 
     const { getFieldDecorator, getFieldsValue, validateFields, resetFields } = props.form;
 
+    const dispatch = useDispatch();
+
     const handleAddEvent = () => {
         const rows = {
           id: id,
@@ -36,33 +37,62 @@ function FindPeople(props){
 
         setDisabledBtn(true);
         setdataFields(dataFields.concat(rows));
+        dispatch(getSearchParams(searchParams.concat(rows)));
     }
 
+    const usersData = useSelector((state) => {
+        if(state.Search.items && state.Search.items.data){
+            state.Search.items.data = state.Search.items.data.map(item => {
+                item.key = item.guid
+                const colorCode = Math.floor(100000 + Math.random() * 900000);
+                item.avatar = <SMUserBar
+                                colorCode={colorCode}
+                                firstName={item.fname}
+                                lastName={item.lname}
+                                size='medium'
+                            />
+                return item;
+                })
+
+            return ({
+                users: state.Search.items.data,
+                fieldRows: state.Search.items.rows,
+                fieldValues: state.Search.items.values,
+                loading: state.Search.loading,
+                error: state.Search.error
+            })
+            }
+
+
+    });
+
     const handleRowDel = (rows) => {
-        dataFields.splice(rows, 1);
-        const delRow = [...dataFields];
+        searchParams.splice(rows, 1);
+        const delRow = [...searchParams];
         setdataFields(delRow);
+        dispatch(getSearchParams(delRow));
     };
 
-    const handleDisabled = () => {
+    const handleChange = () => {
         const fieldsValue = getFieldsValue();
         const fieldsRow = fieldsValue[rowIndex];
-        if( (fieldsRow.opCondition) && (fieldsRow.proficiency || fieldsRow.list || fieldsRow.experince || fieldsRow.branch || fieldsRow.position)) {
+        if((fieldsRow.opCondition) && (fieldsRow.proficiency || fieldsRow.list || fieldsRow.experince || fieldsRow.branch || fieldsRow.position)) {
             setDisabledBtn(false);
         }
+        // dispatch(getUsers(fieldsValue));
     }
 
     const renderFields = (data, index) => {
-        if (dataFields[index]) {
-            setrowIndex(dataFields[index].id);
-            return getFieldDecorator(`${dataFields[index].id}[${data.key}]`)(
-                <Select key={index} placeholder={data.name} onSelect={handleDisabled}>
+        if (searchParams[index]) {
+            setrowIndex(searchParams[index].id);
+            return getFieldDecorator(`${searchParams[index].id}[${data.key}]`, {initialValue: usersData && usersData.fieldValues[searchParams[index].id] && usersData.fieldValues[searchParams[index].id][data.key]})(
+                <Select key={index} placeholder={data.name} onSelect={handleChange}>
                     { data.items.map(item => <Option key={index} value={item.name}>{item.name}</Option>)}
                 </Select>
             )
         } else {
             return (
-                <Select key={index} placeholder={data.name} onSelect={handleDisabled}>
+                <Select key={index} placeholder={data.name} onSelect={handleChange}>
                     { data.items.map(item => <Option key={index} value={item.name}>{item.name}</Option>)}
                 </Select>
             )
@@ -88,83 +118,24 @@ function FindPeople(props){
 
     const handleResetFields = () => {
         resetFields();
+        dispatch(getSearchParams([{
+            id: id
+        }]));
+        usersData.users = null;
         setdataFields([{
             id: id
         }]);
-        setUserData(null);
         setCriteriaValue();
         setDisabledBtn(true);
     }
-
-    const getIdValues = (type, item) => {
-        const id = [];
-        Object.values(CRITERIA).map((criteria) => {
-            if(criteria.name !== type) {
-                return null;
-            }
-
-            criteria.input.map((data, index) => {
-                if(data.key === "list"){
-                    data.items.map(e => {
-                        if(e.name === item){
-                            id.push(e.id);
-                        }
-                    })
-                }
-            });
-        });
-        return id[0];
-        }
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
         refForScroll.current.scrollTo(0,0);
         setCollapseFind(true);
-
         validateFields((err, values) => {
             if (!err) {
-               const bodyObject = Object.values(values).map(item => {
-                const itemObject  = (
-                    (item.type === "Branch") ?
-                        { name: item.branch } :
-                    (item.type === "Position") ?
-                        { name: item.position } :
-                    {
-                        id: getIdValues(item.type, item.list),
-                        // name: item.list,
-                        experience: item.experience,
-                        profficience: item.proficiency
-                    }
-                );
-
-                    return {
-                        type: item.type && item.type.toLowerCase(),
-                        opCondition: item.opCondition,
-                        items: itemObject,
-                        relCondition: item.relCondition ? item.relCondition.toLowerCase() : "and"
-                    }
-                })
-
-                post({url: "search/v1", data: bodyObject}).then(result => {
-                        result.data.users = result.data.users.map(item => {
-                        item.key = item.guid
-                        const colorCode = Math.floor(100000 + Math.random() * 900000);
-                        item.avatar = <SMUserBar
-                                        colorCode={colorCode}
-                                        firstName={item.fname}
-                                        lastName={item.lname}
-                                        size='medium'
-                                    />
-                        return item;
-                    });
-
-                    setUserData(result.data.users);
-                }).catch(error => {
-                    //TODO handle error
-                    console.error("Error:", error);
-                });
+               dispatch(getUsers(values));
             }
           });
     }
@@ -192,23 +163,23 @@ function FindPeople(props){
             </Row>
             <Form onSubmit={handleSubmit}>
                 <Form.Item>
-                    {dataFields.map((item, index) => <PeopleRow key={item.id}
+                    {searchParams.map((item, index) => <PeopleRow key={item.id}
                         onRowDel={handleRowDel}
                         rows={item}
                         rowIndex={index}
                         addSelectField={addSelectField}
                         criteriaValue={selectCriteriaValue}
-                        dataFields={dataFields}
                         formItem={props.form}
-                        />)}
+                        fieldsValue={usersData && usersData.fieldValues}
+                        />) }
                 </Form.Item>
                 <Row>
-                    <Button disabled={disabledBtn} onClick={handleAddEvent} icon="plus" className={criteriaValue ? "" : "visible_info_desc"} id={disabledBtn ? "add_people_btn_disabled" : "add_people_btn_enabled"}>
+                    <Button disabled={disabledBtn} onClick={handleAddEvent} icon="plus" className={(criteriaValue || (criteriaValue === undefined && searchParams.length > 1)) ? "" : "visible_info_desc"} id={disabledBtn ? "add_people_btn_disabled" : "add_people_btn_enabled"}>
                          Add more criteria
                     </Button>
                 </Row>
 
-                <Form.Item className={criteriaValue ? "people_finder_buttons" : "visible_info_desc"}>
+                <Form.Item className={(criteriaValue || (criteriaValue === undefined && searchParams.length > 1 ) ) ? "people_finder_buttons" : "visible_info_desc"}>
                     <Row gutter={16}>
                         <Col span={10}>
                             <Button type="primary" htmlType="submit" id="people_finder_btn">
@@ -221,11 +192,12 @@ function FindPeople(props){
                     </Row>
                 </Form.Item>
             </Form>
-            <Row type="flex" justify="center" className={criteriaValue ? "visible_info_desc" : "main_info_desc"}>
+            <Row type="flex" justify="center" className={(criteriaValue || (criteriaValue === undefined && searchParams.length > 1)) ? "visible_info_desc" : "main_info_desc"}>
                 <Col className="people_finder_info_desc">Please select the criteria to find employees</Col>
             </Row>
         </div>
-        {userData && <UserDataView userData={userData} history={props.history}/> }
+
+        {usersData && usersData.users && <UserDataView userData={usersData.users} history={props.history}/> }
         </>
     )
 }

@@ -1,19 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {AddPeopleRow} from 'components/pages/FindEmployees/AddPeopleRow/AddPeopleRow';
+import {getUsers} from '../../../actions/search';
+import { useDispatch } from 'react-redux';
 
 function PeopleRow(props) {
 
     const [rowSelect, setRowSelect] = useState()
-
+    const dispatch = useDispatch();
     const handleChange = (item) => {
         setRowSelect(item);
+        dispatch(getUsers(props.formItem.getFieldsValue()))
     }
 
     return (
         <>
             <AddPeopleRow
               formItem={props.formItem}
-              dataFields={props.dataFields}
               rowIndex={props.rowIndex}
               rowSelect={handleChange}
               addSelectField={props.addSelectField}
@@ -22,7 +24,7 @@ function PeopleRow(props) {
               onRowDel={props.onRowDel}
               cellData={{
                 id: props.rows.id,
-                criteriaValue: rowSelect,
+                criteriaValue: (props.fieldsValue && props.fieldsValue[props.rows.id]) ? props.fieldsValue[props.rows.id].type : rowSelect,
               }}
             />
         </>
