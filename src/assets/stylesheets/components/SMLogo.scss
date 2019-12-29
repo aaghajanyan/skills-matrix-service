@@ -1,0 +1,24 @@
+@import '../variables';
+
+.sm-logo-container {
+    height:$sm-header-height;
+    min-width: $sm-sider-with;
+    display: flex;
+    align-items: center;
+
+    .sm-logo-image {
+        height: 40px;
+        cursor: pointer;
+        margin-left: 30px;
+    }
+    h1 {
+        font-weight: bold;
+        font-size: x-large;
+        margin: 0 0 0 30px;
+        color: white;
+        transition: $sm-transition;
+    }
+    .collapsed {
+        opacity: 0;
+    }
+}
