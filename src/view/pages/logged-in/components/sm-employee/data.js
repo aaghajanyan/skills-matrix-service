@@ -118,4 +118,147 @@ const categorySkills = [
 
 ];
 
-export { categories, categorySkills }
+
+const summary = {
+  chartData: [
+    {
+      name: 'Front End', javaScript: 5, React: 5, Angular: 4, HTML: 4,
+    },
+    {
+      name: 'Back End', NodeJS: 4, Django: 5, js: 4, Express: 3
+    },
+    {
+      name: 'Native', iOSNative: 4, AndroidNative: 5,
+    },
+  ],
+  chartKeys: ['javaScript', 'NodeJS', 'React', 'Css', 'Angular JS', 'HTML', 'Django', 'Express', 'iOSNative', 'AndroidNative'],
+
+  topSkills: [
+    {
+      icon: 'java',
+      skill: 'Java',
+      mark: 5,
+    },
+    {
+      icon: 'js',
+      skill: 'JavaScript',
+      mark: 5,
+    },
+    {
+      icon: 'react',
+      skill: 'React',
+      mark: 5,
+    },
+    {
+      icon: 'node',
+      skill: 'Node JS',
+      mark: 5,
+    },
+    {
+      icon: 'angular',
+      skill: 'Angular JS',
+      mark: 4,
+    },
+    {
+      icon: 'html5',
+      skill: 'HTML',
+      mark: 4,
+    },
+  ],
+
+  needToImprove: [
+    {
+      icon: 'git-alt',
+      skill: 'Git',
+      mark: 2,
+    },
+    {
+      icon: 'wordpress',
+      skill: 'Wordpress',
+      mark: 2,
+    },
+    {
+      icon: 'swift',
+      skill: 'Swift',
+      mark: 5,
+    },
+    {
+      icon: 'android',
+      skill: 'Android',
+      mark: 3,
+    },
+    {
+      icon: 'python',
+      skill: 'python',
+      mark: 3,
+    },
+    {
+      icon: 'sass',
+      skill: 'Sass',
+      mark: 3,
+    },
+  ],
+
+  topInterests: [
+    {
+      icon: 'android',
+      skill: 'Android',
+      mark: 5,
+    },
+    {
+      icon: 'angular',
+      skill: 'Angular JS',
+      mark: 5,
+    },
+    {
+      icon: 'css3',
+      skill: 'CSS',
+      mark: 5,
+    },
+    {
+      icon: 'python',
+      skill: 'Python',
+      mark: 5,
+    },
+    {
+      icon: 'swift',
+      skill: 'Swift',
+      mark: 5,
+    },
+    {
+      icon: 'react',
+      skill: 'React JS',
+      mark: 5,
+    },
+  ],
+
+  peopleWithSimilarSkills: [
+    {
+      firstName: 'ATester',
+      lastName: 'ATester',
+    },
+    {
+      firstName: 'BTester',
+      lastName: 'ester',
+    },
+    {
+      firstName: 'CTester',
+      lastName: 'Tester',
+    },
+    {
+      firstName: 'DTester',
+      lastName: 'Tester',
+    },
+    {
+      firstName: 'ETester',
+      lastName: 'Tester',
+    },
+    {
+      firstName: 'FTester',
+      lastName: 'Tester',
+    },
+  ]
+
+}
+
+export { categories, categorySkills, summary }
