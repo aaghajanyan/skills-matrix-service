@@ -32,8 +32,13 @@ function Employees(props) {
             })
             .catch(error => {
                 setLoading(false);
-                error.response.status === 409 &&
-                    SMNotification('error', messages.invitations.sendInvitation.error)
+                if (error.response) {
+                    if (error.response.status === 409) {
+                        SMNotification('error', messages.invitations.sendInvitation.error)
+                    }
+                } else if (error.request) {
+                    SMNotification('error', messages.invitations.noConnection)
+                }
             })
         setVisible(false);
     }
@@ -65,7 +70,7 @@ function Employees(props) {
                 setUsers(result.data)
             })
             .catch(error => {
-                //TODO handle error
+                setUsers([])
             })
     }, [])
 
@@ -83,7 +88,7 @@ function Employees(props) {
             <EmployeesTable
                 className='sm-table sm-component'
                 history={props.history}
-                loading={!users}
+                loading={users === null ? true : false}
                 showHeader={true}
                 dataSource={users}
                 pagination={false}

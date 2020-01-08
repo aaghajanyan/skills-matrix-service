@@ -2,6 +2,7 @@ import axios from "axios";
 import { serverUrl } from 'config/config'
 import cookie from 'react-cookies'
 import { authTokenKey } from 'constants'
+import { logOut } from 'client/lib/authService'; //TODO: Remove
 
 const getAuthHeader = () => {
   const authToken = cookie.load(authTokenKey);
@@ -39,7 +40,13 @@ const apiClient = (method, options) => {
     ...options,
     method,
   })
-    .then((response) => response);
+    .then((response) => response)
+    .catch((error) => {
+      if(error.response && error.response.status === 401) {
+          logOut() //TODO: Remove
+      }
+      return Promise.reject(error)
+    })
 };
 
 export { apiClient };
