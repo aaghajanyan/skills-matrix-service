@@ -1,6 +1,15 @@
 import axios from "axios";
-import { authService } from './AuthService';
 import { serverUrl } from 'config/config'
+import cookie from 'react-cookies'
+import { authTokenKey } from 'constants'
+
+const getAuthHeader = () => {
+  const authToken = cookie.load(authTokenKey);
+  if (authToken) {
+    return { Authorization: `Bearer ${cookie.load(authTokenKey)}` }
+  }
+  return null
+}
 
 const handleSuccess = (response) => {
   return response;
@@ -11,7 +20,10 @@ const handleError = (error) => {
 };
 
 const defaultHeaderHandler = request => {
-  request.headers = authService.getAuthHeader()
+  const authHeader = getAuthHeader()
+  if (authHeader) {
+    request.headers = authHeader
+  }
   return request;
 }
 

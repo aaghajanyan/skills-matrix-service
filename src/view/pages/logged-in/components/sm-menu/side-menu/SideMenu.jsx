@@ -4,7 +4,7 @@ import { SMMenu } from 'view/components';
 import { withRouter } from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { logOut } from 'client/lib/Auth.js';
+import { logOut } from 'client/lib/authService';
 
 function SideMenuInitial(props) {
 

@@ -1,18 +1,18 @@
 
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { authService } from 'client/lib/AuthService';
+import { isLoggedIn } from 'client/lib/authService';
 import { SMPageLoggedIn } from 'pages/logged-in'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-    const isLoggedIn = authService.isLoggedIn();
+    const loggedIn = isLoggedIn();
     const redirection_url = rest.location.pathname + rest.location.search;
 
     return (
         <Route
             {...rest}
             render={props => {
-                return isLoggedIn ? (
+                return loggedIn ? (
                     <SMPageLoggedIn content={<Component {...props} />} />
                 ) : (
                     <Redirect

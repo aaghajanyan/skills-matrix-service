@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
 import logo from 'assets/images/logo.png';
-import { authService } from 'client/lib/AuthService';
+import { isLoggedIn } from 'client/lib/authService';
 import { Redirect } from 'react-router-dom';
 import { SMButton } from 'view/components';
 import { RegisterForm } from './RegisterForm';
@@ -10,11 +10,11 @@ const { Header, Content, Footer } = Layout;
 
 function SMPageLoggedOut(props) {
 
-    const isLoggedIn = authService.isLoggedIn();
+    const loggedIn = isLoggedIn();
 
     const location = props.match.path;
 
-    return isLoggedIn ? (
+    return loggedIn ? (
         <Redirect to="/" />
     ) : (
         <Layout className="sm-layout">

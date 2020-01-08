@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert } from 'antd';
 import { SMForm, SMInput, SMButton, SMIcon } from 'view/components';
 import { Redirect } from 'react-router-dom';
-import { login } from 'client/lib/Auth.js';
+import { login } from 'client/lib/authService';
 import { messages } from 'constants'
 
 function LoginForm(props) {

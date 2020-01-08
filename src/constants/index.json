@@ -48,6 +48,7 @@
             }
         }
     },
+    "authTokenKey": "auth_token",
     "colors": [
         "#DB4437",
         "#0F9D58",
