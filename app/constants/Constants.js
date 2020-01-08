@@ -13,6 +13,7 @@ const Constants = {
         Invitations: 'invitations',
         Roles: 'roles',
         RolesGroup: 'roles_groups',
+        Branches: 'branches',
         RolesRelation: 'roles_relations',
         Skills: 'skills',
         Categories: 'categories',
@@ -25,6 +26,7 @@ const Constants = {
     },
     ModelNames : {
         User: 'user',
+        Branch: 'branch',
         Invitations: 'invitation',
         Roles: 'roles',
         RolesGroup: 'roles_groups',
@@ -43,6 +45,8 @@ const Constants = {
         CATEGORY_ID_IS_MISSING: 'Category id is missing.',
         RELATED_CATEGORY_ID_IS_MISSING: 'Related category id is missing.',
         NAME_IS_MISSING: 'Name is missing.',
+        BRANCH_IS_MISSING: 'Branch is missing.',
+        BRANCH_ALREADY_EXISTS: 'BRANCH already exists.',
         NAME_ALREADY_EXISTS: 'Name already exists.',
         TYPE_IS_MISSING: 'Type is missing.',
         CATEGORY_ALREADY_EXITS: 'Category already exists.',
@@ -66,6 +70,7 @@ const Constants = {
 
     Keys: {
         id: 'id',
+        branchId: 'branchId',
         roleGroupId: 'roleGroupId',
         roleId: 'roleId',
         categoryId: 'categoryId',
@@ -121,6 +126,7 @@ const Constants = {
 
     Associate: {
         Aliases: {
+            branch: 'branch',
             relatedCategories: 'relatedCategories',
             categoryRelation: 'categoryRelation',
             skillRelation: 'skillRelation',
@@ -154,6 +160,7 @@ const Constants = {
             USER_CATEGORY: 'User categories',
             USER_SKILL: 'User skill',
             CRITERIA: 'Criteria',
+            BRANCH: 'Branch',
         },
         Users: {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
@@ -167,10 +174,10 @@ const Constants = {
             COULD_NOT_SEND_EMAIL: 'Could not send email',
         },
         Skills: {
-            SKILL_ALREADY_EXISTS: ' skill already exists.',
+            SKILL_ALREADY_EXISTS: ' skill already exists.'
         },
         Categories: {
-            CATEGORY_ALREADY_EXISTS: ' category already exists.',
+            CATEGORY_ALREADY_EXISTS: ' category already exists.'
         },
         ForgotPassword: {
             COULD_NOT_SEND_EMAIL: 'Could not send email.',

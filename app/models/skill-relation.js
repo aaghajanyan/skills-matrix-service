@@ -2,27 +2,24 @@ const { skills_relation: skillRelationModel } = require("../sequelize/models");
 
 class SkillRelation {
     static async findAll() {
-        const skillRelations = await skillRelationModel.findAll();
-        return skillRelations;
+        return await skillRelationModel.findAll();
     }
 
     static async find(condition) {
-        const skillRelation = await skillRelationModel.findOne({
+        return await skillRelationModel.findOne({
             where: { ...condition }
         });
-        return skillRelation;
     }
 
     static async findByPk(pk) {
-        const skillRelation = await skillRelationModel.findByPk(pk);
-        return skillRelation;
+        return await skillRelationModel.findByPk(pk);
     }
 
     static async delete(condition) {
         await skillRelationModel.destroy({ where: { ...condition } });
     }
     static async create(data) {
-        await skillRelationModel.create(data);
+        return await skillRelationModel.create(data);
     }
 
     static async update(data) {

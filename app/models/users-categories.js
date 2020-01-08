@@ -9,15 +9,13 @@ class UserCategory {
     }
 
     static async find(condition) {
-        const userCategory = await usersCategoriesModel.findOne({
+        return await usersCategoriesModel.findOne({
             where: { ...condition }
         });
-        return userCategory;
     }
 
-    static async findByPk(pk) {
-        const userCategory = await usersCategoriesModel.findByPk(pk);
-        return userCategory;
+    static async findByPk(id) {
+        return await usersCategoriesModel.findByPk(id);
     }
 
     static async delete(condition) {

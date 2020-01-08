@@ -2,20 +2,17 @@ const { criteria: criteriaModel } = require("../sequelize/models");
 
 class Criteria {
     static async findAll() {
-        const criteries = await criteriaModel.findAll();
-        return criteries;
+        return await criteriaModel.findAll();
     }
 
     static async find(condition) {
-        const criteria = await criteriaModel.findOne({
+        return await criteriaModel.findOne({
             where: { ...condition }
         });
-        return criteria;
     }
 
     static async findByPk(pk) {
-        const criteria = await criteriaModel.findByPk(pk);
-        return criteria;
+        return await criteriaModel.findByPk(pk);
     }
 
     static async delete(condition) {
@@ -23,8 +20,7 @@ class Criteria {
     }
 
     static async create(data) {
-        const criteria = await criteriaModel.create(data);
-        return criteria;
+        return await criteriaModel.create(data);
     }
 
     static async findOrCreate(condition) {

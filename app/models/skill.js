@@ -3,22 +3,20 @@ const {
     category: categoryModel,
     "skills_relation": skillRelationModel
 } = require("../sequelize/models");
+const { Constants } = require("../constants/Constants");
 
 class Skill {
 
     static async findAll() {
-        const skills = await skillModel.findAll();
-        return skills;
+        return await skillModel.findAll();
     }
 
     static async findByPk(pk) {
-        const skill =  await skillModel.findByPk(pk);
-        return skill;
+        return await skillModel.findByPk(pk);
     }
 
     static async find(condition) {
-        const skill =  await skillModel.findOne({where : { ...condition } });
-        return skill;
+        return await skillModel.findOne({where : { ...condition } });
     }
 
     static async getSkillAllData(guid) {
@@ -27,12 +25,12 @@ class Skill {
             include: [
                 {
                     model: categoryModel,
-                    as: "categories",
+                    as: Constants.Associate.Aliases.categories,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: skillRelationModel,
-                        as: "skillRelation",
+                        as: Constants.Associate.Aliases.skillRelation,
                         attributes: []
                     }
                 }
@@ -46,12 +44,12 @@ class Skill {
             include: [
                 {
                     model: categoryModel,
-                    as: "categories",
+                    as: Constants.Associate.Aliases.categories,
                     required: false,
-                    attributes: ["id", "name"],
+                    attributes: [Constants.Keys.id, Constants.Keys.name],
                     through: {
                         model: skillRelationModel,
-                        as: "skillRelation",
+                        as: Constants.Associate.Aliases.skillRelation,
                         attributes: []
                     }
                 }
@@ -70,7 +68,11 @@ class Skill {
                     where: {guid: categoryGuid}
                 });
                 const message = {
-                    message: `Category with ${categoryGuid} guid doesn't exist`,
+                    message: `${Constants.notExists(
+                        Constants.Migrations.CATEGORY,
+                        categoryGuid,
+                        Constants.Keys.id
+                    )}`,
                     success: false
                 }
 
@@ -116,7 +118,7 @@ class Skill {
 
                 const obj = {
                     categoryGuid: categoryGuid,
-                    status: 'failed'
+                    status: false
                 }
                 const existingSkillCategory = await skillRelationModel.findOne({
                     where: {
@@ -126,7 +128,7 @@ class Skill {
                 });
 
                 if (existingSkillCategory) {
-                    obj.status = 'passed';
+                    obj.status = true;
                     await existingSkillCategory.destroy();
                 }
                 return obj;
@@ -139,8 +141,7 @@ class Skill {
     }
 
     static async findOneSkill(condition) {
-        const skill =  await skillModel.findOne({where : { ...condition } });
-        return skill;
+        return await skillModel.findOne({where : { ...condition } });
     }
 
     static async updateSkill(data, condition) {

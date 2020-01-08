@@ -7,20 +7,17 @@ const {
 
 class Category {
     static async findAll() {
-        const categories = await categoryModel.findAll();
-        return categories;
+        return await categoryModel.findAll();
     }
 
     static async find(condition) {
-        const category = await categoryModel.findOne({
+        return await categoryModel.findOne({
             where: { ...condition }
         });
-        return category;
     }
 
     static async findByPk(pk) {
-        const category = await categoryModel.findByPk(pk);
-        return category;
+        return await categoryModel.findByPk(pk);
     }
 
     static async update(data, condition) {
@@ -37,11 +34,7 @@ class Category {
         };
     }
 
-    static async addRelatedCategories(
-        relatedCategoriesIds,
-        category,
-        sendedList
-    ) {
+    static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
         sendedList.addedCategories = [];
         if (relatedCategoriesIds && relatedCategoriesIds.length) {
             const promise = relatedCategoriesIds.map(async function(
@@ -83,11 +76,7 @@ class Category {
         return categories;
     }
 
-    static async removeRelatedCategories(
-        removedCategories,
-        category,
-        sendedList
-    ) {
+    static async removeRelatedCategories(removedCategories, category, sendedList) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async function(categoryGuid) {
@@ -177,146 +166,6 @@ class Category {
             });
         }
     }
-
-    // static async includeModel(
-    //     modelName,
-    //     alians,
-    //     required,
-    //     attributes,
-    //     through_modelName,
-    //     through_alians,
-    //     through_attributes
-    // ) {
-    //     return {
-    //         model: modelName,
-    //         as: alians,
-    //         required: required,
-    //         attributes: attributes,
-    //         through: {
-    //             model: through_modelName,
-    //             as: through_alians,
-    //             attributes: through_attributes
-    //         }
-    //     };
-    // };
-
-    // static async getCategoriesAllData() {
-    //         const categories = await categoryModel.findAll({
-    //             include: [
-    //                 {
-    //                     model: categoryModel,
-    //                     as: "relatedCategories",
-    //                     required: false,
-    //                     attributes: ["id", "name"],
-    //                     through: {
-    //                         model: categoryRelationModel,
-    //                         as: "categoryRelation",
-    //                         attributes: []
-    //                     },
-    //                     // include: Category.includeModel(
-    //                     //     skillModel,
-    //                     //     "skills",
-    //                     //     false,
-    //                     //     ["id", "name"],
-    //                     //     skillRelationModel,
-    //                     //     "skillRelation",
-    //                     //     []
-    //                     // )
-    //                 },
-    //                 {
-    //                     model: categoryModel,
-    //                     as: "relatedCategoriesRef",
-    //                     required: false,
-    //                     attributes: ["id", "name"],
-    //                     through: {
-    //                         model: categoryRelationModel,
-    //                         as: "categoryRelation",
-    //                         attributes: []
-    //                     },
-    //                     // include: Category.includeModel(
-    //                     //     skillModel,
-    //                     //     "skills",
-    //                     //     false,
-    //                     //     ["id", "name"],
-    //                     //     skillRelationModel,
-    //                     //     "skillRelation",
-    //                     //     []
-    //                     // )
-    //                 },
-    //                 Category.includeModel(
-    //                     skillModel,
-    //                     "skills",
-    //                     false,
-    //                     ["id", "name"],
-    //                     skillRelationModel,
-    //                     "skillRelation",
-    //                     []
-    //                 )
-    //             ]
-    //         });
-    //         await Category.mergeRelatedCategories(JSON.parse(JSON.stringify(categories)));
-    //         return categories;
-    // };
-
-    // static async getCategoryAllData() {
-    //         const categories = await categoryModel.findOne({
-    //             where: { guid: request.params.guid },
-    //             include: [
-    //                 {
-    //                     model: categoryModel,
-    //                     as: "relatedCategories",
-    //                     required: false,
-    //                     attributes: ["id", "name"],
-    //                     through: {
-    //                         model: categoryRelationModel,
-    //                         as: "categoryRelation",
-    //                         attributes: []
-    //                     },
-    //                     include: includeModel(
-    //                         skillModel,
-    //                         "skills",
-    //                         false,
-    //                         ["id", "name"],
-    //                         skillRelationModel,
-    //                         "skillRelation",
-    //                         []
-    //                     )
-    //                 },
-    //                 {
-    //                     model: categoryModel,
-    //                     as: "relatedCategoriesRef",
-    //                     required: false,
-    //                     attributes: ["id", "name"],
-    //                     through: {
-    //                         model: categoryRelationModel,
-    //                         as: "categoryRelation",
-    //                         attributes: []
-    //                     },
-    //                     include: includeModel(
-    //                         skillModel,
-    //                         "skills",
-    //                         false,
-    //                         ["id", "name"],
-    //                         skillRelationModel,
-    //                         "skillRelation",
-    //                         []
-    //                     )
-    //                 },
-    //                 includeModel(
-    //                     skillModel,
-    //                     "skills",
-    //                     false,
-    //                     ["id", "name"],
-    //                     skillRelationModel,
-    //                     "skillRelation",
-    //                     []
-    //                 )
-    //             ]
-    //         });
-    //         return categories;
-    // };
-
-
 }
 
 module.exports = Category;

@@ -8,6 +8,7 @@ const { Constants } = require("../constants/Constants");
 const { collectCondition, collectQueryWhere } = require("../helper/searchHelper");
 const logger = require("../helper/logger");
 
+let branchIdsList = [];
 let skillIdsList = [];
 let categoriesIdsList = [];
 
@@ -17,6 +18,7 @@ const search = async function(request, response, next) {
         categoriesIdsList = [];
         const queryWhere = {
             usersCondition: { $or: [], $and: [], $gte: [], $lte: [] },
+            branchCondition: { $or: [], $and: [], $gte: [], $lte: [] },
             categoriesCondition: { $or: [], $gte: [], $lte: [] },
             skillsCondition: { $or: [], $gte: [], $lte: [] },
             usersSkillsCondition: { $or: [], $gte: [], $lte: [] },
@@ -25,7 +27,7 @@ const search = async function(request, response, next) {
         for (const item of request.body) {
             const { type, opCondition, relCondition, items } = item;
             const currWhere = await collectCondition(items, opCondition);
-            await collectQueryWhere(queryWhere, currWhere, type, skillIdsList, categoriesIdsList, next);
+            await collectQueryWhere(queryWhere, currWhere, type, branchIdsList, skillIdsList, categoriesIdsList, next);
         }
         const users = await User.searchUser(queryWhere, skillIdsList, categoriesIdsList);
         return response.status(OK).json({

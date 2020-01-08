@@ -2,27 +2,24 @@ const { roles_groups: rolesGroupsModel } = require("../sequelize/models");
 
 class RoleGroup {
     static async findAll() {
-        const roleGroups = await rolesGroupsModel.findAll();
-        return roleGroups;
+        return await rolesGroupsModel.findAll();
     }
 
     static async find(condition) {
-        const roleGroup = await rolesGroupsModel.findOne({
+        return await rolesGroupsModel.findOne({
             where: { ...condition }
         });
-        return roleGroup;
     }
 
     static async findByPk(pk) {
-        const roleGroup = await rolesGroupsModel.findByPk(pk);
-        return roleGroup;
+        return await rolesGroupsModel.findByPk(pk);
     }
 
     static async delete(condition) {
         await rolesGroupsModel.destroy({ where: { ...condition } });
     }
     static async create(data) {
-        await rolesGroupsModel.create(data);
+        return await rolesGroupsModel.create(data);
     }
 }
 

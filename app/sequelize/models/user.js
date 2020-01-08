@@ -1,5 +1,6 @@
 const DefaultUsers = require("../utils/DefaultUsers");
 const DefaultRoles = require("../utils/DefaultRoles");
+const DefaultBranches = require("../utils/DefaultBranches");
 const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
@@ -44,18 +45,22 @@ module.exports = (sequelize, DataTypes) => {
                     msg: Constants.ModelErrors.LASTNAME_IS_MISSING
                 },
             },
-            branchName: {
-                type: DataTypes.ENUM,
-				values: [
-                    "Vanadzor",
-                    "Erevan",
-                    "Goris"
-                ],
-                allowNull: {
-                    args: false,
-                    msg: Constants.ModelErrors.BRANCH_IS_MISSING
-                }
+            branchId: {
+                allowNull: false,
+                type: DataTypes.INTEGER,
             },
+            // branchName: {
+            //     type: DataTypes.ENUM,
+			// 	values: [
+            //         "Vanadzor",
+            //         "Erevan",
+            //         "Goris"
+            //     ],
+            //     allowNull: {
+            //         args: false,
+            //         msg: Constants.ModelErrors.BRANCH_IS_MISSING
+            //     }
+            // },
             guid: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
@@ -117,6 +122,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: Constants.Keys.roleGroupId,
             targetkey: Constants.Keys.id,
         }),
+        User.belongsTo(models.branch, {
+            as: Constants.Associate.Aliases.branch,
+            foreignKey: Constants.Keys.branchId,
+            targetkey: Constants.Keys.id,
+        }),
         User.belongsToMany(models.skill, {
             through: Constants.TableNames.UsersSkills,
             foreignKey: Constants.Keys.userId,
@@ -146,6 +156,7 @@ module.exports = (sequelize, DataTypes) => {
 
     User.initDefaultValues = async function(models) {
         await DefaultRoles.initializeRoleTable(models);
+        await DefaultBranches.initializeBranchTable(models);
         await DefaultRoles.initializeRolesGroupsTable(models);
         await DefaultRoles.initializeRolesRelationTable(models, rolesAndGroupRelation);
         await DefaultUsers.initializeUserTable(models);

@@ -2,20 +2,17 @@ const { users_skills: usersSkillsModel } = require("../sequelize/models");
 
 class UserSkill {
     static async findAll() {
-        const userSkills = await usersSkillsModel.findAll();
-        return userSkills;
+        return await usersSkillsModel.findAll();
     }
 
     static async find(condition) {
-        const userSkill = await usersSkillsModel.findOne({
+        return await usersSkillsModel.findOne({
             where: { ...condition }
         });
-        return userSkill;
     }
 
     static async findByPk(pk) {
-        const userSkill = await usersSkillsModel.findByPk(pk);
-        return userSkill;
+        return await usersSkillsModel.findByPk(pk);
     }
 
     static async delete(condition) {

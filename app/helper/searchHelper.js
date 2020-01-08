@@ -80,17 +80,18 @@ const changeKeyNameUserType = ( obj, keyFromName, keyToName, needToDelOld, final
     });
 };
 
-const collectQueryWhere = async (queryWhere, currWhere, type, skillIdsList, categoriesIdsList, next) => {
+const collectQueryWhere = async (queryWhere, currWhere, type, branchIdsList, skillIdsList, categoriesIdsList, next) => {
     const $and = [];
     switch (type) {
-        case Constants.Keys.branch:
-            changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.branchName, true, queryWhere.usersCondition.$and);
-            break;
         case Constants.Keys.position:
             changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.position, true, queryWhere.usersCondition.$and);
             break;
         case Constants.Keys.user:
             changeKeyNameUserType(currWhere, Constants.Keys.name, Constants.Keys.position, false, queryWhere.usersCondition.$and);
+            break;
+        case Constants.Keys.branch:
+            await changeKeyName(Constants.Keys.id, Constants.Keys.guid, type, Constants.Keys.branch, currWhere, $and, branchIdsList, next);
+            queryWhere.branchCondition.$and.push($and);
             break;
         case Constants.Keys.skill:
             await changeKeyName(Constants.Keys.id, Constants.Keys.skillId, type, Constants.Keys.skill, currWhere, $and, skillIdsList, next);

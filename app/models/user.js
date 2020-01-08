@@ -1,6 +1,7 @@
 const {
     user: userModel,
     roles: rolesModel,
+    branch: branchesModel,
     roles_relations: rolesRelationModel,
     roles_groups: rolesGroupsModel,
     users_skills: userSkillsModel,
@@ -21,8 +22,7 @@ const { Constants } = require("../constants/Constants");
 class User {
 
     static async findOneUser(condition) {
-        const user =  await userModel.findOne({where : { ...condition } });
-        return user;
+        return await userModel.findOne({where : { ...condition } });
     }
 
     static async getByGuid(guid) {
@@ -45,6 +45,11 @@ class User {
                             attributes: []
                         }
                     }
+                },
+                {
+                    model: branchesModel,
+                    as: Constants.Associate.Aliases.branch,
+                    required: false,
                 },
                 {
                     attributes: { exclude: [Constants.Keys.id] },
@@ -86,7 +91,7 @@ class User {
 
     static async getUsers() {
         const users = await userModel.findAll({
-            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId] },
+            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId, Constants.Keys.branchId] },
             include: [
                 {
                     attributes: { exclude: [Constants.Keys.id] },
@@ -104,6 +109,12 @@ class User {
                             attributes: []
                         }
                     }
+                },
+                {
+                    attributes: { exclude: [Constants.Keys.id] },
+                    model: branchesModel,
+                    as: Constants.Associate.Aliases.branch,
+                    required: false,
                 },
                 {
                     // attributes: { exclude: ["id"] },
@@ -160,6 +171,7 @@ class User {
     static async searchUser(queryWhere, skillIdsList, categoriesIdsList) {
         const {
             usersCondition,
+            branchCondition,
             categoriesCondition,
             skillsCondition,
             usersSkillsCondition,
@@ -167,12 +179,14 @@ class User {
         } = queryWhere;
 
         initFinallyWhereQuery(usersCondition, true);
+        initFinallyWhereQuery(branchCondition);
         initFinallyWhereQuery(skillsCondition);
         initFinallyWhereQuery(categoriesCondition);
         initFinallyWhereQuery(usersSkillsCondition);
         initFinallyWhereQuery(usersCategoriesCondition);
 
         const userQueryCount = getWhereQueryLength(usersCondition, true);
+        const branchQueryCount = getWhereQueryLength(branchCondition);
         const userSkillQueryCount = getWhereQueryLength(usersSkillsCondition);
         const userCategoryQueryCount = getWhereQueryLength(
             usersCategoriesCondition
@@ -183,6 +197,13 @@ class User {
             required: userQueryCount > 0,
             attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
             include: [
+                {
+                    // attributes: { exclude: [Constants.Keys.id] },
+                    model: branchesModel,
+                    as: Constants.Associate.Aliases.branch,
+                    required: branchQueryCount > 0,
+                    where: branchCondition,
+                },
                 {
                     // attributes: { exclude: [Constants.Keys.id] },
                     model: skillModel,

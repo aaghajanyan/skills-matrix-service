@@ -10,7 +10,7 @@ class DefaultUsers {
             email: 'admin@instigatemobile.com',
             fname: 'Admin',
             lname: 'Admin',
-            branchName: 'Vanadzor',
+            branchId: 1,
             startedToWorkDate: '2017-11-16',
             position: 'Project Manager',
             roleGroupId: 1

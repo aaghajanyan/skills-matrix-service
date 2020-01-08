@@ -2,20 +2,17 @@ const { invitation: invitationModel } = require("../sequelize/models");
 
 class Invitation {
     static async findAll() {
-        const invitations = await invitationModel.findAll();
-        return invitations;
+        return await invitationModel.findAll();
     }
 
     static async find(condition) {
-        const invitation = await invitationModel.findOne({
+        return await invitationModel.findOne({
             where: { ...condition }
         });
-        return invitation;
     }
 
     static async findByPk(pk) {
-        const invitation = await invitationModel.findByPk(pk);
-        return invitation;
+        return await invitationModel.findByPk(pk);
     }
 
     static async delete(condition) {
@@ -23,8 +20,7 @@ class Invitation {
     }
 
     static async create(data) {
-        const invitation = await invitationModel.create(data);
-        return invitation;
+        return await invitationModel.create(data);
     }
 }
 

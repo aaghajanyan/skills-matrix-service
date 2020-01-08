@@ -1,24 +1,20 @@
 const {
-    categories_relation: categoryRelationModel,
-    skills_relation: skillRelationModel
+    categories_relation: categoryRelationModel
 } = require("../sequelize/models");
 
 class CategoryRelation {
     static async findAll() {
-        const categoryRelations = await categoryRelationModel.findAll();
-        return categoryRelations;
+        return await categoryRelationModel.findAll();
     }
 
     static async find(condition) {
-        const categoryRelations = await categoryRelationModel.findOne({
+        return await categoryRelationModel.findOne({
             where: { ...condition }
         });
-        return categoryRelations;
     }
 
     static async findByPk(pk) {
-        const categoryRelation = await categoryRelationModel.findByPk(pk);
-        return categoryRelation;
+        return await categoryRelationModel.findByPk(pk);
     }
 
     static async update(data, condition) {
@@ -29,7 +25,7 @@ class CategoryRelation {
         await categoryRelationModel.destroy({ where: { ...condition } });
     }
     static async create(data) {
-        await categoryRelationModel.create(data);
+        return await categoryRelationModel.create(data);
     }
 }
 

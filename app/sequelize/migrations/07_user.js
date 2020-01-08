@@ -25,14 +25,15 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING
             },
-            branchName: {
-                unique: false,
+            branchId: {
                 allowNull: false,
-                type: Sequelize.ENUM(
-                    "Vanadzor",
-                    "Erevan",
-                    "Goris"
-                )
+                type: Sequelize.INTEGER,
+                onDelete: Constants.CASCADE,
+                references: {
+                    model: Constants.TableNames.Branches,
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.branchId
+                }
             },
             guid: {
                 unique: true,
