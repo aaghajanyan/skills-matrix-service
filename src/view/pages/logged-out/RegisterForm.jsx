@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { post, head } from 'client/lib/axiosWrapper';
-import { nonexistentInvitationMessage } from 'constants';
+import { messages } from 'constants';
 import {
     nameValidator,
     passwordValidator,
     confirmPasswordValidator
-} from 'helpers/FormValidators';
+} from 'helpers/validators';
 import {
     SMForm,
     SMInput,
@@ -24,30 +24,30 @@ function RegisterForm(props) {
 
     const [loading, setLoading] = useState(true);
 
-    const [firstPassword, setSetFirstPassword ]  = useState(null);
+    const [firstPassword, setSetFirstPassword] = useState(null);
 
     const onChange = (e) => {
         setSetFirstPassword(e.target.value);
     }
 
-    const firstNameRule = { rules: [{ validator: nameValidator("First") }] };
-    const lastNameRule = { rules: [{ validator: nameValidator("Last") }] };
-    const branchRule = { rules: [{ required: true, message: 'Branch is required field!' }] };
-    const positionRule = { rules: [{ required: true, message: 'Position is required field!' }] };
+    const firstNameRule = { rules: [{ validator: nameValidator("first") }] };
+    const lastNameRule = { rules: [{ validator: nameValidator("last") }] };
+    const branchRule = { rules: [{ required: true, message: messages.validation.branch.required }] };
+    const positionRule = { rules: [{ required: true, message: messages.validation.position.required }] };
     const passwordRule = { rules: [{ validator: passwordValidator }] };
     const confirmPasswordRule = { rules: [{ validator: confirmPasswordValidator(firstPassword) }] }
-    const dateRule = { rules: [{ required: true, message: 'Date is required field!' }] }
+    const dateRule = { rules: [{ required: true, message: messages.validation.date.required }] }
 
     useEffect(() => {
         const options = {
-            url : `invitations/${token}`,
+            url: `invitations/${token}`,
         }
         head(options)
             .then(result => {
                 setLoading(false)
             })
             .catch(error => {
-                SMNotification('error', nonexistentInvitationMessage);
+                SMNotification('error', messages.invitations.nonexistentInvitation);
                 props.history.push('/login')
             })
     })
@@ -63,8 +63,8 @@ function RegisterForm(props) {
             startedToWorkDate: formData.startedToWorkDate.toString()
         }
         const options = {
-            url : `users/${token}`,
-            data : data
+            url: `users/${token}`,
+            data: data
         }
         post(options)
             .then(result => {
@@ -77,29 +77,31 @@ function RegisterForm(props) {
             })
     }
 
+    // TODO: Get from back end
     const positions = [
-        {value: "SW Engineer"},
-        {value: "Senior SW Engineer"},
-        {value: "Beginner QA Tester"},
-        {value: "QA Tester"},
-        {value: "SQE Analyst"},
-        {value: "Sr. Software Quality Engineer"},
-        {value: "QA Analyst"},
-        {value: "QA lead"},
-        {value: "Team lead"},
-        {value: "Graphic designer"},
-        {value: "technical manager"},
-        {value: "Senior Team lead"},
-        {value: "Project Manager"},
-        {value: "3D modeler"},
-        {value: "UIUX designer"},
-        {value: "SW Architect"}
+        { value: "SW Engineer" },
+        { value: "Senior SW Engineer" },
+        { value: "Beginner QA Tester" },
+        { value: "QA Tester" },
+        { value: "SQE Analyst" },
+        { value: "Sr. Software Quality Engineer" },
+        { value: "QA Analyst" },
+        { value: "QA lead" },
+        { value: "Team lead" },
+        { value: "Graphic designer" },
+        { value: "technical manager" },
+        { value: "Senior Team lead" },
+        { value: "Project Manager" },
+        { value: "3D modeler" },
+        { value: "UIUX designer" },
+        { value: "SW Architect" }
     ]
 
-    const branches =  [
-        {value: "Vanadzor"},
-        {value: "Erevan"},
-        {value: "Goris"}
+    // TODO: Get from back end
+    const branches = [
+        { value: "Vanadzor" },
+        { value: "Erevan" },
+        { value: "Goris" }
     ]
 
     return (
@@ -127,7 +129,7 @@ function RegisterForm(props) {
                         className: 'sm-select',
                         name: 'branchName',
                         placeholder: "Branch",
-                        options:branches,
+                        options: branches,
                         rules: branchRule.rules
                     }),
                     SMSelect({

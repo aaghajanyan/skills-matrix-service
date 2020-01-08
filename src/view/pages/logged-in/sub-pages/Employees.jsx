@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
-import { emailValidator } from 'helpers/FormValidators';
-
-import { sendInvitationsMessages } from 'constants';
+import { emailValidator } from 'helpers/validators';
+import { messages } from 'constants';
 import { EmployeesTable } from 'view/pages/logged-in/components'
 import { SMUserBar } from '../components';
 
@@ -29,12 +28,12 @@ function Employees(props) {
         post(options)
             .then(result => {
                 setLoading(false);
-                SMNotification('success', sendInvitationsMessages.success)
+                SMNotification('success', messages.invitations.sendInvitation.success)
             })
             .catch(error => {
                 setLoading(false);
                 error.response.status === 409 &&
-                    SMNotification('error', sendInvitationsMessages.error)
+                    SMNotification('error', messages.invitations.sendInvitation.error)
             })
         setVisible(false);
     }
@@ -57,10 +56,10 @@ function Employees(props) {
                 result.data = result.data.map(item => {
                     item.key = item.guid
                     item.avatar = <SMUserBar
-                                    firstName={item.fname}
-                                    lastName={item.lname}
-                                    size='medium'
-                                />
+                        firstName={item.fname}
+                        lastName={item.lname}
+                        size='medium'
+                    />
                     return item;
                 })
                 setUsers(result.data)

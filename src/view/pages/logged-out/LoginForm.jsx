@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Alert } from 'antd';
 import { SMForm, SMInput, SMButton, SMIcon } from 'view/components';
-import { emailValidator, passwordValidator } from 'helpers/FormValidators';
 import { Redirect } from 'react-router-dom';
 import { login } from 'client/lib/Auth.js';
+import { messages } from 'constants'
 
 function LoginForm(props) {
-
-    const passwordRules = { rules: [{ validator: passwordValidator }] };
-
-    const emailRules = { rules: [{ validator: emailValidator }] };
 
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -42,71 +38,69 @@ function LoginForm(props) {
     return success ? (
         <Redirect to={props.location.state ? props.location.state.url : '/'} />
     ) : (
-        <React.Fragment>
-            {errorMessage && (
-                <Alert
-                    className="sm-alert"
-                    message={errorMessage}
-                    type="error"
-                    closable
-                    afterClose={onAlertClose}
+            <React.Fragment>
+                {errorMessage && (
+                    <Alert
+                        className="sm-alert"
+                        message={messages.singIn.error}
+                        type="error"
+                        closable
+                        afterClose={onAlertClose}
+                    />
+                )}
+                <SMForm
+                    className="sm-form login-form"
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'email',
+                            type: 'text',
+                            placeholder: 'Email',
+                            prefix: (
+                                <SMIcon
+                                    className='sm-icon-grey'
+                                    iconType='fas'
+                                    icon='envelope'
+                                />
+                            ),
+                            autoComplete: 'username',
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'password',
+                            type: 'password',
+                            placeholder: 'Password',
+                            prefix: (
+                                <SMIcon
+                                    className='sm-icon-grey'
+                                    iconType='fas'
+                                    icon='lock'
+                                />
+                            ),
+                            autoComplete: 'new-password',
+                        }),
+                    ]}
+                    buttons={[
+                        SMButton({
+                            className: 'sm-link',
+                            name: 'forgot-password',
+                            type: 'link',
+                            href: '#',
+                            children: 'Forgot Password?',
+                        }),
+                        SMButton({
+                            className: 'sm-button',
+                            name: 'submit',
+                            type: 'primary',
+                            htmlType: 'submit',
+                            children: 'Sing in',
+                            loading: loading,
+                        })
+                    ]}
+                    onSubmit={handleSubmit}
                 />
-            )}
-            <SMForm
-                className="sm-form login-form"
-                items={[
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'email',
-                        type: 'text',
-                        placeholder: 'Email',
-                        rules: emailRules.rules,
-                        prefix: (
-                            <SMIcon
-                                className='sm-icon-grey'
-                                iconType='fas'
-                                icon='envelope'
-                            />
-                        ),
-                        autoComplete: 'username',
-                    }),
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'password',
-                        type: 'password',
-                        placeholder: 'Password',
-                        rules: passwordRules.rules,
-                        prefix: (
-                            <SMIcon
-                                className='sm-icon-grey'
-                                iconType='fas'
-                                icon='lock'
-                            />
-                        ),
-                        autoComplete: 'new-password',
-                    }),
-                ]}
-                buttons={[
-                    SMButton({
-                        className: 'sm-link',
-                        name: 'forgot-password',
-                        type: 'link',
-                        href: '#',
-                        children: 'Forgot Password?',
-                    }),
-                    SMButton({
-                        className: 'sm-button',
-                        name: 'submit',
-                        type: 'primary',
-                        htmlType: 'submit',
-                        children: 'Sing in',
-                        loading: loading,
-                    })
-                ]}
-                onSubmit={handleSubmit}
-            />
-        </React.Fragment>
-    );
+            </React.Fragment>
+        );
 }
 
 export { LoginForm };
