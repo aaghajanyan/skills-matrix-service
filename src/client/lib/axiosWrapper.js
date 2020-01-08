@@ -20,4 +20,4 @@ const head = (options) => {
   return axiosHelper.apiClient('HEAD', options);
 };
 
-module.exports  = {get, put, post, del, head};
+module.exports = { get, put, post, del, head };

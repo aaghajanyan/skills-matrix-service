@@ -3,11 +3,11 @@ import { authService } from './AuthService';
 import { serverUrl } from 'config/config'
 
 const handleSuccess = (response) => {
-	return response;
+  return response;
 };
 
 const handleError = (error) => {
-	return Promise.reject(error);
+  return Promise.reject(error);
 };
 
 const defaultHeaderHandler = request => {
@@ -24,10 +24,10 @@ service.interceptors.request.use(defaultHeaderHandler);
 
 const apiClient = (method, options) => {
   return service.request({
-  ...options,
-  method,
+    ...options,
+    method,
   })
-  .then((response) => response);
+    .then((response) => response);
 };
 
-export {apiClient} ;
+export { apiClient };
