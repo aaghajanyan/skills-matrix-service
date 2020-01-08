@@ -12,6 +12,7 @@ const usersCategories = require("./users-categories");
 const search = require("./search");
 const criteria = require("./criteria");
 const branch = require("./branch");
+const position = require("./position");
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.use("/users_categories", usersCategories);
 router.use("/search", search);
 router.use("/criteria", criteria);
 router.use("/branch", branch);
+router.use("/position", position);
 
 module.exports = router;

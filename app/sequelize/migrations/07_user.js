@@ -62,29 +62,16 @@ module.exports = {
                     as: Constants.Keys.roleGroupId
                 }
             },
-            position: {
-                unique: false,
+            positionId: {
                 allowNull: false,
-                type: Sequelize.ENUM(
-                    "Beginner SW Engineer",
-                    "SW Engineer",
-                    "Senior SW Engineer",
-                    "Beginner QA Tester",
-                    "QA Tester",
-                    "SQE Analyst",
-                    "Sr. Software Quality Engineer",
-                    "QA Analyst",
-                    "QA lead",
-                    "Team lead",
-                    "Graphic designer",
-                    "technical manager",
-                    "Senior Team lead",
-                    "Project Manager",
-                    "3D modeler",
-                    "UIUX designer",
-                    "SW Architect"
-                )
-            }
+                type: Sequelize.INTEGER,
+                onDelete: Constants.CASCADE,
+                references: {
+                    model: Constants.TableNames.Positions,
+                    key: Constants.Keys.id,
+                    as: Constants.Keys.positionId
+                }
+            },
         });
     },
     down: queryInterface => queryInterface.dropTable(Constants.TableNames.Users)

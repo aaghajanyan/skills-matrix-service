@@ -1,6 +1,7 @@
 const DefaultUsers = require("../utils/DefaultUsers");
 const DefaultRoles = require("../utils/DefaultRoles");
 const DefaultBranches = require("../utils/DefaultBranches");
+const DefaultPosition = require("../utils/DefaultPosition");
 const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
@@ -49,18 +50,6 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
-            // branchName: {
-            //     type: DataTypes.ENUM,
-			// 	values: [
-            //         "Vanadzor",
-            //         "Erevan",
-            //         "Goris"
-            //     ],
-            //     allowNull: {
-            //         args: false,
-            //         msg: Constants.ModelErrors.BRANCH_IS_MISSING
-            //     }
-            // },
             guid: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
@@ -85,32 +74,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 defaultValue: 3
             },
-            position: {
-                type: DataTypes.ENUM,
-				values: [
-                    "Beginner SW Engineer",
-                    "SW Engineer",
-                    "Senior SW Engineer",
-                    "Beginner QA Tester",
-                    "QA Tester",
-                    "SQE Analyst",
-                    "Sr. Software Quality Engineer",
-                    "QA Analyst",
-                    "QA lead",
-                    "Team lead",
-                    "Graphic designer",
-                    "technical manager",
-                    "Senior Team lead",
-                    "Project Manager",
-                    "3D modeler",
-                    "UIUX designer",
-                    "SW Architect"
-                ],
-                allowNull: {
-                    args: false,
-                    msg: Constants.ModelErrors.POSITION_IS_MISSING
-                }
-            }
+            positionId: {
+                allowNull: false,
+                type: DataTypes.INTEGER,
+            },
         },
         {
             timestamps: false
@@ -125,6 +92,11 @@ module.exports = (sequelize, DataTypes) => {
         User.belongsTo(models.branch, {
             as: Constants.Associate.Aliases.branch,
             foreignKey: Constants.Keys.branchId,
+            targetkey: Constants.Keys.id,
+        }),
+        User.belongsTo(models.position, {
+            as: Constants.Associate.Aliases.position,
+            foreignKey: Constants.Keys.positionId,
             targetkey: Constants.Keys.id,
         }),
         User.belongsToMany(models.skill, {
@@ -157,6 +129,7 @@ module.exports = (sequelize, DataTypes) => {
     User.initDefaultValues = async function(models) {
         await DefaultRoles.initializeRoleTable(models);
         await DefaultBranches.initializeBranchTable(models);
+        await DefaultPosition.initializePositionTable(models);
         await DefaultRoles.initializeRolesGroupsTable(models);
         await DefaultRoles.initializeRolesRelationTable(models, rolesAndGroupRelation);
         await DefaultUsers.initializeUserTable(models);

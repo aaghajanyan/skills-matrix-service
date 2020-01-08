@@ -2,6 +2,7 @@ const {
     user: userModel,
     roles: rolesModel,
     branch: branchesModel,
+    position: positionModel,
     roles_relations: rolesRelationModel,
     roles_groups: rolesGroupsModel,
     users_skills: userSkillsModel,
@@ -17,6 +18,8 @@ const {
     filterUsers
 } = require("../helper/searchHelper");
 const { Constants } = require("../constants/Constants");
+const Position = require("./position");
+const Branch = require("./branch");
 
 
 class User {
@@ -49,6 +52,11 @@ class User {
                 {
                     model: branchesModel,
                     as: Constants.Associate.Aliases.branch,
+                    required: false,
+                },
+                {
+                    model: positionModel,
+                    as: Constants.Associate.Aliases.position,
                     required: false,
                 },
                 {
@@ -111,9 +119,13 @@ class User {
                     }
                 },
                 {
-                    attributes: { exclude: [Constants.Keys.id] },
                     model: branchesModel,
                     as: Constants.Associate.Aliases.branch,
+                    required: false,
+                },
+                {
+                    model: positionModel,
+                    as: Constants.Associate.Aliases.position,
                     required: false,
                 },
                 {
@@ -157,6 +169,10 @@ class User {
     static async create(data) {
         const salt = await bcrypt.genSalt(10);
         data.password = bcrypt.hashSync(data.password, salt);
+        const position = await Position.find({ guid: data.positionGuid })
+        data.positionId = position.id;
+        const branch = await Branch.find({ guid: data.branchGuid })
+        data.branchId = branch.id;
         return userModel.create(data);
     }
 
@@ -203,6 +219,11 @@ class User {
                     as: Constants.Associate.Aliases.branch,
                     required: branchQueryCount > 0,
                     where: branchCondition,
+                },
+                {
+                    model: positionModel,
+                    as: Constants.Associate.Aliases.position,
+                    required: false,
                 },
                 {
                     // attributes: { exclude: [Constants.Keys.id] },

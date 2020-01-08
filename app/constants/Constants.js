@@ -14,6 +14,7 @@ const Constants = {
         Roles: 'roles',
         RolesGroup: 'roles_groups',
         Branches: 'branches',
+        Positions: 'positions',
         RolesRelation: 'roles_relations',
         Skills: 'skills',
         Categories: 'categories',
@@ -27,6 +28,7 @@ const Constants = {
     ModelNames : {
         User: 'user',
         Branch: 'branch',
+        Position: 'position',
         Invitations: 'invitation',
         Roles: 'roles',
         RolesGroup: 'roles_groups',
@@ -47,6 +49,8 @@ const Constants = {
         NAME_IS_MISSING: 'Name is missing.',
         BRANCH_IS_MISSING: 'Branch is missing.',
         BRANCH_ALREADY_EXISTS: 'BRANCH already exists.',
+        POSITION_IS_MISSING: 'Position is missing.',
+        POSITION_ALREADY_EXISTS: 'Position already exists.',
         NAME_ALREADY_EXISTS: 'Name already exists.',
         TYPE_IS_MISSING: 'Type is missing.',
         CATEGORY_ALREADY_EXITS: 'Category already exists.',
@@ -127,6 +131,7 @@ const Constants = {
     Associate: {
         Aliases: {
             branch: 'branch',
+            position: 'position',
             relatedCategories: 'relatedCategories',
             categoryRelation: 'categoryRelation',
             skillRelation: 'skillRelation',
@@ -161,6 +166,7 @@ const Constants = {
             USER_SKILL: 'User skill',
             CRITERIA: 'Criteria',
             BRANCH: 'Branch',
+            POSITION: 'Position',
         },
         Users: {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',

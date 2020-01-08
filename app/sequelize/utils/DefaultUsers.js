@@ -12,7 +12,7 @@ class DefaultUsers {
             lname: 'Admin',
             branchId: 1,
             startedToWorkDate: '2017-11-16',
-            position: 'Project Manager',
+            positionId: 13,
             roleGroupId: 1
         };
         await models.user.build(user).save().catch((err) => {});

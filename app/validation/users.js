@@ -13,13 +13,13 @@ const addBodySchema = Joi.object().keys({
     lname: Joi.string()
         .regex(nameExp)
         .required(),
-    branchId: Joi.number()
-        .integer(),
+    branchGuid: Joi.string().uuid()
+        .required(),
     startedToWorkDate: Joi.date()
         .required(),
     roleGroupId: Joi.number()
         .integer(),
-    position: Joi.string()
+    positionGuid: Joi.string().uuid()
         .required()
 });
 
@@ -30,29 +30,12 @@ const updateBodySchema = Joi.object().keys({
         .regex(nameExp),
     lname: Joi.string()
         .regex(nameExp),
-    branchId: Joi.number()
-        .integer(),
+    branchGuid: Joi.string().uuid()
+        .required(),
     roleGroupId: Joi.number()
         .integer(),
-    position: Joi.string().valid([
-        "Beginner SW Engineer",
-        "SW Engineer",
-        "Senior SW Engineer",
-        "Beginner QA Tester",
-        "QA Tester",
-        "SQE Analyst",
-        "Sr. Software Quality Engineer",
-        "QA Analyst",
-        "QA lead",
-        "Team lead",
-        "Graphic designer",
-        "technical manager",
-        "Senior Team lead",
-        "Project Manager",
-        "3D modeler",
-        "UIUX designer",
-        "SW Architect"
-    ]),
+    positionGuid: Joi.string().uuid()
+        .required(),
     isActive: Joi.boolean()
 });
 

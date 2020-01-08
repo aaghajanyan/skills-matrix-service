@@ -1,18 +1,18 @@
 const { Constants } = require("../../constants/Constants");
 
 module.exports = (sequelize, DataTypes) => {
-    const Branch = sequelize.define(
-        Constants.ModelNames.Branch,
+    const Position = sequelize.define(
+        Constants.ModelNames.Position,
         {
             name: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.BRANCH_IS_MISSING
+                    msg: Constants.ModelErrors.POSITION_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.BRANCH_ALREADY_EXISTS
+                    msg: Constants.ModelErrors.POSITION_ALREADY_EXISTS
                 }
             },
             guid: {
@@ -25,6 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    Branch.associate = models => {};
-    return Branch;
+    Position.associate = models => {};
+    return Position;
 };

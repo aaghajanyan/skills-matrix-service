@@ -1,5 +1,3 @@
-const bcrypt = require("bcrypt");
-
 class DefaultBranches {
 
     static async initializeBranchTable(models) {
