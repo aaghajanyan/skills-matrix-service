@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { post, head } from 'client/lib/axiosWrapper';
-import { nonexistentInvitationMessage } from 'src/constants/constants';
+import { nonexistentInvitationMessage } from 'constants';
 import {
     nameValidator,
     passwordValidator,

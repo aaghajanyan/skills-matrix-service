@@ -153,13 +153,11 @@ function FindPeople(props) {
                 post({ url: "search/v1", data: bodyObject }).then(result => {
                     result.data.users = result.data.users.map(item => {
                         item.key = item.guid
-                        const colorCode = Math.floor(100000 + Math.random() * 900000);
                         item.avatar = <SMUserBar
-                            colorCode={colorCode}
-                            firstName={item.fname}
-                            lastName={item.lname}
-                            size='medium'
-                        />
+                                        firstName={item.fname}
+                                        lastName={item.lname}
+                                        size='medium'
+                                    />
                         return item;
                     });
 

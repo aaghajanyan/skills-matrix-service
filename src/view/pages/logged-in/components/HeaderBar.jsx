@@ -45,8 +45,8 @@ function HeaderBar(props) {
                 <SMUserBar
                     firstName='Admin'
                     lastName='Admin'
-                    colorCode={15551}
-                    size={'medium'} />
+                    size={'small'}
+                />
                 <DropdownMenu key="ant-dropdown-link" menu={props.menu} />
             </div>
         </div>

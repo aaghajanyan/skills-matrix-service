@@ -1,3 +1,4 @@
+export { SMAvatar } from './SMAvatar'
 export { SMButton } from './SMButton';
 export { SMDatePicker } from './SMDatePicker';
 export { SMForm } from './SMForm';

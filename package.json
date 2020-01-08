@@ -51,6 +51,7 @@
     "postcss-safe-parser": "4.0.1",
     "react": "16.12.0",
     "react-app-polyfill": "1.0.4",
+    "react-avatar": "^3.9.0",
     "react-cookies": "0.1.1",
     "react-dev-utils": "9.1.0",
     "react-dom": "16.12.0",

@@ -12,4 +12,13 @@ const nonexistentInvitationMessage = {
     message: 'Invalid invitation URL',
 }
 
-export { sendInvitationsMessages, nonexistentInvitationMessage };
+const avatars = {
+    colors: ['#DB4437', '#0F9D58', '#4285F4', '#DE0881', '#F4B400'],
+    sizes: {
+        small: 30,
+        medium: 50,
+        large: 70
+    }
+}
+
+export { sendInvitationsMessages, nonexistentInvitationMessage, avatars };

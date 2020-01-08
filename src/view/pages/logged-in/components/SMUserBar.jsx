@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from "prop-types"
 import classNames from 'classnames';
-import { Avatar } from 'antd';
+import { SMAvatar } from 'view/components'
 
-const generateAvatarUrl = (firstname, lastname, colorCode) =>
-    `https://ui-avatars.com/api/?name=${firstname}+${lastname}&background=${colorCode}&color=fff&SameSite=None&Secure`
-
-function SMUserBar({ className, firstName, lastName, colorCode, size, avatarUrl = generateAvatarUrl(firstName, lastName, colorCode) }) {
+function SMUserBar({ className, firstName, lastName, size }) {
 
     return (
         <div className={classNames("sm-user-bar", className)} >
-            <Avatar src={avatarUrl} alt={`${firstName} ${lastName}`} size={size} />
-            <span>{firstName} {lastName}</span>
+            <SMAvatar  name={firstName + ' ' + lastName} size={size}/>
+            <span className='sm-user-bar_name'>{firstName} {lastName}</span>
         </div>
     )
 }

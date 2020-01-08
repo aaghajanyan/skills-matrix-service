@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { post, get } from 'client/lib/axiosWrapper';
 import { emailValidator } from 'helpers/FormValidators';
 
-import { sendInvitationsMessages } from 'src/constants/constants';
+import { sendInvitationsMessages } from 'constants';
 import { EmployeesTable } from 'view/pages/logged-in/components'
 import { SMUserBar } from '../components';
 
@@ -56,9 +56,7 @@ function Employees(props) {
             .then(result => {
                 result.data = result.data.map(item => {
                     item.key = item.guid
-                    const colorCode = Math.floor(100000 + Math.random() * 900000);
                     item.avatar = <SMUserBar
-                                    colorCode={colorCode}
                                     firstName={item.fname}
                                     lastName={item.lname}
                                     size='medium'

@@ -30,8 +30,8 @@ function SMEmployee(props) {
                             className='sm-user'
                             firstName={user.fname}
                             lastName={user.lname}
-                            colorCode={15551}
-                            size={55} />
+                            size='large'
+                        />
                         <TabBar {...tabBarProps} />
                     </div>)
                 }

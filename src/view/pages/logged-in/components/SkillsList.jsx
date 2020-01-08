@@ -16,8 +16,8 @@ function SkillsList({className, data, title, isUsers}) {
                     <SMUserBar
                         firstName={item.firstName}
                         lastName={item.lastName}
-                        colorCode={Math.floor(100000 + Math.random() * 900000)} >
-                    </SMUserBar>}
+                        size='medium'
+                    />}
                     <span style={{flex: '6' }}> {item.skill} </span>
                     {!isUsers && <span style={{flex: '1' }}> {item.mark} </span>}
                 </div>
