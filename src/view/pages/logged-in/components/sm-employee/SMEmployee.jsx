@@ -3,7 +3,7 @@ import { get } from 'client/lib/axiosWrapper';
 import { SMUserBar } from '../SMUserBar';
 import { SMSpinner, SMTabs } from 'view/components';
 import { Summary } from './Summary';
-import { Assessment } from './Assessment/Assessment';
+import { Assessment } from './Assessment';
 
 function SMEmployee(props) {
 
