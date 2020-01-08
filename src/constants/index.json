@@ -1,0 +1,32 @@
+{
+    "sendInvitationsMessages": {
+        "success": {
+            "message": "Invitation has been sent successfully"
+        },
+        "error": {
+            "message": "Operation failed",
+            "description": "Invitation already sent to this email address"
+        }
+    },
+    "nonexistentInvitationMessage": {
+        "message": "Invalid invitation URL"
+    },
+    "colors": [
+        "#DB4437",
+        "#0F9D58",
+        "#4285F4",
+        "#DE0881",
+        "#833595",
+        "#F4B400",
+        "#E56B1F",
+        "#019199",
+        "#7F8851"
+    ],
+    "avatars": {
+        "sizes": {
+            "small": 30,
+            "medium": 40,
+            "large": 60
+        }
+    }
+}

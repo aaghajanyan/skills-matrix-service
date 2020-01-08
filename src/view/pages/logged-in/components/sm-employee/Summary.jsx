@@ -118,27 +118,27 @@ function Summary(props) {
 
     const peopleWithSimilarSkills = [
         {
-            firstName: 'Tester',
+            firstName: 'ATester',
+            lastName: 'ATester',
+        },
+        {
+            firstName: 'BTester',
+            lastName: 'ester',
+        },
+        {
+            firstName: 'CTester',
             lastName: 'Tester',
         },
         {
-            firstName: 'Tester',
+            firstName: 'DTester',
             lastName: 'Tester',
         },
         {
-            firstName: 'Tester',
+            firstName: 'ETester',
             lastName: 'Tester',
         },
         {
-            firstName: 'Tester',
-            lastName: 'Tester',
-        },
-        {
-            firstName: 'Tester',
-            lastName: 'Tester',
-        },
-        {
-            firstName: 'Tester',
+            firstName: 'FTester',
             lastName: 'Tester',
         },
     ]
