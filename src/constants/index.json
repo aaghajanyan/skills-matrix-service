@@ -1,5 +1,9 @@
 {
     "messages": {
+        "noConnection": {
+            "message": "Connection error",
+            "description": "Could not connect to remote server"
+        },
         "invitations": {
             "sendInvitation": {
                 "success": {
@@ -9,10 +13,6 @@
                     "message": "Operation failed",
                     "description": "Invitation already sent to this email address"
                 }
-            },
-            "noConnection": {
-                "message": "Operation failed",
-                "description": "Connection has been failed"
             },
             "nonexistentInvitation": {
                 "message": "Invalid invitation URL"

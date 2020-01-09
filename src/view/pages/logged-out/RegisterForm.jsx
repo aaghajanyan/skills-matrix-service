@@ -47,8 +47,10 @@ function RegisterForm(props) {
                 setLoading(false)
             })
             .catch(error => {
-                SMNotification('error', messages.invitations.nonexistentInvitation);
-                props.history.push('/login')
+                if (error.response) {
+                    SMNotification('error', messages.invitations.nonexistentInvitation);
+                }
+                props.history.push('/login');
             })
     })
 
@@ -69,11 +71,9 @@ function RegisterForm(props) {
         post(options)
             .then(result => {
                 setLoadingButton(false);
-                //TODO
             })
             .catch(error => {
                 setLoadingButton(false);
-                //TODO
             })
     }
 

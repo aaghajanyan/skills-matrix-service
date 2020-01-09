@@ -36,8 +36,6 @@ function Employees(props) {
                     if (error.response.status === 409) {
                         SMNotification('error', messages.invitations.sendInvitation.error)
                     }
-                } else if (error.request) {
-                    SMNotification('error', messages.invitations.noConnection)
                 }
             })
         setVisible(false);
