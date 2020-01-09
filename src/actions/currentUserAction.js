@@ -1,14 +1,6 @@
-
-
 export const SET_USER = 'SET_USER';
-export const DELETE_USER = 'DELETE_USER';
 
-export const addUser = (currentUser) => ({
+export const setCurrentUser = (currentUser) => ({
     type: SET_USER,
     payload: currentUser
-});
-
-export const setUser = () => ({
-    type: SET_USER,
-    placeholder: {}
 });

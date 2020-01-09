@@ -7,7 +7,6 @@ import {
 
 
 export default function Seacrh(state = {}, action){
-    debugger
     switch(action.type) {
 
         case SEARCH_USERS_BEGIN:

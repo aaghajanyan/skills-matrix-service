@@ -1,5 +1,5 @@
 import cookie from 'react-cookies'
-import { post } from 'client/lib/axiosWrapper';
+import { post, get } from 'client/lib/axiosWrapper';
 import { authTokenKey } from 'constants'
 
 const isLoggedIn = () => {
@@ -17,6 +17,7 @@ const login = (formData) => {
                 path: '/',
                 maxAge: 86400,
             });
+            return get({ url: `users/${result.data.guid}` }).then(user => user.data)
         })
         .catch(error => {
             if (error.response) {
