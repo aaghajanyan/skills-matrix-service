@@ -31,3 +31,15 @@ ul.ant-menu.ant-menu-light.ant-menu-root.ant-menu-vertical {
     position: absolute;
     right: 15px;
 }
+
+.sm-dropdown-menu {
+    svg {
+        path {
+            fill: none;
+        }
+        width: 20px !important;
+        height: 20px;
+        stroke: $sm-subheading-color;
+        stroke-width: 30;
+    }
+}

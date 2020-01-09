@@ -8,7 +8,7 @@ import {dropdownMenuItems} from "./dropdownMenuItems"
 
 function DropdownMenu(props) {
     return (
-        <Dropdown overlay={<SideMenu type={'dropdown'} items={dropdownMenuItems}/>} trigger={['click']}>
+        <Dropdown overlay={<SideMenu className='sm-dropdown-menu' type={'dropdown'} items={dropdownMenuItems}/>} trigger={['click']}>
             <SMButton className="ant-dropdown-link">
                 <SMIcon
                     className='sm-icon-fill-grey'
