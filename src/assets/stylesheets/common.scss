@@ -189,8 +189,7 @@
     color: $sm-light-color;
 }
 
-
-
 .sm-sider > div {
+    z-index: 999;
     background-color: $sm-primary-color;
 }

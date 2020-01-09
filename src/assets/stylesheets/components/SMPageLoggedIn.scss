@@ -25,6 +25,9 @@
     background-color: #266494;
     justify-content: center;
     margin-top: 10px;
+    div {
+        display: flex;
+    }
 }
 
 .sider-container_collapse-btn:focus-within {
