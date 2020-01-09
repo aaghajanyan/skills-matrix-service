@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Select, Button } from 'antd';
-import {Criteria} from '../Criteria';
+import { CRITERIA } from '../../../../../../configSearch/criteria';
 
 const { Option } = Select;
 
-function SelectRowView(props){
+function SelectRowView(props) {
 
-    const handleClick = (e) => {
+    useEffect(() => {
+        props.selectCriteriaValue(props.cellData.criteriaValue);
+        props.rowSelect(props.cellData.criteriaValue);
+
+    }, [])
+
+    const handleSelect = (e) => {
         props.selectCriteriaValue(e);
-        props.rowSelect(e)
+        props.rowSelect(e);
     }
 
     const onDelEvent = () => {
@@ -19,17 +25,17 @@ function SelectRowView(props){
         <Row gutter={16} >
             <Col span={5}>
                 <>
-                <Col className="label_select"><span>Criteria</span></Col>
-                {props.formItem.getFieldDecorator(`${props.cellData.id}[type]`)(
+                    <Col className="label_select"><span>Criteria</span></Col>
+                    {props.formItem.getFieldDecorator(`${props.cellData.id}[type]`, { initialValue: props.cellData.criteriaValue })(
                         <Select
-                        placeholder="Criteria"
-                        onSelect={handleClick}
-                    >
-                        {Object.values(Criteria()).map((item, index) =>
-                            <Option key={index} value={item.name}>{item.name}</Option>
-                        )}
-                    </Select>
-                )}
+                            placeholder="Criteria"
+                            onSelect={handleSelect}
+                        >
+                            {Object.values(CRITERIA).map((item, index) =>
+                                <Option key={index} value={item.name}>{item.name}</Option>
+                            )}
+                        </Select>
+                    )}
                 </>
             </Col>
             <Col span={18}>
@@ -42,4 +48,4 @@ function SelectRowView(props){
     )
 }
 
-export {SelectRowView}
+export { SelectRowView }

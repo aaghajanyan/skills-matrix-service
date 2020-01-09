@@ -1,12 +1,12 @@
 import React from 'react';
-import {RelationView} from './RelationView';
-import {SelectRowView} from './SelectRowView';
+import { RelationView } from './RelationView';
+import { SelectRowView } from './SelectRowView';
 
 
-function AddPeopleRow(props){
-    return(
+function AddPeopleRow(props) {
+    return (
         <>
-            <RelationView  rowIndex={props.rowIndex} formItem={props.formItem} cellData={props.cellData} />
+            <RelationView rowIndex={props.rowIndex} formItem={props.formItem} cellData={props.cellData} />
             <SelectRowView
                 selectCriteriaValue={props.criteriaValue}
                 rowSelect={props.rowSelect}
@@ -20,4 +20,4 @@ function AddPeopleRow(props){
     )
 }
 
-export {AddPeopleRow}
+export { AddPeopleRow }

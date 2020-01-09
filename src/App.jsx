@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux'
 import { SMPageLoggedOut } from 'pages/logged-out'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from 'view/routers/PrivateRoute'
@@ -11,27 +12,30 @@ import { Skills } from 'pages/logged-in/sub-pages';
 import { Settings } from 'pages/logged-in/sub-pages';
 import { SMEmployee } from 'pages/logged-in/components'
 import { FindEmployees } from 'pages/logged-in/sub-pages';
+import store from 'config/store';
 import './App.scss';
 
 class App extends Component {
     render() {
         return (
-            <Router>
-                <Switch>
-                    <Route exact path="/login" component={(props) => <SMPageLoggedOut {...props} />} />
-                    <Route path="/registration/:token" component={(props) => <SMPageLoggedOut {...props} />} />
-                    <PrivateRoute exact path="/" component={Home} />
-                    <PrivateRoute path="/home" component={Home} />
-                    <PrivateRoute exact path="/employees" component={Employees} />
-                    <PrivateRoute exact path="/employees/:id" component={SMEmployee} />
-                    <PrivateRoute path="/find_employees" component={FindEmployees} />
-                    <PrivateRoute path="/branches" component={Branches} />
-                    <PrivateRoute path="/categories" component={Categories} />
-                    <PrivateRoute path="/skills" component={Skills} />
-                    <PrivateRoute path="/settings" component={Settings} />
-                    <Route path="**" component={NotFound} />
-                </Switch>
-            </Router>
+            <Provider store={store}>
+                <Router>
+                    <Switch>
+                        <Route exact path="/login" component={(props) => <SMPageLoggedOut {...props} />} />
+                        <Route path="/registration/:token" component={(props) => <SMPageLoggedOut {...props} />} />
+                        <PrivateRoute exact path="/" component={Home} />
+                        <PrivateRoute path="/home" component={Home} />
+                        <PrivateRoute exact path="/employees" component={Employees} />
+                        <PrivateRoute exact path="/employees/:id" component={SMEmployee} />
+                        <PrivateRoute path="/find_employees" component={FindEmployees} />
+                        <PrivateRoute path="/branches" component={Branches} />
+                        <PrivateRoute path="/categories" component={Categories} />
+                        <PrivateRoute path="/skills" component={Skills} />
+                        <PrivateRoute path="/settings" component={Settings} />
+                        <Route path="**" component={NotFound} />
+                    </Switch>
+                </Router>
+            </Provider>
         );
     }
 }

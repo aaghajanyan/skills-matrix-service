@@ -1,40 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { get } from 'client/lib/axiosWrapper';
-
-function Criteria() {
-
-    const [getCategories, setCategories] = useState([]);
-    const [getSkills, setSkills] = useState([]);
-    const [getUsers, setUsers] = useState([]);
-
-    useEffect(()=>{
-      get({url: "categories/all"}).then(result => {
-          setCategories(result.data);
-      })
-      .catch(error => {
-          //TODO handle error
-          console.error("Error get categories: ", error);
-      });
-
-      get({url: "users"}).then(result => {
-          setUsers(result.data);
-      })
-      .catch(error => {
-          //TODO handle error
-          console.error("Error get users: ", error);
-      });
-
-      get({url: "skills"}).then(result => {
-          setSkills(result.data);
-      })
-      .catch(error => {
-          //TODO handle error
-          console.error("Error get skills: ", error);
-      });
-
-  }, []);
-
-  const CRITERIA = {
+export const CRITERIA = {
     "categories" : {
       "name": "Category",
       "input": [
@@ -193,7 +157,7 @@ function Criteria() {
           ]
         },
       ]
-
+  
     },
     "branch": {
       "name": "Branch",
@@ -235,7 +199,7 @@ function Criteria() {
           ]
         }
       ]
-
+  
     },
     "position": {
       "name": "Position",
@@ -310,34 +274,5 @@ function Criteria() {
           ]
         },
       ]
-
     }
   };
-
-    Object.values(CRITERIA).map(field => {
-     if(field.name === "Category"){
-        getCategories.map(item => {
-            Object.values(field.input).map(cat => {
-                if(cat.key === "list"){
-                    cat.items.push({name: item.name, id: item.id});
-                }
-            })
-        })
-     }else {
-        getSkills.map(item => {
-            Object.values(field.input).map(cat => {
-                if(cat.key === "list"){
-                    cat.items.push({name: item.name,  id: item.id});
-                }
-            })
-
-        })
-     }
-
-    });
-
-    return CRITERIA;
-
-}
-
-export {Criteria}
