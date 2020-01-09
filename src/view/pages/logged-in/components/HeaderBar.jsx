@@ -47,7 +47,7 @@ function HeaderBar(props) {
                     lastName='Admin'
                     size={'small'}
                 />
-                <DropdownMenu key="ant-dropdown-link" menu={props.menu} />
+                <DropdownMenu key="ant-dropdown-link" />
             </div>
         </div>
     );

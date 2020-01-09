@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 import { HeaderBar, SideMenu } from './components';
 import { SMLogo } from 'view/components'
 import { sideMenuItems } from './components/sm-menu/side-menu/sideMenuItems';
-import { dropdownMenuItems } from './components/sm-menu/dropdown-menu/dropdownMenuItems';
 
 const { Header, Sider, Content } = Layout;
 
@@ -35,7 +34,6 @@ function SMPageLoggedIn(props) {
                             className='sm-layout-container_header-bar'
                             collapseSideBar={collapseSideBar}
                             subTitle='Admin Admin'
-                            menu={dropdownMenuItems}
                         />
                     </Header>
                     <Content className="sm-page-content" justify="center">

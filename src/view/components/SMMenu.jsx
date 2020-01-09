@@ -44,6 +44,7 @@ SMMenu.propTypes = {
         className: PropTypes.string,
         icon: PropTypes.string
     })),
+    onSelect: PropTypes.func,
     defaultSelectedKeys: PropTypes.array,
     selectedKeys: PropTypes.array,
     mode: PropTypes.string,
