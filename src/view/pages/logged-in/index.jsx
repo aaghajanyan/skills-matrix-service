@@ -33,7 +33,6 @@ function SMPageLoggedIn(props) {
                         <HeaderBar
                             className='sm-layout-container_header-bar'
                             collapseSideBar={collapseSideBar}
-                            subTitle='Admin Admin'
                         />
                     </Header>
                     <Content className="sm-page-content" justify="center">

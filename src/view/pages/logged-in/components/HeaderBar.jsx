@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
 import { SMButton, SMInput, SMIcon } from 'view/components';
 import { SMUserBar } from './SMUserBar';
 
 function HeaderBar(props) {
+
+    const currentUser = useSelector(state => state.CurrentUser)
 
     const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -43,8 +46,8 @@ function HeaderBar(props) {
 
             <div className="sm-layout-container_header-bar-col-2">
                 <SMUserBar
-                    firstName='Admin'
-                    lastName='Admin'
+                    firstName={currentUser ? currentUser.data.fname : ''}
+                    lastName={currentUser ? currentUser.data.lname : ''}
                     size={'small'}
                 />
                 <DropdownMenu key="ant-dropdown-link" />
