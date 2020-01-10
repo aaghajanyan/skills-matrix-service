@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AddPeopleRow } from './AddPeopleRow/AddPeopleRow';
-import { getUsers } from '../../../../../actions/search';
+import { getUsers } from 'store/actions/search';
 import { useDispatch } from 'react-redux';
 
 function PeopleRow(props) {

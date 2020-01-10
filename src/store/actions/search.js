@@ -1,6 +1,6 @@
 import { get, post } from 'client/lib/axiosWrapper';
 import {searchUsersBegin, searchUsersSuccess, searchUsersFailure, criteriaRow} from './searchAction';
-import { CRITERIA } from '../configSearch/criteria';
+import { CRITERIA } from '../../configSearch/criteria';
 
 const id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
 

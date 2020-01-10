@@ -7,7 +7,7 @@ import { SMButton } from 'view/components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { CRITERIA } from '../../../../../configSearch/criteria';
-import { getSearchParams, getUsers, searchParams } from '../../../../../actions/search';
+import { getSearchParams, getUsers, searchParams } from 'store/actions/search';
 
 const { Option } = Select;
 

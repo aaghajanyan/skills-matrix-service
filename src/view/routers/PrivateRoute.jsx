@@ -7,7 +7,7 @@ import { SMSpinner } from 'view/components'
 import { get } from 'client/lib/axiosWrapper';
 import { authTokenKey } from 'constants'
 import { SMPageLoggedIn } from 'pages/logged-in'
-import { setCurrentUser } from '../../actions/currentUserAction';
+import { setCurrentUser } from 'store/actions/currentUserAction';
 
 //TODO: Remove
 function parseJwt(token) {

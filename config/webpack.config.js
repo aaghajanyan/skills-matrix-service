@@ -313,6 +313,7 @@ module.exports = function(webpackEnv) {
         "src": path.resolve(__dirname, '../src'),
         "pages": path.resolve(__dirname, '../src/view/pages'),
         "view": path.resolve(__dirname, '../src/view'),
+        "store": path.resolve(__dirname, '../src/store'),
         "constants": path.resolve(__dirname, '../src/constants'),
         "helpers": path.resolve(__dirname, '../src/helpers'),
         "config": path.resolve(__dirname, '../src/config'),

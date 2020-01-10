@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { login } from 'client/lib/authService';
 import { messages } from 'constants'
 
-import { setCurrentUser } from '../../../actions/currentUserAction';
+import { setCurrentUser } from 'store/actions/currentUserAction';
 import { useDispatch } from 'react-redux';
 
 function LoginForm(props) {

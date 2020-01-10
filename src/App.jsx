@@ -12,7 +12,7 @@ import { Skills } from 'pages/logged-in/sub-pages';
 import { Settings } from 'pages/logged-in/sub-pages';
 import { SMEmployee } from 'pages/logged-in/components'
 import { FindEmployees } from 'pages/logged-in/sub-pages';
-import store from 'config/store';
+import store from 'store';
 import './App.scss';
 
 class App extends Component {

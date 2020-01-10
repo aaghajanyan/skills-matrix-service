@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import Search from '../reducers/search';
-import CurrentUser from '../reducers/currentUser';
+import Search from './reducers/search';
+import CurrentUser from './reducers/currentUser';
 import thunk from "redux-thunk";
 const composeEnhancers = process.env.NODE_ENV !== 'production' &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
