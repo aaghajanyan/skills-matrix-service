@@ -40,7 +40,7 @@ function getCriteria(){
   Object.values(CRITERIA).map(field => {
     if(field.name === "Category"){
       get({url: "categories/all"}).then(result => {
-        result.data.map(item => {
+        result && result.data.map(item => {
              Object.values(field.input).map(cat => {
                  if(cat.key === "list"){
                      cat.items.push({name: item.name, id: item.id});
@@ -52,9 +52,9 @@ function getCriteria(){
           //TODO handle error
           console.error("Error get categories: ", error);
       });
-    }else {
+    } else {
       get({url: "skills"}).then(result => {
-        result.data.map(item => {
+        result && result.data.map(item => {
              Object.values(field.input).map(cat => {
                  if(cat.key === "list"){
                      cat.items.push({name: item.name,  id: item.id});
@@ -72,7 +72,8 @@ function getCriteria(){
 
 }
 
-getCriteria();
+//TODO: Move to useEffect
+// getCriteria();
 
 export function getUsers(data){
     return (dispatch) => {

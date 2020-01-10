@@ -50,8 +50,8 @@ const apiClient = (method, options) => {
         }
       } else if (error.request) {
         SMNotification('error', messages.noConnection)
-        return Promise.reject(error)
       }
+      return Promise.reject(error)
     })
 };
 

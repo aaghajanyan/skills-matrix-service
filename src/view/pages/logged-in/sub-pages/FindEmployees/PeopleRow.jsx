@@ -8,8 +8,11 @@ function PeopleRow(props) {
   const [rowSelect, setRowSelect] = useState()
   const dispatch = useDispatch();
   const handleChange = (item) => {
-    setRowSelect(item);
-    dispatch(getUsers(props.formItem.getFieldsValue()))
+    if (item) {
+      setRowSelect(item);
+      dispatch(getUsers(props.formItem.getFieldsValue()))
+    }
+
   }
 
   return (
