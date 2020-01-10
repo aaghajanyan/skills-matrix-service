@@ -62,7 +62,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         } else {
             setLoading(false)
         }
-    // eslint-disable-next-line
+
     }, [])
 
     return (

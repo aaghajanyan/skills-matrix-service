@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { get } from 'client/lib/axiosWrapper';
 import { SMUserBar } from '../SMUserBar';
 import { SMSpinner, SMTabs } from 'view/components';
@@ -7,16 +8,23 @@ import { Assessment } from './Assessment';
 
 function SMEmployee(props) {
 
-    const [user, setUser] = useState(props.match ? null : { fname: 'Admin', lname: 'Admin' })
+    const currentUser = useSelector(state => state.CurrentUser);
+    const [user, setUser] = useState(currentUser);
+
+    if (!user && currentUser) {
+        setUser(currentUser);
+    }
 
     useEffect(() => {
-        !user && get({ url: `users/${props.match.params.id}` })
-            .then(result => {
-                setUser(result.data)
-            })
-            .catch(error => {
-                //TODO handle error
-            })
+        if (user && props.match && props.match.params.id !== user.data.guid) {
+            get({ url: `users/${props.match.params.id}` })
+                .then(result => {
+                    setUser(result);
+                })
+                .catch(error => {
+                    user.data = {};
+                })
+        }
     }, [])
 
     return (
@@ -28,8 +36,8 @@ function SMEmployee(props) {
                     <div className='sm-tabs-header sm-component'>
                         <SMUserBar
                             className='sm-user'
-                            firstName={user.fname}
-                            lastName={user.lname}
+                            firstName={user.data.fname}
+                            lastName={user.data.lname}
                             size='large'
                         />
                         <TabBar {...tabBarProps} />
