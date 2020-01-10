@@ -188,6 +188,7 @@ class User {
         const {
             usersCondition,
             branchCondition,
+            positionCondition,
             categoriesCondition,
             skillsCondition,
             usersSkillsCondition,
@@ -196,6 +197,7 @@ class User {
 
         initFinallyWhereQuery(usersCondition, true);
         initFinallyWhereQuery(branchCondition);
+        initFinallyWhereQuery(positionCondition);
         initFinallyWhereQuery(skillsCondition);
         initFinallyWhereQuery(categoriesCondition);
         initFinallyWhereQuery(usersSkillsCondition);
@@ -203,6 +205,7 @@ class User {
 
         const userQueryCount = getWhereQueryLength(usersCondition, true);
         const branchQueryCount = getWhereQueryLength(branchCondition);
+        const positionQueryCount = getWhereQueryLength(positionCondition);
         const userSkillQueryCount = getWhereQueryLength(usersSkillsCondition);
         const userCategoryQueryCount = getWhereQueryLength(
             usersCategoriesCondition
@@ -223,7 +226,8 @@ class User {
                 {
                     model: positionModel,
                     as: Constants.Associate.Aliases.position,
-                    required: false,
+                    required: positionQueryCount > 0,
+                    where: positionCondition,
                 },
                 {
                     // attributes: { exclude: [Constants.Keys.id] },
