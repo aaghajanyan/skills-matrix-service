@@ -63,7 +63,7 @@ const addUserSkill = async function(request, response) {
             for (skill of skills) {
                 const existingSkill = await Skill.find({ guid: skill.skillGuid });
                 if (existingSkill) {
-                    skill.userId = user.id;
+                    skill.user_id = user.id;
                     skill.skillId = existingSkill.id;
                     try {
                         const userSkill = await UserSkill.create(skill);
@@ -120,7 +120,7 @@ const updateUserSkill = async function(request, response) {
                 const existingSkill = await Skill.find({ guid: skill.skillGuid });
                 if (existingSkill) {
                     await UserSkill.update(skill, {
-                        userId: user.id,
+                        user_id: user.id,
                         skillId: existingSkill.id
                     });
                     status = OK;
@@ -162,7 +162,7 @@ const deleteUserSkill = async function(request, response) {
         if (user) {
             const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
-                await UserSkill.delete({ userId: user.id, skillId: skill.id });
+                await UserSkill.delete({ user_id: user.id, skillId: skill.id });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
                 return response.status(CONFLICT).json({

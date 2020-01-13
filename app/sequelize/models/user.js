@@ -101,12 +101,12 @@ module.exports = (sequelize, DataTypes) => {
         }),
         User.belongsToMany(models.skill, {
             through: Constants.TableNames.UsersSkills,
-            foreignKey: Constants.Keys.userId,
+            foreignKey: Constants.Keys.user_id,
             as: Constants.Associate.Aliases.skills,
         }),
         User.belongsToMany(models.category, {
             through: Constants.TableNames.UsersCategories,
-            foreignKey: Constants.Keys.userId,
+            foreignKey: Constants.Keys.user_id,
             as: Constants.Associate.Aliases.categories,
         });
     };

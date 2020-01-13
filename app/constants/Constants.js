@@ -80,6 +80,7 @@ const Constants = {
         categoryId: 'categoryId',
         category: 'category',
         userId: 'userId',
+        user_id: 'user_id',
         skillId: 'skillId',
         skill: 'skill',
         skills: 'skills',

@@ -99,7 +99,7 @@ class User {
 
     static async getUsers() {
         const users = await userModel.findAll({
-            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId, Constants.Keys.branchId] },
+            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId] },
             include: [
                 {
                     attributes: { exclude: [Constants.Keys.id] },

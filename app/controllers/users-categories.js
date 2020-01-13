@@ -14,7 +14,7 @@ const logger = require("../helper/logger");
 
 const getUsersCategories = async function(_, response) {
     try {
-        const usersCategories = await Category.findAll();
+        const usersCategories = await UserCategory.findAll();
         response.status(OK).json(usersCategories);
     } catch (error) {
         logger.error(error, '');
@@ -58,7 +58,7 @@ const addUserCategory1 = async function(request, response) {
                 guid: request.body.categoryGuid
             });
             if (category) {
-                category.userId = user.id;
+                category.user_id = user.id;
                 category.categoryId = category.id;
                 const userCategory = await UserCategory.create(category);
                 return response.status(CREATED).json({ userCategory });
@@ -111,7 +111,7 @@ const addUserCategory = async function(request, response) {
             for (category of categories) {
                 const existingCategory = await Category.find({ guid: category.categoryGuid });
                 if (existingCategory) {
-                    category.userId = user.id;
+                    category.user_id = user.id;
                     category.categoryId = existingCategory.id;
                     try {
                         const userCategory = await UserCategory.create(category);
@@ -167,7 +167,7 @@ const updateUserCategory = async function(request, response) {
                 const existingCategory = await Category.find({ guid: category.categoryGuid });
                 if (existingCategory) {
                     await UserCategory.update(category, {
-                        userId: user.id,
+                        user_id: user.id,
                         categoryId: existingCategory.id
                     });
                     status = OK;
@@ -212,7 +212,7 @@ const deleteUserCategory = async function(request, response) {
             });
             if (category) {
                 await UserCategory.delete({
-                    userId: user.id,
+                    user_id: user.id,
                     categoryId: category.id
                 });
                 return response.status(ACCEPTED).json({ success: true });

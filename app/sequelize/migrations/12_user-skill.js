@@ -13,14 +13,14 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.UUID
             },
-            userId: {
+            user_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Users,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.userId
+                    as: Constants.Keys.user_id
                 }
             },
             skillId: {
@@ -43,7 +43,7 @@ module.exports = {
             }
         }).then(() => queryInterface.addConstraint(
             Constants.TableNames.UsersSkills,
-            [Constants.Keys.userId, Constants.Keys.skillId],
+            [Constants.Keys.user_id, Constants.Keys.skillId],
             {
                 type: Constants.Keys.unique,
                 name: Constants.Migrations.UserSkill.uniqueUserSkill
