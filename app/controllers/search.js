@@ -7,9 +7,29 @@ const User = require("../models/user");
 const { Constants } = require("../constants/Constants");
 const { collectCondition, collectQueryWhere } = require("../helper/searchHelper");
 const logger = require("../helper/logger");
+const db = require("../sequelize/models");
 
 let skillIdsList = [];
 let categoriesIdsList = [];
+
+const searchUsers = async function(_, response) {
+    try {
+        const users = await db.sequelize.query(`select * from ${Constants.ViewQueries.unique_view_name}`);
+        response.send(users[0]);
+    } catch (error) {
+        console.log(error);
+        logger.error(error, '');
+        response.status(INTERNAL_SERVER_ERROR).json({
+            success: false,
+            message: `${getStatusText(
+                INTERNAL_SERVER_ERROR
+            )}. ${Constants.parse(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.USER.toLowerCase()
+            )}`
+        });
+    }
+};
 
 const search = async function(request, response, next) {
     try {
@@ -47,5 +67,6 @@ const search = async function(request, response, next) {
 };
 
 module.exports = {
-    search
+    search,
+    searchUsers
 };
