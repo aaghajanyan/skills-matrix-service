@@ -135,8 +135,6 @@ module.exports = (sequelize, DataTypes) => {
         await DefaultUsers.initializeUserTable(models);
         await sequelize.query(`CREATE OR REPLACE VIEW ${Constants.ViewQueries.view_name} AS ${Constants.ViewQueries.users_view}`);
         await sequelize.query(`CREATE OR REPLACE VIEW ${Constants.ViewQueries.unique_view_name} AS ${Constants.ViewQueries.users_view_unique}`);
-        // await sequelize.query(`CREATE OR REPLACE VIEW ${view_name} AS ${users_view}`);
-        // await sequelize.query(`CREATE OR REPLACE VIEW ${unique_view_name} AS ${users_view_unique}`);
     };
 
     return User;

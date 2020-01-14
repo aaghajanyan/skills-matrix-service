@@ -8,13 +8,16 @@ const { Constants } = require("../constants/Constants");
 const { collectCondition, collectQueryWhere } = require("../helper/searchHelper");
 const logger = require("../helper/logger");
 const db = require("../sequelize/models");
-
+const SearchUser = require("../models/search");
 let skillIdsList = [];
 let categoriesIdsList = [];
 
-const searchUsers = async function(_, response) {
+
+const searchUsers = async function(request, response) {
     try {
-        const users = await db.sequelize.query(`select * from ${Constants.ViewQueries.unique_view_name}`);
+        let sqlCmd = SearchUser.collectSearchQuery(request.body);
+        console.log("FINAL CMD = ", sqlCmd);
+        const users = await db.sequelize.query(sqlCmd);
         response.send(users[0]);
     } catch (error) {
         console.log(error);
