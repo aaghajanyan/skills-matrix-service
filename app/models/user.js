@@ -12,11 +12,6 @@ const {
     skills_relation: skillsRelationModel
 } = require("../sequelize/models");
 const bcrypt = require("bcrypt");
-const {
-    getWhereQueryLength,
-    initFinallyWhereQuery,
-    filterUsers
-} = require("../helper/searchHelper");
 const { Constants } = require("../constants/Constants");
 const Position = require("./position");
 const Branch = require("./branch");
@@ -97,9 +92,11 @@ class User {
         return user;
     }
 
-    static async getUsers() {
+    static async getUsers(whereCondition = {}) {
+        const filtredWhereCondition = whereCondition ? whereCondition : {}
         const users = await userModel.findAll({
-            attributes: { exclude: [Constants.Keys.id, Constants.Keys.password, Constants.Keys.roleGroupId] },
+            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
+            where: filtredWhereCondition,
             include: [
                 {
                     attributes: { exclude: [Constants.Keys.id] },

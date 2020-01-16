@@ -12,13 +12,9 @@ const Constants = {
     ViewQueries: {
         view_name: 'users_view',
         unique_view_name: 'users_view_unique',
-        users_view: `SELECT u.email, u.guid as user_guid,u."branchId" as branch_id, u."positionId" as position_id, \
-                    ('[' || us."skillId" || ',' || us.experience || ',' || us.profficience || ']') as skill_info, \
-                    ('[' || uc."categoryId" || ',' || uc.experience || ',' || uc.profficience || ']') as category_info \
-                    FROM users u inner join users_skills us on u.id=us.user_id left outer join users_categories uc on u.id=uc.user_id`,
-        users_view_unique: `SELECT user_guid, branch_id, position_id, string_agg(skill_info, ', ') AS skill_experience_proficiency, \
-                            string_agg(category_info, ', ') AS category_experience_proficiency \
-                            FROM users_view GROUP  BY user_guid,branch_id,position_id`
+        create_or_replace_view: 'CREATE OR REPLACE VIEW ',
+        select_all_from: 'select * from',
+        where: 'where'
     },
 
     TableNames : {
@@ -102,6 +98,8 @@ const Constants = {
         name: 'name',
         password: 'password',
         branch: 'branch',
+        branch_id: 'branch_id',
+        position_id: 'position_id',
         branchName: 'branchName',
         position: 'position',
         user: 'user',
@@ -112,6 +110,15 @@ const Constants = {
         removedRelatedCategories: 'removedRelatedCategories',
         addedSkills: 'addedSkills',
         removedSkills: 'removedSkills',
+        group: 'group',
+        rule: 'rule',
+        skill_experience_proficiency: 'skill_experience_proficiency',
+        category_experience_proficiency: 'category_experience_proficiency'
+    },
+
+    Condition: {
+        and: 'and',
+        or: 'or',
     },
 
     Migrations: {
@@ -228,6 +235,8 @@ const Constants = {
             LESSER: 'lesser',
             OR: 'or',
             AND: 'and',
+            MAX_EXPERIENCE: 5,
+            MAX_PROFICIENCY: 5,
             Op: {
                 EQ: '$eq',
                 GTE: '$gte',

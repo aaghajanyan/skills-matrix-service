@@ -3,6 +3,7 @@ const DefaultRoles = require("../utils/DefaultRoles");
 const DefaultBranches = require("../utils/DefaultBranches");
 const DefaultPosition = require("../utils/DefaultPosition");
 const { Constants } = require("../../constants/Constants");
+const config = require("../config/config");
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
@@ -133,8 +134,8 @@ module.exports = (sequelize, DataTypes) => {
         await DefaultRoles.initializeRolesGroupsTable(models);
         await DefaultRoles.initializeRolesRelationTable(models, rolesAndGroupRelation);
         await DefaultUsers.initializeUserTable(models);
-        await sequelize.query(`CREATE OR REPLACE VIEW ${Constants.ViewQueries.view_name} AS ${Constants.ViewQueries.users_view}`);
-        await sequelize.query(`CREATE OR REPLACE VIEW ${Constants.ViewQueries.unique_view_name} AS ${Constants.ViewQueries.users_view_unique}`);
+        await sequelize.query(`${Constants.ViewQueries.create_or_replace_view} ${config.queryTemplate.view_name} AS ${config.queryTemplate.users_view}`);
+        await sequelize.query(`${Constants.ViewQueries.create_or_replace_view} ${config.queryTemplate.unique_view_name} AS ${config.queryTemplate.users_view_unique}`);
     };
 
     return User;

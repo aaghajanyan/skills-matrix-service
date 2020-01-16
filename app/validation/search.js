@@ -1,70 +1,53 @@
 const Joi = require("joi");
 
-const searchBodySchema = Joi.array().items(Joi.object().keys({
+const groupSchema = Joi.object().keys({
     type: Joi.string().valid([
-        "user",
-        "branch",
-        "position",
-        "skill",
-        "category"
-    ]),
-    opCondition: Joi.string().valid([
-        "equal",
-        "not equal"
-    ]),
-    relCondition: Joi.string().valid([
-        "and"
-        // "or"
-    ]),
-    items: Joi.object().keys({
-        name: Joi.string().valid([
-            "Beginner SW Engineer",
-            "SW Engineer",
-            "Senior SW Engineer",
-            "Beginner QA Tester",
-            "QA Tester",
-            "SQE Analyst",
-            "Sr. Software Quality Engineer",
-            "QA Analyst",
-            "QA lead",
-            "Team lead",
-            "Graphic designer",
-            "technical manager",
-            "Senior Team lead",
-            "Project Manager",
-            "3D modeler",
-            "UIUX designer",
-            "SW Architect",
-            "Vanadzor",
-            "Erevan",
-            "Goris"
+        'rule', 'group'
+    ]).required(),
+    id: Joi.string().min(1).max(16).required(),
+    condition: Joi.string().valid([
+        'or', 'and'
+    ]).required(),
+    childrens: Joi.object().keys({
+
+    }).required().unknown(true)
+});
+
+const ruleSchema = Joi.object().keys({
+    type: Joi.string().valid([
+        'rule', 'group'
+    ]).required(),
+    properties: Joi.object().keys({
+        type: Joi.string().valid([
+            'Skill', 'Category', 'Branch', 'Position'
+        ]).required(),
+        opCondition: Joi.string().valid([
+            'equal', 'not equal'
+        ]).required(),
+        id: Joi.string().min(1).max(16).required(),
+        experience: Joi.string().valid([
+            '0', '1', '2', '3', '4', '5'
         ]),
-        fname: Joi.string(),
-        lname: Joi.string(),
-        experience: Joi.number().integer().min(0). max(100),
-        profficience: Joi.number().integer().min(0). max(5),
-        id: Joi.string().uuid(),
-      }),
-    isActive: Joi.boolean()
-}));
+        proficiency: Joi.string().valid([
+            '0', '1', '2', '3', '4', '5'
+        ]),
+    }).required()
+});
 
-const validateSearchBodySchema = (request, response, next) => {
-    validateBody(request, response, next, searchBodySchema);
-};
+const validateGroupBodySchema = (data) => {
+    return validateBody(data, groupSchema);
+}
 
-function validateBody(request, response, next, schema) {
-    try {
-        const result = Joi.validate(request.body, schema);
-        if (result.error) {
-            return response.status(400).json(result.error.details);
-        }
-        next();
-    } catch(error) {
-        return response.status(400).json(error.details);
-    }
+const validateRuleBodySchema = (data) => {
+    return validateBody(data, ruleSchema);
+}
 
+function validateBody(data, schema) {
+    const result = Joi.validate(data, schema);
+    return result.error;
 }
 
 module.exports = {
-    validateSearchBodySchema
+    validateRuleBodySchema,
+    validateGroupBodySchema
 };
