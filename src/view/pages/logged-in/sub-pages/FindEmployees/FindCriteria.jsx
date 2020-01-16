@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Select, Row, Col, Button} from 'antd';
 
-import { CRITERIA } from '../../../configSearch/criteria';
+import { CRITERIA } from '../../../../../configSearch/criteria';
 
 const { Option } = Select
 
