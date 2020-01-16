@@ -14,6 +14,7 @@ import { SMEmployee } from 'pages/logged-in/components'
 import { FindEmployees } from 'pages/logged-in/sub-pages';
 import store from 'store';
 import './App.scss';
+import store from 'config/store';
 
 class App extends Component {
     render() {

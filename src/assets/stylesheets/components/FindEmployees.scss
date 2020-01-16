@@ -7,13 +7,110 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.3s ease-out;
     position: relative;
+    button:not(.delBtn){
+        width: 100%;
+    }
+    .ant-form-item-control {
+        line-height: 1.5;
+    }
+    .header_container {
+        margin-bottom: 10px;
+        div[class*="ant-col-"]:not(.del_btn_right){
+            margin-right: 10px;
+        }
+    }
+    .ant-form-horizontal {
+        padding: 10px;
+        border: 1px solid #2764944a;
+        border-radius: 10px;
+        .ant-row.rule-rows {
+            background: #fff;
+            border-radius: 5px;
+            padding: 8px 20px 8px 0px;
+            margin-left: 40px;
+            margin-right: -5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 2px 0px #27649494;
+            display: flex;
+            position: relative;
+            margin-top: 8px;
+            div[class*="ant-col-"]{
+                padding: 0 8px;
+            }
+
+            &::before, &::after {
+                content: "";
+                position: absolute;
+                left: -10px;
+                width: 10px;
+                border-color: #276494;
+                border-style: solid;
+                box-sizing: border-box;
+                border-width: 0 0 2px 2px;
+            }
+        }
+        .ant-row.group-rows {
+            padding: 8px 20px 8px 0px;
+            margin-left: 40px;
+            background: #fff;
+            box-shadow: 0px 0px 2px 0px #27649494;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            .header_container{
+                padding-left: 8px;
+            }
+            .ant-row.rule-rows {
+                margin-left: 40px;
+            }
+
+            &::before, &::after {
+                content: "";
+                position: absolute;
+                left: -10px;
+                width: 10px;
+                border-color: #276494;
+                border-style: solid;
+                box-sizing: border-box;
+                border-width: 0 0 2px 2px;
+            }
+        }
+
+        .group-rows:before {
+            display: flex;
+            top: -10px;
+            height: calc(50% + 10px);
+        }
+
+        .rule-rows:before {
+            display: flex;
+            top: -19px;
+            height: calc(50% + 19px);
+        }
+
+        .ant-row > .rule-rows::after, .group-rows::after {
+            display: flex;
+            top: 50%;
+            border-width: 0 0 0 2px !important;
+            height: calc(50% + 8px);
+        }
+
+        .ant-form-item-children .group--children > .group-rows:last-child::before,
+        .ant-form-item-children .group--children > .rule-rows:last-child::before {
+            border-radius: 0 0 0 5px;
+        }
+
+        .ant-form-item-children .group--children > .group-rows:last-child::after,
+        .ant-form-item-children .group--children > .rule-rows:last-child::after {
+            content: none;
+        }
+    }
     .people_finder_header {
         display: flex;
         justify-content: space-between;
         div:first-child {
             width: 100%;
         }
-        h1{
+        h1 {
             font-size: 22px;
             color: #B0B0B0;
             font-style: normal;
@@ -26,7 +123,16 @@
     .people_finder_buttons {
         display: flex;
         justify-content: center;
-        align-items: center;
+        text-align: center;
+        margin-top: 20px;
+        div:first-child {
+            text-align: right;
+        }
+
+        div:last-child {
+            text-align: left;
+        }
+
         #people_finder_btn {
             background: #266494;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
@@ -45,13 +151,7 @@
             }
         }
     }
-    .main_info_desc {
-        .people_finder_info_desc {
-            font-size: 30px;
-            line-height: 34px;
-            color: #B0B0B0;
-        }
-    }
+
     #add_people_btn_disabled {
         background: #C4C4C4;
     }
@@ -69,11 +169,29 @@
 
     .delBtn {
         border: none;
-        path {
-            stroke-width: 60;
-            stroke: #961616;
-            fill: #961616;
+        background-color: none;
+        display: none;
+        i {
+            font-size: 20px;
         }
+        path {
+            stroke: red;
+            fill:red;
+        }
+    }
+
+    .del_btn_right {
+        position: absolute;
+        right: 0;
+        text-align: right;
+    }
+
+    .rule-rows:hover .delBtn, .header_container:hover .delBtn {
+        display: inline;
+    }
+
+    .rule-rows:hover .display_dell_btn ,  .group-rows:hover > .display_dell_btn {
+        display: none;
     }
 
     .collapses_visible {
@@ -102,8 +220,8 @@
         display: none;
     }
 
-    .label_select{
-        span{
+    .label_select {
+        span {
             color: #777;
             top: 15px;
             position: relative;
@@ -117,7 +235,7 @@
     }
 }
 
-.left_col_skill_info{
+.left_col_skill_info {
     font-size: 12px;
     font-weight: bold;
 }
