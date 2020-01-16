@@ -37,7 +37,7 @@ function FindCriteria(props){
     }
 
     return (
-        <Row gutter={10} className="rule-rows">
+        <Row className="rule-rows">
             <Col span={5}>
             {getFieldDecorator(`${props.criteriaId}[type]`)(
                 <Select placeholder="Criteria" onSelect={handleSelect}>

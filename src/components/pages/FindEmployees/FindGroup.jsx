@@ -99,7 +99,7 @@ function FindGroup(props) {
     }
 
     return (
-        <Row gutter={10} className="group-rows">
+        <Row className="group-rows">
             <Row>
                 <Row className="header_container" justify="center" >
                     <Col>
@@ -116,7 +116,7 @@ function FindGroup(props) {
                         </Col>
                         {renderAddGroup()}
                     </Col>
-                    <Col className="del_btn_right" span={3}>
+                    <Col className="del_btn_right" span={1}>
                         <Button className={`delBtn ${props.className}`} onClick={handleDeleteGroupRow} icon="delete"></Button>
                     </Col>
                 </Row>

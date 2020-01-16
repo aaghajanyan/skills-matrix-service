@@ -7,11 +7,17 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.3s ease-out;
     position: relative;
+    button:not(.delBtn){
+        width: 100%;
+    }
     .ant-form-item-control {
         line-height: 1.5;
     }
     .header_container {
         margin-bottom: 10px;
+        div[class*="ant-col-"]:not(.del_btn_right){
+            margin-right: 10px;
+        }
     }
     .ant-form-horizontal {
         padding: 10px;
@@ -21,13 +27,17 @@
             background: #fff;
             border-radius: 5px;
             padding: 8px 20px 8px 0px;
-            margin-left: 40px !important;
+            margin-left: 40px;
+            margin-right: -5px;
             margin-bottom: 10px;
             box-shadow: 0px 0px 2px 0px #27649494;
-            flex: 1;
             display: flex;
             position: relative;
             margin-top: 8px;
+            div[class*="ant-col-"]{
+                padding: 0 8px;
+            }
+
             &::before, &::after {
                 content: "";
                 position: absolute;
@@ -41,20 +51,18 @@
         }
         .ant-row.group-rows {
             padding: 8px 20px 8px 0px;
-            margin-left: calc(40px) !important;
+            margin-left: 40px;
             background: #fff;
             box-shadow: 0px 0px 2px 0px #27649494;
             border-radius: 5px;
             margin-bottom: 10px;
+            .header_container{
+                padding-left: 8px;
+            }
             .ant-row.rule-rows {
-                margin-left: calc(40px) !important;
+                margin-left: 40px;
             }
-            button:not(.delBtn) {
-                margin-left: calc(10px * 2) !important;
-            }
-            .ant-select {
-                padding-left:  20px;
-            }
+
             &::before, &::after {
                 content: "";
                 position: absolute;
@@ -167,8 +175,8 @@
             font-size: 20px;
         }
         path {
-            stroke: #bfbfbf;
-            fill: #bfbfbf;
+            stroke: red;
+            fill:red;
         }
     }
 

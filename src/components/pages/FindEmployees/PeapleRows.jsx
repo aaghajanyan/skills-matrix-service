@@ -118,7 +118,7 @@ export default function PeapleRows(props) {
 
     return (
         <Row>
-            <Row className="header_container" gutter={16} justify="center">
+            <Row className="header_container" justify="center">
                 <Col span={2}>
                     <Select defaultValue='And' onSelect={handleChangeCondition}>
                         <Option value='And'>And</Option>
