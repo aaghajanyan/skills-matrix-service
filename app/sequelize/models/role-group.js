@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         RoleGroup.belongsToMany(models.roles, {
             through: Constants.TableNames.RolesRelation,
             as: Constants.Associate.Aliases.roles,
-            foreignKey: Constants.Keys.roleGroupId,
+            foreignKey: Constants.Keys.role_group_id,
             timestamps: false
         });
     };

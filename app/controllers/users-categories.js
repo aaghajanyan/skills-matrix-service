@@ -59,7 +59,7 @@ const addUserCategory1 = async function(request, response) {
             });
             if (category) {
                 category.user_id = user.id;
-                category.categoryId = category.id;
+                category.category_id = category.id;
                 const userCategory = await UserCategory.create(category);
                 return response.status(CREATED).json({ userCategory });
             } else {
@@ -112,7 +112,7 @@ const addUserCategory = async function(request, response) {
                 const existingCategory = await Category.find({ guid: category.categoryGuid });
                 if (existingCategory) {
                     category.user_id = user.id;
-                    category.categoryId = existingCategory.id;
+                    category.category_id = existingCategory.id;
                     try {
                         const userCategory = await UserCategory.create(category);
                         status = CREATED;
@@ -168,7 +168,7 @@ const updateUserCategory = async function(request, response) {
                 if (existingCategory) {
                     await UserCategory.update(category, {
                         user_id: user.id,
-                        categoryId: existingCategory.id
+                        category_id: existingCategory.id
                     });
                     status = OK;
                 } else {
@@ -213,7 +213,7 @@ const deleteUserCategory = async function(request, response) {
             if (category) {
                 await UserCategory.delete({
                     user_id: user.id,
-                    categoryId: category.id
+                    category_id: category.id
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {

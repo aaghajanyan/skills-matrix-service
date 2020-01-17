@@ -308,7 +308,7 @@ const updateCategoryAllData = async function(request, response) {
             removedSkills,
             ...categoryData
         } = request.body;
-        const existingCategory = await Category.findOneCategory({
+        const existingCategory = await Category.find({
             guid: request.params.guid
         });
 
@@ -348,6 +348,7 @@ const updateCategoryAllData = async function(request, response) {
         });
     }
 };
+
 
 module.exports = {
     getCategories,

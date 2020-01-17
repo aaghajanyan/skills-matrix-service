@@ -28,7 +28,7 @@ const getCriteries = async function(_, response) {
 
 const getCriteria = async function(request, response) {
     try {
-        const criteria = await Category.find({ guid: request.params.guid });
+        const criteria = await Criteria.find({ guid: request.params.guid });
         response.status(OK).json(criteria);
     } catch (error) {
         logger.error(error, '');

@@ -35,35 +35,38 @@ class Category {
     }
 
     static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
-        sendedList.addedCategories = [];
-        if (relatedCategoriesIds && relatedCategoriesIds.length) {
-            const promise = relatedCategoriesIds.map(async function(
-                categoryGuid
-            ) {
-                const relatedCategory = await categoryModel.findOne({
-                    where: { guid: categoryGuid }
-                });
-                const obj = {
-                    categoryGuid: category.guid,
-                    relatedCategoryGuid: categoryGuid,
-                    success: false
-                };
-
-                if (relatedCategory) {
-                    await categoryRelationModel.findOrCreate({
-                        where: {
-                            categoryId: category.id,
-                            relatedCategoryId: relatedCategory.id
-                        }
+        try {
+            sendedList.addedCategories = [];
+            if (relatedCategoriesIds && relatedCategoriesIds.length) {
+                const promise = relatedCategoriesIds.map(async function(categoryGuid) {
+                    const relatedCategory = await categoryModel.findOne({
+                        where: { guid: categoryGuid }
                     });
-                    obj.success = true;
-                }
-                return obj;
-            });
-            await Promise.all(promise).then(list => {
-                sendedList.addedCategories.push(list);
-            });
+                    const obj = {
+                        categoryGuid: category.guid,
+                        relatedCategoryGuid: categoryGuid,
+                        success: false
+                    };
+    
+                    if (relatedCategory) {
+                        await categoryRelationModel.findOrCreate({
+                            where: {
+                                category_id: category.id,
+                                related_category_id: relatedCategory.id
+                            }
+                        });
+                        obj.success = true;
+                    }
+                    return obj;
+                });
+                await Promise.all(promise).then(list => {
+                    sendedList.addedCategories.push(list);
+                });
+            }
+        } catch(error) {
+            console.log(error)
         }
+
     }
 
     static async mergeRelatedCategories(categories) {
@@ -90,8 +93,8 @@ class Category {
                 };
                 const categoryRelation = await categoryRelationModel.findOne({
                     where: {
-                        categoryId: category.id,
-                        relatedCategoryId: relatedCategory.id
+                        category_id: category.id,
+                        related_category_id: relatedCategory.id
                     }
                 });
 
@@ -123,8 +126,8 @@ class Category {
                 if (existingSkill) {
                     await skillRelationModel.findOrCreate({
                         where: {
-                            skillId: existingSkill.id,
-                            categoryId: category.id
+                            skill_id: existingSkill.id,
+                            category_id: category.id
                         }
                     });
                     obj.success = true;

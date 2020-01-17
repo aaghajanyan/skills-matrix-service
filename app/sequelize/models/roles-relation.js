@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            roleGroupId: {
+            role_group_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
                     msg: Constants.ModelErrors.ROLE_GROUP_ID_IS_MISSING
                 }
             },
-            roleId: {
+            role_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,

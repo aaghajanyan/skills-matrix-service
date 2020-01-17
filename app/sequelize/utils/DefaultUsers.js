@@ -10,10 +10,10 @@ class DefaultUsers {
             email: 'admin@instigatemobile.com',
             fname: 'Admin',
             lname: 'Admin',
-            branchId: 1,
-            startedToWorkDate: '2017-11-16',
-            positionId: 13,
-            roleGroupId: 1
+            branch_id: 1,
+            started_to_work_date: '2017-11-16',
+            position_id: 13,
+            role_group_id: 1
         };
         await models.user.build(user).save().catch((err) => {});
     }

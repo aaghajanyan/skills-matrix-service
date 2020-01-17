@@ -26,7 +26,7 @@ class User {
     static async getByGuid(guid) {
         const user = await userModel.findOne({
             where: { guid: guid },
-            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
+            attributes: { exclude: [Constants.Keys.password, Constants.Keys.role_group_id] },
             include: [
                 {
                     model: rolesGroupsModel,
@@ -95,7 +95,7 @@ class User {
     static async getUsers(whereCondition = {}) {
         const filtredWhereCondition = whereCondition ? whereCondition : {}
         const users = await userModel.findAll({
-            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
+            attributes: { exclude: [Constants.Keys.password, Constants.Keys.role_group_id] },
             where: filtredWhereCondition,
             include: [
                 {
@@ -167,9 +167,9 @@ class User {
         const salt = await bcrypt.genSalt(10);
         data.password = bcrypt.hashSync(data.password, salt);
         const position = await Position.find({ guid: data.positionGuid })
-        data.positionId = position.id;
+        data.position_id = position.id;
         const branch = await Branch.find({ guid: data.branchGuid })
-        data.branchId = branch.id;
+        data.branch_id = branch.id;
         return userModel.create(data);
     }
 
@@ -180,82 +180,6 @@ class User {
         }
         return userModel.update(data, { where: { guid: guid } });
     }
-
-    static async searchUser(queryWhere, skillIdsList, categoriesIdsList) {
-        const {
-            usersCondition,
-            branchCondition,
-            positionCondition,
-            categoriesCondition,
-            skillsCondition,
-            usersSkillsCondition,
-            usersCategoriesCondition
-        } = queryWhere;
-
-        initFinallyWhereQuery(usersCondition, true);
-        initFinallyWhereQuery(branchCondition);
-        initFinallyWhereQuery(positionCondition);
-        initFinallyWhereQuery(skillsCondition);
-        initFinallyWhereQuery(categoriesCondition);
-        initFinallyWhereQuery(usersSkillsCondition);
-        initFinallyWhereQuery(usersCategoriesCondition);
-
-        const userQueryCount = getWhereQueryLength(usersCondition, true);
-        const branchQueryCount = getWhereQueryLength(branchCondition);
-        const positionQueryCount = getWhereQueryLength(positionCondition);
-        const userSkillQueryCount = getWhereQueryLength(usersSkillsCondition);
-        const userCategoryQueryCount = getWhereQueryLength(
-            usersCategoriesCondition
-        );
-
-        const users = await userModel.findAll({
-            where: usersCondition,
-            required: userQueryCount > 0,
-            attributes: { exclude: [Constants.Keys.password, Constants.Keys.roleGroupId] },
-            include: [
-                {
-                    // attributes: { exclude: [Constants.Keys.id] },
-                    model: branchesModel,
-                    as: Constants.Associate.Aliases.branch,
-                    required: branchQueryCount > 0,
-                    where: branchCondition,
-                },
-                {
-                    model: positionModel,
-                    as: Constants.Associate.Aliases.position,
-                    required: positionQueryCount > 0,
-                    where: positionCondition,
-                },
-                {
-                    // attributes: { exclude: [Constants.Keys.id] },
-                    model: skillModel,
-                    as: Constants.Associate.Aliases.skills,
-                    required: userSkillQueryCount > 0,
-                    through: {
-                        model: userSkillsModel,
-                        where: usersSkillsCondition,
-                        required: userSkillQueryCount > 0,
-                        as: Constants.Associate.Aliases.skillMark,
-                        attributes: { exclude: [Constants.Keys.id] },
-                    }
-                },
-                {
-                    // attributes: { exclude: [Constants.Keys.id] },
-                    model: categoryModel,
-                    as: Constants.Associate.Aliases.categories,
-                    required: userCategoryQueryCount > 0,
-                    through: {
-                        model: userCategoriesModel,
-                        where: usersCategoriesCondition,
-                        required: userCategoryQueryCount > 0,
-                        as: Constants.Associate.Aliases.categoryMark,
-                        attributes: { exclude: [Constants.Keys.id] },
-                    }
-                }
-            ]
-        });
-        return await filterUsers(users, skillIdsList, categoriesIdsList);
-    };
 }
 
 module.exports = User;

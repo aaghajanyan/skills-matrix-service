@@ -53,6 +53,8 @@ const Constants = {
     },
 
     ModelErrors: {
+        USERNAME_OR_PASSWORD_IS_INCORRECT: 'Username or password is incorrect.',
+        CATEGORY_ID_IS_MISSING: 'Category id is missing.',
         CATEGORY_ID_IS_MISSING: 'Category id is missing.',
         RELATED_CATEGORY_ID_IS_MISSING: 'Related category id is missing.',
         NAME_IS_MISSING: 'Name is missing.',
@@ -83,18 +85,20 @@ const Constants = {
 
     Keys: {
         id: 'id',
-        branchId: 'branchId',
-        roleGroupId: 'roleGroupId',
-        roleId: 'roleId',
+        branch_id: 'branch_id',
+        role_group_id: 'role_group_id',
+        role_id: 'role_id',
         categoryId: 'categoryId',
+        category_id: 'category_id',
         category: 'category',
         userId: 'userId',
         user_id: 'user_id',
         skillId: 'skillId',
+        skill_id: 'skill_id',
         skill: 'skill',
         skills: 'skills',
         unique: 'unique',
-        relatedCategoryId: 'relatedCategoryId',
+        related_category_id: 'related_category_id',
         name: 'name',
         password: 'password',
         branch: 'branch',
@@ -128,12 +132,12 @@ const Constants = {
 
         RoleRelation: {
             id: 'id',
-            roleId: 'roleId',
-            roleGroupId: 'roleGroupId',
+            role_id: 'role_id',
+            role_group_id: 'role_group_id',
             uniqueRoleRel: 'uniqueRoleRel'
         },
         CategoryRelation: {
-            relatedCategoryId: 'relatedCategoryId',
+            related_category_id: 'related_category_id',
         },
         SkillRelation: {
             uniqueSkillRel: 'uniqueSkillRel'
@@ -142,7 +146,8 @@ const Constants = {
             uniqueUserSkill: 'uniqueUserSkill'
         },
         History: {
-            userSkillId: 'userSkillId'
+            userSkillId: 'userSkillId',
+            user_skill_id: 'user_skill_id'
         },
         UsersCategories: {
             uniqueUserCategory: 'uniqueUserCategory'

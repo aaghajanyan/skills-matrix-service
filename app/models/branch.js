@@ -23,6 +23,10 @@ class Branch {
         return await branchModel.create(data);
     }
 
+    static async update(data, condition) {
+        await branchModel.update(data, { where: { ...condition } });
+    }
+
     static async findOrCreate(condition) {
         const branch = await branchModel.findOrCreate({
             where: { ...condition }

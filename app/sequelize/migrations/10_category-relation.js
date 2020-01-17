@@ -13,24 +13,24 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.UUID
             },
-            categoryId: {
+            category_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.categoryId
+                    as: Constants.Keys.category_id
                 }
             },
-            relatedCategoryId: {
+            related_category_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Categories,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.relatedCategoryId
+                    as: Constants.Keys.related_category_id
                 }
             }
         });

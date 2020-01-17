@@ -25,14 +25,14 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING
             },
-            branchId: {
+            branch_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Branches,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.branchId
+                    as: Constants.Keys.branch_id
                 }
             },
             guid: {
@@ -40,36 +40,36 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.UUID
             },
-            isActive: {
+            is_active: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN
             },
-            createdDate: {
+            created_date: {
                 allowNull: false,
                 type: Sequelize.DATE
             },
-            startedToWorkDate: {
+            started_to_work_date: {
                 allowNull: false,
                 type: Sequelize.DATE
             },
-            roleGroupId: {
+            role_group_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.RolesGroup,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.roleGroupId
+                    as: Constants.Keys.role_group_id
                 }
             },
-            positionId: {
+            position_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Positions,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.positionId
+                    as: Constants.Keys.position_id
                 }
             },
         });

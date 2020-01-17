@@ -1,15 +1,15 @@
 const Joi = require("joi");
 
 const addBodySchema = Joi.object().keys({
-    categoryId: Joi.number()
+    category_id: Joi.number()
         .integer()
         .required(),
-    relatedCategoryId: Joi.number()
+    related_category_id: Joi.number()
         .integer()
         .required()
 });
 const updateBodySchema = Joi.object().keys({
-    relatedCategoryId: Joi.number()
+    related_category_id: Joi.number()
         .integer()
         .required()
 });

@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
                     msg: Constants.ModelErrors.LASTNAME_IS_MISSING
                 },
             },
-            branchId: {
+            branch_id: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
@@ -55,27 +55,27 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            isActive: {
+            is_active: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true
             },
-            createdDate: {
+            created_date: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW
             },
-            startedToWorkDate: {
+            started_to_work_date: {
                 type: DataTypes.DATE,
                 allowNull: {
                     args: false,
                     msg: Constants.ModelErrors.STARTED_TO_WORK_DATE_IS_MISSING
                 },
             },
-            roleGroupId: {
+            role_group_id: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
                 defaultValue: 3
             },
-            positionId: {
+            position_id: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
@@ -87,17 +87,17 @@ module.exports = (sequelize, DataTypes) => {
     User.associate = models => {
         User.belongsTo(models.roles_groups, {
             as: Constants.Associate.Aliases.roleGroup,
-            foreignKey: Constants.Keys.roleGroupId,
+            foreignKey: Constants.Keys.role_group_id,
             targetkey: Constants.Keys.id,
         }),
         User.belongsTo(models.branch, {
             as: Constants.Associate.Aliases.branch,
-            foreignKey: Constants.Keys.branchId,
+            foreignKey: Constants.Keys.branch_id,
             targetkey: Constants.Keys.id,
         }),
         User.belongsTo(models.position, {
             as: Constants.Associate.Aliases.position,
-            foreignKey: Constants.Keys.positionId,
+            foreignKey: Constants.Keys.position_id,
             targetkey: Constants.Keys.id,
         }),
         User.belongsToMany(models.skill, {

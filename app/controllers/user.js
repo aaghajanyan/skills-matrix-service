@@ -10,6 +10,7 @@ const {
     CREATED,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
+    CONFLICT,
     getStatusText
 } = require("http-status-codes");
 const User = require("../models/user");
@@ -77,9 +78,12 @@ const signUp = async function(request, response) {
         const decodedToken = await jwtDecode(token, invitationTokenSecret);
         const invitation = await Invitation.findByPk(decodedToken.guid);
         if (!invitation) {
-            return response.status(BAD_REQUEST).json({
+            return response.status(CONFLICT).json({
                 success: false,
-                message: getStatusText(BAD_REQUEST)
+                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.INVITATION
+                )}`
             });
         }
         request.body.email = invitation.email;
@@ -90,6 +94,7 @@ const signUp = async function(request, response) {
         await invitation.destroy();
         response.status(CREATED).json({ guid: user.guid });
     } catch (error) {
+        console.log(error);
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
@@ -106,7 +111,7 @@ const login = async function(request, response) {
         if (!user) {
             return response.status(BAD_REQUEST).json({
                 success: false,
-                message: getStatusText(BAD_REQUEST)
+                message: Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT
             });
         }
         const validPassword = bcrypt.compareSync(
@@ -116,16 +121,16 @@ const login = async function(request, response) {
         if (!validPassword) {
             return response.status(BAD_REQUEST).json({
                 success: false,
-                message: getStatusText(BAD_REQUEST)
+                message: Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT
             });
         }
         const token = jwt.sign(
             {
                 guid: user.guid,
                 email: user.email,
-                isActive: user.isActive,
-                roleGroupId: user.roleGroupId,
-                createdDate: user.createdDate
+                is_active: user.is_active,
+                role_group_id: user.role_group_id,
+                created_date: user.created_date
             },
             tokenSecret,
             { expiresIn: Constants.LOGIN_TOKEN_EXPiRE_DATE }

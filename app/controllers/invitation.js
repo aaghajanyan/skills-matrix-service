@@ -50,7 +50,7 @@ const addInvitation = async function(request, response) {
                 const token = jwt.sign(
                     {
                         guid: currInvitation.id,
-                        createdDate: Date().now
+                        created_date: Date().now
                     },
                     tokenSecret,
                     { expiresIn: Constants.INVITATION_TOKEN_EXPiRE_DATE }

@@ -23,6 +23,10 @@ class Position {
         return await positionModel.create(data);
     }
 
+    static async update(data, condition) {
+        await positionModel.update(data, { where: { ...condition } });
+    }
+
     static async findOrCreate(condition) {
         const position = await positionModel.findOrCreate({
             where: { ...condition }

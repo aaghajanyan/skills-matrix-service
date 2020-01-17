@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            skillId: {
+            skill_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
                     msg: Constants.ModelErrors.SKILL_ID_IS_MISSING
                 }
             },
-            categoryId: {
+            category_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,

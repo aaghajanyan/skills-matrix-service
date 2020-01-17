@@ -23,6 +23,10 @@ class Criteria {
         return await criteriaModel.create(data);
     }
 
+    static async update(data, condition) {
+        return await criteriaModel.update(data, { where: { ...condition } });
+    }
+
     static async findOrCreate(condition) {
         const criteria = await criteriaModel.findOrCreate({
             where: { ...condition }

@@ -13,21 +13,21 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.UUID
             },
-            userSkillId: {
+            user_skill_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.UsersSkills,
                     key: Constants.Keys.id,
-                    as: Constants.Migrations.History.userSkillId
+                    as: Constants.Migrations.History.user_skill_id
                 }
             },
             mark: {
                 allowNull: false,
                 type: Sequelize.INTEGER
             },
-            createdDate: {
+            created_date: {
                 allowNull: false,
                 type: Sequelize.DATE
             }

@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            categoryId: {
+            category_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
                     msg: Constants.ModelErrors.CATEGORY_ID_IS_MISSING
                 }
             },
-            relatedCategoryId: {
+            related_category_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,

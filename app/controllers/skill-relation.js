@@ -52,9 +52,9 @@ const getSkillRelation = async function(request, response) {
 
 const addSkillRelation = async function(request, response) {
     try {
-        const category = await Category.findByPk(request.body.categoryId);
+        const category = await Category.findByPk(request.body.category_id);
         if (category) {
-            const skill = await Skill.findByPk(request.body.skillId);
+            const skill = await Skill.findByPk(request.body.skill_id);
             if (skill) {
                 const skillRelation = await SkillRelation.create(request.body);
                 response.status(CREATED).json({ id: skillRelation.id });

@@ -40,8 +40,8 @@ const getCategoriesRelations = async function(_, response) {
 
 const getCategoryRelation = async function(request, response) {
     try {
-        const categoryRelation = await CategoryRelation.findByPk(
-            request.params.categoryRelationId
+        const categoryRelation = await CategoryRelation.find(
+            { guid: request.params.categoryRelationId }
         );
         if (!categoryRelation) {
             return response.status(CONFLICT).json({
@@ -55,6 +55,7 @@ const getCategoryRelation = async function(request, response) {
         }
         return response.status(OK).json(categoryRelation);
     } catch (error) {
+        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
@@ -69,10 +70,10 @@ const getCategoryRelation = async function(request, response) {
 
 const addCategoryRelation = async function(request, response) {
     try {
-        const category = await Category.findByPk(request.body.categoryId);
+        const category = await Category.findByPk(request.body.category_id);
         if (category) {
             const existingCategory = await Category.findByPk(
-                request.body.relatedCategoryId
+                request.body.related_rategory_id
             );
             if (existingCategory) {
                 const categoryRelation = await CategoryRelation.create(
@@ -116,41 +117,69 @@ const addCategoryRelation = async function(request, response) {
 
 const updateCategoryRelation = async function(request, response) {
     try {
-        const category = await Category.findByPk(
-            request.body.relatedCategoryId
-        );
-        if (category) {
-            await CategoryRelation.update(request.body, {
-                id: request.params.categoryRelationId
-            });
-            return response.status(ACCEPTED).json({ success: true });
-        } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${getStatusText(CONFLICT)}.
-                ${Constants.parse(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.REL_CATEGORY
-                )}`
-            });
-        }
+        await CategoryRelation.update(request.body, {
+            category_id: request.params.categoryRelationId,
+        });
+        return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
+        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-                    ${Constants.parse(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                    )}`
+                ${Constants.parse(
+                    Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                    Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                )}`
         });
     }
 };
 
+// const updateCategoryRelation = async function(request, response) {
+//     try {
+//         const category = await Category.find({
+//             guid: request.body.related_category_id
+//         });
+//         console.log("CAT", category);
+//         if (category) {
+//             const relCategory = await Category.find({
+//                 guid: request.body.related_category_id
+//             });
+//             if (relCategory) {
+//                 console.log(" REL CAT", category);
+
+//                 await CategoryRelation.update({related_category_id: relCategory.id}, {
+//                     category_id: category.id
+//                 });
+//                 return response.status(ACCEPTED).json({ success: true });
+//             }
+//         } else {
+//             return response.status(CONFLICT).json({
+//                 success: false,
+//                 message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+//                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+//                     Constants.Controllers.TypeNames.REL_CATEGORY
+//                 )}`
+//             });
+//         }
+//     } catch (error) {
+//         console.log(error)
+//         logger.error(error, '');
+//         return response.status(INTERNAL_SERVER_ERROR).send({
+//             success: false,
+//             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
+//                     ${Constants.parse(
+//                         Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+//                         Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+//                     )}`
+//         });
+//     }
+// };
+
 const deleteCategoryRelation = async function(request, response) {
     try {
         await CategoryRelation.delete({
-            id: request.params.categoryRelationId
+            guid: request.params.categoryRelationId
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {

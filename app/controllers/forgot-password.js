@@ -58,7 +58,7 @@ const forgotPassword = async function(request, response) {
         const token = jwt.sign(
             {
                 guid: user.guid,
-                createdDate: Date().now
+                created_date: Date().now
             },
             forgotPasswordTokenSecret,
             { expiresIn: Constants.FORGOT_PASSWORD_TOKEN_EXPiRE_DATE }

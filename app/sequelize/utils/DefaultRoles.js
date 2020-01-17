@@ -27,22 +27,22 @@ class DefaultRoles {
                             where: { name: role }
                         });
                         const currRoleRelObj = {};
-                        currRoleRelObj.roleId = existingRole.dataValues.id;
-                        currRoleRelObj.roleGroupId =
+                        currRoleRelObj.role_id = existingRole.dataValues.id;
+                        currRoleRelObj.role_group_id =
                             existingRoleGroup.dataValues.id;
                         roleRelList.push(currRoleRelObj);
                         const existingRoleRel = await models.roles_relations.findOne(
                             {
                                 where: {
-                                    roleId: existingRole.dataValues.id,
-                                    roleGroupId: existingRoleGroup.dataValues.id
+                                    role_id: existingRole.dataValues.id,
+                                    role_group_id: existingRoleGroup.dataValues.id
                                 }
                             }
                         );
                         if (!existingRoleRel) {
                             models.roles_relations.build({
-                                roleId: existingRole.dataValues.id,
-                                roleGroupId: existingRoleGroup.dataValues.id
+                                role_id: existingRole.dataValues.id,
+                                role_group_id: existingRoleGroup.dataValues.id
                             }).save();
                         }
                     } catch(error) {

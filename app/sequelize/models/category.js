@@ -28,28 +28,29 @@ module.exports = (sequelize, DataTypes) => {
         Category.belongsToMany(models.category, {
             through: Constants.TableNames.CategoriesRelations,
             as: Constants.Associate.Aliases.relatedCategories,
-            foreignKey: Constants.Keys.relatedCategoryId,
-            otherKey: Constants.Keys.categoryId,
+            foreignKey: Constants.Keys.related_category_id,
+            otherKey: Constants.Keys.category_id,
             timestamps: false
         })
         Category.belongsToMany(models.category, {
             through: Constants.TableNames.CategoriesRelations,
             as: Constants.Associate.Aliases.relatedCategoriesRef,
-            foreignKey: Constants.Keys.categoryId,
-            otherKey: Constants.Keys.relatedCategoryId,
+            foreignKey: Constants.Keys.category_id,
+            otherKey: Constants.Keys.related_category_id,
             timestamps: false
         })
         Category.belongsToMany(models.skill, {
             through: Constants.TableNames.SkillsRelations,
             as: Constants.Associate.Aliases.skills,
-            foreignKey: Constants.Keys.categoryId,
-            otherKey: Constants.Keys.skillId,
+            foreignKey: Constants.Keys.category_id,
+            otherKey: Constants.Keys.skill_id,
             timestamps: false
         }),
         Category.belongsToMany(models.user, {
             through: Constants.TableNames.UsersCategories,
             as: Constants.Associate.Aliases.categories,
-            foreignKey: Constants.Keys.categoryId,
+            foreignKey: Constants.Keys.category_id,
+            timestamps: false
         });
     };
     return Category;

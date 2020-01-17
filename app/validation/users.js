@@ -15,9 +15,9 @@ const addBodySchema = Joi.object().keys({
         .required(),
     branchGuid: Joi.string().uuid()
         .required(),
-    startedToWorkDate: Joi.date()
+    started_to_work_date: Joi.date()
         .required(),
-    roleGroupId: Joi.number()
+    role_group_id: Joi.number()
         .integer(),
     positionGuid: Joi.string().uuid()
         .required()
@@ -30,13 +30,11 @@ const updateBodySchema = Joi.object().keys({
         .regex(nameExp),
     lname: Joi.string()
         .regex(nameExp),
-    branchGuid: Joi.string().uuid()
-        .required(),
-    roleGroupId: Joi.number()
+    branchGuid: Joi.string().uuid(),
+    role_group_id: Joi.number()
         .integer(),
-    positionGuid: Joi.string().uuid()
-        .required(),
-    isActive: Joi.boolean()
+    positionGuid: Joi.string().uuid(),
+    is_active: Joi.boolean()
 });
 
 const loginBodySchema = Joi.object().keys({

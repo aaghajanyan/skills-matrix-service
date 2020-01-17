@@ -79,8 +79,8 @@ class Skill {
                 if (category) {
                     const skillRelation = await skillRelationModel.findOrCreate({
                         where: {
-                            skillId: skill.id,
-                            categoryId: category.id
+                            skill_id: skill.id,
+                            category_id: category.id
                         }
                     });
 
@@ -122,8 +122,8 @@ class Skill {
                 }
                 const existingSkillCategory = await skillRelationModel.findOne({
                     where: {
-                        skillId: skill.id,
-                        categoryId: category.id
+                        skill_id: skill.id,
+                        category_id: category.id
                     }
                 });
 

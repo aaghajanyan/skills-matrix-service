@@ -13,29 +13,29 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.UUID
             },
-            roleGroupId: {
+            role_group_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.RolesGroup,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.roleGroupId
+                    as: Constants.Keys.role_group_id
                 }
             },
-            roleId: {
+            role_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 onDelete: Constants.CASCADE,
                 references: {
                     model: Constants.TableNames.Roles,
                     key: Constants.Keys.id,
-                    as: Constants.Migrations.RoleRelation.roleId
+                    as: Constants.Migrations.RoleRelation.role_id
                 }
             }
         }).then(() => queryInterface.addConstraint(
             Constants.TableNames.RolesRelation,
-            [Constants.Migrations.RoleRelation.roleId, Constants.Keys.roleGroupId],
+            [Constants.Migrations.RoleRelation.role_id, Constants.Keys.role_group_id],
             {
                 type: Constants.Keys.unique,
                 name: Constants.Migrations.RoleRelation.uniqueRoleRel
