@@ -12,7 +12,7 @@ const SearchUser = require("../models/search");
 const searchUsers = async function(request, response, next) {
     try {
         const searchUser = new SearchUser();
-        let sqlCmd = searchUser.collectSearchQuery(request.body, response, next);
+        let sqlCmd = searchUser.collectSearchQuery(request.body);
         if(sqlCmd.error != undefined && sqlCmd.error.isError) {
             response.send(sqlCmd.error.message)
             return

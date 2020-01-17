@@ -11,15 +11,17 @@ class SearchUser {
         };
     }
 
-    collectSearchQuery(data, response, next) {
-        const collectedSqlComand = this.parseJsonToSql(data, response, next, true);
+    collectSearchQuery(data) {
+        const collectedSqlComand = this.parseJsonToSql(data, true);
         if(collectedSqlComand.error.isError != undefined && collectedSqlComand.error.isError) {
             return collectedSqlComand;
         }
         let sqlCommand =  `${Constants.ViewQueries.select_all_from} ${Constants.ViewQueries.unique_view_name} \
             ${Constants.ViewQueries.where} ` + collectedSqlComand.currSqlStr + ');';
         sqlCommand = sqlCommand.replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
-            .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`);;
+            .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
+            .replace(/and \)/g, `\)`)
+            .replace(/or \)/g, `\)`);
         return sqlCommand;
     }
 
@@ -32,7 +34,7 @@ class SearchUser {
         }
     }
 
-    parseJsonToSql(data, response, next, firstTime) {
+    parseJsonToSql(data, firstTime) {
         try {
             let currSqlStr = '';
             if (data.type == Constants.Keys.group) {
@@ -43,7 +45,7 @@ class SearchUser {
                     return { currSqlStr: '', error: this.error};
                 }
                 let hasGroup = false;
-                let groupIndex = Object.keys(data.childrens).length;
+                let groupLength = Object.keys(data.childrens).length;
                 const groupCondition = data.condition.toLowerCase();
                 const keys = Object.keys(data.childrens);
 
@@ -56,21 +58,24 @@ class SearchUser {
                         if (index < keys.length-1) {
                             currSqlStr = currSqlStr.concat(` ${groupCondition} `);
                         }
-                    } else if (data.childrens[key].type == Constants.Keys.group){
+                    } else if (data.childrens[key].type === Constants.Keys.group){
                         this.validateSchema(validateGroupBodySchema, data.childrens[key]);
                         hasGroup = true;
-                        currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], response, next, false).currSqlStr;
+                        currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], false).currSqlStr;
                         currSqlStr = currSqlStr.concat(')');
-                        currSqlStr = groupIndex > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
+                        currSqlStr = groupLength > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
+                        // currSqlStr = currSqlStr + this.newMethod(data.childrens[key], currSqlStr, groupIndex, groupCondition);
                     } else {
                         this.error.isError = true;
                         this.error.message.push({errorMsg: `type is required`, object: data.childrens[key]});
                     }
-                    if (groupIndex-1 == index) {
-                        if (!hasGroup) {
-                            hasGroup = false;
-                          }
-                    }
+                    // if (groupLength-1 === index) {
+                    //     if (hasGroup) {
+                    //     hasGroup = true;
+                    //         currSqlStr = currSqlStr.concat(` ${groupCondition} `);
+                    //         hasGroup = false;
+                    //       }
+                    // }
                   }
             }
             return { currSqlStr: currSqlStr, error: this.error};
@@ -79,6 +84,13 @@ class SearchUser {
         }
     };
 
+    // newMethod(data, currSqlStr, response, groupIndex, groupCondition) {
+    //     this.validateSchema(validateGroupBodySchema, data);
+    //     currSqlStr = currSqlStr + this.parseJsonToSql(data, false).currSqlStr;
+    //     currSqlStr = currSqlStr.concat(')');
+    //     currSqlStr = groupIndex > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
+    //     return currSqlStr;
+    // }
     convertRuleToQuery(rule) {
         if (rule.properties) {
             const properties = rule.properties;
