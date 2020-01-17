@@ -69,13 +69,6 @@ class SearchUser {
                         this.error.isError = true;
                         this.error.message.push({errorMsg: `type is required`, object: data.childrens[key]});
                     }
-                    // if (groupLength-1 === index) {
-                    //     if (hasGroup) {
-                    //     hasGroup = true;
-                    //         currSqlStr = currSqlStr.concat(` ${groupCondition} `);
-                    //         hasGroup = false;
-                    //       }
-                    // }
                   }
             }
             return { currSqlStr: currSqlStr, error: this.error};
@@ -125,7 +118,10 @@ class SearchUser {
             ` ${Constants.Keys.category_experience_proficiency} ~ .*\\[`;
         const experience = properties.experience ? properties.experience : 0;
         const proficiency = properties.proficiency ? properties.proficiency : 0;
-        sqlStr = sqlStr.concat(`${properties.id},`)
+        properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
+            Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
+
+        sqlStr = sqlStr.concat(`${properties.name},`)
                         .concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`)
                         .concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]]`)
                         .concat('\'');
@@ -134,8 +130,8 @@ class SearchUser {
 
     convertBranchPositionRuleToQuery(properties, isBranchRule) {
         const opCondition = this.getCondition(properties.opCondition);
-        let sqlStr = isBranchRule ? ` ${Constants.Keys.branch_id}${opCondition}` : ` ${Constants.Keys.position_id}${opCondition}`;
-        sqlStr = sqlStr.concat(`${properties.id}`);
+        let sqlStr = isBranchRule ? ` ${Constants.Keys.branch_name}${opCondition}` : ` ${Constants.Keys.position_name}${opCondition}`;
+        sqlStr = sqlStr.concat(`'${properties.name}'`);
         return sqlStr;
     }
 }

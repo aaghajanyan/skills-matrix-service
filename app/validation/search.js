@@ -6,7 +6,7 @@ const groupSchema = Joi.object().keys({
     ]).required(),
     id: Joi.string().min(1).max(16).required(),
     condition: Joi.string().valid([
-        'or', 'and'
+        'Or', 'And'
     ]).required(),
     childrens: Joi.object().keys({
 
@@ -24,7 +24,7 @@ const ruleSchema = Joi.object().keys({
         opCondition: Joi.string().valid([
             'equal', 'not equal'
         ]).required(),
-        id: Joi.string().min(1).max(16).required(),
+        name: Joi.string().min(1).max(16).required(),
         experience: Joi.string().valid([
             '0', '1', '2', '3', '4', '5'
         ]),

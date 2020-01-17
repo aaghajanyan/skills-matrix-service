@@ -1,4 +1,6 @@
 const Constants = {
+    SPECIAL_CHARACTER_REG_EXP_BEGINING: /[!@#$%^&*()+=\-[\]\\';,./{}|":<>?~_]/g,
+    SPECIAL_CHARACTER_REG_EXP_ENDING: "\\$&",
     AUTHORIZATION: 'Authorization',
     TOKEN: 'token',
     CASCADE: 'CASCADE',
@@ -86,6 +88,8 @@ const Constants = {
     Keys: {
         id: 'id',
         branch_id: 'branch_id',
+        branch_name: 'branch_name',
+        position_name: 'position_name',
         role_group_id: 'role_group_id',
         role_id: 'role_id',
         categoryId: 'categoryId',
