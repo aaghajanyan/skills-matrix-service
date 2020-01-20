@@ -58,7 +58,7 @@ const validateFinallyObject = async function(sqlCmd, response) {
     if(sqlCmd.error != undefined && sqlCmd.error.isError) {
         return response.status(BAD_REQUEST).json({
             success: false,
-            errorMsg: sqlCmd.error.message,
+            message: sqlCmd.error.message,
             result:[]
         })
     }
@@ -94,7 +94,7 @@ const searchUsers = async function(request, response, next) {
         const foundUsers = await User.getUsers(whereCondition);
         return response.status(OK).json({
             success: true,
-            errorMsg: {},
+            message: {},
             result: foundUsers
         });
 
