@@ -1,9 +1,8 @@
-const tokenSecret = require("../../config/secretKey.json").token_secret;
+const tokenSecret = require("../../config/env-settings.json").secretKey;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
-const invitationTokenSecret = require("../../config/invitationSecretKey.json")
-    .token_secret;
+const invitationSecretToken = require("../../config/env-settings.json").invitationSecretKey;
 const {
     OK,
     ACCEPTED,
@@ -75,7 +74,7 @@ const updateUser = async function(request, response) {
 const signUp = async function(request, response) {
     try {
         const token = request.params.token;
-        const decodedToken = await jwtDecode(token, invitationTokenSecret);
+        const decodedToken = await jwtDecode(token, invitationSecretToken);
         const invitation = await Invitation.findByPk(decodedToken.guid);
         if (!invitation) {
             return response.status(CONFLICT).json({
@@ -94,7 +93,6 @@ const signUp = async function(request, response) {
         await invitation.destroy();
         response.status(CREATED).json({ guid: user.guid });
     } catch (error) {
-        console.log(error);
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,

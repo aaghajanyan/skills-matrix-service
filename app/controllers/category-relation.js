@@ -55,7 +55,6 @@ const getCategoryRelation = async function(request, response) {
         }
         return response.status(OK).json(categoryRelation);
     } catch (error) {
-        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
@@ -122,7 +121,6 @@ const updateCategoryRelation = async function(request, response) {
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,

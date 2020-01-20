@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const Moment = require('moment');
 const path = require('path');
-const adminData = require(__dirname + "/../../config/nodeMailer").nodeMailer;
+const adminData = require(__dirname + "/../../config/env-settings").nodeMailer;
 const EmailTemplates = require('swig-email-templates');
 const DATETIME_FORMAT_LONG = 'dddd, MMMM Do YYYY';
 const DATE_FORMAT = 'dddd, MMMM Do YYYY';

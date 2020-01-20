@@ -71,7 +71,7 @@ class SearchUser {
             }
             return { currSqlStr: currSqlStr, error: this.error};
         } catch(error) {
-            console.log(error)
+            console.log(error) // TBD
         }
     };
 

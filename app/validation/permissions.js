@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenSecret = require("../../config/secretKey.json").token_secret;
+const tokenSecret = require("../../config/env-settings.json").secretKey;
 const jwtDecode = require('jwt-decode');
 const User = require("../models/user");
 const logger = require("../helper/logger");

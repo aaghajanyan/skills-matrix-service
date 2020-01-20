@@ -9,10 +9,9 @@ const {
     getStatusText
 } = require("http-status-codes");
 const jwtDecode = require("jwt-decode");
-const tokenSecret = require("../../config/invitationSecretKey.json")
-    .token_secret;
+const invitationSecretToken = require("../../config/env-settings.json").invitationSecretKey;
 const jwt = require("jsonwebtoken");
-const mailer = require("../mailSender/mailSender");
+const mailer = require("../email/email");
 const client = require("../../config/env-settings.json").client;
 const { Constants } = require("../constants/Constants");
 const Invitation = require("../models/invitation");
@@ -22,7 +21,7 @@ const logger = require("../helper/logger");
 const checkInvitationInDB = async function(request, response) {
     try {
         const token = await request.params.token;
-        const decodedToken = await jwtDecode(token, tokenSecret);
+        const decodedToken = await jwtDecode(token, invitationSecretToken);
         const invitation = await Invitation.findByPk(decodedToken.guid);
         if (!invitation) {
             return response.status(NOT_FOUND).json({
@@ -52,7 +51,7 @@ const addInvitation = async function(request, response) {
                         guid: currInvitation.id,
                         created_date: Date().now
                     },
-                    tokenSecret,
+                    invitationSecretToken,
                     { expiresIn: Constants.INVITATION_TOKEN_EXPiRE_DATE }
                 );
                 try {

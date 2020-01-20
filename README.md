@@ -62,8 +62,8 @@ curl -w "\n" -X GET 'http://localhost:3002/users'
 │   │   ├── skill.js
 │   │   ├── skill-relation.js
 │   │   └── user.js
-│   ├── mailSender
-│   │   └── mailSender.js
+│   ├── email
+│   │   └── email.js
 │   ├── models
 │   │   ├── category.js
 │   │   ├── skill.js

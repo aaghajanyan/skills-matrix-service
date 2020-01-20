@@ -2,10 +2,8 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
-const path = require('path');
-
 const env = process.env.NODE_ENV || 'development';
-const logDir = 'log';
+const logDir = '.log';
 
 // Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {

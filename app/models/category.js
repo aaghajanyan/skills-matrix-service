@@ -47,7 +47,6 @@ class Category {
                         relatedCategoryGuid: categoryGuid,
                         success: false
                     };
-    
                     if (relatedCategory) {
                         await categoryRelationModel.findOrCreate({
                             where: {
@@ -64,7 +63,7 @@ class Category {
                 });
             }
         } catch(error) {
-            console.log(error)
+            console.log(error) //TBD
         }
 
     }

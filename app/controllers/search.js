@@ -16,6 +16,7 @@ const decodeQuery = async function(encodedQuery, response) {
         let decodedQuery = Buffer.from(encodedQuery, 'base64').toString('ascii');
         return decodedQuery;
     } catch(error) {
+        logger.error(error, '');
         return response.status(BAD_REQUEST).json({
             success: false,
             message: `${Constants.parse(
@@ -31,6 +32,7 @@ const parseStrdecodeQueryToJson = async function(decodedQuery, response) {
         const decodedQueryJson = JSON.parse(decodedQuery);
         return decodedQueryJson
     } catch(error) {
+        logger.error(error, '');
         return response.status(BAD_REQUEST).json({
             success: false,
             message: `${Constants.parse(

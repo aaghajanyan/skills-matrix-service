@@ -76,7 +76,6 @@ const updateBranch = async function(request, response) {
         await Branch.update(request.body, { guid: request.params.guid });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,

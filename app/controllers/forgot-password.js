@@ -7,11 +7,11 @@ const {
     getStatusText
 } = require("http-status-codes");
 const User = require("../models/user");
-const forgotPasswordTokenSecret = require("../../config/forgotPasswordSecretKey.json")
-    .token_secret;
+const forgotPasswordTokenSecret = require("../../config/env-settings.json")
+    .forgotPasswordSecretKey;
 const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
-const mailer = require("../mailSender/mailSender");
+const mailer = require("../email/email");
 const client = require("../../config/env-settings.json").client;
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
