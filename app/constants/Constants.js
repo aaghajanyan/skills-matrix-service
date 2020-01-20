@@ -178,6 +178,7 @@ const Constants = {
     Controllers: {
         ErrorMessages: {
             COULD_NOT_GET: 'Could not get %s.',
+            COULD_NOT_FIND: 'Could not find %s.',
             COULD_NOT_ADD: 'Could not add %s.',
             COULD_NOT_UPDATE: 'Could not update %s.',
             COULD_NOT_DELETE: 'Could not delete %s.',
@@ -253,7 +254,11 @@ const Constants = {
                 OR: '$or',
                 AND: '$and',
                 NE: '$ne',
-            }
+            },
+            QUERY_PARAM_IS_INVALID: '<%s> query parameter is invalid.',
+            QUERY_PARAM_IS_MISSING: '<%s> query parameter is missing.',
+            QUERY_PARAM_NAME: 'search_query'
+
 
         },
     },

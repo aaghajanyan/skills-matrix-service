@@ -1,6 +1,6 @@
 const { Constants } = require("../constants/Constants");
 const Joi = require("joi");
-const { validateRuleBodySchema, validateGroupBodySchema, validateConditionBodySchema } = require('../validation/search');
+const { validateRuleBodySchema, validateGroupBodySchema } = require('../validation/search');
 
 class SearchUser {
 
@@ -44,7 +44,6 @@ class SearchUser {
                 if (this.error.isError) {
                     return { currSqlStr: '', error: this.error};
                 }
-                let hasGroup = false;
                 let groupLength = Object.keys(data.childrens).length;
                 const groupCondition = data.condition.toLowerCase();
                 const keys = Object.keys(data.childrens);
@@ -60,7 +59,6 @@ class SearchUser {
                         }
                     } else if (data.childrens[key].type === Constants.Keys.group){
                         this.validateSchema(validateGroupBodySchema, data.childrens[key]);
-                        hasGroup = true;
                         currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], false).currSqlStr;
                         currSqlStr = currSqlStr.concat(')');
                         currSqlStr = groupLength > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;

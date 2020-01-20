@@ -26,7 +26,7 @@ router.use("/role_group", roleGroup);
 router.use("/forgot_password", forgotPassword);
 router.use("/users_skills", usersSkills);
 router.use("/users_categories", usersCategories);
-router.use("/search", search);
+router.use("/find_employees/result", search);
 router.use("/criteria", criteria);
 router.use("/branch", branch);
 router.use("/position", position);
