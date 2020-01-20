@@ -13,24 +13,7 @@ const { validateEmptyQueryBodySchema } = require('../validation/search');
 
 const decodeQuery = async function(encodedQuery, response) {
     try {
-        let decodedQuery = Buffer.from(encodedQuery, 'base64').toString('ascii');
-        return decodedQuery;
-    } catch(error) {
-        logger.error(error, '');
-        return response.status(BAD_REQUEST).json({
-            success: false,
-            message: `${Constants.parse(
-                Constants.Controllers.Search.QUERY_PARAM_IS_MISSING,
-                Constants.Controllers.Search.QUERY_PARAM_NAME
-            )}`
-        });
-    }
-}
-
-const parseStrdecodeQueryToJson = async function(decodedQuery, response) {
-    try {
-        const decodedQueryJson = JSON.parse(decodedQuery);
-        return decodedQueryJson
+        return JSON.parse(Buffer.from(encodedQuery, 'base64').toString('ascii'));
     } catch(error) {
         logger.error(error, '');
         return response.status(BAD_REQUEST).json({
@@ -68,21 +51,17 @@ const validateFinallyObject = async function(sqlCmd, response) {
 
 const searchUsers = async function(request, response, next) {
     try {
-        const decodedQuery = await decodeQuery(request.query.search_query, response);
+        const decodedQueryJson = await decodeQuery(request.params.search_query, response);
         if (response.headersSent) {
             return;
         }
         const searchUser = new SearchUser();
-        const decodedQueryJson = await parseStrdecodeQueryToJson(decodedQuery, response);
-        if (response.headersSent) {
-            return;
-        }
-        await validateIsQueryEmptyObject(decodedQueryJson, response);
+        validateIsQueryEmptyObject(decodedQueryJson, response);
         if (response.headersSent) {
             return;
         }
         const sqlCmd = searchUser.collectSearchQuery(decodedQueryJson);
-        await validateFinallyObject(sqlCmd, response);
+        validateFinallyObject(sqlCmd, response);
         if (response.headersSent) {
             return;
         }

@@ -1,9 +1,10 @@
 const express = require("express");
-const { searchUsers } = require("../controllers/search");
-const { validateSearchBodySchema } = require("../validation/search");
-const { verifyLoginToken } = require('../validation/token');
 const router = express.Router();
+const { searchUsers } = require("../controllers/search");
+const { verifyLoginToken } = require('../validation/token');
+const { getCriteries } = require("../controllers/criteria");
 
-router.post("/", verifyLoginToken, searchUsers);
+router.get("/result/:search_query", verifyLoginToken, searchUsers);
+router.get("/", getCriteries);
 
 module.exports = router;
