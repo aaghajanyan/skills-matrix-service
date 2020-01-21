@@ -7,7 +7,7 @@ const { Option } = Select
 
 function FindCriteria(props){
 
-    const [criteriaValue, setCriteriaValue] = useState();
+    const [criteriaValue, setCriteriaValue] = useState(props.defaultProperties ? props.defaultProperties.properties.type : null);
     const { getFieldDecorator, getFieldsValue } = props.form;
 
     const handleSelect = (val) => {
@@ -22,11 +22,15 @@ function FindCriteria(props){
       props.delete(props.criteriaId);
     };
 
+    const conditionQuery = (item) => (
+        item.key === "list" || item.key === "branch" ||  item.key === "position" ? "name" : item.key
+    )
+
     const renderSelects = () => {
 
           return criteriaValue && Object.values(CRITERIA[criteriaValue]).map((item, index) => {
             return (<Col key={index} span={4}>
-              {getFieldDecorator(`${props.criteriaId}[${item.key}]`)(
+              {getFieldDecorator(`${props.criteriaId}[${conditionQuery(item)}]`,{initialValue: props.defaultProperties ? props.defaultProperties.properties[conditionQuery(item)] : null})(
                   <Select placeholder={item.name} onSelect={handleClickChangeOption} key={item.name} >
                     {Object.values(item.items).map((items, indexSel) => (
                         <Option key={items.name}>{items.name}</Option>
@@ -38,8 +42,8 @@ function FindCriteria(props){
 
     return (
         <Row className="rule-rows">
-            <Col span={5}>
-            {getFieldDecorator(`${props.criteriaId}[type]`)(
+            <Col {...props.content.contentRightSelect}>
+            {getFieldDecorator(`${props.criteriaId}[type]`, {initialValue: criteriaValue})(
                 <Select placeholder="Criteria" onSelect={handleSelect}>
                     {Object.keys(CRITERIA).map((item, index) => {
                         return <Option key={item}>{item}</Option>

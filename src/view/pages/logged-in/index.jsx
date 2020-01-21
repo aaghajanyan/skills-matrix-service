@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Layout } from 'antd';
 import { HeaderBar, SideMenu } from './components';
 import { SMLogo } from 'view/components'
@@ -11,8 +11,21 @@ function SMPageLoggedIn(props) {
     const [collapsed, setCollapsed] = useState(false)
 
     const collapseSideBar = () => {
-        setCollapsed(!collapsed)
+        setCollapsed(!collapsed);
     }
+
+    useLayoutEffect(() => {
+        const updateSize = () => {
+            if(window.innerWidth < 1100){
+                setCollapsed(!collapsed);
+            }else{
+                setCollapsed(collapsed);
+            }
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
 
     return (
         <React.Fragment>

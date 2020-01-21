@@ -27,7 +27,13 @@ function AddColumns(props){
         },
       ];
 
-    props.userData.map((item) => item.skills.map( (skill, index) => {
+    props.userData.map((item) => {
+    if(item.skills.length === 0){
+        columns.map(item => {
+            delete item.fixed;
+        })
+    }
+    return item.skills.map( (skill, index) => {
         if(!skills.includes(skill.name)) {
             columns.splice(2, 0, {
                 title: skill.name,
@@ -46,7 +52,7 @@ function AddColumns(props){
             })
             skills.push(skill.name);
         }
-    }))
+    })});
 
     return columns
 }

@@ -23,8 +23,8 @@ function AddDataInColumns(props){
         const row = {
             key: index,
             avatar: item.avatar,
-            position: item.position,
-            branchName: item.branchName,
+            position: item.position.name,
+            branchName: item.branch.name,
             guid: item.guid,
         };
         item.skills.map((skill, index) => {

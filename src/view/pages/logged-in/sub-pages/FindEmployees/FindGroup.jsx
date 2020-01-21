@@ -8,7 +8,6 @@ function FindGroup(props) {
 
     const uuid = () => "ID" + (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
 
-
     const JsonRules = {
         type: "rule",
         properties: {}
@@ -20,7 +19,7 @@ function FindGroup(props) {
         condition: "And"
     }
 
-    const [groupData, setGroupData] = useState({ type: 'group', childrens: { [uuid()]: JsonRules }, condition: 'And' });
+    const [groupData, setGroupData] = useState(props.defaultProperties);
 
     const handleClickAddCriteria = () => {
         groupData.childrens = Object.assign(groupData.childrens, { [uuid()]: JsonRules });
@@ -32,13 +31,19 @@ function FindGroup(props) {
         setGroupData({ ...groupData });
     }
 
-    const handleChangeChildInfo = (nweProperties, id) => {
+    const handleChangeChildInfo = (nweProperties, rowId, childrenId=null) => {
         Object.keys(groupData.childrens).map(item => {
-            groupData.childrens[item].properties = nweProperties[item];
-            setGroupData({ ...groupData });
-        })
+            if(item === rowId) {
+                if(groupData.childrens[item].type === 'group' && childrenId !== null){
+                    groupData.childrens[item] = nweProperties;//.childrens[childrenId] = nweProperties.childrens[childrenId];
+                } else if(groupData.childrens[item].type === 'rule') {
+                    groupData.childrens[item].properties = nweProperties[item];
+                }
 
-        props.update(groupData, props.groupId)
+                setGroupData({ ...groupData });
+            }
+        })
+        props.update(groupData, props.groupId, childrenId);
     }
 
     const handleDeleteRow = (rowId) => {
@@ -49,7 +54,7 @@ function FindGroup(props) {
     const handleChangeCondition = (val) => {
         groupData.condition = val;
         setGroupData({ ...groupData });
-        props.update(groupData, props.groupId);
+        props.update(groupData, props.groupId, val);
     }
 
     const handleDeleteGroupRow = () => {
@@ -65,9 +70,12 @@ function FindGroup(props) {
             if (Object.keys(groupData.childrens).length === 1 && index === 0) {
                 displayDellBtn = "display_dell_btn";
             }
+
             if (groupData.childrens[item].type === 'rule') {
                 return (
                     <FindCriteria
+                        defaultProperties={groupData.childrens[item]}
+                        content={props.content}
                         className={displayDellBtn}
                         criteriaId={item}
                         delete={handleDeleteRow}
@@ -76,6 +84,8 @@ function FindGroup(props) {
             } else if (groupData.childrens[item].type === 'group') {
                 return (
                     <FindGroup
+                        defaultProperties={groupData.childrens[item]}
+                        content={props.content}
                         parentsCount={props.parentsCount + 1}
                         className={displayDellBtn}
                         groupId={item}
@@ -89,7 +99,7 @@ function FindGroup(props) {
     const renderAddGroup = () => {
         if (props.parentsCount < 2) {
             return (
-                <Col span={3}>
+                <Col {...props.content.contentCol}>
                     <Button icon="plus-circle" onClick={handleClickAddGroup}>
                         Add group
                     </Button>
@@ -103,13 +113,13 @@ function FindGroup(props) {
             <Row>
                 <Row className="header_container" justify="center" >
                     <Col>
-                        <Col span={2}>
-                            <Select defaultValue='And' onSelect={handleChangeCondition}>
+                        <Col {...props.content.rowColFirst}>
+                            <Select defaultValue={props.defaultProperties.condition} onSelect={handleChangeCondition}>
                                 <Option value='And'>And</Option>
                                 <Option value='Or'>Or</Option>
                             </Select>
                         </Col>
-                        <Col span={3}>
+                        <Col {...props.content.contentCol}>
                             <Button icon="plus" onClick={handleClickAddCriteria}>
                                 Add more criteria
                             </Button>

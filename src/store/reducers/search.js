@@ -35,7 +35,7 @@ export default function Seacrh(state = {}, action){
         return {
             ...state,
             loading: false,
-            items: action.payload.searchData
+            items: action.payload
         };
 
         default:

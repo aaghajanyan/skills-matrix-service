@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import {getUsers} from 'store/actions/search';
 
-import PeapleRows from './PeapleRows';
+import PeopleRows from './PeopleRows';
 
 function FindPeople(props){
 
@@ -47,13 +47,11 @@ function FindPeople(props){
 
             return ({
                 users: state.Search.items.data,
-                fieldRows: state.Search.items.rows,
                 fieldValues: state.Search.items.values,
                 loading: state.Search.loading,
                 error: state.Search.error
             })
             }
-
 
     });
 
@@ -71,7 +69,7 @@ function FindPeople(props){
             </Row>
             <Form onSubmit={handleSubmit}>
                 <Form.Item>
-                    <PeapleRows getTree={getTree} formItem={props.form}/>
+                    <PeopleRows data={usersData} location={props.location} getTree={getTree} formItem={props.form}/>
                 </Form.Item>
             </Form>
         </div>

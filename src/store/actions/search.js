@@ -3,16 +3,13 @@ import {searchUsersBegin, searchUsersSuccess, searchUsersFailure, criteriaRow} f
 import { CRITERIA } from '../../configSearch/criteria';
 import base64 from 'base-64';
 
-const id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
-
-export let searchParams = [{
-  id: id
-}];
+const initialTree = {};
 
 export function getSearchParams(params){
   return (dispatch) => {
     dispatch(criteriaRow(params));
-    searchParams = params;
+    Object.assign(initialTree, params);
+
   }
 }
 
@@ -51,11 +48,11 @@ function getCriteria(){
           //TODO handle error
           console.error("Error get categories: ", error);
       });
-    } else if(field === "Skills") {
+    } else if(field === "Skill") {
       get({url: "skills"}).then(result => {
         result.data.map(item => {
              Object.values(CRITERIA[field]).map(cat => {
-                 if(cat.key === "skills"){
+                 if(cat.key === "list"){
                      cat.items.push({name: item.name,  id: item.id});
                  }
              })
@@ -104,13 +101,14 @@ getCriteria();
 export function getUsers(data){
     return (dispatch) => {
         dispatch(searchUsersBegin());
-
         const encData = base64.encode(JSON.stringify(data));
-        post({url: `search?=${encData}`, data: encData})
+
+        get({url: `search/${encData}`})
         .then(result => {
-          dispatch(searchUsersSuccess({data: result.data.users, values: data, rows: searchParams}));
-        }).catch(error => {
-          dispatch(searchUsersFailure(error))
+          dispatch(searchUsersSuccess({data: result.data.result, values: initialTree}));
+        })
+        .catch(error => {
+          dispatch(searchUsersSuccess({values: initialTree}));
         });
     }
 }

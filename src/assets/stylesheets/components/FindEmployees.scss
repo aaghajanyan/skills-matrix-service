@@ -7,7 +7,8 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transition: 0.3s ease-out;
     position: relative;
-    button:not(.delBtn){
+    margin-bottom: 20px;
+    button:not(.delBtn):not(#people_finder_btn){
         width: 100%;
     }
     .ant-form-item-control {
@@ -201,18 +202,18 @@
         background: #fff;
         width: 100%;
         font-size: 20px;
-        height: 80px;
+        height: 40px;
         bottom: 0;
         left: 0;
         text-align: center;
         transition: 0.3s linear;
         &:hover {
-            transform: scale(1.2);;
+            transform: scale(1.1);;
             transition: 0.3s linear;
         }
         i {
             transform: rotate(90deg);
-            margin: 40px;
+            margin: 10px;
         }
     }
 
@@ -246,8 +247,15 @@
     overflow: hidden;
     transition: 0.3s ease-out;
     position: relative;
+    margin-bottom: 20px;
 }
 
 .classNameOfCell {
     padding: 0 !important;
+}
+
+.employees-table{
+    .ant-table-tbody{
+        background-color: #fff;
+    }
 }
