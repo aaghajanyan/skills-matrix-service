@@ -15,7 +15,7 @@ const ErrorMessageParser = require('../errors/ErrorMessageParser');
 const getCategoriesRelations = async function(_, response) {
     try {
         const categoriesRelations = await CategoryRelation.findAll();
-        if (categoriesRelations && categoriesRelations.length == 0) {
+        if (categoriesRelations && !categoriesRelations.length) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${getStatusText(

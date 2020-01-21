@@ -114,7 +114,7 @@ const addSkill = async function(request, response) {
             ))
                 ? CREATED
                 : CONFLICT;
-            if (status == CONFLICT && categoriesId.length == 1) {
+            if (status === CONFLICT && categoriesId.length === 1) {
                 skill.destroy();
                 return response.status(CONFLICT).json({
                     success: false,

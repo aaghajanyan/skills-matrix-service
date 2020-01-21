@@ -3,22 +3,23 @@ const tokenSecret = require('../../config/env-settings.json').secretKey;
 const jwtDecode = require('jwt-decode');
 const User = require('../models/user');
 const logger = require('../helper/logger');
-
+const { Constants } = require('../constants/Constants');
+ 
 const verifyPermissions = async (request, response, next) => {
     try {
-        const token = request.header('Authorization').split('Bearer ')[1];
+        const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
         if (!token) {
-            return response.status(403).send('Access denied.');
+            return response.status(403).send(Constants.Permissions.ACCESS_DENIED);
         }
         const verified = await jwt.verify(token, tokenSecret);
         const decodedToken = await jwtDecode(token, tokenSecret);
         const currUser = await User.getByGuid(decodedToken.guid).then(user => {
             return user;
         });
-        if (currUser.roleGroup.name !== 'super_user') {
+        if (currUser.roleGroup.name !== Constants.Roles.SUPER_USER) {
             return response.status(403).send({
                 success: false,
-                message: 'Access denied. Need admin permissions.',
+                message: Constants.Permissions.ACCESS_DENIED,
             });
         }
         request.user = verified;
@@ -27,7 +28,7 @@ const verifyPermissions = async (request, response, next) => {
         logger.error(error, '');
         return response.status(401).send({
             success: false,
-            message: 'Unauthorized.Access denied',
+            message: Constants.Permissions.UNAUTHORIZED,
         });
     }
 };

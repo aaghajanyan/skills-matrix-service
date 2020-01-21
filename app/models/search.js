@@ -15,8 +15,7 @@ class SearchUser {
 
     collectSearchQuery(data) {
         const collectedSqlComand = this.parseJsonToSql(data, true);
-        if (
-            collectedSqlComand.error.isError != undefined &&
+        if (collectedSqlComand.error &&
             collectedSqlComand.error.isError
         ) {
             return collectedSqlComand;
@@ -51,7 +50,7 @@ class SearchUser {
 
     validateSchema(callBack, data) {
         let errorMsg = callBack(data);
-        if (errorMsg != null) {
+        if (errorMsg) {
             this.error.isError = true;
             this.error.message.push({ errorMsg: errorMsg });
         }
@@ -60,7 +59,7 @@ class SearchUser {
     parseJsonToSql(data, firstTime) {
         try {
             let currSqlStr = '';
-            if (data.type == Constants.Keys.group) {
+            if (data.type === Constants.Keys.group) {
                 if (firstTime) {
                     this.validateSchema(validateGroupBodySchema, data);
                 }
@@ -74,7 +73,7 @@ class SearchUser {
                 currSqlStr = currSqlStr.concat('(');
 
                 for (let [index, key] of keys.entries()) {
-                    if (data.childrens[key].type == Constants.Keys.rule) {
+                    if (data.childrens[key].type === Constants.Keys.rule) {
                         if (!data.childrens[key].properties.type) {
                             continue;
                         }

@@ -149,7 +149,7 @@ const updateUserSkill = async function(request, response) {
                     });
                 }
             }
-            expectedResponse.success = status == CONFLICT ? false : true;
+            expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
             return response.status(CONFLICT).json({

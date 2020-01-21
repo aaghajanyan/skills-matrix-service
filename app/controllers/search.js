@@ -44,7 +44,7 @@ const validateIsQueryEmptyObject = async function(decodedQueryJson) {
             message: errorMsg,
             result: [],
         };
-        obj.error = errorMsg == null ? true : false;
+        obj.error = errorMsg ? false : true;
         return obj;
     }
 };

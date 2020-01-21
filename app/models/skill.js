@@ -168,7 +168,7 @@ class Skill {
     static async getStatus(sendedList, keyName) {
         let status = false;
         sendedList[keyName].forEach(item => {
-            if (item.success == true) {
+            if (item.success === true) {
                 status = true;
             }
         });

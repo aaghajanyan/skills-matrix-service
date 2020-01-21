@@ -2,6 +2,7 @@ const Constants = {
     SPECIAL_CHARACTER_REG_EXP_BEGINING: /[!@#$%^&*()+=\-[\]\\';,./{}|":<>?~_]/g,
     SPECIAL_CHARACTER_REG_EXP_ENDING: '\\$&',
     AUTHORIZATION: 'Authorization',
+    BEARER: 'Bearer ',
     TOKEN: 'token',
     CASCADE: 'CASCADE',
     LOGIN_TOKEN_EXPiRE_DATE: '1 d',
@@ -17,6 +18,12 @@ const Constants = {
         create_or_replace_view: 'CREATE OR REPLACE VIEW ',
         select_all_from: 'select * from',
         where: 'where',
+    },
+
+    Permissions: {
+        ACCESS_DENIED: 'Access denied.',
+        NEEDED_ADMIN_PERMISSIONS: 'Need admin permissions.',
+        UNAUTHORIZED: 'Unauthorized'
     },
 
     TableNames: {
@@ -258,6 +265,9 @@ const Constants = {
             QUERY_PARAM_NAME: 'search_query',
         },
     },
+    Roles: {
+        SUPER_USER: 'super_user'
+    }
 };
 
 module.exports = { Constants };
