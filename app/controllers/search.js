@@ -11,6 +11,7 @@ const db = require("../sequelize/models");
 const SearchUser = require("../models/search");
 const { validateEmptyQueryBodySchema } = require('../validation/search');
 const Error = require("../errors/Error");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const decodeQuery = async function(encodedQuery) {
     try {
@@ -20,11 +21,11 @@ const decodeQuery = async function(encodedQuery) {
             decodedQueryJson: JSON.parse(Buffer.from(encodedQuery, 'base64').toString('ascii'))
         }
     } catch(error) {
-        logger.error(error, '');
+        logger.error(error);
         return {
             success: false,
             error: true,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.Search.QUERY_PARAM_IS_INVALID,
                 Constants.Controllers.Search.QUERY_PARAM_NAME
             )}`
@@ -47,19 +48,11 @@ const validateIsQueryEmptyObject = async function(decodedQueryJson) {
 }
 
 const validateFinallyObject = async function(sqlCmd) {
-    if(sqlCmd.error != undefined && sqlCmd.error.isError) {
-        return {
-            success: false,
-            message: sqlCmd.error.message,
-            result:[]
-        }
-    } else {
-        return {
-            success: true,
-            message: '',
-            result:[]
-        }
-    }
+    return {
+        success: sqlCmd.error && sqlCmd.error.isError ? false : true,
+        message: sqlCmd.error && sqlCmd.error.isError? sqlCmd.error.message : '',
+        result:[]
+    };
 }
 
 const searchUsers = async function(request, response, next) {
@@ -76,11 +69,14 @@ const searchUsers = async function(request, response, next) {
             return;
         }
         const sqlCmd = searchUser.collectSearchQuery(decodedQueryObj.decodedQueryJson);
-        const finallyObjValidResult = validateFinallyObject(sqlCmd);
-        if (finallyObjValidResult.success) {
-            next(new Error(400, finallyObjValidResult.message));
+        const finallyObjValidResult = await validateFinallyObject(sqlCmd);
+        console.log("finallyObjValidResult = ", finallyObjValidResult);
+
+        if (!finallyObjValidResult.success) {
+            next(new Error(200, finallyObjValidResult.message));
             return;
         }
+        console.log("sqlCmd = ", sqlCmd);
         const usersData = await db.sequelize.query(sqlCmd);
         const usersIds = usersData[0].map(userData => {
             return userData.id;
@@ -96,10 +92,11 @@ const searchUsers = async function(request, response, next) {
         });
 
     } catch (error) {
+        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_FIND,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`

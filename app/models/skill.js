@@ -68,8 +68,8 @@ class Skill {
                     where: {guid: categoryGuid}
                 });
                 const message = {
-                    message: `${Constants.notExists(
-                        Constants.Migrations.CATEGORY,
+                    message: `${ErrorMessageParser.elementDoesNotExist(
+                        Constants.Controllers.TypeNames.CATEGORY,
                         categoryGuid,
                         Constants.Keys.id
                     )}`,

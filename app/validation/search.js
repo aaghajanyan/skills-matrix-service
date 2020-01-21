@@ -19,7 +19,7 @@ const groupSchema = Joi.object().keys({
     type: Joi.string().valid([
         'rule', 'group'
     ]).required(),
-    id: Joi.string().min(1).max(16).required(),
+    id: Joi.string().min(1).max(16),
     condition: Joi.string().valid([
         'Or', 'And'
     ]).required(),
