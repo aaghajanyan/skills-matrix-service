@@ -1,8 +1,10 @@
 class Error {
-    constructor(message) {
+    constructor(status, message = '', result = []) {
       this.message = message;
       this.success = false;
+      this.status = status;
       this.name = "Error";
+      this.result = result;
     }
 
     parse(str) {

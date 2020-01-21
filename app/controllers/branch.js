@@ -3,14 +3,13 @@ const {
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    CREATED,
-    getStatusText
+    CREATED
 } = require("http-status-codes");
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
 const Branch = require("../models/branch");
 
-const getBranches = async function(_, response) {
+const getBranches = async function(request, response) {
     try {
         const branches = await Branch.findAll();
         return response.status(OK).json(branches);
@@ -74,7 +73,7 @@ const addBranch = async function(request, response) {
 const updateBranch = async function(request, response) {
     try {
         await Branch.update(request.body, { guid: request.params.guid });
-        response.status(ACCEPTED).json({ success: true });
+        return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({

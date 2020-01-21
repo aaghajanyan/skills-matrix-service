@@ -22,10 +22,11 @@ app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
       success: false,
-      message: error.message
+      message: error.message,
+      result: error.result
   })
 })
 
-let server = app.listen(config.node_port, () => {
+app.listen(config.node_port, () => {
   logger.info(`Server listening ${config.node_port} port...`);
 });

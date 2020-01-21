@@ -8,7 +8,6 @@ const {
 } = require("../controllers/user");
 const { validateAddBody, validateUpdateBody, validateLoginBody } = require("../validation/users");
 const { verifyLoginToken, verifyRegisterToken } = require('../validation/token');
-const { verifyPermissions } = require('../validation/permissions');
 const router = express.Router();
 
 router.get("/", verifyLoginToken, getUsers);

@@ -23,7 +23,7 @@ module.exports = {
                   left outer join categories c on c.id=uc.category_id`,
       users_view_unique: `SELECT id, user_guid, branch_name, position_name, string_agg(skill_info, ', ') AS skill_experience_proficiency, \
                           string_agg(category_info, ', ') AS category_experience_proficiency \
-                          FROM vw_aa1 GROUP  BY id, user_guid,branch_name,position_name`
+                          FROM users_view GROUP  BY id, user_guid,branch_name,position_name`
 
     }
   };
