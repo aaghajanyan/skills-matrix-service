@@ -1,4 +1,4 @@
-const { Constants } = require("../../constants/Constants");
+const { Constants } = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const CategoryRelation = sequelize.define(
@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.CATEGORY_ID_IS_MISSING
-                }
+                    msg: Constants.ModelErrors.CATEGORY_ID_IS_MISSING,
+                },
             },
             related_category_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.RELATED_CATEGORY_ID_IS_MISSING
-                }
-            }
+                    msg: Constants.ModelErrors.RELATED_CATEGORY_ID_IS_MISSING,
+                },
+            },
         },
         {
-            timestamps: false
+            timestamps: false,
         }
     );
     CategoryRelation.associate = models => {};

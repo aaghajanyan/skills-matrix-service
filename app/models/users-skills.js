@@ -1,4 +1,4 @@
-const { users_skills: usersSkillsModel } = require("../sequelize/models");
+const { users_skills: usersSkillsModel } = require('../sequelize/models');
 
 class UserSkill {
     static async findAll() {
@@ -7,7 +7,7 @@ class UserSkill {
 
     static async find(condition) {
         return await usersSkillsModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 

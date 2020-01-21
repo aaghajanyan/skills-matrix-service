@@ -1,13 +1,12 @@
 const {
     skill: skillModel,
     category: categoryModel,
-    "skills_relation": skillRelationModel
-} = require("../sequelize/models");
-const { Constants } = require("../constants/Constants");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    skills_relation: skillRelationModel,
+} = require('../sequelize/models');
+const { Constants } = require('../constants/Constants');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 class Skill {
-
     static async findAll() {
         return await skillModel.findAll();
     }
@@ -17,12 +16,12 @@ class Skill {
     }
 
     static async find(condition) {
-        return await skillModel.findOne({where : { ...condition } });
+        return await skillModel.findOne({ where: { ...condition } });
     }
 
     static async getSkillAllData(guid) {
         const skill = await skillModel.findOne({
-            where: {guid: guid},
+            where: { guid: guid },
             include: [
                 {
                     model: categoryModel,
@@ -32,13 +31,13 @@ class Skill {
                     through: {
                         model: skillRelationModel,
                         as: Constants.Associate.Aliases.skillRelation,
-                        attributes: []
-                    }
-                }
-            ]
+                        attributes: [],
+                    },
+                },
+            ],
         });
         return skill;
-    };
+    }
 
     static async getSkillsAllData() {
         const skills = await skillModel.findAll({
@@ -51,22 +50,27 @@ class Skill {
                     through: {
                         model: skillRelationModel,
                         as: Constants.Associate.Aliases.skillRelation,
-                        attributes: []
-                    }
-                }
-            ]
+                        attributes: [],
+                    },
+                },
+            ],
         });
         return skills;
-    };
+    }
 
-    static async addedNewCategories(categoriesId, skill, sendedList, categoriesRequired) {
+    static async addedNewCategories(
+        categoriesId,
+        skill,
+        sendedList,
+        categoriesRequired
+    ) {
         sendedList.addedCategories = [];
         sendedList.errors = [];
 
         if (categoriesId && categoriesId.length > 0) {
-            const promise = categoriesId.map(async function (categoryGuid) {
+            const promise = categoriesId.map(async function(categoryGuid) {
                 const category = await categoryModel.findOne({
-                    where: {guid: categoryGuid}
+                    where: { guid: categoryGuid },
                 });
                 const message = {
                     message: `${ErrorMessageParser.elementDoesNotExist(
@@ -74,16 +78,18 @@ class Skill {
                         categoryGuid,
                         Constants.Keys.id
                     )}`,
-                    success: false
-                }
+                    success: false,
+                };
 
                 if (category) {
-                    const skillRelation = await skillRelationModel.findOrCreate({
-                        where: {
-                            skill_id: skill.id,
-                            category_id: category.id
+                    const skillRelation = await skillRelationModel.findOrCreate(
+                        {
+                            where: {
+                                skill_id: skill.id,
+                                category_id: category.id,
+                            },
                         }
-                    });
+                    );
 
                     return {
                         id: skill.id,
@@ -91,16 +97,16 @@ class Skill {
                         categoryGuid: category.guid,
                         categoryName: category.name,
                         skillRelationId: skillRelation[0].id,
-                        success: true
-                    }
+                        success: true,
+                    };
                 }
                 return message;
             });
 
-            await Promise.all(promise).then((list) => {
+            await Promise.all(promise).then(list => {
                 list.forEach(item => {
                     sendedList.addedCategories.push(item);
-                })
+                });
             });
         } else {
             if (categoriesRequired) {
@@ -114,18 +120,18 @@ class Skill {
         if (removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async function(categoryGuid) {
                 const category = await categoryModel.findOne({
-                    where: {guid: categoryGuid}
+                    where: { guid: categoryGuid },
                 });
 
                 const obj = {
                     categoryGuid: categoryGuid,
-                    status: false
-                }
+                    status: false,
+                };
                 const existingSkillCategory = await skillRelationModel.findOne({
                     where: {
                         skill_id: skill.id,
-                        category_id: category.id
-                    }
+                        category_id: category.id,
+                    },
                 });
 
                 if (existingSkillCategory) {
@@ -133,16 +139,16 @@ class Skill {
                     await existingSkillCategory.destroy();
                 }
                 return obj;
-            })
+            });
 
-            await Promise.all(promise).then((list) => {
+            await Promise.all(promise).then(list => {
                 sendedList.removedCategories.push(list);
             });
         }
     }
 
     static async findOneSkill(condition) {
-        return await skillModel.findOne({where : { ...condition } });
+        return await skillModel.findOne({ where: { ...condition } });
     }
 
     static async updateSkill(data, condition) {
@@ -150,23 +156,24 @@ class Skill {
     }
 
     static async findOrCreateSkill(condition) {
-        const skill = await skillModel.findOrCreate({ where: { ...condition } });
+        const skill = await skillModel.findOrCreate({
+            where: { ...condition },
+        });
         return {
             skill: skill[0],
-            isNewRecord: skill[1]
-        }
+            isNewRecord: skill[1],
+        };
     }
 
     static async getStatus(sendedList, keyName) {
         let status = false;
-        sendedList[keyName].forEach((item) => {
+        sendedList[keyName].forEach(item => {
             if (item.success == true) {
                 status = true;
             }
         });
         return status;
     }
-
 }
 
 module.exports = Skill;

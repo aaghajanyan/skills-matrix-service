@@ -4,12 +4,12 @@ const {
     CONFLICT,
     ACCEPTED,
     CREATED,
-    getStatusText
-} = require("http-status-codes");
-const Skill = require("../models/skill");
-const { Constants } = require("../constants/Constants");
-const logger = require("../helper/logger");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const Skill = require('../models/skill');
+const { Constants } = require('../constants/Constants');
+const logger = require('../helper/logger');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const getSkills = async function(_, response) {
     try {
@@ -24,7 +24,7 @@ const getSkills = async function(_, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -42,7 +42,7 @@ const getSkill = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -60,7 +60,7 @@ const getSkillAllData = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -78,7 +78,7 @@ const getSkillsAllData = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -88,15 +88,17 @@ const addSkill = async function(request, response) {
     if (categoriesId && categoriesId.length > 0) {
         try {
             const { skill, isNewRecord } = await Skill.findOrCreateSkill({
-                name: skillData.name
+                name: skillData.name,
             });
             if (!isNewRecord) {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                    message: `${getStatusText(
+                        CONFLICT
+                    )}. ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                         Constants.Controllers.TypeNames.SKILL
-                    )}`
+                    )}`,
                 });
             }
             const sendedList = [];
@@ -106,35 +108,41 @@ const addSkill = async function(request, response) {
                 sendedList,
                 true
             );
-            let status = (await Skill.getStatus(sendedList, Constants.Keys.addedCategories))
+            let status = (await Skill.getStatus(
+                sendedList,
+                Constants.Keys.addedCategories
+            ))
                 ? CREATED
                 : CONFLICT;
             if (status == CONFLICT && categoriesId.length == 1) {
                 skill.destroy();
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                    message: `${getStatusText(
+                        CONFLICT
+                    )}. ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                         Constants.Controllers.TypeNames.SKILL.toLowerCase()
-                    )}`
+                    )}`,
                 });
             }
 
             return response.status(status).json({
                 [Constants.Keys.name]: skill.name,
                 [Constants.Keys.guid]: skill.guid,
-                [Constants.Keys.addedCategories]:
-                    sendedList.addedCategories,
-                ...sendedList
+                [Constants.Keys.addedCategories]: sendedList.addedCategories,
+                ...sendedList,
             });
         } catch (error) {
             logger.error(error, '');
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                message: `${getStatusText(
+                    CONFLICT
+                )}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                     Constants.Controllers.TypeNames.SKILL.toLowerCase()
-                )}`
+                )}`,
             });
         }
     } else {
@@ -145,7 +153,7 @@ const addSkill = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -155,7 +163,7 @@ const updateSkillAllData = async function(request, response) {
         const { addCategories, deleteCategories, ...skillData } = request.body;
         const sendedList = [];
         const existingSkill = await Skill.findOneSkill({
-            guid: request.params.guid
+            guid: request.params.guid,
         });
 
         if (!existingSkill) {
@@ -165,7 +173,7 @@ const updateSkillAllData = async function(request, response) {
                     Constants.Controllers.TypeNames.SKILL,
                     request.params.guid,
                     Constants.Keys.id
-                )
+                ),
             });
         }
         await Skill.updateSkill(skillData, { guid: request.params.guid });
@@ -182,8 +190,7 @@ const updateSkillAllData = async function(request, response) {
         );
         return response.status(201).json({
             [Constants.Keys.addedCategories]: sendedList.addedCategories,
-            [Constants.Keys.removedCategories]:
-                sendedList.removedCategories
+            [Constants.Keys.removedCategories]: sendedList.removedCategories,
         });
     } catch (error) {
         logger.error(error, '');
@@ -194,7 +201,7 @@ const updateSkillAllData = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -212,7 +219,7 @@ const updateSkill = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -227,7 +234,7 @@ const deleteSkill = async function(request, response) {
                     Constants.Controllers.TypeNames.SKILL,
                     request.params.guid,
                     Constants.Keys.id
-                )
+                ),
             });
         }
         skill.destroy();
@@ -241,7 +248,7 @@ const deleteSkill = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -254,5 +261,5 @@ module.exports = {
     addSkill,
     updateSkill,
     updateSkillAllData,
-    deleteSkill
+    deleteSkill,
 };

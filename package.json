@@ -6,7 +6,9 @@
     "main": "index.js",
     "scripts": {
         "start-dev": "sequelize db:migrate --env default && NODE_ENV=development node server",
-        "start-prod": "sequelize db:migrate --env default && NODE_ENV=production node server"
+        "start-prod": "sequelize db:migrate --env default && NODE_ENV=production node server",
+        "format": "prettier --write \"app/**/*.js\"",
+        "format:check": "prettier --list-different \"app/**/*.js\""
     },
     "author": "",
     "license": "ISC",
@@ -28,6 +30,7 @@
         "sqlite3": "^4.1.0",
         "swig-email-templates": "^5.0.1",
         "winston": "^3.2.1",
-        "winston-daily-rotate-file": "^4.4.0"
+        "winston-daily-rotate-file": "^4.4.0",
+        "prettier": "^1.17.1"
     }
 }

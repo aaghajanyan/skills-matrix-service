@@ -4,18 +4,18 @@ const {
     CONFLICT,
     ACCEPTED,
     UNAUTHORIZED,
-    getStatusText
-} = require("http-status-codes");
-const User = require("../models/user");
-const forgotPasswordTokenSecret = require("../../config/env-settings.json")
+    getStatusText,
+} = require('http-status-codes');
+const User = require('../models/user');
+const forgotPasswordTokenSecret = require('../../config/env-settings.json')
     .forgotPasswordSecretKey;
-const jwt = require("jsonwebtoken");
-const jwtDecode = require("jwt-decode");
-const mailer = require("../email/email");
-const client = require("../../config/env-settings.json").client;
-const { Constants } = require("../constants/Constants");
-const logger = require("../helper/logger");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
+const mailer = require('../email/email');
+const client = require('../../config/env-settings.json').client;
+const { Constants } = require('../constants/Constants');
+const logger = require('../helper/logger');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
@@ -25,21 +25,23 @@ const checkForgotPasswordUser = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                message: `${getStatusText(
+                    CONFLICT
+                )}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
-                )}`
+                )}`,
             });
         }
         return response.status(OK).json({
             success: true,
-            token: token
+            token: token,
         });
     } catch (error) {
         logger.error(error, '');
         return response.status(UNAUTHORIZED).json({
             success: false,
-            message: getStatusText(UNAUTHORIZED)
+            message: getStatusText(UNAUTHORIZED),
         });
     }
 };
@@ -50,16 +52,18 @@ const forgotPassword = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                message: `${getStatusText(
+                    CONFLICT
+                )}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
-                )}`
+                )}`,
             });
         }
         const token = jwt.sign(
             {
                 guid: user.guid,
-                created_date: Date().now
+                created_date: Date().now,
             },
             forgotPasswordTokenSecret,
             { expiresIn: Constants.FORGOT_PASSWORD_TOKEN_EXPiRE_DATE }
@@ -74,7 +78,7 @@ const forgotPassword = async function(request, response) {
                 success: false,
                 message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
                     Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL
-                }`
+                }`,
             });
         }
         return response.status(OK).json({
@@ -83,13 +87,13 @@ const forgotPassword = async function(request, response) {
                 Constants.Controllers.ForgotPassword.SENDED_MAIL_ADDRESS,
                 request.body.email
             )}`,
-            token: token
+            token: token,
         });
     } catch (error) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: getStatusText(INTERNAL_SERVER_ERROR)
+            message: getStatusText(INTERNAL_SERVER_ERROR),
         });
     }
 };
@@ -106,7 +110,7 @@ async function changePassword(request, response) {
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
                 Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD
-            }`
+            }`,
         });
     }
 }
@@ -114,5 +118,5 @@ async function changePassword(request, response) {
 module.exports = {
     forgotPassword,
     checkForgotPasswordUser,
-    changePassword
+    changePassword,
 };

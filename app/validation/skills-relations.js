@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const addBodySchema = Joi.object().keys({
     skill_id: Joi.number()
@@ -7,12 +7,12 @@ const addBodySchema = Joi.object().keys({
     category_id: Joi.number()
         .integer()
         .required(),
-    uniqueSkillRel: Joi.string()
+    uniqueSkillRel: Joi.string(),
 });
 const updateBodySchema = Joi.object().keys({
     category_id: Joi.number()
         .integer()
-        .required()
+        .required(),
 });
 
 const validateAddBody = (request, response, next) => {
@@ -29,9 +29,9 @@ const validateBody = (request, response, next, schema) => {
         return response.status(400).json(result.error.details);
     }
     next();
-}
+};
 
 module.exports = {
     validateAddBody,
-    validateUpdateBody
+    validateUpdateBody,
 };

@@ -2,9 +2,9 @@ const Error = require('./Error');
 
 class Conflict extends Error {
     constructor(message) {
-      super(message);
-      this.name = "Conflict";
-      this.status = 409;
+        super(message);
+        this.name = 'Conflict';
+        this.status = 409;
     }
 }
 

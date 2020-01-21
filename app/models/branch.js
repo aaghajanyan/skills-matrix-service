@@ -1,4 +1,4 @@
-const { branch: branchModel } = require("../sequelize/models");
+const { branch: branchModel } = require('../sequelize/models');
 
 class Branch {
     static async findAll() {
@@ -7,7 +7,7 @@ class Branch {
 
     static async find(condition) {
         return await branchModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 
@@ -29,11 +29,11 @@ class Branch {
 
     static async findOrCreate(condition) {
         const branch = await branchModel.findOrCreate({
-            where: { ...condition }
+            where: { ...condition },
         });
         return {
             branch: branch[0],
-            isNewRecord: branch[1]
+            isNewRecord: branch[1],
         };
     }
 }

@@ -2,8 +2,8 @@ const {
     category: categoryModel,
     skill: skillModel,
     categories_relation: categoryRelationModel,
-    skills_relation: skillRelationModel
-} = require("../sequelize/models");
+    skills_relation: skillRelationModel,
+} = require('../sequelize/models');
 
 class Category {
     static async findAll() {
@@ -12,7 +12,7 @@ class Category {
 
     static async find(condition) {
         return await categoryModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 
@@ -26,33 +26,39 @@ class Category {
 
     static async findOrCreate(condition) {
         const category = await categoryModel.findOrCreate({
-            where: { ...condition }
+            where: { ...condition },
         });
         return {
             category: category[0],
-            isNewRecord: category[1]
+            isNewRecord: category[1],
         };
     }
 
-    static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
+    static async addRelatedCategories(
+        relatedCategoriesIds,
+        category,
+        sendedList
+    ) {
         try {
             sendedList.addedCategories = [];
             if (relatedCategoriesIds && relatedCategoriesIds.length) {
-                const promise = relatedCategoriesIds.map(async function(categoryGuid) {
+                const promise = relatedCategoriesIds.map(async function(
+                    categoryGuid
+                ) {
                     const relatedCategory = await categoryModel.findOne({
-                        where: { guid: categoryGuid }
+                        where: { guid: categoryGuid },
                     });
                     const obj = {
                         categoryGuid: category.guid,
                         relatedCategoryGuid: categoryGuid,
-                        success: false
+                        success: false,
                     };
                     if (relatedCategory) {
                         await categoryRelationModel.findOrCreate({
                             where: {
                                 category_id: category.id,
-                                related_category_id: relatedCategory.id
-                            }
+                                related_category_id: relatedCategory.id,
+                            },
                         });
                         obj.success = true;
                     }
@@ -62,10 +68,9 @@ class Category {
                     sendedList.addedCategories.push(list);
                 });
             }
-        } catch(error) {
-            console.log(error) //TBD
+        } catch (error) {
+            console.log(error); //TBD
         }
-
     }
 
     static async mergeRelatedCategories(categories) {
@@ -78,23 +83,27 @@ class Category {
         return categories;
     }
 
-    static async removeRelatedCategories(removedCategories, category, sendedList) {
+    static async removeRelatedCategories(
+        removedCategories,
+        category,
+        sendedList
+    ) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async function(categoryGuid) {
                 const relatedCategory = await categoryModel.findOne({
-                    where: { guid: categoryGuid }
+                    where: { guid: categoryGuid },
                 });
                 const obj = {
                     categoryGuid: category.guid,
                     relatedCategoryGuid: categoryGuid,
-                    success: false
+                    success: false,
                 };
                 const categoryRelation = await categoryRelationModel.findOne({
                     where: {
                         category_id: category.id,
-                        related_category_id: relatedCategory.id
-                    }
+                        related_category_id: relatedCategory.id,
+                    },
                 });
 
                 if (categoryRelation) {
@@ -116,18 +125,18 @@ class Category {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
-                    success: false
+                    success: false,
                 };
                 const existingSkill = await skillModel.findOne({
-                    where: { guid: skillGuid }
+                    where: { guid: skillGuid },
                 });
 
                 if (existingSkill) {
                     await skillRelationModel.findOrCreate({
                         where: {
                             skill_id: existingSkill.id,
-                            category_id: category.id
-                        }
+                            category_id: category.id,
+                        },
                     });
                     obj.success = true;
                 }
@@ -147,13 +156,13 @@ class Category {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
-                    success: false
+                    success: false,
                 };
                 const skillRelation = await skillRelationModel.findOne({
                     where: {
                         skillGuid: skillGuid,
-                        categoryGuid: category.guid
-                    }
+                        categoryGuid: category.guid,
+                    },
                 });
 
                 if (skillRelation) {

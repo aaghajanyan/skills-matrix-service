@@ -1,4 +1,4 @@
-const { position: positionModel } = require("../sequelize/models");
+const { position: positionModel } = require('../sequelize/models');
 
 class Position {
     static async findAll() {
@@ -7,7 +7,7 @@ class Position {
 
     static async find(condition) {
         return await positionModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 
@@ -29,11 +29,11 @@ class Position {
 
     static async findOrCreate(condition) {
         const position = await positionModel.findOrCreate({
-            where: { ...condition }
+            where: { ...condition },
         });
         return {
             position: position[0],
-            isNewRecord: position[1]
+            isNewRecord: position[1],
         };
     }
 }

@@ -4,12 +4,12 @@ const {
     CONFLICT,
     ACCEPTED,
     CREATED,
-    getStatusText
-} = require("http-status-codes");
-const { Constants } = require("../constants/Constants");
-const logger = require("../helper/logger");
-const Criteria = require("../models/criteria");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const { Constants } = require('../constants/Constants');
+const logger = require('../helper/logger');
+const Criteria = require('../models/criteria');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const getCriteries = async function(_, response) {
     try {
@@ -22,7 +22,7 @@ const getCriteries = async function(_, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -38,7 +38,7 @@ const getCriteria = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -47,8 +47,7 @@ const addCriteria = async function(request, response) {
     try {
         const { criteria, isNewRecord } = await Criteria.findOrCreate({
             name: request.body.name,
-            type: request.body.type
-
+            type: request.body.type,
         });
         if (!isNewRecord) {
             return response.status(CONFLICT).json({
@@ -56,11 +55,11 @@ const addCriteria = async function(request, response) {
                 message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.CRITERIA
-                )}`
+                )}`,
             });
         }
         return response.status(CREATED).json({
-            criteria
+            criteria,
         });
     } catch (error) {
         logger.error(error, '');
@@ -69,7 +68,7 @@ const addCriteria = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -85,7 +84,7 @@ const updateCriteria = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -100,7 +99,7 @@ const deleteCriteria = async function(request, response) {
                     Constants.Controllers.TypeNames.CRITERIA,
                     request.params.guid,
                     Constants.Keys.id
-                )
+                ),
             });
         }
         criteria.destroy();
@@ -112,7 +111,7 @@ const deleteCriteria = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -122,5 +121,5 @@ module.exports = {
     getCriteries,
     updateCriteria,
     deleteCriteria,
-    addCriteria
+    addCriteria,
 };

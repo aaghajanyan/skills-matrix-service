@@ -1,6 +1,6 @@
 const Constants = {
     SPECIAL_CHARACTER_REG_EXP_BEGINING: /[!@#$%^&*()+=\-[\]\\';,./{}|":<>?~_]/g,
-    SPECIAL_CHARACTER_REG_EXP_ENDING: "\\$&",
+    SPECIAL_CHARACTER_REG_EXP_ENDING: '\\$&',
     AUTHORIZATION: 'Authorization',
     TOKEN: 'token',
     CASCADE: 'CASCADE',
@@ -16,10 +16,10 @@ const Constants = {
         unique_view_name: 'users_view_unique',
         create_or_replace_view: 'CREATE OR REPLACE VIEW ',
         select_all_from: 'select * from',
-        where: 'where'
+        where: 'where',
     },
 
-    TableNames : {
+    TableNames: {
         Users: 'users',
         Invitations: 'invitations',
         Roles: 'roles',
@@ -34,9 +34,9 @@ const Constants = {
         UsersSkills: 'users_skills',
         History: 'history',
         UsersCategories: 'users_categories',
-        Criteria: 'criteria'
+        Criteria: 'criteria',
     },
-    ModelNames : {
+    ModelNames: {
         User: 'user',
         Branch: 'branch',
         Position: 'position',
@@ -51,7 +51,7 @@ const Constants = {
         UsersSkills: 'users_skills',
         History: 'history',
         UsersCategories: 'users_categories',
-        Criteria: 'criteria'
+        Criteria: 'criteria',
     },
 
     ModelErrors: {
@@ -74,15 +74,15 @@ const Constants = {
         ROLE_ALREADY_EXISTS: 'Role already exists.',
         ROLE_ID_IS_MISSING: 'Role id is missing.',
         ROLE_GROUP_ID_IS_MISSING: 'Role Group id is missing.',
-        SKILL_ID_IS_MISSING: "Skill id is missing",
-        CATEGORY_ID_IS_MISSING: "Category id is missing",
-        SKILL_ALREADY_EXISTS: "Skill already exists",
-        PASSWORD_IS_MISSING: "Password is missing",
-        FIRSTNAME_IS_MISSING: "FirstName is missing",
-        LASTNAME_IS_MISSING: "LastName is missing",
-        BRANCH_IS_MISSING: "Branch is missing",
-        STARTED_TO_WORK_DATE_IS_MISSING: "Started to work date is missing",
-        POSITION_IS_MISSING: "Position is missing",
+        SKILL_ID_IS_MISSING: 'Skill id is missing',
+        CATEGORY_ID_IS_MISSING: 'Category id is missing',
+        SKILL_ALREADY_EXISTS: 'Skill already exists',
+        PASSWORD_IS_MISSING: 'Password is missing',
+        FIRSTNAME_IS_MISSING: 'FirstName is missing',
+        LASTNAME_IS_MISSING: 'LastName is missing',
+        BRANCH_IS_MISSING: 'Branch is missing',
+        STARTED_TO_WORK_DATE_IS_MISSING: 'Started to work date is missing',
+        POSITION_IS_MISSING: 'Position is missing',
     },
 
     Keys: {
@@ -121,7 +121,7 @@ const Constants = {
         group: 'group',
         rule: 'rule',
         skill_experience_proficiency: 'skill_experience_proficiency',
-        category_experience_proficiency: 'category_experience_proficiency'
+        category_experience_proficiency: 'category_experience_proficiency',
     },
 
     Condition: {
@@ -134,23 +134,23 @@ const Constants = {
             id: 'id',
             role_id: 'role_id',
             role_group_id: 'role_group_id',
-            uniqueRoleRel: 'uniqueRoleRel'
+            uniqueRoleRel: 'uniqueRoleRel',
         },
         CategoryRelation: {
             related_category_id: 'related_category_id',
         },
         SkillRelation: {
-            uniqueSkillRel: 'uniqueSkillRel'
+            uniqueSkillRel: 'uniqueSkillRel',
         },
         UserSkill: {
-            uniqueUserSkill: 'uniqueUserSkill'
+            uniqueUserSkill: 'uniqueUserSkill',
         },
         History: {
             userSkillId: 'userSkillId',
-            user_skill_id: 'user_skill_id'
+            user_skill_id: 'user_skill_id',
         },
         UsersCategories: {
-            uniqueUserCategory: 'uniqueUserCategory'
+            uniqueUserCategory: 'uniqueUserCategory',
         },
     },
 
@@ -168,8 +168,8 @@ const Constants = {
             roleGroup: 'roleGroup',
             roleRelation: 'roleRelation',
             skillMark: 'skillMark',
-            categoryMark: 'categoryMark'
-        }
+            categoryMark: 'categoryMark',
+        },
     },
     Controllers: {
         ErrorMessages: {
@@ -199,30 +199,32 @@ const Constants = {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
             COULD_NOT_LOGIN: 'Could not make login.',
             invitationId: 'invitationId',
-            guid: 'guid'
+            guid: 'guid',
         },
         Invitation: {
             EMAIL_ALREADY_EXISTS_USER_MODEL: 'Email already exists in users.',
-            EMAIL_ALREADY_EXISTS_INVITATION_MODEL: 'Email already exists in invitations',
+            EMAIL_ALREADY_EXISTS_INVITATION_MODEL:
+                'Email already exists in invitations',
             COULD_NOT_SEND_EMAIL: 'Could not send email',
         },
         Skills: {
-            SKILL_ALREADY_EXISTS: ' skill already exists.'
+            SKILL_ALREADY_EXISTS: ' skill already exists.',
         },
         Categories: {
-            CATEGORY_ALREADY_EXISTS: ' category already exists.'
+            CATEGORY_ALREADY_EXISTS: ' category already exists.',
         },
         ForgotPassword: {
             COULD_NOT_SEND_EMAIL: 'Could not send email.',
             SENDED_MAIL_ADDRESS: 'Mail sended to %1 email.',
-            COULD_NOT_CHANGE_PASSWORD: 'Could not change password.'
+            COULD_NOT_CHANGE_PASSWORD: 'Could not change password.',
         },
         CategoryRelation: {
             REL_CATEGORY_DOES_NOT_EXISTS: 'Related categories does not exists.',
             CATEGORY_DOES_NOT_EXISTS: 'Category does not exists.',
         },
         RolesGroup: {
-            COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %1 guid.',
+            COULD_NOT_GET_ROLE_GROUP_F:
+                'Could not get role group with %1 guid.',
         },
         UserSkills: {
             ALREADY_EXISTS: 'Skill with %1 already exists.',
@@ -253,9 +255,9 @@ const Constants = {
             },
             QUERY_PARAM_IS_INVALID: '<%1> query parameter is invalid.',
             QUERY_PARAM_IS_MISSING: '<%1> query parameter is missing.',
-            QUERY_PARAM_NAME: 'search_query'
+            QUERY_PARAM_NAME: 'search_query',
         },
     },
-}
+};
 
 module.exports = { Constants };

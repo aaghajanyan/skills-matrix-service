@@ -1,8 +1,9 @@
-const tokenSecret = require("../../config/env-settings.json").secretKey;
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const jwtDecode = require("jwt-decode");
-const invitationSecretToken = require("../../config/env-settings.json").invitationSecretKey;
+const tokenSecret = require('../../config/env-settings.json').secretKey;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
+const invitationSecretToken = require('../../config/env-settings.json')
+    .invitationSecretKey;
 const {
     OK,
     ACCEPTED,
@@ -10,13 +11,13 @@ const {
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
     CONFLICT,
-    getStatusText
-} = require("http-status-codes");
-const User = require("../models/user");
-const Invitation = require("../models/invitation");
-const { Constants } = require("../constants/Constants");
-const logger = require("../helper/logger");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const User = require('../models/user');
+const Invitation = require('../models/invitation');
+const { Constants } = require('../constants/Constants');
+const logger = require('../helper/logger');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const getUsers = async function(_, response) {
     try {
@@ -31,7 +32,7 @@ const getUsers = async function(_, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -49,7 +50,7 @@ const getUser = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -67,7 +68,7 @@ const updateUser = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -80,10 +81,12 @@ const signUp = async function(request, response) {
         if (!invitation) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                message: `${getStatusText(
+                    CONFLICT
+                )}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.INVITATION
-                )}`
+                )}`,
             });
         }
         request.body.email = invitation.email;
@@ -99,7 +102,7 @@ const signUp = async function(request, response) {
             success: false,
             message: `${
                 Constants.Controllers.Users.COULD_NOT_REGISTER_USER
-            } ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            } ${getStatusText(INTERNAL_SERVER_ERROR)}`,
         });
     }
 };
@@ -110,7 +113,8 @@ const login = async function(request, response) {
         if (!user) {
             return response.status(BAD_REQUEST).json({
                 success: false,
-                message: Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT
+                message:
+                    Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT,
             });
         }
         const validPassword = bcrypt.compareSync(
@@ -120,7 +124,8 @@ const login = async function(request, response) {
         if (!validPassword) {
             return response.status(BAD_REQUEST).json({
                 success: false,
-                message: Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT
+                message:
+                    Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT,
             });
         }
         const token = jwt.sign(
@@ -129,7 +134,7 @@ const login = async function(request, response) {
                 email: user.email,
                 is_active: user.is_active,
                 role_group_id: user.role_group_id,
-                created_date: user.created_date
+                created_date: user.created_date,
             },
             tokenSecret,
             { expiresIn: Constants.LOGIN_TOKEN_EXPiRE_DATE }
@@ -137,7 +142,7 @@ const login = async function(request, response) {
         return response.header(Constants.AUTHORIZATION, token).json({
             success: true,
             [Constants.TOKEN]: token,
-            [Constants.Controllers.Users.guid]: user.guid
+            [Constants.Controllers.Users.guid]: user.guid,
         });
     } catch (error) {
         logger.error(error, '');
@@ -145,7 +150,7 @@ const login = async function(request, response) {
             success: false,
             message: `${
                 Constants.Controllers.Users.COULD_NOT_LOGIN
-            } ${getStatusText(INTERNAL_SERVER_ERROR)}`
+            } ${getStatusText(INTERNAL_SERVER_ERROR)}`,
         });
     }
 };
@@ -155,5 +160,5 @@ module.exports = {
     getUser,
     updateUser,
     signUp,
-    login
+    login,
 };

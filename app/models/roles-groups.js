@@ -1,4 +1,4 @@
-const { roles_groups: rolesGroupsModel } = require("../sequelize/models");
+const { roles_groups: rolesGroupsModel } = require('../sequelize/models');
 
 class RoleGroup {
     static async findAll() {
@@ -7,7 +7,7 @@ class RoleGroup {
 
     static async find(condition) {
         return await rolesGroupsModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 

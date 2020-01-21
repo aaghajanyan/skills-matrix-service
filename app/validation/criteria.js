@@ -1,14 +1,12 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const addBodySchema = Joi.object().keys({
-    name: Joi.string()
-        .required(),
-    type: Joi.string()
-        .required()
+    name: Joi.string().required(),
+    type: Joi.string().required(),
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
-    type: Joi.string()
+    type: Joi.string(),
 });
 
 const validateAddBody = (request, response, next) => {
@@ -29,5 +27,5 @@ const validateBody = (request, response, next, schema) => {
 
 module.exports = {
     validateAddBody,
-    validateUpdateBody
+    validateUpdateBody,
 };

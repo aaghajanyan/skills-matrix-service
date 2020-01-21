@@ -1,4 +1,4 @@
-const { Constants } = require("../../constants/Constants");
+const { Constants } = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const Invitation = sequelize.define(
@@ -13,22 +13,22 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.EMAIL_IS_MISSING
+                    msg: Constants.ModelErrors.EMAIL_IS_MISSING,
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.EMAIL_ALREADY_EXISTS
+                    msg: Constants.ModelErrors.EMAIL_ALREADY_EXISTS,
                 },
                 validate: {
                     isEmail: {
                         args: true,
-                        msg: Constants.ModelErrors.EMAIL_IS_INVALID
-                    }
-                }
-            }
+                        msg: Constants.ModelErrors.EMAIL_IS_INVALID,
+                    },
+                },
+            },
         },
         {
-            timestamps: false
+            timestamps: false,
         }
     );
     return Invitation;

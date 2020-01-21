@@ -6,18 +6,19 @@ const {
     CONFLICT,
     NO_CONTENT,
     UNAUTHORIZED,
-    getStatusText
-} = require("http-status-codes");
-const jwtDecode = require("jwt-decode");
-const invitationSecretToken = require("../../config/env-settings.json").invitationSecretKey;
-const jwt = require("jsonwebtoken");
-const mailer = require("../email/email");
-const client = require("../../config/env-settings.json").client;
-const { Constants } = require("../constants/Constants");
-const Invitation = require("../models/invitation");
-const User = require("../models/user");
-const logger = require("../helper/logger");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const jwtDecode = require('jwt-decode');
+const invitationSecretToken = require('../../config/env-settings.json')
+    .invitationSecretKey;
+const jwt = require('jsonwebtoken');
+const mailer = require('../email/email');
+const client = require('../../config/env-settings.json').client;
+const { Constants } = require('../constants/Constants');
+const Invitation = require('../models/invitation');
+const User = require('../models/user');
+const logger = require('../helper/logger');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const checkInvitationInDB = async function(request, response) {
     try {
@@ -27,7 +28,7 @@ const checkInvitationInDB = async function(request, response) {
         if (!invitation) {
             return response.status(NOT_FOUND).json({
                 success: false,
-                message: getStatusText(NOT_FOUND)
+                message: getStatusText(NOT_FOUND),
             });
         }
         return response.status(NO_CONTENT).send();
@@ -35,7 +36,7 @@ const checkInvitationInDB = async function(request, response) {
         logger.error(error, '');
         return response.status(UNAUTHORIZED).json({
             success: false,
-            message: getStatusText(UNAUTHORIZED)
+            message: getStatusText(UNAUTHORIZED),
         });
     }
 };
@@ -50,7 +51,7 @@ const addInvitation = async function(request, response) {
                 const token = jwt.sign(
                     {
                         guid: currInvitation.id,
-                        created_date: Date().now
+                        created_date: Date().now,
                     },
                     invitationSecretToken,
                     { expiresIn: Constants.INVITATION_TOKEN_EXPiRE_DATE }
@@ -69,20 +70,20 @@ const addInvitation = async function(request, response) {
                         message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
                             Constants.Controllers.Invitation
                                 .COULD_NOT_SEND_EMAIL
-                        }`
+                        }`,
                     });
                 }
                 return response.status(OK).json({
                     success: true,
                     [Constants.TOKEN]: token,
-                    guid: currInvitation.id
+                    guid: currInvitation.id,
                 });
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
                     message:
                         Constants.Controllers.Invitation
-                            .EMAIL_ALREADY_EXISTS_USER_MODEL
+                            .EMAIL_ALREADY_EXISTS_USER_MODEL,
                 });
             }
         } else {
@@ -90,7 +91,7 @@ const addInvitation = async function(request, response) {
                 success: false,
                 message:
                     Constants.Controllers.Invitation
-                        .EMAIL_ALREADY_EXISTS_INVITATION_MODEL
+                        .EMAIL_ALREADY_EXISTS_INVITATION_MODEL,
             });
         }
     } catch (error) {
@@ -102,12 +103,12 @@ const addInvitation = async function(request, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.INVITATION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
 
 module.exports = {
     addInvitation,
-    checkInvitationInDB
+    checkInvitationInDB,
 };

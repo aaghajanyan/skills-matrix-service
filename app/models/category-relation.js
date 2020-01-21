@@ -1,6 +1,6 @@
 const {
-    categories_relation: categoryRelationModel
-} = require("../sequelize/models");
+    categories_relation: categoryRelationModel,
+} = require('../sequelize/models');
 
 class CategoryRelation {
     static async findAll() {
@@ -9,7 +9,7 @@ class CategoryRelation {
 
     static async find(condition) {
         return await categoryRelationModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 

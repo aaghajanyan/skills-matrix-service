@@ -4,7 +4,7 @@ class Error {
         this.result = result;
         this.success = false;
         this.status = status;
-        this.name = "Error";
+        this.name = 'Error';
     }
 
     parse(str) {
@@ -13,4 +13,4 @@ class Error {
     }
 }
 
-  module.exports = Error;
+module.exports = Error;

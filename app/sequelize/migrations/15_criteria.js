@@ -1,30 +1,31 @@
-const { Constants } = require("../../constants/Constants");
+const { Constants } = require('../../constants/Constants');
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable(Constants.TableNames.Criteria, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      guid: {
-        unique: true,
-        allowNull: false,
-        type: Sequelize.UUID
+    up: (queryInterface, Sequelize) => {
+        return queryInterface.createTable(Constants.TableNames.Criteria, {
+            id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER,
+            },
+            guid: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.UUID,
+            },
+            name: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.STRING,
+            },
+            type: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.STRING,
+            },
+        });
     },
-      name: {
-        unique: true,
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      type: {
-        unique: true,
-        allowNull: false,
-        type: Sequelize.STRING,
-      }
-    });
-  },
-  down: queryInterface => queryInterface.dropTable(Constants.TableNames.Criteria)
+    down: queryInterface =>
+        queryInterface.dropTable(Constants.TableNames.Criteria),
 };

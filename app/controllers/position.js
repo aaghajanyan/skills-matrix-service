@@ -4,12 +4,12 @@ const {
     CONFLICT,
     ACCEPTED,
     CREATED,
-    getStatusText
-} = require("http-status-codes");
-const { Constants } = require("../constants/Constants");
-const logger = require("../helper/logger");
-const Position = require("../models/position");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const { Constants } = require('../constants/Constants');
+const logger = require('../helper/logger');
+const Position = require('../models/position');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const getPositions = async function(_, response) {
     try {
@@ -22,7 +22,7 @@ const getPositions = async function(_, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.POSITION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -38,7 +38,7 @@ const getPosition = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.POSITION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -54,11 +54,11 @@ const addPosition = async function(request, response) {
                 message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.POSITION.toLowerCase()
-                )}`
+                )}`,
             });
         }
         return response.status(CREATED).json({
-            position
+            position,
         });
     } catch (error) {
         logger.error(error, '');
@@ -67,7 +67,7 @@ const addPosition = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.POSITION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -83,7 +83,7 @@ const updatePosition = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.POSITION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -98,7 +98,7 @@ const deletePosition = async function(request, response) {
                     Constants.Controllers.TypeNames.POSITION,
                     request.params.guid,
                     Constants.Keys.id
-                )
+                ),
             });
         }
         position.destroy();
@@ -110,7 +110,7 @@ const deletePosition = async function(request, response) {
             message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.POSITION.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
@@ -120,5 +120,5 @@ module.exports = {
     getPositions,
     updatePosition,
     deletePosition,
-    addPosition
+    addPosition,
 };

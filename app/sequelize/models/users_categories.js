@@ -1,4 +1,4 @@
-const { Constants } = require("../../constants/Constants");
+const { Constants } = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const UserCategory = sequelize.define(
@@ -19,16 +19,15 @@ module.exports = (sequelize, DataTypes) => {
             },
             experience: {
                 allowNull: false,
-                type: DataTypes.INTEGER
+                type: DataTypes.INTEGER,
             },
             profficience: {
                 allowNull: false,
-                type: DataTypes.INTEGER
-
-            }
+                type: DataTypes.INTEGER,
+            },
         },
         {
-            timestamps: false
+            timestamps: false,
         }
     );
     UserCategory.associate = models => {};

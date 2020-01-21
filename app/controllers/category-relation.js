@@ -4,13 +4,13 @@ const {
     ACCEPTED,
     CONFLICT,
     CREATED,
-    getStatusText
-} = require("http-status-codes");
-const { Constants } = require("../constants/Constants");
-const Category = require("../models/category");
-const CategoryRelation = require("../models/category-relation");
-const logger = require("../helper/logger");
-const ErrorMessageParser = require("../errors/ErrorMessageParser");
+    getStatusText,
+} = require('http-status-codes');
+const { Constants } = require('../constants/Constants');
+const Category = require('../models/category');
+const CategoryRelation = require('../models/category-relation');
+const logger = require('../helper/logger');
+const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const getCategoriesRelations = async function(_, response) {
     try {
@@ -18,10 +18,12 @@ const getCategoriesRelations = async function(_, response) {
         if (categoriesRelations && categoriesRelations.length == 0) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
+                message: `${getStatusText(
+                    CONFLICT
+                )}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.REL_CATEGORY
-                )}`
+                )}`,
             });
         }
         return response.status(OK).json(categoriesRelations);
@@ -34,16 +36,16 @@ const getCategoriesRelations = async function(_, response) {
             )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`
+            )}`,
         });
     }
 };
 
 const getCategoryRelation = async function(request, response) {
     try {
-        const categoryRelation = await CategoryRelation.find(
-            { guid: request.params.categoryRelationId }
-        );
+        const categoryRelation = await CategoryRelation.find({
+            guid: request.params.categoryRelationId,
+        });
         if (!categoryRelation) {
             return response.status(CONFLICT).json({
                 success: false,
@@ -51,7 +53,7 @@ const getCategoryRelation = async function(request, response) {
                     ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                         Constants.Controllers.TypeNames.REL_CATEGORY
-                    )}`
+                    )}`,
             });
         }
         return response.status(OK).json(categoryRelation);
@@ -63,7 +65,7 @@ const getCategoryRelation = async function(request, response) {
                 ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                     Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                )}`
+                )}`,
         });
     }
 };
@@ -89,7 +91,7 @@ const addCategoryRelation = async function(request, response) {
                     ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                         Constants.Controllers.TypeNames.REL_CATEGORY
-                    )}`
+                    )}`,
                 });
             }
         } else {
@@ -99,7 +101,7 @@ const addCategoryRelation = async function(request, response) {
                     ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                         Constants.Controllers.TypeNames.REL_CATEGORY
-                    )}`
+                    )}`,
             });
         }
     } catch (error) {
@@ -110,7 +112,7 @@ const addCategoryRelation = async function(request, response) {
                     ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                         Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                    )}`
+                    )}`,
         });
     }
 };
@@ -129,7 +131,7 @@ const updateCategoryRelation = async function(request, response) {
                 ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                     Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                )}`
+                )}`,
         });
     }
 };
@@ -178,7 +180,7 @@ const updateCategoryRelation = async function(request, response) {
 const deleteCategoryRelation = async function(request, response) {
     try {
         await CategoryRelation.delete({
-            guid: request.params.categoryRelationId
+            guid: request.params.categoryRelationId,
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
@@ -189,7 +191,7 @@ const deleteCategoryRelation = async function(request, response) {
                     ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                         Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                    )}`
+                    )}`,
         });
     }
 };
@@ -199,5 +201,5 @@ module.exports = {
     getCategoryRelation,
     addCategoryRelation,
     updateCategoryRelation,
-    deleteCategoryRelation
+    deleteCategoryRelation,
 };

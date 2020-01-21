@@ -2,9 +2,9 @@ const Error = require('./Error');
 
 class BadRequest extends Error {
     constructor(message) {
-      super(message);
-      this.name = "BadRequest";
-      this.status = 400;
+        super(message);
+        this.name = 'BadRequest';
+        this.status = 400;
     }
 }
 

@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const passwordExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/;
 const nameExp = /^[a-z]{2,20}$/i;
@@ -13,28 +13,24 @@ const addBodySchema = Joi.object().keys({
     lname: Joi.string()
         .regex(nameExp)
         .required(),
-    branchGuid: Joi.string().uuid()
+    branchGuid: Joi.string()
+        .uuid()
         .required(),
-    started_to_work_date: Joi.date()
+    started_to_work_date: Joi.date().required(),
+    role_group_id: Joi.number().integer(),
+    positionGuid: Joi.string()
+        .uuid()
         .required(),
-    role_group_id: Joi.number()
-        .integer(),
-    positionGuid: Joi.string().uuid()
-        .required()
 });
 
 const updateBodySchema = Joi.object().keys({
-    password: Joi.string()
-        .regex(passwordExp),
-    fname: Joi.string()
-        .regex(nameExp),
-    lname: Joi.string()
-        .regex(nameExp),
+    password: Joi.string().regex(passwordExp),
+    fname: Joi.string().regex(nameExp),
+    lname: Joi.string().regex(nameExp),
     branchGuid: Joi.string().uuid(),
-    role_group_id: Joi.number()
-        .integer(),
+    role_group_id: Joi.number().integer(),
     positionGuid: Joi.string().uuid(),
-    is_active: Joi.boolean()
+    is_active: Joi.boolean(),
 });
 
 const loginBodySchema = Joi.object().keys({
@@ -64,10 +60,10 @@ const validateBody = (request, response, next, schema) => {
         return response.status(400).json(result.error.details);
     }
     next();
-}
+};
 
 module.exports = {
     validateAddBody,
     validateUpdateBody,
-    validateLoginBody
+    validateLoginBody,
 };

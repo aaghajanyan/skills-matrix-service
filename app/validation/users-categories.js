@@ -1,22 +1,24 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const addBodySchema = Joi.object().keys({
     userGuid: Joi.string()
         .uuid()
         .required(),
-    categories: Joi.array()
-        .items(Joi.object().keys({
-            categoryGuid: Joi.string()
-                .uuid()
-                .required(),
-			experience: Joi.number()
-                .integer()
-                .required(),
-            profficience: Joi.number()
-                .integer()
-                .min(0)
-                .max(5),
-        }).required()
+    categories: Joi.array().items(
+        Joi.object()
+            .keys({
+                categoryGuid: Joi.string()
+                    .uuid()
+                    .required(),
+                experience: Joi.number()
+                    .integer()
+                    .required(),
+                profficience: Joi.number()
+                    .integer()
+                    .min(0)
+                    .max(5),
+            })
+            .required()
     ),
 });
 
@@ -24,19 +26,21 @@ const updateBodySchema = Joi.object().keys({
     userGuid: Joi.string()
         .uuid()
         .required(),
-    categories: Joi.array()
-        .items(Joi.object().keys({
-            categoryGuid: Joi.string()
-                .uuid()
-                .required(),
-			experience: Joi.number()
-                .integer()
-                .required(),
-            profficience: Joi.number()
-                .integer()
-                .min(0)
-                .max(5),
-        }).required()
+    categories: Joi.array().items(
+        Joi.object()
+            .keys({
+                categoryGuid: Joi.string()
+                    .uuid()
+                    .required(),
+                experience: Joi.number()
+                    .integer()
+                    .required(),
+                profficience: Joi.number()
+                    .integer()
+                    .min(0)
+                    .max(5),
+            })
+            .required()
     ),
 });
 
@@ -54,9 +58,9 @@ const validateBody = (request, response, next, schema) => {
         return response.status(400).json(result.error.details);
     }
     next();
-}
+};
 
 module.exports = {
     validateAddBody,
-    validateUpdateBody
+    validateUpdateBody,
 };

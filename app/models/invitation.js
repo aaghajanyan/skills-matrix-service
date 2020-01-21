@@ -1,4 +1,4 @@
-const { invitation: invitationModel } = require("../sequelize/models");
+const { invitation: invitationModel } = require('../sequelize/models');
 
 class Invitation {
     static async findAll() {
@@ -7,7 +7,7 @@ class Invitation {
 
     static async find(condition) {
         return await invitationModel.findOne({
-            where: { ...condition }
+            where: { ...condition },
         });
     }
 

@@ -1,16 +1,21 @@
-const config = require("../config/config");
-const logger = require("../../helper/logger");
+const config = require('../config/config');
+const logger = require('../../helper/logger');
 
 class DefaultRoles {
-
     static async initializeRoleTable(models) {
-        let rolesObjArr = await config.roles.map((role) => { return {name: role}});
-        await models.roles.bulkCreate(rolesObjArr).catch((err) => {});
+        let rolesObjArr = await config.roles.map(role => {
+            return { name: role };
+        });
+        await models.roles.bulkCreate(rolesObjArr).catch(err => {});
     }
 
     static async initializeRolesGroupsTable(models) {
-        let rolesGroupsObjArr = config.rolesGroups.map((roleGroup) => {return {name: roleGroup }} );
-        await models.roles_groups.bulkCreate(rolesGroupsObjArr).catch((err) => {});
+        let rolesGroupsObjArr = config.rolesGroups.map(roleGroup => {
+            return { name: roleGroup };
+        });
+        await models.roles_groups
+            .bulkCreate(rolesGroupsObjArr)
+            .catch(err => {});
     }
 
     static async initializeRolesRelationTable(models, rolesAndGroupRelation) {
@@ -19,12 +24,12 @@ class DefaultRoles {
             try {
                 const rolesList = rolesAndGroupRelation[group];
                 const existingRoleGroup = await models.roles_groups.findOne({
-                    where: { name: group }
+                    where: { name: group },
                 });
                 await rolesList.forEach(async function(role) {
                     try {
                         const existingRole = await models.roles.findOne({
-                            where: { name: role }
+                            where: { name: role },
                         });
                         const currRoleRelObj = {};
                         currRoleRelObj.role_id = existingRole.dataValues.id;
@@ -35,17 +40,21 @@ class DefaultRoles {
                             {
                                 where: {
                                     role_id: existingRole.dataValues.id,
-                                    role_group_id: existingRoleGroup.dataValues.id
-                                }
+                                    role_group_id:
+                                        existingRoleGroup.dataValues.id,
+                                },
                             }
                         );
                         if (!existingRoleRel) {
-                            models.roles_relations.build({
-                                role_id: existingRole.dataValues.id,
-                                role_group_id: existingRoleGroup.dataValues.id
-                            }).save();
+                            models.roles_relations
+                                .build({
+                                    role_id: existingRole.dataValues.id,
+                                    role_group_id:
+                                        existingRoleGroup.dataValues.id,
+                                })
+                                .save();
                         }
-                    } catch(error) {
+                    } catch (error) {
                         logger.error(error, '');
                     }
                 });

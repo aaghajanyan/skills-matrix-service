@@ -1,8 +1,5 @@
 const express = require('express');
-const {
-    getRoleGroup,
-    getRoleGroups
-} = require('../controllers/roles-groups');
+const { getRoleGroup, getRoleGroups } = require('../controllers/roles-groups');
 const { verifyLoginToken } = require('../validation/token');
 const router = express.Router();
 

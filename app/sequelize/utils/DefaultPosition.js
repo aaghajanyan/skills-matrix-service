@@ -1,7 +1,6 @@
 class DefaultPosition {
-
     static async initializePositionTable(models) {
-        const  positionList = [
+        const positionList = [
             'Beginner SW Engineer',
             'SW Engineer',
             'Senior SW Engineer',
@@ -18,12 +17,14 @@ class DefaultPosition {
             'Project Manager',
             '3D modeler',
             'UIUX designer',
-            'SW Architect'
+            'SW Architect',
         ];
-        let defaultPositionObj = await positionList.map((position) => { return {
-            name: position,
-        }});
-        await models.position.bulkCreate(defaultPositionObj).catch((err) => {});
+        let defaultPositionObj = await positionList.map(position => {
+            return {
+                name: position,
+            };
+        });
+        await models.position.bulkCreate(defaultPositionObj).catch(err => {});
     }
 }
 

@@ -1,9 +1,9 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const addBodySchema = Joi.object().keys({
     email: Joi.string()
         .email()
-        .required()
+        .required(),
 });
 
 const validateAddBody = (request, response, next) => {
@@ -19,5 +19,5 @@ const validateBody = (request, response, next, schema) => {
 };
 
 module.exports = {
-    validateAddBody
+    validateAddBody,
 };

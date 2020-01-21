@@ -1,12 +1,11 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const addBodySchema = Joi.object().keys({
-    name: Joi.string()
-        .required(),
+    name: Joi.string().required(),
     categoriesId: Joi.array()
         .items(Joi.string().uuid())
         .unique()
-        .required()
+        .required(),
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
@@ -15,7 +14,7 @@ const updateBodySchema = Joi.object().keys({
         .unique(),
     deleteCategories: Joi.array()
         .items(Joi.string().uuid())
-        .unique()
+        .unique(),
 });
 
 const validateAddBody = (request, response, next) => {
@@ -32,9 +31,9 @@ const validateBody = (request, response, next, schema) => {
         return response.status(400).json(result.error.details);
     }
     next();
-}
+};
 
 module.exports = {
     validateAddBody,
-    validateUpdateBody
+    validateUpdateBody,
 };

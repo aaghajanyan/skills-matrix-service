@@ -1,9 +1,9 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const forgotPasswordBodySchema = Joi.object().keys({
     email: Joi.string()
         .email()
-        .required()
+        .required(),
 });
 
 const validateForgotPasswordBody = (request, response, next) => {
@@ -19,5 +19,5 @@ const validateBody = (request, response, next, schema) => {
 };
 
 module.exports = {
-    validateForgotPasswordBody
+    validateForgotPasswordBody,
 };
