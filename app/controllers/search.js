@@ -70,13 +70,10 @@ const searchUsers = async function(request, response, next) {
         }
         const sqlCmd = searchUser.collectSearchQuery(decodedQueryObj.decodedQueryJson);
         const finallyObjValidResult = await validateFinallyObject(sqlCmd);
-        console.log("finallyObjValidResult = ", finallyObjValidResult);
-
         if (!finallyObjValidResult.success) {
             next(new Error(200, finallyObjValidResult.message));
             return;
         }
-        console.log("sqlCmd = ", sqlCmd);
         const usersData = await db.sequelize.query(sqlCmd);
         const usersIds = usersData[0].map(userData => {
             return userData.id;
@@ -92,7 +89,6 @@ const searchUsers = async function(request, response, next) {
         });
 
     } catch (error) {
-        console.log(error)
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,

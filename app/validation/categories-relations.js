@@ -8,6 +8,7 @@ const addBodySchema = Joi.object().keys({
         .integer()
         .required()
 });
+
 const updateBodySchema = Joi.object().keys({
     related_category_id: Joi.number()
         .integer()

@@ -1,6 +1,6 @@
 const { Constants } = require("../constants/Constants");
-const Joi = require("joi");
 const { validateRuleBodySchema, validateGroupBodySchema } = require('../validation/search');
+const replaceAll = require("../helper/recursiveReplace");
 
 class SearchUser {
 
@@ -22,6 +22,9 @@ class SearchUser {
             .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
             .replace(/and \)/g, `\)`)
             .replace(/or \)/g, `\)`);
+        sqlCommand = replaceAll(sqlCommand, "() and", "");
+        sqlCommand = replaceAll(sqlCommand, "() or", "");
+        sqlCommand = replaceAll(sqlCommand, "()", "");
         return sqlCommand;
     }
 
@@ -52,10 +55,9 @@ class SearchUser {
 
                 for (let [index, key] of keys.entries()) {
                     if (data.childrens[key].type == Constants.Keys.rule) {
-                        // if (!data.childrens[key].properties.type) {
-                        //     console.log("\n\n CONTINUE \n\n");
-                        //     continue;
-                        // }
+                        if (!data.childrens[key].properties.type) {
+                            continue;
+                        }
                         this.validateSchema(validateRuleBodySchema, data.childrens[key]);
                         currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data.childrens[key]));
                         if (index < keys.length-1) {
