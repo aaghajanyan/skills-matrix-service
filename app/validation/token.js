@@ -3,7 +3,7 @@ const tokenSecret = require("../../config/env-settings.json").secretKey;
 const invitationSecretToken = require("../../config/env-settings.json").invitationSecretKey;
 const forgotPasswordTokenSecret = require("../../config/env-settings.json").forgotPasswordSecretKey;
 
-async function verifyToken(request, response, next, token, secret) {
+const verifyToken = async (request, response, next, token, secret) => {
     try {
         if(!token) {
             return response.status(401).send("Access denied.");
@@ -16,7 +16,7 @@ async function verifyToken(request, response, next, token, secret) {
     }
 }
 
-async function verifyLoginToken(request, response, next) {
+const verifyLoginToken = async (request, response, next) => {
     try {
         const token = request.header("Authorization").split('Bearer ')[1];
         verifyToken(request, response, next, token, tokenSecret);
@@ -25,7 +25,7 @@ async function verifyLoginToken(request, response, next) {
     }
 }
 
-async function verifyRegisterToken(request, response, next) {
+const verifyRegisterToken = async (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, invitationSecretToken);
@@ -34,7 +34,7 @@ async function verifyRegisterToken(request, response, next) {
     }
 }
 
-async function verifyForgotPasswordToken(request, response, next) {
+const verifyForgotPasswordToken = async (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, forgotPasswordTokenSecret);

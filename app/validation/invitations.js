@@ -6,8 +6,12 @@ const addBodySchema = Joi.object().keys({
         .required()
 });
 
-const validateBody = (request, response, next) => {
-    const result = Joi.validate(request.body, addBodySchema);
+const validateAddBody = (request, response, next) => {
+    validateBody(request, response, next, addBodySchema);
+};
+
+const validateBody = (request, response, next, schema) => {
+    const result = Joi.validate(request.body, schema);
     if (result.error) {
         return response.status(400).json(result.error.details);
     }
@@ -15,5 +19,5 @@ const validateBody = (request, response, next) => {
 };
 
 module.exports = {
-    validateBody
+    validateAddBody
 };

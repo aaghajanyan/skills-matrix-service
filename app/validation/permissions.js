@@ -4,7 +4,7 @@ const jwtDecode = require('jwt-decode');
 const User = require("../models/user");
 const logger = require("../helper/logger");
 
-async function verifyPermissions(request, response, next) {
+const verifyPermissions = async (request, response, next) => {
     try {
         const token = request.header("Authorization").split('Bearer ')[1];
         if(!token) {
@@ -30,6 +30,6 @@ async function verifyPermissions(request, response, next) {
             message: "Unauthorized.Access denied"
         });
     }
-}
+};
 
 module.exports = { verifyPermissions };

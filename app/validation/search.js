@@ -60,8 +60,7 @@ const validateGroupBodySchema = (data) => {
 const validateRuleBodySchema = (data) => {
     return validateBody(data, ruleSchema);
 }
-
-function validateBody(data, schema) {
+const validateBody = (data, schema) => {
     const result = Joi.validate(data, schema);
     return result.error;
 }

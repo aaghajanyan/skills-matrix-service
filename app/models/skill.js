@@ -4,6 +4,7 @@ const {
     "skills_relation": skillRelationModel
 } = require("../sequelize/models");
 const { Constants } = require("../constants/Constants");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 class Skill {
 
