@@ -15,6 +15,7 @@ const mailer = require("../email/email");
 const client = require("../../config/env-settings.json").client;
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
@@ -24,7 +25,7 @@ const checkForgotPasswordUser = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`
@@ -49,7 +50,7 @@ const forgotPassword = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`
@@ -78,7 +79,7 @@ const forgotPassword = async function(request, response) {
         }
         return response.status(OK).json({
             success: true,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ForgotPassword.SENDED_MAIL_ADDRESS,
                 request.body.email
             )}`,

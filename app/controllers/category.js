@@ -14,6 +14,7 @@ const {
 const { Constants } = require("../constants/Constants");
 const Category = require("../models/category");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getCategories = async function(_, response) {
     try {
@@ -25,7 +26,7 @@ const getCategories = async function(_, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -43,7 +44,7 @@ const getCategory = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -61,7 +62,7 @@ const updateCategory = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -75,8 +76,8 @@ const deleteCategory = async function(request, response) {
         if (!category) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(
-                    Constants.Migrations.CATEGORY,
+                message: ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.CATEGORY,
                     request.params.guid,
                     Constants.Keys.id
                 )
@@ -90,7 +91,7 @@ const deleteCategory = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -173,11 +174,11 @@ const getCategoriesAllData = async function(_, response) {
         );
     } catch (error) {
         logger.error(error, '');
-        response.status(INTERNAL_SERVER_ERROR).json({
+        return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -248,7 +249,7 @@ const getCategoryAllData = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -270,7 +271,7 @@ const addCategory = async function(request, response) {
         if (!isNewRecord) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.CATEGORY
                 )}`
@@ -290,7 +291,7 @@ const addCategory = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`
@@ -315,8 +316,8 @@ const updateCategoryAllData = async function(request, response) {
         if (!existingCategory) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.notExists(
-                    Constants.Migrations.CATEGORY,
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.CATEGORY,
                     request.params.guid,
                     Constants.Keys.id
                 )}`
@@ -341,7 +342,7 @@ const updateCategoryAllData = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                 Constants.Controllers.TypeNames.CATEGORY
             )}`

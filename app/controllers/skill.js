@@ -9,6 +9,7 @@ const {
 const Skill = require("../models/skill");
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getSkills = async function(_, response) {
     try {
@@ -20,7 +21,7 @@ const getSkills = async function(_, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -38,7 +39,7 @@ const getSkill = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -56,7 +57,7 @@ const getSkillAllData = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -74,7 +75,7 @@ const getSkillsAllData = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -92,7 +93,7 @@ const addSkill = async function(request, response) {
             if (!isNewRecord) {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                         Constants.Controllers.TypeNames.SKILL
                     )}`
@@ -112,7 +113,7 @@ const addSkill = async function(request, response) {
                 skill.destroy();
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                    message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                         Constants.Controllers.TypeNames.SKILL.toLowerCase()
                     )}`
@@ -130,7 +131,7 @@ const addSkill = async function(request, response) {
             logger.error(error, '');
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                     Constants.Controllers.TypeNames.SKILL.toLowerCase()
                 )}`
@@ -141,7 +142,7 @@ const addSkill = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -160,8 +161,8 @@ const updateSkillAllData = async function(request, response) {
         if (!existingSkill) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(
-                    Constants.Migrations.SKILL,
+                message: ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.SKILL,
                     request.params.guid,
                     Constants.Keys.id
                 )
@@ -190,7 +191,7 @@ const updateSkillAllData = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -208,7 +209,7 @@ const updateSkill = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`
@@ -222,8 +223,8 @@ const deleteSkill = async function(request, response) {
         if (!skill) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(
-                    Constants.Migrations.SKILL,
+                message: ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.SKILL,
                     request.params.guid,
                     Constants.Keys.id
                 )
@@ -237,7 +238,7 @@ const deleteSkill = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.SKILL.toLowerCase()
             )}`

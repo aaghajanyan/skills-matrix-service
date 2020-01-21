@@ -17,6 +17,7 @@ const { Constants } = require("../constants/Constants");
 const Invitation = require("../models/invitation");
 const User = require("../models/user");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const checkInvitationInDB = async function(request, response) {
     try {
@@ -98,7 +99,7 @@ const addInvitation = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.INVITATION.toLowerCase()
             )}`

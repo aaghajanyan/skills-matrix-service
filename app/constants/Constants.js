@@ -130,10 +130,6 @@ const Constants = {
     },
 
     Migrations: {
-        SKILL: 'Skill',
-        CATEGORY: 'Category',
-        CRITERIA: 'Criteria',
-
         RoleRelation: {
             id: 'id',
             role_id: 'role_id',
@@ -177,13 +173,13 @@ const Constants = {
     },
     Controllers: {
         ErrorMessages: {
-            COULD_NOT_GET: 'Could not get %s.',
-            COULD_NOT_FIND: 'Could not find %s.',
-            COULD_NOT_ADD: 'Could not add %s.',
-            COULD_NOT_UPDATE: 'Could not update %s.',
-            COULD_NOT_DELETE: 'Could not delete %s.',
-            DOES_NOT_EXSTS: '%s does not exists.',
-            ALREADY_EXISTS: '%s already exists.',
+            COULD_NOT_GET: 'Could not get %1.',
+            COULD_NOT_FIND: 'Could not find %1.',
+            COULD_NOT_ADD: 'Could not add %1.',
+            COULD_NOT_UPDATE: 'Could not update %1.',
+            COULD_NOT_DELETE: 'Could not delete %1.',
+            DOES_NOT_EXSTS: '%1 does not exists.',
+            ALREADY_EXISTS: '%1 already exists.',
         },
         TypeNames: {
             USER: 'User',
@@ -218,7 +214,7 @@ const Constants = {
         },
         ForgotPassword: {
             COULD_NOT_SEND_EMAIL: 'Could not send email.',
-            SENDED_MAIL_ADDRESS: 'Mail sended to %s email.',
+            SENDED_MAIL_ADDRESS: 'Mail sended to %1 email.',
             COULD_NOT_CHANGE_PASSWORD: 'Could not change password.'
         },
         CategoryRelation: {
@@ -226,13 +222,13 @@ const Constants = {
             CATEGORY_DOES_NOT_EXISTS: 'Category does not exists.',
         },
         RolesGroup: {
-            COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %s guid.',
+            COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %1 guid.',
         },
         UserSkills: {
-            ALREADY_EXISTS: 'Skill with %s already exists.',
+            ALREADY_EXISTS: 'Skill with %1 already exists.',
         },
         UserCategory: {
-            ALREADY_EXISTS: 'Category with %s already exists.',
+            ALREADY_EXISTS: 'Category with %1 already exists.',
         },
         Search: {
             COULD_NOT_SEARCH_DATA: 'Could not search data.',
@@ -255,23 +251,11 @@ const Constants = {
                 AND: '$and',
                 NE: '$ne',
             },
-            QUERY_PARAM_IS_INVALID: '<%s> query parameter is invalid.',
-            QUERY_PARAM_IS_MISSING: '<%s> query parameter is missing.',
+            QUERY_PARAM_IS_INVALID: '<%1> query parameter is invalid.',
+            QUERY_PARAM_IS_MISSING: '<%1> query parameter is missing.',
             QUERY_PARAM_NAME: 'search_query'
-
-
         },
     },
-    notExists: function(type, param, paramName) {
-        return `${type} with ${param} ${paramName} does not exists`;
-    },
-    couldNot: function(type, modelName) {
-        return `Could not ${type} ${modelName}`;
-    },
-    parse: function(str) {
-        let args = [].slice.call(arguments, 1);
-        return str.replace(/%s/g, () => args[0]);
-    }
 }
 
 module.exports = { Constants };

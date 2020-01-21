@@ -6,6 +6,7 @@ const {
 const { Constants } = require("../constants/Constants");
 const RoleGroup = require("../models/roles-groups");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getRoleGroup = async function(requesfind, response) {
     try {
@@ -17,7 +18,7 @@ const getRoleGroup = async function(requesfind, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.RolesGroup.COULD_NOT_GET_ROLE_GROUP_F,
                 request.params.guid
             )}`
@@ -35,7 +36,7 @@ const getRoleGroups = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.ROLE_GROUP.toLowerCase()
             )}`

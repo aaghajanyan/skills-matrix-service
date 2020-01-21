@@ -8,6 +8,7 @@ const {
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
 const Branch = require("../models/branch");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getBranches = async function(request, response) {
     try {
@@ -17,7 +18,7 @@ const getBranches = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.BRANCH.toLowerCase()
             )}`
@@ -33,7 +34,7 @@ const getBranch = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.BRANCH.toLowerCase()
             )}`
@@ -49,7 +50,7 @@ const addBranch = async function(request, response) {
         if (!isNewRecord) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${Constants.parse(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.BRANCH
                 )}`
@@ -62,7 +63,7 @@ const addBranch = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.BRANCH.toLowerCase()
             )}`
@@ -78,7 +79,7 @@ const updateBranch = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.BRANCH.toLowerCase()
             )}`
@@ -92,8 +93,8 @@ const deleteBranch = async function(request, response) {
         if (!branch) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(
-                    Constants.Migrations.Branch,
+                message: ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.BRANCH,
                     request.params.guid,
                     Constants.Keys.id
                 )
@@ -105,7 +106,7 @@ const deleteBranch = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.BRANCH.toLowerCase()
             )}`

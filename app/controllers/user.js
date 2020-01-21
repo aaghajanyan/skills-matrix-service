@@ -16,6 +16,7 @@ const User = require("../models/user");
 const Invitation = require("../models/invitation");
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getUsers = async function(_, response) {
     try {
@@ -27,7 +28,7 @@ const getUsers = async function(_, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`
@@ -45,7 +46,7 @@ const getUser = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`
@@ -63,7 +64,7 @@ const updateUser = async function(request, response) {
             success: false,
             message: `${getStatusText(
                 INTERNAL_SERVER_ERROR
-            )}. ${Constants.parse(
+            )}. ${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`
@@ -79,7 +80,7 @@ const signUp = async function(request, response) {
         if (!invitation) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}. ${Constants.parse(
+                message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.INVITATION
                 )}`

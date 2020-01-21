@@ -9,6 +9,7 @@ const {
 const { Constants } = require("../constants/Constants");
 const logger = require("../helper/logger");
 const Criteria = require("../models/criteria");
+const ErrorMessageParser = require("../errors/ErrorMessageParser");
 
 const getCriteries = async function(_, response) {
     try {
@@ -18,7 +19,7 @@ const getCriteries = async function(_, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
             )}`
@@ -34,7 +35,7 @@ const getCriteria = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
             )}`
@@ -52,7 +53,7 @@ const addCriteria = async function(request, response) {
         if (!isNewRecord) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${Constants.parse(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.CRITERIA
                 )}`
@@ -65,7 +66,7 @@ const addCriteria = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
             )}`
@@ -81,7 +82,7 @@ const updateCriteria = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
             )}`
@@ -95,8 +96,8 @@ const deleteCriteria = async function(request, response) {
         if (!criteria) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: Constants.notExists(
-                    Constants.Migrations.Criteria,
+                message: ErrorMessageParser.elementDoesNotExist(
+                    Constants.Controllers.TypeNames.CRITERIA,
                     request.params.guid,
                     Constants.Keys.id
                 )
@@ -108,7 +109,7 @@ const deleteCriteria = async function(request, response) {
         logger.error(error, '');
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${Constants.parse(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
             )}`

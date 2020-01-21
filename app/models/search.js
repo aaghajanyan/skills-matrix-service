@@ -52,12 +52,16 @@ class SearchUser {
 
                 for (let [index, key] of keys.entries()) {
                     if (data.childrens[key].type == Constants.Keys.rule) {
+                        // if (!data.childrens[key].properties.type) {
+                        //     console.log("\n\n CONTINUE \n\n");
+                        //     continue;
+                        // }
                         this.validateSchema(validateRuleBodySchema, data.childrens[key]);
                         currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data.childrens[key]));
                         if (index < keys.length-1) {
                             currSqlStr = currSqlStr.concat(` ${groupCondition} `);
                         }
-                    } else if (data.childrens[key].type === Constants.Keys.group){
+                    } else if (data.childrens[key].type === Constants.Keys.group) {
                         this.validateSchema(validateGroupBodySchema, data.childrens[key]);
                         currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], false).currSqlStr;
                         currSqlStr = currSqlStr.concat(')');
@@ -113,11 +117,11 @@ class SearchUser {
 
     convertSkillCategoryRuleToQuery(properties, isSkillRule) {
         let sqlStr = isSkillRule ? ` ${Constants.Keys.skill_experience_proficiency} ~ \'.*\\[` :
-            ` ${Constants.Keys.category_experience_proficiency} ~ .*\\[`;
+            ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
         const experience = properties.experience ? properties.experience : 0;
         const proficiency = properties.proficiency ? properties.proficiency : 0;
-        properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
-            Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
+        // properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
+        //     Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
 
         sqlStr = sqlStr.concat(`${properties.name},`)
                         .concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`)
