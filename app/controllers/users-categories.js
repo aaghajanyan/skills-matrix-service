@@ -3,8 +3,7 @@ const {
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    CREATED,
-    getStatusText,
+    CREATED
 } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const User = require('../models/user');
@@ -21,9 +20,7 @@ const getUsersCategories = async function(_, response) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -41,9 +38,7 @@ const getUserCategories = async function(request, response) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -66,9 +61,7 @@ const addUserCategory1 = async function(request, response) {
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(
-                        INTERNAL_SERVER_ERROR
-                    )}. ${ErrorMessageParser.stringFormatter(
+                    message: `${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                         Constants.Controllers.TypeNames.CATEGORY
                     )}`,
@@ -77,9 +70,7 @@ const addUserCategory1 = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    INTERNAL_SERVER_ERROR
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -89,9 +80,7 @@ const addUserCategory1 = async function(request, response) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -147,9 +136,7 @@ const addUserCategory = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -159,9 +146,7 @@ const addUserCategory = async function(request, response) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -204,9 +189,7 @@ const updateUserCategory = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -216,9 +199,7 @@ const updateUserCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -242,9 +223,7 @@ const deleteUserCategory = async function(request, response) {
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(
-                        CONFLICT
-                    )}. ${ErrorMessageParser.stringFormatter(
+                    message: `${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                         Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
                     )}. ${ErrorMessageParser.stringFormatter(
@@ -256,9 +235,7 @@ const deleteUserCategory = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                     Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
                 )} ${ErrorMessageParser.stringFormatter(
@@ -271,9 +248,7 @@ const deleteUserCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
@@ -289,9 +264,7 @@ const deleteUserCategoryById = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,

@@ -3,8 +3,7 @@ const {
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    CREATED,
-    getStatusText,
+    CREATED
 } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const User = require('../models/user');
@@ -21,9 +20,7 @@ const getUsersSkills = async function(_, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,
@@ -41,9 +38,7 @@ const getUserSkills = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,
@@ -96,9 +91,7 @@ const addUserSkill = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -108,9 +101,7 @@ const addUserSkill = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,
@@ -154,9 +145,7 @@ const updateUserSkill = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -166,9 +155,7 @@ const updateUserSkill = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,
@@ -190,9 +177,7 @@ const deleteUserSkill = async function(request, response) {
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(
-                        CONFLICT
-                    )}. ${ErrorMessageParser.stringFormatter(
+                    message: `${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                         Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
                     )} ${ErrorMessageParser.stringFormatter(
@@ -204,9 +189,7 @@ const deleteUserSkill = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                     Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
                 )} ${ErrorMessageParser.stringFormatter(
@@ -219,9 +202,7 @@ const deleteUserSkill = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,
@@ -237,9 +218,7 @@ const deleteUserSkillById = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
             )}`,

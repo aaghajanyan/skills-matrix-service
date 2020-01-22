@@ -3,8 +3,7 @@ const {
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    CREATED,
-    getStatusText,
+    CREATED
 } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');

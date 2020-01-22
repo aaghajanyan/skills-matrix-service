@@ -10,8 +10,7 @@ const {
     CREATED,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
-    CONFLICT,
-    getStatusText,
+    CONFLICT
 } = require('http-status-codes');
 const User = require('../models/user');
 const Invitation = require('../models/invitation');
@@ -27,9 +26,7 @@ const getUsers = async function(_, response) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`,
@@ -45,9 +42,7 @@ const getUser = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`,
@@ -63,9 +58,7 @@ const updateUser = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.USER.toLowerCase()
             )}`,
@@ -81,9 +74,7 @@ const signUp = async function(request, response) {
         if (!invitation) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.INVITATION
                 )}`,
@@ -100,9 +91,7 @@ const signUp = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${
-                Constants.Controllers.Users.COULD_NOT_REGISTER_USER
-            } ${getStatusText(INTERNAL_SERVER_ERROR)}`,
+            message: `${Constants.Controllers.Users.COULD_NOT_REGISTER_USER}`,
         });
     }
 };
@@ -148,9 +137,7 @@ const login = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${
-                Constants.Controllers.Users.COULD_NOT_LOGIN
-            } ${getStatusText(INTERNAL_SERVER_ERROR)}`,
+            message: `${Constants.Controllers.Users.COULD_NOT_LOGIN}`,
         });
     }
 };

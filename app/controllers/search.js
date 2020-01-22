@@ -1,8 +1,6 @@
 const {
     OK,
-    INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
-    getStatusText,
+    INTERNAL_SERVER_ERROR
 } = require('http-status-codes');
 const User = require('../models/user');
 const { Constants } = require('../constants/Constants');

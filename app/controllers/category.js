@@ -2,8 +2,7 @@ const {
     OK,
     INTERNAL_SERVER_ERROR,
     CONFLICT,
-    ACCEPTED,
-    getStatusText,
+    ACCEPTED
 } = require('http-status-codes');
 const {
     category: categoryModel,
@@ -24,9 +23,7 @@ const getCategories = async function(_, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -42,9 +39,7 @@ const getCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -60,9 +55,7 @@ const updateCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -78,9 +71,7 @@ const deleteCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -177,9 +168,7 @@ const getCategoriesAllData = async function(_, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -248,9 +237,7 @@ const getCategoryAllData = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -269,22 +256,17 @@ const addCategory = async function(request, response) {
         const { category, isNewRecord } = await Category.findOrCreate({
             name: categoryData.name,
         });
+
         if (!isNewRecord) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                     Constants.Controllers.TypeNames.CATEGORY
                 )}`,
             });
         }
-        await Category.addRelatedCategories(
-            relatedCategoriesIds,
-            category,
-            sendedList
-        );
+        await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
         await Category.addSkills(skillsIds, category, sendedList);
         return response.status(201).json({
             [Constants.Keys.name]: category.name,
@@ -296,9 +278,7 @@ const addCategory = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
             )}`,
@@ -323,9 +303,7 @@ const updateCategoryAllData = async function(request, response) {
         if (!existingCategory) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.elementDoesNotExist(
+                message: `${ErrorMessageParser.elementDoesNotExist(
                     Constants.Controllers.TypeNames.CATEGORY,
                     request.params.guid,
                     Constants.Keys.id
@@ -333,22 +311,10 @@ const updateCategoryAllData = async function(request, response) {
             });
         }
         await Category.update(categoryData, { guid: request.params.guid });
-        await Category.addRelatedCategories(
-            addedCategories,
-            existingCategory,
-            sendedList
-        );
-        await Category.removeRelatedCategories(
-            removedCategories,
-            existingCategory,
-            sendedList
-        );
+        await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
+        await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList);
         await Category.addSkills(addedskills, existingCategory, sendedList);
-        await Category.removeSkills(
-            removedSkills,
-            existingCategory,
-            sendedList
-        );
+        await Category.removeSkills(removedSkills, existingCategory, sendedList);
         return response.status(201).json({
             [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
             [Constants.Keys.removedRelatedCategories]:
@@ -360,9 +326,7 @@ const updateCategoryAllData = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
                 Constants.Controllers.TypeNames.CATEGORY
             )}`,

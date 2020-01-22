@@ -4,7 +4,6 @@ const {
     ACCEPTED,
     CONFLICT,
     CREATED,
-    getStatusText,
 } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const Category = require('../models/category');
@@ -18,9 +17,7 @@ const getCategoriesRelations = async function(_, response) {
         if (categoriesRelations && !categoriesRelations.length) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.REL_CATEGORY
                 )}`,
@@ -31,9 +28,7 @@ const getCategoriesRelations = async function(_, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_GET,
                 Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
@@ -49,11 +44,10 @@ const getCategoryRelation = async function(request, response) {
         if (!categoryRelation) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}.
-                    ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.REL_CATEGORY
-                    )}`,
+                message: `${ErrorMessageParser.stringFormatter(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.REL_CATEGORY
+                )}`,
             });
         }
         return response.status(OK).json(categoryRelation);
@@ -61,11 +55,10 @@ const getCategoryRelation = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-                ${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                    Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                )}`,
+            message: `${ErrorMessageParser.stringFormatter(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+            )}`,
         });
     }
 };
@@ -87,8 +80,7 @@ const addCategoryRelation = async function(request, response) {
             } else {
                 return response.status(CONFLICT).json({
                     success: false,
-                    message: `${getStatusText(CONFLICT)}.
-                    ${ErrorMessageParser.stringFormatter(
+                    message: `${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                         Constants.Controllers.TypeNames.REL_CATEGORY
                     )}`,
@@ -97,22 +89,20 @@ const addCategoryRelation = async function(request, response) {
         } else {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(CONFLICT)}.
-                    ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.REL_CATEGORY
-                    )}`,
+                message: `${ErrorMessageParser.stringFormatter(
+                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.Controllers.TypeNames.REL_CATEGORY
+                )}`,
             });
         }
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-                    ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                    )}`,
+            message: `${ErrorMessageParser.stringFormatter(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+            )}`,
         });
     }
 };
@@ -127,11 +117,10 @@ const updateCategoryRelation = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-                ${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                    Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                )}`,
+            message: `${ErrorMessageParser.stringFormatter(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+            )}`,
         });
     }
 };
@@ -146,11 +135,10 @@ const deleteCategoryRelation = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-                    ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                        Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-                    )}`,
+            message: `${ErrorMessageParser.stringFormatter(
+                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
+                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+            )}`,
         });
     }
 };

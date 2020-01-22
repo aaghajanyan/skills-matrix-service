@@ -67,10 +67,7 @@ const addInvitation = async function(request, response) {
                     currInvitation.destroy();
                     return response.status(INTERNAL_SERVER_ERROR).json({
                         success: false,
-                        message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
-                            Constants.Controllers.Invitation
-                                .COULD_NOT_SEND_EMAIL
-                        }`,
+                        message: `${Constants.Controllers.Invitation.COULD_NOT_SEND_EMAIL}`,
                     });
                 }
                 return response.status(OK).json({
@@ -98,9 +95,7 @@ const addInvitation = async function(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
-            message: `${getStatusText(
-                INTERNAL_SERVER_ERROR
-            )}. ${ErrorMessageParser.stringFormatter(
+            message: `${ErrorMessageParser.stringFormatter(
                 Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
                 Constants.Controllers.TypeNames.INVITATION.toLowerCase()
             )}`,

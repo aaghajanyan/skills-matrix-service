@@ -64,7 +64,6 @@ const Constants = {
     ModelErrors: {
         USERNAME_OR_PASSWORD_IS_INCORRECT: 'Username or password is incorrect.',
         CATEGORY_ID_IS_MISSING: 'Category id is missing.',
-        CATEGORY_ID_IS_MISSING: 'Category id is missing.',
         RELATED_CATEGORY_ID_IS_MISSING: 'Related category id is missing.',
         NAME_IS_MISSING: 'Name is missing.',
         BRANCH_IS_MISSING: 'Branch is missing.',

@@ -25,9 +25,7 @@ const checkForgotPasswordUser = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -52,9 +50,7 @@ const forgotPassword = async function(request, response) {
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
-                message: `${getStatusText(
-                    CONFLICT
-                )}. ${ErrorMessageParser.stringFormatter(
+                message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
                     Constants.Controllers.TypeNames.USER
                 )}`,
@@ -76,9 +72,7 @@ const forgotPassword = async function(request, response) {
             logger.error(error);
             return response.status(INTERNAL_SERVER_ERROR).json({
                 success: false,
-                message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
-                    Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL
-                }`,
+                message: `${Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL}`,
             });
         }
         return response.status(OK).json({
@@ -108,9 +102,7 @@ async function changePassword(request, response) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
-                Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD
-            }`,
+            message: `${Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD}`,
         });
     }
 }
