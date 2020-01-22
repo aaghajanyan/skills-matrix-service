@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { BAD_REQUEST } = require('http-status-codes');
 
 const addBodySchema = Joi.object().keys({
     name: Joi.string().required(),
@@ -36,7 +37,7 @@ const validateUpdateBody = (request, response, next) => {
 const validateBody = (request, response, next, schema) => {
     const result = Joi.validate(request.body, schema);
     if (result.error) {
-        return response.status(400).json(result.error.details);
+        return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();
 };

@@ -4,7 +4,8 @@ const jwtDecode = require('jwt-decode');
 const User = require('../models/user');
 const logger = require('../helper/logger');
 const { Constants } = require('../constants/Constants');
- 
+const { FORBIDDEN, UNAUTHORIZED } = require('http-status-codes');
+
 const verifyPermissions = async (request, response, next) => {
     try {
         const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
@@ -17,7 +18,7 @@ const verifyPermissions = async (request, response, next) => {
             return user;
         });
         if (currUser.roleGroup.name !== Constants.Roles.SUPER_USER) {
-            return response.status(403).send({
+            return response.status(FORBIDDEN).send({
                 success: false,
                 message: Constants.Permissions.ACCESS_DENIED,
             });
@@ -26,7 +27,7 @@ const verifyPermissions = async (request, response, next) => {
         next();
     } catch (error) {
         logger.error(error);
-        return response.status(401).send({
+        return response.status(UNAUTHORIZED).send({
             success: false,
             message: Constants.Permissions.UNAUTHORIZED,
         });
