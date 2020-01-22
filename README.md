@@ -33,7 +33,7 @@ Develop a web portal for registering employees, their skills (current and wanted
 
 Create DB in PostgreSql shell - create db skills_matrix
 
-Change configs in config/env-settings.json config file.
+Change configs in config/env-settings.json config file(username / password /port etc...).
 
 Install the node modules - npm ci
 
@@ -52,31 +52,71 @@ curl -w "\n" -X GET 'http://localhost:3002/users'
 ```
 ├── app
 │   ├── constants
-│   │   ├── en.messages.js
-│   │   └── Messages.js
+│   │   └── Constants.js
 │   ├── controllers
+│   │   ├── branch.js
 │   │   ├── category.js
 │   │   ├── category-relation.js
+│   │   ├── criteria.js
+│   │   ├── forgot-password.js
 │   │   ├── invitation.js
+│   │   ├── position.js
 │   │   ├── roles-groups.js
+│   │   ├── search.js
 │   │   ├── skill.js
 │   │   ├── skill-relation.js
-│   │   └── user.js
+│   │   ├── user.js
+│   │   ├── users-categories.js
+│   │   └── users-skills.js
 │   ├── email
-│   │   └── email.js
+│   │   ├── email.js
+│   │   └── templates
+│   │       ├── invite.html
+│   │       ├── invite.subject.txt
+│   │       ├── invite.txt
+│   │       ├── resetPassword.html
+│   │       ├── resetPassword.subject.txt
+│   │       └── resetPassword.txt
+│   ├── errors
+│   │   ├── BadRequest.js
+│   │   ├── Conflict.js
+│   │   ├── Error.js
+│   │   ├── ErrorMessageParser.js
+│   │   ├── InternalServerError.js
+│   │   └── NotFound.js
+│   ├── helper
+│   │   ├── logger.js
+│   │   └── recursiveReplace.js
 │   ├── models
+│   │   ├── branch.js
 │   │   ├── category.js
+│   │   ├── category-relation.js
+│   │   ├── criteria.js
+│   │   ├── invitation.js
+│   │   ├── position.js
+│   │   ├── roles-groups.js
+│   │   ├── search.js
 │   │   ├── skill.js
-│   │   └── user.js
+│   │   ├── skill-relation.js
+│   │   ├── user.js
+│   │   ├── users-categories.js
+│   │   └── users-skills.js
 │   ├── routes
+│   │   ├── branch.js
 │   │   ├── categories.js
 │   │   ├── categories-relations.js
+│   │   ├── criteria.js
+│   │   ├── forgot-password.js
 │   │   ├── index.js
 │   │   ├── invitations.js
+│   │   ├── position.js
 │   │   ├── roles-groups.js
+│   │   ├── search.js
 │   │   ├── skills.js
 │   │   ├── skills-relations.js
-│   │   └── users.js
+│   │   ├── users-categories.js
+│   │   ├── users.js
+│   │   └── users-skills.js
 │   ├── sequelize
 │   │   ├── config
 │   │   │   └── config.js
@@ -85,38 +125,58 @@ curl -w "\n" -X GET 'http://localhost:3002/users'
 │   │   │   ├── 02_role.js
 │   │   │   ├── 03_role-group.js
 │   │   │   ├── 04_role-relation.js
-│   │   │   ├── 05_user.js
-│   │   │   ├── 06_skill.js
-│   │   │   ├── 07_category.js
-│   │   │   ├── 08_category-relation.js
-│   │   │   ├── 09_skill-relation.js
-│   │   │   ├── 10_user-skill.js
-│   │   │   └── 11_history.js
+│   │   │   ├── 05_branch.js
+│   │   │   ├── 06_position.js
+│   │   │   ├── 07_user.js
+│   │   │   ├── 08_skill.js
+│   │   │   ├── 09_category.js
+│   │   │   ├── 10_category-relation.js
+│   │   │   ├── 11_skill-relation.js
+│   │   │   ├── 12_user-skill.js
+│   │   │   ├── 13_history.js
+│   │   │   ├── 14_users_categories.js
+│   │   │   └── 15_criteria.js
 │   │   ├── models
+│   │   │   ├── branch.js
 │   │   │   ├── category.js
 │   │   │   ├── category-relation.js
+│   │   │   ├── criteria.js
 │   │   │   ├── index.js
 │   │   │   ├── invitation.js
+│   │   │   ├── position.js
 │   │   │   ├── role-group.js
 │   │   │   ├── role.js
 │   │   │   ├── roles-relation.js
 │   │   │   ├── skill.js
 │   │   │   ├── skill-relation.js
-│   │   │   └── user.js
+│   │   │   ├── user.js
+│   │   │   ├── users_categories.js
+│   │   │   └── user-skill.js
 │   │   └── utils
-│   │       └── Roles.js
+│   │       ├── DefaultBranches.js
+│   │       ├── DefaultCriteries.js
+│   │       ├── DefaultPosition.js
+│   │       ├── DefaultRoles.js
+│   │       └── DefaultUsers.js
 │   └── validation
+│       ├── branch.js
 │       ├── categories.js
 │       ├── categories-relations.js
+│       ├── criteria.js
+│       ├── forgot-password.js
 │       ├── invitations.js
+│       ├── permissions.js
+│       ├── position.js
+│       ├── search.js
 │       ├── skills.js
 │       ├── skills-relations.js
 │       ├── token.js
-│       └── users.js
+│       ├── users-categories.js
+│       ├── users.js
+│       └── users-skills.js
 ├── config
-│   ├── env-settings.json
-│   ├── nodeMailer.json
-│   └── secretKey.json
+│   └── env-settings.json
+├── LICENSE
 ├── package.json
 ├── package-lock.json
 ├── README.md
