@@ -14,15 +14,6 @@ const ErrorMessageParser = require('../errors/ErrorMessageParser');
 const getCategoriesRelations = async function(_, response) {
     try {
         const categoriesRelations = await CategoryRelation.findAll();
-        if (categoriesRelations && !categoriesRelations.length) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.REL_CATEGORY
-                )}`,
-            });
-        }
         return response.status(OK).json(categoriesRelations);
     } catch (error) {
         logger.error(error);
@@ -41,15 +32,6 @@ const getCategoryRelation = async function(request, response) {
         const categoryRelation = await CategoryRelation.find({
             guid: request.params.categoryRelationId,
         });
-        if (!categoryRelation) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.REL_CATEGORY
-                )}`,
-            });
-        }
         return response.status(OK).json(categoryRelation);
     } catch (error) {
         logger.error(error);

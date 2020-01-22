@@ -34,7 +34,7 @@ const getCategories = async function(_, response) {
 const getCategory = async function(request, response) {
     try {
         const category = await Category.find({ guid: request.params.guid });
-        response.status(200).json(category);
+        response.status(OK).json(category);
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
@@ -50,7 +50,7 @@ const getCategory = async function(request, response) {
 const updateCategory = async function(request, response) {
     try {
         await Category.update(request.body, { guid: request.params.guid });
-        response.status(202).json({ success: true });
+        response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({

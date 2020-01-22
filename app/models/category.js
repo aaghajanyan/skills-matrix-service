@@ -38,42 +38,32 @@ class Category {
         await categoryModel.destroy({ where: { ...condition } });
     }
 
-    static async addRelatedCategories(
-        relatedCategoriesIds,
-        category,
-        sendedList
-    ) {
-        try {
-            sendedList.addedCategories = [];
-            if (relatedCategoriesIds && relatedCategoriesIds.length) {
-                const promise = relatedCategoriesIds.map(async function(
-                    categoryGuid
-                ) {
-                    const relatedCategory = await categoryModel.findOne({
-                        where: { guid: categoryGuid },
+    static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
+        sendedList.addedCategories = [];
+        if (relatedCategoriesIds && relatedCategoriesIds.length) {
+            const promise = relatedCategoriesIds.map(async (categoryGuid) => {
+                const relatedCategory = await categoryModel.findOne({
+                    where: { guid: categoryGuid },
+                });
+                const obj = {
+                    categoryGuid: category.guid,
+                    relatedCategoryGuid: categoryGuid,
+                    success: false,
+                };
+                if (relatedCategory) {
+                    await categoryRelationModel.findOrCreate({
+                        where: {
+                            category_id: category.id,
+                            related_category_id: relatedCategory.id,
+                        },
                     });
-                    const obj = {
-                        categoryGuid: category.guid,
-                        relatedCategoryGuid: categoryGuid,
-                        success: false,
-                    };
-                    if (relatedCategory) {
-                        await categoryRelationModel.findOrCreate({
-                            where: {
-                                category_id: category.id,
-                                related_category_id: relatedCategory.id,
-                            },
-                        });
-                        obj.success = true;
-                    }
-                    return obj;
-                });
-                await Promise.all(promise).then(list => {
-                    sendedList.addedCategories.push(list);
-                });
-            }
-        } catch (error) {
-            console.log(error); //TBD
+                    obj.success = true;
+                }
+                return obj;
+            });
+            await Promise.all(promise).then(list => {
+                sendedList.addedCategories.push(list);
+            });
         }
     }
 
@@ -87,14 +77,10 @@ class Category {
         return categories;
     }
 
-    static async removeRelatedCategories(
-        removedCategories,
-        category,
-        sendedList
-    ) {
+    static async removeRelatedCategories(removedCategories, category, sendedList) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
-            const promise = removedCategories.map(async function(categoryGuid) {
+            const promise = removedCategories.map(async (categoryGuid) => {
                 const relatedCategory = await categoryModel.findOne({
                     where: { guid: categoryGuid },
                 });
@@ -111,7 +97,7 @@ class Category {
                 });
 
                 if (categoryRelation) {
-                    obj.status = true;
+                    obj.success = true;
                     await categoryRelation.destroy();
                 }
                 return obj;
@@ -125,7 +111,7 @@ class Category {
     static async addSkills(skillsIds, category, sendedList) {
         sendedList.addedSkills = [];
         if (skillsIds && skillsIds.length) {
-            const promise = skillsIds.map(async function(skillGuid) {
+            const promise = skillsIds.map(async (skillGuid) => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
@@ -156,7 +142,7 @@ class Category {
     static async removeSkills(removedSkills, category, sendedList) {
         sendedList.removedSkills = [];
         if (removedSkills && removedSkills.length) {
-            const promise = removedSkills.map(async function(skillGuid) {
+            const promise = removedSkills.map(async (skillGuid) => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
@@ -170,7 +156,7 @@ class Category {
                 });
 
                 if (skillRelation) {
-                    obj.status = true;
+                    obj.success = true;
                     skillRelation.destroy();
                 }
                 return obj;
