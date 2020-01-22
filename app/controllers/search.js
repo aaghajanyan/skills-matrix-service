@@ -83,9 +83,7 @@ const searchUsers = async function(request, response, next) {
         const usersIds = usersData[0].map(userData => {
             return userData.id;
         });
-        const whereCondition = {
-            id: usersIds,
-        };
+        const whereCondition = { id: usersIds };
         const foundUsers = await User.getUsers(whereCondition);
         return response.status(OK).json({
             success: true,

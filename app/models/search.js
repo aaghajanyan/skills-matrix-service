@@ -73,22 +73,11 @@ class SearchUser {
                         if (!data.childrens[key].properties.type) {
                             continue;
                         }
-                        this.validateSchema(validateRuleBodySchema, data.childrens[key]);
-                        currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data.childrens[key]));
-                        if (index < keys.length - 1) {
-                            currSqlStr = currSqlStr.concat(` ${groupCondition} `);
-                        }
+                        currSqlStr = this.validateAndParseRuleObj(index, keys.length, data.childrens[key], currSqlStr, groupCondition);
                     } else if (data.childrens[key].type === Constants.Keys.group) {
-                        this.validateSchema(validateGroupBodySchema, data.childrens[key]);
-                        currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], false).currSqlStr;
-                        currSqlStr = currSqlStr.concat(')');
-                        currSqlStr = groupLength > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
+                        currSqlStr = this.validateAndParseGroupObj(data.childrens[key], currSqlStr, groupLength, groupCondition);
                     } else {
-                        this.error.isError = true;
-                        this.error.message.push({
-                            errorMsg: `type is required`,
-                            object: data.childrens[key],
-                        });
+                        this.collectCurrentStepError(data.childrens[key]);
                     }
                 }
             }
@@ -96,6 +85,23 @@ class SearchUser {
         } catch (error) {
             console.log(error); // TBD
         }
+    }
+
+    validateAndParseGroupObj(data, currSqlStr, groupLength, groupCondition) {
+        this.validateSchema(validateGroupBodySchema, data);
+        currSqlStr = currSqlStr + this.parseJsonToSql(data, false).currSqlStr;
+        currSqlStr = currSqlStr.concat(')');
+        currSqlStr = groupLength > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
+        return currSqlStr;
+    }
+
+    validateAndParseRuleObj(index, parentObjKeysLength, data, currSqlStr, groupCondition) {
+        this.validateSchema(validateRuleBodySchema, data);
+        currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data));
+        if (index < parentObjKeysLength - 1) {
+            currSqlStr = currSqlStr.concat(` ${groupCondition} `);
+        }
+        return currSqlStr;
     }
 
     convertRuleToQuery(rule) {
@@ -143,8 +149,8 @@ class SearchUser {
         let sqlStr = isSkillRule
             ? ` ${Constants.Keys.skill_experience_proficiency} ~ \'.*\\[`
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
-        const experience = properties.experience ? properties.experience : 0;
-        const proficiency = properties.proficiency ? properties.proficiency : 0;
+        const experience = properties.experience ? properties.experience : 1;
+        const proficiency = properties.proficiency ? properties.proficiency : 1;
         properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
             Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
 
@@ -166,6 +172,14 @@ class SearchUser {
             : ` ${Constants.Keys.position_name}${opCondition}`;
         sqlStr = sqlStr.concat(`'${properties.name}'`);
         return sqlStr;
+    }
+
+    collectCurrentStepError(data) {
+        this.error.isError = true;
+        this.error.message.push({
+            errorMsg: `type is required`,
+            object: data,
+        });
     }
 }
 
