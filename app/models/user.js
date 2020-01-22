@@ -17,7 +17,7 @@ const Position = require('./position');
 const Branch = require('./branch');
 
 class User {
-    static async findOneUser(condition) {
+    static async findOne(condition) {
         return await userModel.findOne({ where: { ...condition } });
     }
 

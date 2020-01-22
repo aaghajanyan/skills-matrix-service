@@ -45,7 +45,7 @@ const addInvitation = async function(request, response) {
     try {
         const invitation = await Invitation.find({ email: request.body.email });
         if (!invitation) {
-            const user = await User.findOneUser({ email: request.body.email });
+            const user = await User.findOne({ email: request.body.email });
             if (!user) {
                 const currInvitation = await Invitation.create(request.body);
                 const token = jwt.sign(

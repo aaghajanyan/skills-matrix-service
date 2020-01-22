@@ -26,7 +26,7 @@ class DefaultRoles {
                 const existingRoleGroup = await models.roles_groups.findOne({
                     where: { name: group },
                 });
-                await rolesList.forEach(async function(role) {
+                await rolesList.forEach(async (role) => {
                     try {
                         const existingRole = await models.roles.findOne({
                             where: { name: role },

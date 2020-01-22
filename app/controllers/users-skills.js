@@ -53,7 +53,7 @@ const addUserSkill = async function(request, response) {
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const { skills } = request.body;
             for (skill of skills) {
@@ -116,7 +116,7 @@ const updateUserSkill = async function(request, response) {
             errors: [],
         };
         let status = CONFLICT;
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const { skills } = request.body;
             for (skill of skills) {
@@ -165,7 +165,7 @@ const updateUserSkill = async function(request, response) {
 
 const deleteUserSkill = async function(request, response) {
     try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {

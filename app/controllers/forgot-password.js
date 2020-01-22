@@ -21,7 +21,7 @@ const checkForgotPasswordUser = async function(request, response) {
     try {
         const token = request.params.token;
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
-        const user = await User.findOneUser({ guid: decodedToken.guid });
+        const user = await User.findOne({ guid: decodedToken.guid });
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,
@@ -46,7 +46,7 @@ const checkForgotPasswordUser = async function(request, response) {
 
 const forgotPassword = async function(request, response) {
     try {
-        const user = await User.findOneUser({ email: request.body.email });
+        const user = await User.findOne({ email: request.body.email });
         if (!user) {
             return response.status(CONFLICT).json({
                 success: false,

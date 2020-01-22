@@ -53,7 +53,7 @@ const addUserCategory = async function(request, response) {
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const { categories } = request.body;
             for (category of categories) {
@@ -118,7 +118,7 @@ const updateUserCategory = async function(request, response) {
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const { categories } = request.body;
             for (category of categories) {
@@ -167,7 +167,7 @@ const updateUserCategory = async function(request, response) {
 
 const deleteUserCategory = async function(request, response) {
     try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.body.userGuid });
         if (user) {
             const category = await Category.find({
                 guid: request.body.categoryGuid,

@@ -98,7 +98,7 @@ const signUp = async function(request, response) {
 
 const login = async function(request, response) {
     try {
-        const user = await User.findOneUser({ email: request.body.email });
+        const user = await User.findOne({ email: request.body.email });
         if (!user) {
             return response.status(BAD_REQUEST).json({
                 success: false,
