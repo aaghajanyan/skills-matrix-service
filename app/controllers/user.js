@@ -27,8 +27,8 @@ const getUsers = async function(_, response) {
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER.toLowerCase()
             )}`,
         });
     }
@@ -43,8 +43,8 @@ const getUser = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER.toLowerCase()
             )}`,
         });
     }
@@ -59,8 +59,8 @@ const updateUser = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.USER.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.USER.toLowerCase()
             )}`,
         });
     }
@@ -75,8 +75,8 @@ const signUp = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.INVITATION
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.INVITATION
                 )}`,
             });
         }

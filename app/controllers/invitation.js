@@ -96,8 +96,8 @@ const addInvitation = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.INVITATION.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.INVITATION.toLowerCase()
             )}`,
         });
     }

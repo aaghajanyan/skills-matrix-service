@@ -21,8 +21,8 @@ const getUsersSkills = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }
@@ -39,8 +39,8 @@ const getUserSkills = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }
@@ -80,7 +80,7 @@ const addUserSkill = async function(request, response) {
                     expectedResponse.errors.push({
                         success: false,
                         error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.Controllers.TypeNames.SKILL,
+                            Constants.TypeNames.SKILL,
                             skill.skillGuid,
                             Constants.Keys.guid
                         )}`,
@@ -92,8 +92,8 @@ const addUserSkill = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -102,8 +102,8 @@ const addUserSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }
@@ -133,7 +133,7 @@ const updateUserSkill = async function(request, response) {
                     expectedResponse.errors.push({
                         success: false,
                         error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.Controllers.TypeNames.SKILL,
+                            Constants.TypeNames.SKILL,
                             skill.skillGuid,
                             Constants.Keys.guid
                         )}`,
@@ -146,8 +146,8 @@ const updateUserSkill = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -156,8 +156,8 @@ const updateUserSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }
@@ -178,11 +178,11 @@ const deleteUserSkill = async function(request, response) {
                 return response.status(CONFLICT).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                        Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                        Constants.ErrorMessages.COULD_NOT_DELETE,
+                        Constants.TypeNames.USER_SKILL.toLowerCase()
                     )} ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.SKILL
+                        Constants.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.TypeNames.SKILL
                     )}`,
                 });
             }
@@ -190,11 +190,11 @@ const deleteUserSkill = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                    Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                    Constants.ErrorMessages.COULD_NOT_DELETE,
+                    Constants.TypeNames.USER_SKILL.toLowerCase()
                 )} ${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -203,8 +203,8 @@ const deleteUserSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }
@@ -219,8 +219,8 @@ const deleteUserSkillById = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.USER_SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.USER_SKILL.toLowerCase()
             )}`,
         });
     }

@@ -32,8 +32,8 @@ const getRoleGroups = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.ROLE_GROUP.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.ROLE_GROUP.toLowerCase()
             )}`,
         });
     }

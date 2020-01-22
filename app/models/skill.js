@@ -78,7 +78,7 @@ class Skill {
                 });
                 const message = {
                     message: `${ErrorMessageParser.elementDoesNotExist(
-                        Constants.Controllers.TypeNames.CATEGORY,
+                        Constants.TypeNames.CATEGORY,
                         categoryGuid,
                         Constants.Keys.id
                     )}`,

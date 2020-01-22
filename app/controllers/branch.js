@@ -19,8 +19,8 @@ const getBranches = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.BRANCH.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.BRANCH.toLowerCase()
             )}`,
         });
     }
@@ -35,8 +35,8 @@ const getBranch = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.BRANCH.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.BRANCH.toLowerCase()
             )}`,
         });
     }
@@ -51,8 +51,8 @@ const addBranch = async function(request, response) {
             return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
-                    Constants.Controllers.TypeNames.BRANCH
+                    Constants.ErrorMessages.ALREADY_EXISTS,
+                    Constants.TypeNames.BRANCH
                 )}`,
             });
         }
@@ -64,8 +64,8 @@ const addBranch = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.BRANCH.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.BRANCH.toLowerCase()
             )}`,
         });
     }
@@ -80,8 +80,8 @@ const updateBranch = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.BRANCH.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.BRANCH.toLowerCase()
             )}`,
         });
     }
@@ -96,8 +96,8 @@ const deleteBranch = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.BRANCH.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.BRANCH.toLowerCase()
             )}`,
         });
     }

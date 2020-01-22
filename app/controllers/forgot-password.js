@@ -26,8 +26,8 @@ const checkForgotPasswordUser = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -51,8 +51,8 @@ const forgotPassword = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }

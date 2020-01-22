@@ -21,8 +21,8 @@ const getUsersCategories = async function(_, response) {
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -39,8 +39,8 @@ const getUserCategories = async function(request, response) {
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -83,7 +83,7 @@ const addUserCategory = async function(request, response) {
                     expectedResponse.errors.push({
                         success: false,
                         error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.Controllers.TypeNames.CATEGORY,
+                            Constants.TypeNames.CATEGORY,
                             category.categoryGuid,
                             Constants.Keys.guid
                         )}`,
@@ -95,8 +95,8 @@ const addUserCategory = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -105,8 +105,8 @@ const addUserCategory = async function(request, response) {
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -135,7 +135,7 @@ const updateUserCategory = async function(request, response) {
                     expectedResponse.errors.push({
                         success: false,
                         error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.Controllers.TypeNames.CATEGORY,
+                            Constants.TypeNames.CATEGORY,
                             category.categoryGuid,
                             Constants.Keys.guid
                         )}`,
@@ -148,8 +148,8 @@ const updateUserCategory = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -158,8 +158,8 @@ const updateUserCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -182,11 +182,11 @@ const deleteUserCategory = async function(request, response) {
                 return response.status(CONFLICT).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                        Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                        Constants.ErrorMessages.COULD_NOT_DELETE,
+                        Constants.TypeNames.USER_CATEGORY.toLowerCase()
                     )}. ${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.SKILL
+                        Constants.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.TypeNames.SKILL
                     )}`,
                 });
             }
@@ -194,11 +194,11 @@ const deleteUserCategory = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                    Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                    Constants.ErrorMessages.COULD_NOT_DELETE,
+                    Constants.TypeNames.USER_CATEGORY.toLowerCase()
                 )} ${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.USER
                 )}`,
             });
         }
@@ -207,8 +207,8 @@ const deleteUserCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -223,8 +223,8 @@ const deleteUserCategoryById = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.USER_CATEGORY.toLowerCase()
             )}`,
         });
     }

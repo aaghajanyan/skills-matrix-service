@@ -96,8 +96,8 @@ const searchUsers = async function(request, response, next) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_FIND,
-                Constants.Controllers.TypeNames.USER.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_FIND,
+                Constants.TypeNames.USER.toLowerCase()
             )}`,
         });
     }

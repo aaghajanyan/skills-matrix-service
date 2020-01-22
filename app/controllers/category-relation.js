@@ -20,8 +20,8 @@ const getCategoriesRelations = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -38,8 +38,8 @@ const getCategoryRelation = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -63,8 +63,8 @@ const addCategoryRelation = async function(request, response) {
                 return response.status(CONFLICT).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.REL_CATEGORY
+                        Constants.ErrorMessages.DOES_NOT_EXSTS,
+                        Constants.TypeNames.REL_CATEGORY
                     )}`,
                 });
             }
@@ -72,8 +72,8 @@ const addCategoryRelation = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.REL_CATEGORY
+                    Constants.ErrorMessages.DOES_NOT_EXSTS,
+                    Constants.TypeNames.REL_CATEGORY
                 )}`,
             });
         }
@@ -82,8 +82,8 @@ const addCategoryRelation = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -100,8 +100,8 @@ const updateCategoryRelation = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -118,8 +118,8 @@ const deleteCategoryRelation = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.REL_CATEGORY.toLowerCase()
             )}`,
         });
     }

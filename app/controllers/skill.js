@@ -19,8 +19,8 @@ const getSkills = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -35,8 +35,8 @@ const getSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -51,8 +51,8 @@ const getSkillAllData = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -67,8 +67,8 @@ const getSkillsAllData = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -85,8 +85,8 @@ const addSkill = async function(request, response) {
                 return response.status(OK).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
-                        Constants.Controllers.TypeNames.SKILL
+                        Constants.ErrorMessages.ALREADY_EXISTS,
+                        Constants.TypeNames.SKILL
                     )}`,
                 });
             }
@@ -103,8 +103,8 @@ const addSkill = async function(request, response) {
                 return response.status(CONFLICT).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                        Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                        Constants.ErrorMessages.COULD_NOT_ADD,
+                        Constants.TypeNames.SKILL.toLowerCase()
                     )}`,
                 });
             }
@@ -120,8 +120,8 @@ const addSkill = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                    Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                    Constants.ErrorMessages.COULD_NOT_ADD,
+                    Constants.TypeNames.SKILL.toLowerCase()
                 )}`,
             });
         }
@@ -129,8 +129,8 @@ const addSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -148,7 +148,7 @@ const updateSkillAllData = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.SKILL,
+                    Constants.TypeNames.SKILL,
                     request.params.guid,
                     Constants.Keys.id
                 ),
@@ -166,8 +166,8 @@ const updateSkillAllData = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -182,8 +182,8 @@ const updateSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }
@@ -198,8 +198,8 @@ const deleteSkill = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.SKILL.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.SKILL.toLowerCase()
             )}`,
         });
     }

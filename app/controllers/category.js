@@ -24,8 +24,8 @@ const getCategories = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -40,8 +40,8 @@ const getCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -56,8 +56,8 @@ const updateCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -72,8 +72,8 @@ const deleteCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -169,8 +169,8 @@ const getCategoriesAllData = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -238,8 +238,8 @@ const getCategoryAllData = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -261,8 +261,8 @@ const addCategory = async function(request, response) {
             return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
-                    Constants.Controllers.TypeNames.CATEGORY
+                    Constants.ErrorMessages.ALREADY_EXISTS,
+                    Constants.TypeNames.CATEGORY
                 )}`,
             });
         }
@@ -279,8 +279,8 @@ const addCategory = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.CATEGORY.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.CATEGORY.toLowerCase()
             )}`,
         });
     }
@@ -304,7 +304,7 @@ const updateCategoryAllData = async function(request, response) {
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.CATEGORY,
+                    Constants.TypeNames.CATEGORY,
                     request.params.guid,
                     Constants.Keys.id
                 )}`,
@@ -327,8 +327,8 @@ const updateCategoryAllData = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
-                Constants.Controllers.TypeNames.CATEGORY
+                Constants.ErrorMessages.ALREADY_EXISTS,
+                Constants.TypeNames.CATEGORY
             )}`,
         });
     }

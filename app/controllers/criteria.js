@@ -19,8 +19,8 @@ const getCriteries = async function(_, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CRITERIA.toLowerCase()
             )}`,
         });
     }
@@ -35,8 +35,8 @@ const getCriteria = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-                Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_GET,
+                Constants.TypeNames.CRITERIA.toLowerCase()
             )}`,
         });
     }
@@ -52,8 +52,8 @@ const addCriteria = async function(request, response) {
             return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
-                    Constants.Controllers.TypeNames.CRITERIA
+                    Constants.ErrorMessages.ALREADY_EXISTS,
+                    Constants.TypeNames.CRITERIA
                 )}`,
             });
         }
@@ -65,8 +65,8 @@ const addCriteria = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_ADD,
+                Constants.TypeNames.CRITERIA.toLowerCase()
             )}`,
         });
     }
@@ -81,8 +81,8 @@ const updateCriteria = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_UPDATE,
+                Constants.TypeNames.CRITERIA.toLowerCase()
             )}`,
         });
     }
@@ -97,8 +97,8 @@ const deleteCriteria = async function(request, response) {
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_DELETE,
-                Constants.Controllers.TypeNames.CRITERIA.toLowerCase()
+                Constants.ErrorMessages.COULD_NOT_DELETE,
+                Constants.TypeNames.CRITERIA.toLowerCase()
             )}`,
         });
     }
