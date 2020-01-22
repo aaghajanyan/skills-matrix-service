@@ -95,7 +95,7 @@ const searchUsers = async function(request, response, next) {
             result: foundUsers,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(

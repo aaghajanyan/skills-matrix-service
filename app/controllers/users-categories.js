@@ -18,7 +18,7 @@ const getUsersCategories = async function(_, response) {
         const usersCategories = await UserCategory.findAll();
         response.status(OK).json(usersCategories);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -38,7 +38,7 @@ const getUserCategories = async function(request, response) {
         });
         return response.status(OK).json(userCategories);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -86,7 +86,7 @@ const addUserCategory1 = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -156,7 +156,7 @@ const addUserCategory = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -213,7 +213,7 @@ const updateUserCategory = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -268,7 +268,7 @@ const deleteUserCategory = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -286,7 +286,7 @@ const deleteUserCategoryById = async function(request, response) {
         await UserCategory.delete({ id: request.params.userCategoryGuid });
         return response.status(ACCEPTED).end();
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

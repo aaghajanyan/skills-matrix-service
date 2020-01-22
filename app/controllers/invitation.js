@@ -33,7 +33,7 @@ const checkInvitationInDB = async function(request, response) {
         }
         return response.status(NO_CONTENT).send();
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(UNAUTHORIZED).json({
             success: false,
             message: getStatusText(UNAUTHORIZED),
@@ -63,7 +63,7 @@ const addInvitation = async function(request, response) {
                     const host = `${client.protocol}${client.host}:${client.port}${Constants.REGISTRATION_ENDPOINT}${token}`;
                     await mailer.invite(request.body.email, host, expiration);
                 } catch (error) {
-                    logger.error(error, '');
+                    logger.error(error);
                     currInvitation.destroy();
                     return response.status(INTERNAL_SERVER_ERROR).json({
                         success: false,
@@ -95,7 +95,7 @@ const addInvitation = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(

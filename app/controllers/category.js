@@ -21,7 +21,7 @@ const getCategories = async function(_, response) {
         const categories = await Category.findAll();
         return response.status(OK).json(categories);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -39,7 +39,7 @@ const getCategory = async function(request, response) {
         const category = await Category.find({ guid: request.params.guid });
         response.status(200).json(category);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -57,7 +57,7 @@ const updateCategory = async function(request, response) {
         await Category.update(request.body, { guid: request.params.guid });
         response.status(202).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -75,7 +75,7 @@ const deleteCategory = async function(request, response) {
         await Category.delete({ guid: request.params.guid });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -174,7 +174,7 @@ const getCategoriesAllData = async function(_, response) {
                 )
             );
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -245,7 +245,7 @@ const getCategoryAllData = async function(request, response) {
         });
         return response.status(OK).json(categories);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -293,7 +293,7 @@ const addCategory = async function(request, response) {
             [Constants.Keys.addedSkills]: sendedList.addedSkills,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -357,7 +357,7 @@ const updateCategoryAllData = async function(request, response) {
             [Constants.Keys.removedSkills]: sendedList.removedSkills,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

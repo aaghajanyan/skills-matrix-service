@@ -107,11 +107,11 @@ const sendEmail = (template, context) => {
                 }
             );
         } catch (error) {
-            logger.error(error, '');
+            logger.error(error);
             return reject(err);
         }
     }).catch(error => {
-        logger.error(error, '');
+        logger.error(error);
     });
 };
 

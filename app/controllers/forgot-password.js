@@ -38,7 +38,7 @@ const checkForgotPasswordUser = async function(request, response) {
             token: token,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(UNAUTHORIZED).json({
             success: false,
             message: getStatusText(UNAUTHORIZED),
@@ -73,7 +73,7 @@ const forgotPassword = async function(request, response) {
             const host = `${client.protocol}${client.host}:${client.port}${Constants.FORGOT_PASSWORD_ENDPOINT}${token}`;
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch (error) {
-            logger.error(error, '');
+            logger.error(error);
             return response.status(INTERNAL_SERVER_ERROR).json({
                 success: false,
                 message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${
@@ -90,7 +90,7 @@ const forgotPassword = async function(request, response) {
             token: token,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: getStatusText(INTERNAL_SERVER_ERROR),
@@ -105,7 +105,7 @@ async function changePassword(request, response) {
         await User.update(decodedToken.guid, request.body);
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}. ${

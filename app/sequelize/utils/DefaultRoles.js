@@ -55,11 +55,11 @@ class DefaultRoles {
                                 .save();
                         }
                     } catch (error) {
-                        logger.error(error, '');
+                        logger.error(error);
                     }
                 });
             } catch (error) {
-                logger.error(error, '');
+                logger.error(error);
             }
         });
     }

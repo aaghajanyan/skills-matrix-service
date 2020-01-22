@@ -18,7 +18,7 @@ const getUsersSkills = async function(_, response) {
         const usersSkills = await UserSkill.findAll();
         return response.status(OK).json(usersSkills);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -38,7 +38,7 @@ const getUserSkills = async function(request, response) {
         });
         return response.status(OK).json(userSkills);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -105,7 +105,7 @@ const addUserSkill = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -163,7 +163,7 @@ const updateUserSkill = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -216,7 +216,7 @@ const deleteUserSkill = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -234,7 +234,7 @@ const deleteUserSkillById = async function(request, response) {
         await UserSkill.delete({ id: request.params.userSkillGuid });
         response.status(ACCEPTED).end();
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

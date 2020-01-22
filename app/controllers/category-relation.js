@@ -28,7 +28,7 @@ const getCategoriesRelations = async function(_, response) {
         }
         return response.status(OK).json(categoriesRelations);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -58,7 +58,7 @@ const getCategoryRelation = async function(request, response) {
         }
         return response.status(OK).json(categoryRelation);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -105,7 +105,7 @@ const addCategoryRelation = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -124,7 +124,7 @@ const updateCategoryRelation = async function(request, response) {
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
@@ -143,7 +143,7 @@ const deleteCategoryRelation = async function(request, response) {
         });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.

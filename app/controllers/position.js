@@ -16,7 +16,7 @@ const getPositions = async function(_, response) {
         const positions = await Position.findAll();
         return response.status(OK).json(positions);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -32,7 +32,7 @@ const getPosition = async function(request, response) {
         const position = await Position.find({ guid: request.params.guid });
         response.status(OK).json(position);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -61,7 +61,7 @@ const addPosition = async function(request, response) {
             position,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -77,7 +77,7 @@ const updatePosition = async function(request, response) {
         await Position.update(request.body, { guid: request.params.guid });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -93,7 +93,7 @@ const deletePosition = async function(request, response) {
         await Position.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(

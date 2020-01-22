@@ -15,7 +15,7 @@ const getBranches = async function(request, response) {
         const branches = await Branch.findAll();
         return response.status(OK).json(branches);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -31,7 +31,7 @@ const getBranch = async function(request, response) {
         const branch = await Branch.find({ guid: request.params.guid });
         response.status(OK).json(branch);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -60,7 +60,7 @@ const addBranch = async function(request, response) {
             branch,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -76,7 +76,7 @@ const updateBranch = async function(request, response) {
         await Branch.update(request.body, { guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(
@@ -92,7 +92,7 @@ const deleteBranch = async function(request, response) {
         await Branch.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${ErrorMessageParser.stringFormatter(

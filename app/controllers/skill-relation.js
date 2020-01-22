@@ -18,7 +18,7 @@ const getSkillsRelations = async function(_, response) {
         const skillsRelations = await SkillRelation.findAll();
         return response.status(OK).json(skillsRelations);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -38,7 +38,7 @@ const getSkillRelation = async function(request, response) {
         );
         response.status(OK).json(skillRelation);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -82,7 +82,7 @@ const addSkillRelation = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -115,7 +115,7 @@ const updateSkillRelation = async function(request, response) {
             });
         }
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(
@@ -133,7 +133,7 @@ const deleteSkillRelation = async function(request, response) {
         await SkillRelation.delete({ id: request.params.skillRelationId });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).send({
             success: false,
             message: `${getStatusText(

@@ -13,7 +13,7 @@ const getRoleGroup = async function(requesfind, response) {
         const roleGroup = await RoleGroup.find({ guid: request.params.guid });
         return response.status(OK).json(roleGroup);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -31,7 +31,7 @@ const getRoleGroups = async function(request, response) {
         const roleGroup = await RoleGroup.findAll();
         response.status(OK).json(roleGroup);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

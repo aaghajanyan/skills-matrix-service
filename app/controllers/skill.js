@@ -16,7 +16,7 @@ const getSkills = async function(_, response) {
         const skills = await Skill.findAll();
         return response.status(OK).json(skills);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -34,7 +34,7 @@ const getSkill = async function(request, response) {
         const skill = await Skill.find({ guid: request.params.guid });
         return response.status(OK).json(skill);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -52,7 +52,7 @@ const getSkillAllData = async function(request, response) {
         const skill = await Skill.getSkillAllData(request.params.guid);
         return response.status(OK).json(skill);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -70,7 +70,7 @@ const getSkillsAllData = async function(request, response) {
         const skills = await Skill.getSkillsAllData();
         return response.status(OK).json(skills);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -134,7 +134,7 @@ const addSkill = async function(request, response) {
                 ...sendedList,
             });
         } catch (error) {
-            logger.error(error, '');
+            logger.error(error);
             return response.status(CONFLICT).json({
                 success: false,
                 message: `${getStatusText(
@@ -193,7 +193,7 @@ const updateSkillAllData = async function(request, response) {
             [Constants.Keys.removedCategories]: sendedList.removedCategories,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -211,7 +211,7 @@ const updateSkill = async function(request, response) {
         await Skill.updateSkill(request.body, { guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -229,7 +229,7 @@ const deleteSkill = async function(request, response) {
         await Skill.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(

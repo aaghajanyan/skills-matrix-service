@@ -25,7 +25,7 @@ const verifyPermissions = async (request, response, next) => {
         request.user = verified;
         next();
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(401).send({
             success: false,
             message: Constants.Permissions.UNAUTHORIZED,

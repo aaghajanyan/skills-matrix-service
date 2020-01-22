@@ -24,7 +24,7 @@ const getUsers = async function(_, response) {
         const users = await User.getUsers();
         return response.status(OK).json(users);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -42,7 +42,7 @@ const getUser = async function(request, response) {
         const user = await User.getByGuid(request.params.guid);
         return response.status(OK).json(user);
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -60,7 +60,7 @@ const updateUser = async function(request, response) {
         await User.update(request.params.guid, request.body);
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${getStatusText(
@@ -97,7 +97,7 @@ const signUp = async function(request, response) {
         await invitation.destroy();
         response.status(CREATED).json({ guid: user.guid });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${
@@ -145,7 +145,7 @@ const login = async function(request, response) {
             [Constants.Controllers.Users.guid]: user.guid,
         });
     } catch (error) {
-        logger.error(error, '');
+        logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${
