@@ -28,16 +28,12 @@ class SearchUser {
         sqlCommand = sqlCommand
             .replace(
                 new RegExp(
-                    `${Constants.Condition.and}  ${Constants.Condition.and}`,
-                    'g'
-                ),
+                    `${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'),
                 `${Constants.Condition.and}`
             )
             .replace(
                 new RegExp(
-                    `${Constants.Condition.or}  ${Constants.Condition.or}`,
-                    'g'
-                ),
+                    `${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'),
                 `${Constants.Condition.or}`
             )
             .replace(/and \)/g, `\)`)
@@ -175,8 +171,8 @@ class SearchUser {
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
         const experience = properties.experience ? properties.experience : 0;
         const proficiency = properties.proficiency ? properties.proficiency : 0;
-        // properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
-        //     Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
+        properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
+            Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
 
         sqlStr = sqlStr
             .concat(`${properties.name},`)
