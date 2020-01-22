@@ -13,11 +13,14 @@ const addBodySchema = Joi.object().keys({
                     .required(),
                 experience: Joi.number()
                     .integer()
-                    .required(),
+                    .required()
+                    .min(0)
+                    .max(5),
                 profficience: Joi.number()
                     .integer()
                     .min(0)
-                    .max(5),
+                    .max(5)
+                    .required(),
             })
             .required()
     ),
@@ -35,7 +38,8 @@ const updateBodySchema = Joi.object().keys({
                     .required(),
                 experience: Joi.number()
                     .integer()
-                    .required(),
+                    .min(0)
+                    .max(5),
                 profficience: Joi.number()
                     .integer()
                     .min(0)
