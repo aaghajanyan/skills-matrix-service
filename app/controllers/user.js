@@ -1,4 +1,4 @@
-const tokenSecret = require('../../config/env-settings.json').secretKey;
+const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
@@ -125,7 +125,7 @@ const login = async function(request, response) {
                 role_group_id: user.role_group_id,
                 created_date: user.created_date,
             },
-            tokenSecret,
+            loginSecretKey,
             { expiresIn: Constants.LOGIN_TOKEN_EXPiRE_DATE }
         );
         return response.header(Constants.AUTHORIZATION, token).json({

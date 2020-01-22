@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenSecret = require('../../config/env-settings.json').secretKey;
+const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const jwtDecode = require('jwt-decode');
 const User = require('../models/user');
 const logger = require('../helper/logger');
@@ -12,8 +12,8 @@ const verifyPermissions = async (request, response, next) => {
         if (!token) {
             return response.status(403).send(Constants.Permissions.ACCESS_DENIED);
         }
-        const verified = await jwt.verify(token, tokenSecret);
-        const decodedToken = await jwtDecode(token, tokenSecret);
+        const verified = await jwt.verify(token, loginSecretKey);
+        const decodedToken = await jwtDecode(token, loginSecretKey);
         const currUser = await User.getByGuid(decodedToken.guid).then(user => {
             return user;
         });

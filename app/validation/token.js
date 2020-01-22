@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenSecret = require('../../config/env-settings.json').secretKey;
+const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const invitationSecretToken = require('../../config/env-settings.json')
     .invitationSecretKey;
 const forgotPasswordTokenSecret = require('../../config/env-settings.json')
@@ -23,7 +23,7 @@ const verifyToken = async (request, response, next, token, secret) => {
 const verifyLoginToken = async (request, response, next) => {
     try {
         const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
-        verifyToken(request, response, next, token, tokenSecret);
+        verifyToken(request, response, next, token, loginSecretKey);
     } catch (err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }

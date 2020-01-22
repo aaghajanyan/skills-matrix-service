@@ -21,8 +21,8 @@ dbConfig.options.operatorsAliases = operatorsAliases;
 
 sequelize = new Sequelize(
     dbConfig.database,
-    dbConfig.username,
-    dbConfig.password,
+    Buffer.from(dbConfig.username, 'base64').toString('ascii'),
+    Buffer.from(dbConfig.password, 'base64').toString('ascii'),
     dbConfig.options
 );
 

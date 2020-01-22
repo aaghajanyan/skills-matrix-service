@@ -2,8 +2,8 @@ const dbConfig = require('../../../config/env-settings.json').db;
 
 module.exports = {
     default: {
-        username: dbConfig.username,
-        password: dbConfig.password,
+        username: Buffer.from(dbConfig.username, 'base64').toString('ascii'),
+        password: Buffer.from(dbConfig.password, 'base64').toString('ascii'),
         database: dbConfig.database,
         ...dbConfig.options,
     },
