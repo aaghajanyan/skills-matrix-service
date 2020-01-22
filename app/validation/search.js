@@ -6,7 +6,7 @@ const emptyQueryParamSchema = Joi.object().keys({
         .required(),
     id: Joi.string()
         .min(1)
-        .max(16)
+        .max(32)
         .required(),
     condition: Joi.string()
         .valid(['Or', 'And'])
@@ -32,7 +32,7 @@ const groupSchema = Joi.object().keys({
         .required(),
     id: Joi.string()
         .min(1)
-        .max(16),
+        .max(32),
     condition: Joi.string()
         .valid(['Or', 'And'])
         .required(),
@@ -56,10 +56,10 @@ const ruleSchema = Joi.object().keys({
                 .required(),
             name: Joi.string()
                 .min(1)
-                .max(16)
+                .max(32)
                 .required(),
-            experience: Joi.string().valid(['0', '1', '2', '3', '4', '5']),
-            proficiency: Joi.string().valid(['0', '1', '2', '3', '4', '5']),
+            experience: Joi.string().valid(['1', '2', '3', '4', '5']),
+            proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
         })
         .required(),
 });

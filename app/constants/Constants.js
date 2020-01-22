@@ -250,7 +250,9 @@ const Constants = {
             OR: 'or',
             AND: 'and',
             MAX_EXPERIENCE: 5,
+            MIN_EXPERIENCE: 0,
             MAX_PROFICIENCY: 5,
+            MIN_PROFICIENCY: 0,
             Op: {
                 EQ: '$eq',
                 GTE: '$gte',

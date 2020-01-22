@@ -148,11 +148,14 @@ class SearchUser {
         properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
             Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
 
-        sqlStr = sqlStr
-            .concat(`${properties.name},`)
-            .concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`)
-            .concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]]`)
-            .concat("'");
+        sqlStr = sqlStr.concat(`${properties.name},`);
+        sqlStr = properties.opCondition === 'equal' ?
+            sqlStr.concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`) :
+            sqlStr.concat(`[${Constants.Controllers.Search.MIN_EXPERIENCE}-${experience-1}],`);
+        sqlStr = properties.opCondition === 'equal' ?
+            sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]`) :
+            sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency-1}]`)
+        sqlStr = sqlStr.concat("'");
         return sqlStr;
     }
 
