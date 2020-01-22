@@ -34,6 +34,10 @@ class Category {
         };
     }
 
+    static async delete(condition) {
+        await categoryModel.destroy({ where: { ...condition } });
+    }
+
     static async addRelatedCategories(
         relatedCategoriesIds,
         category,

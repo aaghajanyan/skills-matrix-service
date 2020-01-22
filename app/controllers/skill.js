@@ -226,18 +226,7 @@ const updateSkill = async function(request, response) {
 
 const deleteSkill = async function(request, response) {
     try {
-        const skill = await Skill.findOneSkill({ guid: request.params.guid });
-        if (!skill) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.SKILL,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
-        }
-        skill.destroy();
+        await Skill.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');

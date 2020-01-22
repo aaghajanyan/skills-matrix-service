@@ -136,47 +136,6 @@ const updateCategoryRelation = async function(request, response) {
     }
 };
 
-// const updateCategoryRelation = async function(request, response) {
-//     try {
-//         const category = await Category.find({
-//             guid: request.body.related_category_id
-//         });
-//         console.log("CAT", category);
-//         if (category) {
-//             const relCategory = await Category.find({
-//                 guid: request.body.related_category_id
-//             });
-//             if (relCategory) {
-//                 console.log(" REL CAT", category);
-
-//                 await CategoryRelation.update({related_category_id: relCategory.id}, {
-//                     category_id: category.id
-//                 });
-//                 return response.status(ACCEPTED).json({ success: true });
-//             }
-//         } else {
-//             return response.status(CONFLICT).json({
-//                 success: false,
-//                 message: `${getStatusText(CONFLICT)}. ${ErrorMessageParser.stringFormatter(
-//                     Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-//                     Constants.Controllers.TypeNames.REL_CATEGORY
-//                 )}`
-//             });
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         logger.error(error, '');
-//         return response.status(INTERNAL_SERVER_ERROR).send({
-//             success: false,
-//             message: `${getStatusText(INTERNAL_SERVER_ERROR)}.
-//                     ${ErrorMessageParser.stringFormatter(
-//                         Constants.Controllers.ErrorMessages.COULD_NOT_GET,
-//                         Constants.Controllers.TypeNames.REL_CATEGORY.toLowerCase()
-//                     )}`
-//         });
-//     }
-// };
-
 const deleteCategoryRelation = async function(request, response) {
     try {
         await CategoryRelation.delete({

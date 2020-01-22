@@ -91,18 +91,7 @@ const updateCriteria = async function(request, response) {
 
 const deleteCriteria = async function(request, response) {
     try {
-        const criteria = await Criteria.find({ guid: request.params.guid });
-        if (!criteria) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.CRITERIA,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
-        }
-        criteria.destroy();
+        await Criteria.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');

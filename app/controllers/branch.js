@@ -89,18 +89,7 @@ const updateBranch = async function(request, response) {
 
 const deleteBranch = async function(request, response) {
     try {
-        const branch = await Branch.find({ guid: request.params.guid });
-        if (!branch) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.BRANCH,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
-        }
-        branch.destroy();
+        await Branch.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');

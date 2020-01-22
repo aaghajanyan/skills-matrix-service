@@ -72,18 +72,7 @@ const updateCategory = async function(request, response) {
 
 const deleteCategory = async function(request, response) {
     try {
-        const category = await Category.find({ guid: request.params.guid });
-        if (!category) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.CATEGORY,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
-        }
-        category.destroy();
+        await Category.delete({ guid: request.params.guid });
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');

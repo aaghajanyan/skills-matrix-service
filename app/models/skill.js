@@ -19,6 +19,10 @@ class Skill {
         return await skillModel.findOne({ where: { ...condition } });
     }
 
+    static async delete(condition) {
+        await skillModel.destroy({ where: { ...condition } });
+    }
+
     static async getSkillAllData(guid) {
         const skill = await skillModel.findOne({
             where: { guid: guid },

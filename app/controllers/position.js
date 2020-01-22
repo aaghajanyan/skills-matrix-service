@@ -90,18 +90,7 @@ const updatePosition = async function(request, response) {
 
 const deletePosition = async function(request, response) {
     try {
-        const position = await Position.find({ guid: request.params.guid });
-        if (!position) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.Controllers.TypeNames.POSITION,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
-        }
-        position.destroy();
+        await Position.delete({ guid: request.params.guid });
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error, '');
