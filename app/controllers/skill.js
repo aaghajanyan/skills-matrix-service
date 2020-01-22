@@ -82,7 +82,7 @@ const addSkill = async function(request, response) {
                 name: skillData.name,
             });
             if (!isNewRecord) {
-                return response.status(CONFLICT).json({
+                return response.status(OK).json({
                     success: false,
                     message: `${ErrorMessageParser.stringFormatter(
                         Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
@@ -91,12 +91,7 @@ const addSkill = async function(request, response) {
                 });
             }
             const sendedList = [];
-            await Skill.addedNewCategories(
-                categoriesId,
-                skill,
-                sendedList,
-                true
-            );
+            await Skill.addedNewCategories(categoriesId, skill, sendedList, true);
             let status = (await Skill.getStatus(
                 sendedList,
                 Constants.Keys.addedCategories
@@ -160,17 +155,8 @@ const updateSkillAllData = async function(request, response) {
             });
         }
         await Skill.updateSkill(skillData, { guid: request.params.guid });
-        await Skill.addedNewCategories(
-            addCategories,
-            existingSkill,
-            sendedList,
-            false
-        );
-        await Skill.removeCategories(
-            deleteCategories,
-            sendedList,
-            existingSkill
-        );
+        await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
+        await Skill.removeCategories(deleteCategories, sendedList, existingSkill);
         return response.status(201).json({
             [Constants.Keys.addedCategories]: sendedList.addedCategories,
             [Constants.Keys.removedCategories]: sendedList.removedCategories,

@@ -48,7 +48,7 @@ const addPosition = async function(request, response) {
             name: request.body.name,
         });
         if (!isNewRecord) {
-            return response.status(CONFLICT).json({
+            return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,

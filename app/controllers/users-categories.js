@@ -46,48 +46,6 @@ const getUserCategories = async function(request, response) {
     }
 };
 
-const addUserCategory1 = async function(request, response) {
-    try {
-        const user = await User.findOneUser({ guid: request.body.userGuid });
-        if (user) {
-            const category = await Category.find({
-                guid: request.body.categoryGuid,
-            });
-            if (category) {
-                category.user_id = user.id;
-                category.category_id = category.id;
-                const userCategory = await UserCategory.create(category);
-                return response.status(CREATED).json({ userCategory });
-            } else {
-                return response.status(CONFLICT).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.Controllers.TypeNames.CATEGORY
-                    )}`,
-                });
-            }
-        } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.Controllers.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.Controllers.TypeNames.USER
-                )}`,
-            });
-        }
-    } catch (error) {
-        logger.error(error);
-        response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.ErrorMessages.COULD_NOT_ADD,
-                Constants.Controllers.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
-    }
-};
-
 const addUserCategory = async function(request, response) {
     const expectedResponse = {
         errors: [],

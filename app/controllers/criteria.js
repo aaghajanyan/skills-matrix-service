@@ -49,7 +49,7 @@ const addCriteria = async function(request, response) {
             type: request.body.type,
         });
         if (!isNewRecord) {
-            return response.status(CONFLICT).json({
+            return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,

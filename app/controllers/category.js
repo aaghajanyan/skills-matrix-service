@@ -258,7 +258,7 @@ const addCategory = async function(request, response) {
         });
 
         if (!isNewRecord) {
-            return response.status(CONFLICT).json({
+            return response.status(OK).json({
                 success: false,
                 message: `${ErrorMessageParser.stringFormatter(
                     Constants.Controllers.ErrorMessages.ALREADY_EXISTS,
