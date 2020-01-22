@@ -1,4 +1,4 @@
-class Error {
+class CustomError {
     constructor(status = 200, message = '', result = []) {
         this.message = message;
         this.result = result;
@@ -13,4 +13,4 @@ class Error {
     }
 }
 
-module.exports = Error;
+module.exports = CustomError;

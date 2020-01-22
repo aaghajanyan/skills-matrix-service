@@ -1,4 +1,3 @@
-const DefaultRoles = require('../utils/DefaultRoles');
 const { Constants } = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {

@@ -73,35 +73,16 @@ class SearchUser {
                         if (!data.childrens[key].properties.type) {
                             continue;
                         }
-                        this.validateSchema(
-                            validateRuleBodySchema,
-                            data.childrens[key]
-                        );
-                        currSqlStr = currSqlStr.concat(
-                            this.convertRuleToQuery(data.childrens[key])
-                        );
+                        this.validateSchema(validateRuleBodySchema, data.childrens[key]);
+                        currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data.childrens[key]));
                         if (index < keys.length - 1) {
-                            currSqlStr = currSqlStr.concat(
-                                ` ${groupCondition} `
-                            );
+                            currSqlStr = currSqlStr.concat(` ${groupCondition} `);
                         }
-                    } else if (
-                        data.childrens[key].type === Constants.Keys.group
-                    ) {
-                        this.validateSchema(
-                            validateGroupBodySchema,
-                            data.childrens[key]
-                        );
-                        currSqlStr =
-                            currSqlStr +
-                            this.parseJsonToSql(data.childrens[key], false)
-                                .currSqlStr;
+                    } else if (data.childrens[key].type === Constants.Keys.group) {
+                        this.validateSchema(validateGroupBodySchema, data.childrens[key]);
+                        currSqlStr = currSqlStr + this.parseJsonToSql(data.childrens[key], false).currSqlStr;
                         currSqlStr = currSqlStr.concat(')');
-                        currSqlStr =
-                            groupLength > 1
-                                ? currSqlStr.concat(` ${groupCondition} `)
-                                : currSqlStr;
-                        // currSqlStr = currSqlStr + this.newMethod(data.childrens[key], currSqlStr, groupIndex, groupCondition);
+                        currSqlStr = groupLength > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
                     } else {
                         this.error.isError = true;
                         this.error.message.push({
@@ -117,13 +98,6 @@ class SearchUser {
         }
     }
 
-    // newMethod(data, currSqlStr, response, groupIndex, groupCondition) {
-    //     this.validateSchema(validateGroupBodySchema, data);
-    //     currSqlStr = currSqlStr + this.parseJsonToSql(data, false).currSqlStr;
-    //     currSqlStr = currSqlStr.concat(')');
-    //     currSqlStr = groupIndex > 1 ? currSqlStr.concat(` ${groupCondition} `) : currSqlStr;
-    //     return currSqlStr;
-    // }
     convertRuleToQuery(rule) {
         if (rule.properties) {
             const properties = rule.properties;
@@ -176,12 +150,8 @@ class SearchUser {
 
         sqlStr = sqlStr
             .concat(`${properties.name},`)
-            .concat(
-                `[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`
-            )
-            .concat(
-                `[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]]`
-            )
+            .concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`)
+            .concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]]`)
             .concat("'");
         return sqlStr;
     }

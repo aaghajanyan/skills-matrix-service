@@ -1,6 +1,6 @@
-const Error = require('../errors/Error');
+const CustomError = require('../errors/CustomError');
 
-class InternalServerError extends Error {
+class InternalServerError extends CustomError {
     constructor(message) {
         super(message);
         this.name = 'InternalServerError';

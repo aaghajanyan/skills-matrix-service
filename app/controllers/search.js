@@ -8,7 +8,7 @@ const logger = require('../helper/logger');
 const db = require('../sequelize/models');
 const SearchUser = require('../models/search');
 const { validateEmptyQueryBodySchema } = require('../validation/search');
-const Error = require('../errors/Error');
+const CustomError = require('../errors/CustomError');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
 const decodeQuery = async function(encodedQuery) {
@@ -60,7 +60,7 @@ const searchUsers = async function(request, response, next) {
     try {
         const decodedQueryObj = await decodeQuery(request.params.search_query);
         if (decodedQueryObj.error) {
-            next(new Error(400, decodedQueryObj.message));
+            next(new CustomError(400, decodedQueryObj.message));
             return;
         }
         const searchUser = new SearchUser();
@@ -68,7 +68,7 @@ const searchUsers = async function(request, response, next) {
             decodedQueryObj.decodedQueryJson
         );
         if (isEmptyQuery.error) {
-            next(new Error(200));
+            next(new CustomError());
             return;
         }
         const sqlCmd = searchUser.collectSearchQuery(
@@ -76,7 +76,7 @@ const searchUsers = async function(request, response, next) {
         );
         const finallyObjValidResult = await validateFinallyObject(sqlCmd);
         if (!finallyObjValidResult.success) {
-            next(new Error(200, finallyObjValidResult.message));
+            next(new CustomError(200, finallyObjValidResult.message));
             return;
         }
         const usersData = await db.sequelize.query(sqlCmd);

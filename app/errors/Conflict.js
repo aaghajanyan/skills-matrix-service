@@ -1,6 +1,6 @@
-const Error = require('./Error');
+const CustomError = require('./CustomError');
 
-class Conflict extends Error {
+class Conflict extends CustomError {
     constructor(message) {
         super(message);
         this.name = 'Conflict';
