@@ -236,10 +236,10 @@ const Constants = {
                 'Could not get role group with %1 guid.',
         },
         UserSkills: {
-            ALREADY_EXISTS: 'Skill with %1 already exists.',
+            ALREADY_EXISTS: '"%1" skill already exists for "%2" user.',
         },
         UserCategory: {
-            ALREADY_EXISTS: 'Category with %1 already exists.',
+            ALREADY_EXISTS: '"%1" category already exists for "%2" user.',
         },
         Search: {
             COULD_NOT_SEARCH_DATA: 'Could not search data.',
@@ -248,6 +248,7 @@ const Constants = {
             NOT_EQUAL: 'not equal',
             EXPERIENCE: 'experience',
             PROFFICIENCE: 'profficience',
+            LAST_WORKED_DATE: 'last_worked_date',
             GREATER: 'greater',
             LESSER: 'lesser',
             OR: 'or',

@@ -21,6 +21,7 @@ const addBodySchema = Joi.object().keys({
                     .min(0)
                     .max(5)
                     .required(),
+                last_worked_date: Joi.date().required()
             })
             .required()
     ),
@@ -44,6 +45,7 @@ const updateBodySchema = Joi.object().keys({
                     .integer()
                     .min(0)
                     .max(5),
+                last_worked_date: Joi.date()
             })
             .required()
     ),

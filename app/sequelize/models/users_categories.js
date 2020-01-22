@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
+            last_worked_date: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
         },
         {
             timestamps: false,

@@ -42,6 +42,10 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.INTEGER,
                 },
+                last_worked_date: {
+                    allowNull: false,
+                    type: Sequelize.DATE,
+                },
             })
             .then(() =>
                 queryInterface.addConstraint(

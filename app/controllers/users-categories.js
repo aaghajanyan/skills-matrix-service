@@ -72,11 +72,9 @@ const addUserCategory = async function(request, response) {
                     } catch (error) {
                         expectedResponse.errors.push({
                             success: false,
-                            error: `${ErrorMessageParser.stringFormatter(
-                                Constants.Controllers.UserCategory
-                                    .ALREADY_EXISTS,
-                                category.categoryGuid
-                            )}`,
+                            error: ErrorMessageParser.stringFormatter(Constants.Controllers.UserCategory.ALREADY_EXISTS,
+                                existingCategory.name,
+                                user.guid)
                         });
                     }
                 } else {

@@ -68,6 +68,7 @@ class User {
                         attributes: [
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
+                            Constants.Controllers.Search.LAST_WORKED_DATE,
                             Constants.Keys.guid,
                         ],
                     },
@@ -94,6 +95,7 @@ class User {
                         attributes: [
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
+                            Constants.Controllers.Search.LAST_WORKED_DATE,
                             Constants.Keys.guid,
                         ],
                     },
@@ -152,6 +154,7 @@ class User {
                         attributes: [
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
+                            Constants.Controllers.Search.LAST_WORKED_DATE,
                             Constants.Keys.guid,
                         ],
                     },
@@ -178,6 +181,7 @@ class User {
                         attributes: [
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
+                            Constants.Controllers.Search.LAST_WORKED_DATE,
                             Constants.Keys.guid,
                         ],
                     },

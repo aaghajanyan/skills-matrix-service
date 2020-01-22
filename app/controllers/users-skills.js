@@ -70,10 +70,9 @@ const addUserSkill = async function(request, response) {
                     } catch (error) {
                         expectedResponse.errors.push({
                             success: false,
-                            error: `${ErrorMessageParser.stringFormatter(
-                                Constants.Controllers.UserSkills.ALREADY_EXISTS,
-                                skill.skillGuid
-                            )}`,
+                            error: ErrorMessageParser.stringFormatter(Constants.Controllers.UserSkills.ALREADY_EXISTS,
+                                existingSkill.name,
+                                user.guid)
                         });
                     }
                 } else {

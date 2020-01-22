@@ -16,7 +16,7 @@ const verifyToken = async (request, response, next, token, secret) => {
         request.user = verified;
         next();
     } catch (err) {
-        response.status(BAD_REQUEST).send();
+        response.status(UNAUTHORIZED).send();
     }
 };
 
