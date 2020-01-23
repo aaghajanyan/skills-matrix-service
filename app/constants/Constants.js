@@ -39,8 +39,10 @@ const Constants = {
         CategoriesRelations: 'categories_relations',
         SkillsRelations: 'skills_relations',
         UsersSkills: 'users_skills',
-        History: 'history',
+        SkillHistory: 'skill_histories',
         UsersCategories: 'users_categories',
+        CategoryHistory: 'category_histories',
+        History: 'history',
         Criteria: 'criteria',
     },
     ModelNames: {
@@ -59,6 +61,9 @@ const Constants = {
         History: 'history',
         UsersCategories: 'users_categories',
         Criteria: 'criteria',
+        SkillHistory: 'skill_history',
+        CategoryHistory: 'category_history',
+
     },
 
     ModelErrors: {
@@ -128,6 +133,7 @@ const Constants = {
         rule: 'rule',
         skill_experience_proficiency: 'skill_experience_proficiency',
         category_experience_proficiency: 'category_experience_proficiency',
+        created_date: 'created_date'
     },
 
     Condition: {
@@ -151,12 +157,18 @@ const Constants = {
         UserSkill: {
             uniqueUserSkill: 'uniqueUserSkill',
         },
-        History: {
-            userSkillId: 'userSkillId',
-            user_skill_id: 'user_skill_id',
+        SkillHistory: {
+            uniqueSkillHistory: 'uniqueSkillHistory',
         },
         UsersCategories: {
             uniqueUserCategory: 'uniqueUserCategory',
+        },
+        CategoryHistory: {
+            uniqueCategoryHistory: 'uniqueCategoryHistory',
+        },
+        History: {
+            userSkillId: 'userSkillId',
+            user_skill_id: 'user_skill_id',
         },
     },
 

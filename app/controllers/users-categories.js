@@ -11,6 +11,7 @@ const Category = require('../models/category');
 const UserCategory = require('../models/users-categories');
 const logger = require('../helper/logger');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const CategoryHistory = require('../models/categories-history');
 
 const getUsersCategories = async function(_, response) {
     try {
@@ -64,11 +65,22 @@ const addUserCategory = async function(request, response) {
                     category.user_id = user.id;
                     category.category_id = existingCategory.id;
                     try {
-                        const userCategory = await UserCategory.create(
-                            category
-                        );
-                        status = CREATED;
-                        expectedResponse.items.push(userCategory);
+
+                        const userCategoryData = await UserCategory.find({
+                            user_id: user.id,
+                            category_id: existingCategory.id,
+                        });
+                        if (userCategoryData) {
+                            await addUserCategoryAndUpdateHistory(userCategoryData, user, existingCategory);
+                            status = OK;
+                            expectedResponse.items.push(userCategoryData);
+                        } else {
+                            const userCategory = await UserCategory.create(
+                                category
+                            );
+                            status = CREATED;
+                            expectedResponse.items.push(userCategory);
+                        }
                     } catch (error) {
                         expectedResponse.errors.push({
                             success: false,
@@ -109,6 +121,22 @@ const addUserCategory = async function(request, response) {
         });
     }
 };
+
+const addUserCategoryAndUpdateHistory = async function(userCategoryData, user, existingCategory) {
+    const dataValues = userCategoryData.dataValues;
+    dataValues.created_date = new Date();
+    delete dataValues.guid;
+    await CategoryHistory.findOrCreate(dataValues, {
+        user_id: user.id,
+        category_id: existingCategory.id,
+        experience: userCategoryData.experience,
+        profficience: userCategoryData.profficience,
+    });
+    const userCategory = await UserCategory.update(category, {
+        user_id: user.id,
+        category_id: existingCategory.id,
+    });
+}
 
 const updateUserCategory = async function(request, response) {
     const expectedResponse = {

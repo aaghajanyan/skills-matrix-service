@@ -3,12 +3,13 @@ const {
     INTERNAL_SERVER_ERROR,
     CONFLICT,
     ACCEPTED,
-    CREATED
+    CREATED,
 } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const User = require('../models/user');
 const Skill = require('../models/skill');
 const UserSkill = require('../models/users-skills');
+const SkillHistory = require('../models/skills-history');
 const logger = require('../helper/logger');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
 
@@ -64,15 +65,27 @@ const addUserSkill = async function(request, response) {
                     skill.user_id = user.id;
                     skill.skill_id = existingSkill.id;
                     try {
-                        const userSkill = await UserSkill.create(skill);
-                        status = CREATED;
-                        expectedResponse.items.push(userSkill);
+                        const userSkillData = await UserSkill.find({
+                            user_id: user.id,
+                            skill_id: existingSkill.id,
+                        });
+                        if (userSkillData) {
+                            await addUserSkillAndUpdateHistory(userSkillData, user, existingSkill);
+                            status = OK;
+                            expectedResponse.items.push(userSkillData);
+                        } else {
+                            const userSkill = await UserSkill.create(skill);
+                            status = CREATED;
+                            expectedResponse.items.push(userSkill);
+                        }
                     } catch (error) {
                         expectedResponse.errors.push({
                             success: false,
-                            error: ErrorMessageParser.stringFormatter(Constants.Controllers.UserSkills.ALREADY_EXISTS,
+                            error: ErrorMessageParser.stringFormatter(
+                                Constants.Controllers.UserSkills.ALREADY_EXISTS,
                                 existingSkill.name,
-                                user.guid)
+                                user.guid
+                            ),
                         });
                     }
                 } else {
@@ -107,6 +120,22 @@ const addUserSkill = async function(request, response) {
         });
     }
 };
+
+const addUserSkillAndUpdateHistory = async function(userSkillData, user, existingSkill) {
+    const dataValues = userSkillData.dataValues;
+    dataValues.created_date = new Date();
+    delete dataValues.guid;
+    await SkillHistory.findOrCreate(dataValues, {
+        user_id: user.id,
+        skill_id: existingSkill.id,
+        experience: userSkillData.experience,
+        profficience: userSkillData.profficience,
+    });
+    await UserSkill.update(skill, {
+        user_id: user.id,
+        skill_id: existingSkill.id,
+    });
+}
 
 const updateUserSkill = async function(request, response) {
     try {
