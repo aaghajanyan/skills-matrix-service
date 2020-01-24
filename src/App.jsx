@@ -11,7 +11,7 @@ import { Categories } from 'pages/logged-in/sub-pages';
 import { Skills } from 'pages/logged-in/sub-pages';
 import { Settings } from 'pages/logged-in/sub-pages';
 import { SMEmployee } from 'pages/logged-in/components'
-import { FindEmployees } from 'pages/logged-in/sub-pages';
+import { Search } from 'pages/logged-in/sub-pages';
 import store from 'store';
 import './App.scss';
 
@@ -27,7 +27,7 @@ class App extends Component {
                         <PrivateRoute path="/home" component={Home} />
                         <PrivateRoute exact path="/employees" component={Employees} />
                         <PrivateRoute exact path="/employees/:id" component={SMEmployee} />
-                        <PrivateRoute path="/find_employees" component={FindEmployees} />
+                        <PrivateRoute path="/find_employees" component={Search} />
                         <PrivateRoute path="/branches" component={Branches} />
                         <PrivateRoute path="/categories" component={Categories} />
                         <PrivateRoute path="/skills" component={Skills} />

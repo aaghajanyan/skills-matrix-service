@@ -172,12 +172,10 @@
         border: none;
         background-color: none;
         display: none;
-        i {
-            font-size: 20px;
-        }
+        font-size: large;
         path {
-            stroke: red;
-            fill:red;
+            stroke: grey;
+            fill:grey;
         }
     }
 
@@ -255,7 +253,28 @@
 }
 
 .employees-table{
-    .ant-table-tbody{
+    .ant-table-tbody {
         background-color: #fff;
+    }
+}
+
+@media (max-width: 800px) {
+    .main_container_people_finder .ant-form-horizontal .ant-row.rule-rows {
+        flex-direction: column;
+        div[class*="ant-col-"] {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .del_btn_right {
+            left: 10px;
+        }
+    }
+    .header_container {
+        display: flex;
+        flex-direction: column;
+        div[class*=ant-col-]:not(.del_btn_right) {
+            width: 100%;
+            margin-bottom: 5px;
+        }
     }
 }

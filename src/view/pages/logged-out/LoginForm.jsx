@@ -30,15 +30,25 @@ function LoginForm(props) {
         setLoading(true);
         login(formData)
             .then((user) => {
+                if(user){
+                    setSuccess(true);
+                    onAlertClose(null);
+                    dispatch(setCurrentUser(user));
+                }
                 setLoading(false);
-                onAlertClose(null);
-                setSuccess(true);
-                dispatch(setCurrentUser(user));
             })
             .catch(error => {
                 setLoading(false);
-                showError(error)
+                showError(error);
             })
+    }
+
+    const validateFields = (rule, value, callback) => {
+        if((rule.field === "email" || rule.field === "password") && !value ){
+            callback("");
+        }else{
+            callback()
+        }
     }
 
     return success ? (
@@ -62,6 +72,9 @@ function LoginForm(props) {
                             name: 'email',
                             type: 'text',
                             placeholder: 'Email',
+                            rules: [{
+                                validator: validateFields
+                            }],
                             prefix: (
                                 <SMIcon
                                     className='sm-icon-grey'
@@ -76,6 +89,9 @@ function LoginForm(props) {
                             name: 'password',
                             type: 'password',
                             placeholder: 'Password',
+                            rules: [{
+                                validator: validateFields
+                            }],
                             prefix: (
                                 <SMIcon
                                     className='sm-icon-grey'

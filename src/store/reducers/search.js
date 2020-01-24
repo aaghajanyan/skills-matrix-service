@@ -1,12 +1,6 @@
-import {
-    SEARCH_USERS_BEGIN,
-    SEARCH_USERS_SUCCESS,
-    SEARCH_USERS_FAILURE,
-    CRITERIA_ROW
-  } from '../actions/searchAction';
+import {SEARCH_USERS_BEGIN, SEARCH_USERS_SUCCESS, SEARCH_USERS_FAILURE, CRITERIA_ROW  } from '../actions/searchAction';
 
-
-export default function Seacrh(state = {}, action){
+export default function Seacrh(state = {}, action) {
     switch(action.type) {
 
         case SEARCH_USERS_BEGIN:

@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import { Select, Row, Col, Button } from 'antd';
-import { FindCriteria } from './FindCriteria';
+import { SearchRow } from './SearchRow';
+import { SMIcon } from 'view/components/SMIcon';
 
-const { Option } = Select
+const { Option } = Select;
 
-function FindGroup(props) {
+function SearchGroup(props) {
 
-    const uuid = () => "ID" + (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
+    const uuid = () => `ID${+ new Date() + Math.floor(Math.random() * 999999)}`;
 
-    const JsonRules = {
-        type: "rule",
+    const rules = {
+        type: 'rule',
         properties: {}
-    }
+    };
 
-    const JsonGroups = {
-        type: "group",
+    const groups = {
+        type: 'group',
         childrens: {},
-        condition: "And"
-    }
+        condition: 'And'
+    };
 
     const [groupData, setGroupData] = useState(props.defaultProperties);
 
     const handleClickAddCriteria = () => {
-        groupData.childrens = Object.assign(groupData.childrens, { [uuid()]: JsonRules });
+        groupData.childrens = { ...groupData.childrens, [uuid()]: rules };
         setGroupData({ ...groupData });
-    }
+    };
 
     const handleClickAddGroup = () => {
-        groupData.childrens = Object.assign(groupData.childrens, { [uuid()]: JsonGroups });
+        groupData.childrens = { ...groupData.childrens, [uuid()]: groups };
         setGroupData({ ...groupData });
-    }
+    };
 
-    const handleChangeChildInfo = (nweProperties, rowId, childrenId=null) => {
+    const handleChangeChildInfo = (nweProperties, rowId, childrenId = null) => {
         Object.keys(groupData.childrens).map(item => {
-            if(item === rowId) {
-                if(groupData.childrens[item].type === 'group' && childrenId !== null){
-                    groupData.childrens[item] = nweProperties;//.childrens[childrenId] = nweProperties.childrens[childrenId];
-                } else if(groupData.childrens[item].type === 'rule') {
+            if (item === rowId) {
+                if (groupData.childrens[item].type === 'group' && childrenId !== null) {
+                    groupData.childrens[item] = nweProperties;
+                } else if (groupData.childrens[item].type === 'rule') {
                     groupData.childrens[item].properties = nweProperties[item];
                 }
-
                 setGroupData({ ...groupData });
             }
-        })
+        });
         props.update(groupData, props.groupId, childrenId);
-    }
+    };
 
     const handleDeleteRow = (rowId) => {
         delete groupData.childrens[rowId];
@@ -54,26 +54,25 @@ function FindGroup(props) {
     const handleChangeCondition = (val) => {
         groupData.condition = val;
         setGroupData({ ...groupData });
-        props.update(groupData, props.groupId, val);
-    }
+        props.update(groupData, props.groupId, props.groupId);
+    };
 
     const handleDeleteGroupRow = () => {
         props.delete(props.groupId);
-    }
+    };
 
-    const renderCriterias = () => {
+    const renderRows = () => {
         if (Object.keys(groupData.childrens).length === 0) {
             handleClickAddCriteria();
-        };
+        }
         return (<Row className="group--children">{Object.keys(groupData.childrens).map((item, index) => {
-            let displayDellBtn = "";
-            if (Object.keys(groupData.childrens).length === 1 && index === 0) {
-                displayDellBtn = "display_dell_btn";
-            }
+
+            const displayDellBtn = Object.keys(groupData.childrens).length === 1 && index === 0 ? 'display_dell_btn' : '';
 
             if (groupData.childrens[item].type === 'rule') {
                 return (
-                    <FindCriteria
+                    <SearchRow
+                        disabled={props.disabled}
                         defaultProperties={groupData.childrens[item]}
                         content={props.content}
                         className={displayDellBtn}
@@ -83,7 +82,8 @@ function FindGroup(props) {
                 );
             } else if (groupData.childrens[item].type === 'group') {
                 return (
-                    <FindGroup
+                    <SearchGroup
+                        disabled={props.disabled}
                         defaultProperties={groupData.childrens[item]}
                         content={props.content}
                         parentsCount={props.parentsCount + 1}
@@ -93,20 +93,20 @@ function FindGroup(props) {
                         update={handleChangeChildInfo} form={props.form} key={item} />
                 );
             }
-        })}</Row>)
-    }
+        })}</Row>);
+    };
 
-    const renderAddGroup = () => {
+    const addGroup = () => {
         if (props.parentsCount < 2) {
             return (
                 <Col {...props.content.contentCol}>
-                    <Button icon="plus-circle" onClick={handleClickAddGroup}>
+                    <Button disabled={props.disabled} icon="plus-circle" onClick={handleClickAddGroup}>
                         Add group
                     </Button>
                 </Col>
             );
         }
-    }
+    };
 
     return (
         <Row className="group-rows">
@@ -114,26 +114,28 @@ function FindGroup(props) {
                 <Row className="header_container" justify="center" >
                     <Col>
                         <Col {...props.content.rowColFirst}>
-                            <Select defaultValue={props.defaultProperties.condition} onSelect={handleChangeCondition}>
-                                <Option value='And'>And</Option>
-                                <Option value='Or'>Or</Option>
+                            <Select disabled={props.disabled} defaultValue={props.defaultProperties.condition} onSelect={handleChangeCondition}>
+                                <Option value="And">And</Option>
+                                <Option value="Or">Or</Option>
                             </Select>
                         </Col>
                         <Col {...props.content.contentCol}>
-                            <Button icon="plus" onClick={handleClickAddCriteria}>
+                            <Button disabled={props.disabled} icon="plus" onClick={handleClickAddCriteria}>
                                 Add more criteria
                             </Button>
                         </Col>
-                        {renderAddGroup()}
+                        {addGroup()}
                     </Col>
                     <Col className="del_btn_right" span={1}>
-                        <Button className={`delBtn ${props.className}`} onClick={handleDeleteGroupRow} icon="delete"></Button>
+                        <Button onClick={handleDeleteGroupRow} className={`delBtn  ${props.className}`}>
+                            <SMIcon iconType="far" icon="trash-alt" />
+                        </Button>
                     </Col>
                 </Row>
-                {renderCriterias()}
+                {renderRows()}
             </Row>
         </Row>
-    )
+    );
 }
 
-export { FindGroup };
+export { SearchGroup };

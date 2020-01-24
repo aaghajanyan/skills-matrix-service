@@ -1,4 +1,10 @@
 {
+    "endpoint" : {
+        "Category" : "categories/all",
+		"Skill" : "skills",
+		"Branch" : "branch",
+        "Position" : "position"
+    },
     "messages": {
         "noConnection": {
             "message": "Connection error",

@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useHistory } from 'react-router-dom';
-import cookie from 'react-cookies'
-import { SMSpinner } from 'view/components'
+import cookie from 'react-cookies';
+import { SMSpinner, SMNotification } from 'view/components';
 import { get } from 'client/lib/axiosWrapper';
-import { authTokenKey } from 'constants'
-import { SMPageLoggedIn } from 'pages/logged-in'
+import { authTokenKey, messages } from 'constants';
+import { SMPageLoggedIn } from 'pages/logged-in';
 import { setCurrentUser } from 'store/actions/currentUserAction';
 
 //TODO: Remove
@@ -54,7 +54,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
                         dispatch(setCurrentUser(result.data));
                     })
                     .catch((error) => {
-                        gotToLogin();
+                        if(error.message === "Network Error"){
+                            setLoading(false)
+                            SMNotification('error', messages.noConnection);
+                        }
                     })
             } else {
                 gotToLogin();

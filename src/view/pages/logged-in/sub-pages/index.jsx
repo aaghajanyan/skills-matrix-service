@@ -4,4 +4,4 @@ export { Employees } from "./Employees"
 export { Home } from './Home'
 export { Settings } from './Settings'
 export { Skills } from './Skills'
-export { FindEmployees } from './FindEmployees/FindEmployees'
+export { Search } from './Search/Search'

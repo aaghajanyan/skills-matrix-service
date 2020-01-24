@@ -2,8 +2,6 @@ import axios from "axios";
 import { serverUrl } from 'config/config'
 import cookie from 'react-cookies'
 import { authTokenKey } from 'constants'
-import { SMNotification } from 'view/components'
-import { messages } from 'constants';
 import { logOut } from 'client/lib/authService'; //TODO: Remove
 
 const getAuthHeader = () => {
@@ -48,8 +46,6 @@ const apiClient = (method, options) => {
         if (error.response.status === 401) {
           logOut() //TODO: Remove
         }
-      } else if (error.request) {
-        SMNotification('error', messages.noConnection)
       }
       return Promise.reject(error)
     })

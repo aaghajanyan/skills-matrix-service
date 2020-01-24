@@ -27,3 +27,16 @@
     margin-bottom: 10px;
     opacity: 0.5;
 }
+
+
+.sm-content{
+    .ant-tabs-content{
+        position: absolute;
+        left: 50%;
+        top: 60%;
+        transform: translate(-50%, -50%);
+        width: 40%;
+        padding: 20px;
+        text-align: center;
+    }
+}

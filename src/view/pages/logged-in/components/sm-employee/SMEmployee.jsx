@@ -28,7 +28,6 @@ function SMEmployee(props) {
     }, [])
 
     return (
-        <SMSpinner isLoading={!user} className='sm-spinner' size='large'>
             <SMTabs
                 className='sm-tabs'
                 defaultActiveKey='Summary'
@@ -36,20 +35,23 @@ function SMEmployee(props) {
                     <div className='sm-tabs-header sm-component'>
                         <SMUserBar
                             className='sm-user'
-                            firstName={user.data.fname}
-                            lastName={user.data.lname}
+                            firstName={user && user.data.fname}
+                            lastName={user && user.data.lname}
                             size='large'
                         />
                         <TabBar {...tabBarProps} />
                     </div>)
                 }
             >
+                 <SMSpinner isLoading={!user} className='sm-spinner' size='large'>
+
                 <Summary key='Summary' />
                 <Assessment key='Assessment' />
                 <div key='History'> <h1> History </h1> </div>
                 <div key='About'> <h1> About </h1> </div>
+                </SMSpinner>
+
             </SMTabs>
-        </SMSpinner>
     )
 }
 

@@ -11,6 +11,8 @@ function EmployeesTable(props) {
         return 0;
     }
 
+    const data = [];
+
     const columns = [
         {
             title: 'Employee',
@@ -36,11 +38,25 @@ function EmployeesTable(props) {
         onClick: () => props.history.push(`employees/${record.guid}`)
     })
 
+    const addDataSource = () => {
+        props.dataSource && props.dataSource.map((item, index) => {
+            const row = {
+                key: index,
+                avatar: item.avatar,
+                position: item.position.name,
+                branchName: item.branch.name,
+                guid: item.guid,
+            };
+            data.push(row);
+        });
+        return data;
+    }
+
     return (
         <div className={props.className}>
             <h3 className='sm-subheading'> Employees </h3>
 
-            <SMTable columns={columns} onRow={onEmployeeSelect} {...props} className={null}/>
+            <SMTable columns={columns} dataSource={addDataSource()} onRow={onEmployeeSelect}  className={null}/>
         </div>
     )
 }
