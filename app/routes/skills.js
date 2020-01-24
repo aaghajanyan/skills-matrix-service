@@ -1,19 +1,10 @@
 const express = require('express');
-const {
-    getSkills,
-    getSkill,
-    getSkillAllData,
-    getSkillsAllData,
-    addSkill,
-    updateSkill,
-    updateSkillAllData,
-    deleteSkill,
-} = require('../controllers/skill');
-const { validateAddBody, validateUpdateBody } = require('../validation/skills');
-const { verifyLoginToken } = require('../validation/token');
-const { verifyPermissions } = require('../validation/permissions');
-
 const router = express.Router();
+
+const {getSkills, getSkill, getSkillAllData, getSkillsAllData, addSkill, updateSkill, updateSkillAllData, deleteSkill} = require('../controllers/skill');
+const {validateAddBody, validateUpdateBody} = require('../validation/skills');
+const {verifyLoginToken} = require('../validation/token');
+const {verifyPermissions} = require('../validation/permissions');
 
 router.get('/', verifyLoginToken, getSkills);
 router.get('/all', verifyLoginToken, getSkillsAllData);

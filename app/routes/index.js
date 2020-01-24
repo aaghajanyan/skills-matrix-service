@@ -1,4 +1,6 @@
 const express = require('express');
+const router = express.Router();
+
 const users = require('./users');
 const invitations = require('./invitations');
 const categories = require('./categories');
@@ -13,8 +15,6 @@ const search = require('./search');
 const criteria = require('./criteria');
 const branch = require('./branch');
 const position = require('./position');
-
-const router = express.Router();
 
 router.use('/users', users);
 router.use('/invitations', invitations);

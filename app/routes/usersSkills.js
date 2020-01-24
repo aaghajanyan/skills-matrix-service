@@ -1,8 +1,9 @@
 const express = require('express');
-const { getUserSkills, getUsersSkills, addUserSkill, updateUserSkill, deleteUserSkill, deleteUserSkillById } = require('../controllers/usersSkills');
-const { validateAddBody, validateUpdateBody } = require('../validation/usersSkills');
-const { verifyLoginToken, verifyRightPermission } = require('../validation/token');
 const router = express.Router();
+
+const {getUserSkills, getUsersSkills, addUserSkill, updateUserSkill, deleteUserSkill, deleteUserSkillById} = require('../controllers/usersSkills');
+const {validateAddBody, validateUpdateBody} = require('../validation/usersSkills');
+const {verifyLoginToken, verifyRightPermission} = require('../validation/token');
 
 router.get('/', verifyLoginToken, getUsersSkills);
 router.get('/:userSkillGuid', verifyLoginToken, getUserSkills);

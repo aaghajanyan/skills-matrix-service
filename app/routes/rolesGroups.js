@@ -1,7 +1,8 @@
 const express = require('express');
-const { getRoleGroup, getRoleGroups } = require('../controllers/rolesGroups');
-const { verifyLoginToken } = require('../validation/token');
 const router = express.Router();
+
+const {getRoleGroup, getRoleGroups} = require('../controllers/rolesGroups');
+const {verifyLoginToken} = require('../validation/token');
 
 router.get('/', verifyLoginToken, getRoleGroups);
 router.get('/:guid', verifyLoginToken, getRoleGroup);

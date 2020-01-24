@@ -1,10 +1,10 @@
 const express = require('express');
-const { getBranch, getBranches, addBranch, updateBranch, deleteBranch } = require('../controllers/branch');
-const { validateAddBody, validateUpdateBody } = require('../validation/branch');
-const { verifyLoginToken } = require('../validation/token');
-const { verifyPermissions } = require('../validation/permissions');
-
 const router = express.Router();
+
+const {getBranch, getBranches, addBranch, updateBranch, deleteBranch} = require('../controllers/branch');
+const {validateAddBody, validateUpdateBody} = require('../validation/branch');
+const {verifyLoginToken} = require('../validation/token');
+const {verifyPermissions} = require('../validation/permissions');
 
 router.get('/', verifyLoginToken, getBranches);
 router.get('/:guid', verifyLoginToken, getBranch);
