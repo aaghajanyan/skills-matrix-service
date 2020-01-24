@@ -18,7 +18,7 @@ module.exports.couldNotDeleteCriteria = (criteriaType, value = '') => {
 }
 
 module.exports.alreadyExistsCriteria = (criteriaType, value = '') => {
-    return criteria(Constants.ErrorMessages.ALREADY_EXISTS1, criteriaType, value);
+    return criteria(Constants.ErrorMessages.ALREADY_EXISTS1, value, criteriaType);
 }
 
 module.exports.doesNotExistCriteria = (criteriaType, value = '') => {

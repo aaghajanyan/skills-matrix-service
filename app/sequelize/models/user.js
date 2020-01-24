@@ -1,9 +1,11 @@
-const DefaultUsers = require('../utils/DefaultUsers');
-const DefaultRoles = require('../utils/DefaultRoles');
-const DefaultBranches = require('../utils/DefaultBranches');
-const DefaultPosition = require('../utils/DefaultPosition');
+// const DefaultRoles = require('../utils/DefaultRoles');
+// const DefaultPosition = require('../utils/DefaultPosition');
 const { Constants } = require('../../constants/Constants');
 const config = require('../config/config');
+const { initializeUserTable } = require('../utils/defaultUsers');
+const {initializeBranchTable} = require('../utils/defaultBranches');
+const {initializePositionTable} = require('../utils/defaultPosition');
+const {initializeRoleTable, initializeRolesRelationTable, initializeRolesGroupsTable} = require('../utils/defaultRoles');
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
@@ -125,15 +127,15 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     User.initDefaultValues = async function(models) {
-        await DefaultRoles.initializeRoleTable(models);
-        await DefaultBranches.initializeBranchTable(models);
-        await DefaultPosition.initializePositionTable(models);
-        await DefaultRoles.initializeRolesGroupsTable(models);
-        await DefaultRoles.initializeRolesRelationTable(
+        await initializeRoleTable(models);
+        await initializeBranchTable(models);
+        await initializePositionTable(models);
+        await initializeRolesGroupsTable(models);
+        await initializeRolesRelationTable(
             models,
             rolesAndGroupRelation
         );
-        await DefaultUsers.initializeUserTable(models);
+        await initializeUserTable(models);
         await sequelize.query(
             `${Constants.ViewQueries.create_or_replace_view} ${config.queryTemplate.view_name} AS ${config.queryTemplate.users_view}`
         );

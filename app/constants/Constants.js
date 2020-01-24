@@ -259,7 +259,7 @@ const Constants = {
         },
         CategoryRelation: {
             REL_CATEGORY_DOES_NOT_EXISTS: 'Related categories does not exists.',
-            CATEGORY_DOES_NOT_EXISTS: 'Category does not exists.',
+            CATEGORY_DOES_NOT_EXISTS: 'Category does not exists',
         },
         RolesGroup: {
             COULD_NOT_GET_ROLE_GROUP_F:

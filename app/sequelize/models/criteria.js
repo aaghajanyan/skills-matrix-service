@@ -1,5 +1,5 @@
 const { Constants } = require('../../constants/Constants');
-const DefaultCriteries = require('../utils/DefaultCriteries');
+const {initializeCriteriaTable} = require('../utils/defaultCriteries');
 
 module.exports = (sequelize, DataTypes) => {
     const Criteria = sequelize.define(
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     Criteria.associate = models => {};
 
     Criteria.initDefaultValues = async function(models) {
-        await DefaultCriteries.initializeCriteriaTable(models);
+        await initializeCriteriaTable(models);
     };
 
     return Criteria;

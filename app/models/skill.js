@@ -5,7 +5,7 @@ const {
 } = require('../sequelize/models');
 const { Constants } = require('../constants/Constants');
 const {
-    elementDoesNotExist,
+    doesNotExistCriteria,
  } = require('../helper/errorResponseBodyBuilder');
 
 class Skill {
@@ -64,12 +64,7 @@ class Skill {
         return skills;
     }
 
-    static async addedNewCategories(
-        categoriesId,
-        skill,
-        sendedList,
-        categoriesRequired
-    ) {
+    static async addedNewCategories(categoriesId, skill, sendedList, categoriesRequired) {
         sendedList.addedCategories = [];
         sendedList.errors = [];
 
@@ -78,21 +73,11 @@ class Skill {
                 const category = await categoryModel.findOne({
                     where: { guid: categoryGuid },
                 });
-                const message = {
-                    message: `${elementDoesNotExist(Constants.TypeNames.CATEGORY, categoryGuid)}`,
-                    success: false,
-                };
-
+                const message = doesNotExistCriteria(Constants.TypeNames.CATEGORY, categoryGuid);
                 if (category) {
-                    const skillRelation = await skillRelationModel.findOrCreate(
-                        {
-                            where: {
-                                skill_id: skill.id,
-                                category_id: category.id,
-                            },
-                        }
-                    );
-
+                    const skillRelation = await skillRelationModel.findOrCreate({
+                        where: { skill_id: skill.id, category_id: category.id },
+                    });
                     return {
                         id: skill.id,
                         name: skill.name,
@@ -124,7 +109,6 @@ class Skill {
                 const category = await categoryModel.findOne({
                     where: { guid: categoryGuid },
                 });
-
                 const obj = {
                     categoryGuid: categoryGuid,
                     status: false,

@@ -13,7 +13,8 @@ const {
     couldNotAddCriteria,
     couldNotUpdateCriteria,
     couldNotDeleteCriteria,
-    doesNotExistCriteria
+    doesNotExistCriteria,
+    alreadyExistsCriteria
  } = require('../helper/errorResponseBodyBuilder');
 
 const getSkills = async function(_, response) {
@@ -81,10 +82,12 @@ const addSkill = async function(request, response) {
             let status = (await Skill.getStatus(sendedList, Constants.Keys.addedCategories))
                 ? CREATED
                 : CONFLICT;
+
             if (status === CONFLICT && categoriesId.length === 1) {
                 skill.destroy();
                 return response.status(CONFLICT).json(
-                    couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skill.name)
+                    couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase() + ' ' + skill.name,
+                    Constants.Controllers.CategoryRelation.CATEGORY_DOES_NOT_EXISTS)
                 );
             }
             return response.status(status).json({
@@ -94,14 +97,16 @@ const addSkill = async function(request, response) {
                 ...sendedList,
             });
         } catch (error) {
+            console.log(error)
             logger.error(error);
             return response.status(CONFLICT).json(
-                couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skill.name)
+                couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase())
             );
         }
     } else {
         return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skillData.name)
+            couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase(),
+                Constants.Controllers.CategoryRelation.CATEGORY_DOES_NOT_EXISTS)
         );
     }
 };

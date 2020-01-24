@@ -1,25 +1,25 @@
 const config = require('../config/config');
 const logger = require('../../helper/logger');
 
-class DefaultRoles {
-    static async initializeRoleTable(models) {
-        let rolesObjArr = await config.roles.map(role => {
-            return { name: role };
-        });
-        await models.roles.bulkCreate(rolesObjArr).catch(err => {});
-    }
+module.exports.initializeRoleTable = async (models) => {
+    let rolesObjArr = await config.roles.map(role => {
+        return { name: role };
+    });
+    await models.roles.bulkCreate(rolesObjArr).catch(err => {});
+}
 
-    static async initializeRolesGroupsTable(models) {
-        let rolesGroupsObjArr = config.rolesGroups.map(roleGroup => {
-            return { name: roleGroup };
-        });
-        await models.roles_groups
-            .bulkCreate(rolesGroupsObjArr)
-            .catch(err => {});
-    }
+module.exports.initializeRolesGroupsTable = async (models) => {
+    let rolesGroupsObjArr = config.rolesGroups.map(roleGroup => {
+        return { name: roleGroup };
+    });
+    await models.roles_groups
+        .bulkCreate(rolesGroupsObjArr)
+        .catch(err => {});
+}
 
-    static async initializeRolesRelationTable(models, rolesAndGroupRelation) {
-        let roleRelList = [];
+
+module.exports.initializeRolesRelationTable = async (models, rolesAndGroupRelation) => {
+    let roleRelList = [];
         Object.keys(rolesAndGroupRelation).map(async function(group) {
             try {
                 const rolesList = rolesAndGroupRelation[group];
@@ -33,15 +33,13 @@ class DefaultRoles {
                         });
                         const currRoleRelObj = {};
                         currRoleRelObj.role_id = existingRole.dataValues.id;
-                        currRoleRelObj.role_group_id =
-                            existingRoleGroup.dataValues.id;
+                        currRoleRelObj.role_group_id = existingRoleGroup.dataValues.id;
                         roleRelList.push(currRoleRelObj);
                         const existingRoleRel = await models.roles_relations.findOne(
                             {
                                 where: {
                                     role_id: existingRole.dataValues.id,
-                                    role_group_id:
-                                        existingRoleGroup.dataValues.id,
+                                    role_group_id: existingRoleGroup.dataValues.id,
                                 },
                             }
                         );
@@ -49,10 +47,8 @@ class DefaultRoles {
                             models.roles_relations
                                 .build({
                                     role_id: existingRole.dataValues.id,
-                                    role_group_id:
-                                        existingRoleGroup.dataValues.id,
-                                })
-                                .save();
+                                    role_group_id: existingRoleGroup.dataValues.id,
+                                }).save();
                         }
                     } catch (error) {
                         logger.error(error);
@@ -62,7 +58,4 @@ class DefaultRoles {
                 logger.error(error);
             }
         });
-    }
 }
-
-module.exports = DefaultRoles;
