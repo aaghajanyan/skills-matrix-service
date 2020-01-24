@@ -8,7 +8,12 @@ const {
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
 const Branch = require('../models/branch');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    couldNotAddCriteria,
+    couldNotUpdateCriteria,
+    couldNotDeleteCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getBranches = async function(request, response) {
     try {
@@ -16,13 +21,9 @@ const getBranches = async function(request, response) {
         return response.status(OK).json(branches);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.BRANCH.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.BRANCHES.toLowerCase())
+        );
     }
 };
 
@@ -31,14 +32,11 @@ const getBranch = async function(request, response) {
         const branch = await Branch.find({ guid: request.params.guid });
         response.status(OK).json(branch);
     } catch (error) {
+        console.log(error)
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.BRANCH.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -48,26 +46,18 @@ const addBranch = async function(request, response) {
             name: request.body.name,
         });
         if (!isNewRecord) {
-            return response.status(OK).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.ALREADY_EXISTS,
-                    Constants.TypeNames.BRANCH
-                )}`,
-            });
+            return response.status(OK).json(
+                alreadyExistsCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.body.name)
+            );
         }
         return response.status(CREATED).json({
             branch,
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_ADD,
-                Constants.TypeNames.BRANCH.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.body.name)
+        );
     }
 };
 
@@ -77,13 +67,9 @@ const updateBranch = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.BRANCH.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -93,13 +79,9 @@ const deleteBranch = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.BRANCH.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.params.guid)
+        );
     }
 };
 

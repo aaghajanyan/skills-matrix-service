@@ -14,6 +14,15 @@ const { Constants } = require('../constants/Constants');
 const Category = require('../models/category');
 const logger = require('../helper/logger');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    doesNotExistCriteria,
+    couldNotAddCriteria,
+    couldNotUpdateCriteria,
+    couldNotDeleteCriteria,
+    alreadyExistsCriteria
+ } = require('../helper/errorResponseBodyBuilder');
+
 
 const getCategories = async function(_, response) {
     try {
@@ -21,13 +30,9 @@ const getCategories = async function(_, response) {
         return response.status(OK).json(categories);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase())
+        );
     }
 };
 
@@ -37,13 +42,9 @@ const getCategory = async function(request, response) {
         response.status(OK).json(category);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -53,13 +54,9 @@ const updateCategory = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -69,13 +66,9 @@ const deleteCategory = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -103,7 +96,6 @@ const includeModel = (
 
 const getCategoriesAllData = async function(_, response) {
     try {
-        // const categories = await Category.getCategoriesAllData();
         const categories = await categoryModel.findAll({
             include: [
                 {
@@ -166,13 +158,9 @@ const getCategoriesAllData = async function(_, response) {
             );
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase())
+        );
     }
 };
 
@@ -235,13 +223,9 @@ const getCategoryAllData = async function(request, response) {
         return response.status(OK).json(categories);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -258,13 +242,9 @@ const addCategory = async function(request, response) {
         });
 
         if (!isNewRecord) {
-            return response.status(OK).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.ALREADY_EXISTS,
-                    Constants.TypeNames.CATEGORY
-                )}`,
-            });
+            return response.status(OK).json(
+                alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), category.name)
+            );
         }
         await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
         await Category.addSkills(skillsIds, category, sendedList);
@@ -275,14 +255,11 @@ const addCategory = async function(request, response) {
             [Constants.Keys.addedSkills]: sendedList.addedSkills,
         });
     } catch (error) {
+        console.log(error);
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_ADD,
-                Constants.TypeNames.CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase())
+        );
     }
 };
 
@@ -301,14 +278,9 @@ const updateCategoryAllData = async function(request, response) {
         });
 
         if (!existingCategory) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.elementDoesNotExist(
-                    Constants.TypeNames.CATEGORY,
-                    request.params.guid,
-                    Constants.Keys.id
-                )}`,
-            });
+            return response.status(OK).json(
+                doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
+            );
         }
         await Category.update(categoryData, { guid: request.params.guid });
         await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
@@ -323,14 +295,11 @@ const updateCategoryAllData = async function(request, response) {
             [Constants.Keys.removedSkills]: sendedList.removedSkills,
         });
     } catch (error) {
+        console.log(error);
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.ALREADY_EXISTS,
-                Constants.TypeNames.CATEGORY
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            //alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), ) TBD
+        );
     }
 };
 

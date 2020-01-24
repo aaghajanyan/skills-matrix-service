@@ -8,7 +8,13 @@ const {
 const Skill = require('../models/skill');
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    couldNotAddCriteria,
+    couldNotUpdateCriteria,
+    couldNotDeleteCriteria,
+    doesNotExistCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getSkills = async function(_, response) {
     try {
@@ -16,13 +22,9 @@ const getSkills = async function(_, response) {
         return response.status(OK).json(skills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.SKILL.toLowerCase())
+        );
     }
 };
 
@@ -32,13 +34,9 @@ const getSkill = async function(request, response) {
         return response.status(OK).json(skill);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -48,13 +46,9 @@ const getSkillAllData = async function(request, response) {
         return response.status(OK).json(skill);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -64,13 +58,9 @@ const getSkillsAllData = async function(request, response) {
         return response.status(OK).json(skills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.SKILL.toLowerCase())
+        );
     }
 };
 
@@ -82,33 +72,21 @@ const addSkill = async function(request, response) {
                 name: skillData.name,
             });
             if (!isNewRecord) {
-                return response.status(OK).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.ALREADY_EXISTS,
-                        Constants.TypeNames.SKILL
-                    )}`,
-                });
+                return response.status(OK).json(
+                    alreadyExistsCriteria(Constants.TypeNames.SKILL.toLowerCase(), skill.name)
+                );
             }
             const sendedList = [];
             await Skill.addedNewCategories(categoriesId, skill, sendedList, true);
-            let status = (await Skill.getStatus(
-                sendedList,
-                Constants.Keys.addedCategories
-            ))
+            let status = (await Skill.getStatus(sendedList, Constants.Keys.addedCategories))
                 ? CREATED
                 : CONFLICT;
             if (status === CONFLICT && categoriesId.length === 1) {
                 skill.destroy();
-                return response.status(CONFLICT).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.COULD_NOT_ADD,
-                        Constants.TypeNames.SKILL.toLowerCase()
-                    )}`,
-                });
+                return response.status(CONFLICT).json(
+                    couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skill.name)
+                );
             }
-
             return response.status(status).json({
                 [Constants.Keys.name]: skill.name,
                 [Constants.Keys.guid]: skill.guid,
@@ -117,22 +95,14 @@ const addSkill = async function(request, response) {
             });
         } catch (error) {
             logger.error(error);
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.COULD_NOT_ADD,
-                    Constants.TypeNames.SKILL.toLowerCase()
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skill.name)
+            );
         }
     } else {
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_ADD,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotAddCriteria(Constants.TypeNames.BRANCH.toLowerCase(), skillData.name)
+        );
     }
 };
 
@@ -145,14 +115,9 @@ const updateSkillAllData = async function(request, response) {
         });
 
         if (!existingSkill) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: ErrorMessageParser.elementDoesNotExist(
-                    Constants.TypeNames.SKILL,
-                    request.params.guid,
-                    Constants.Keys.id
-                ),
-            });
+            return response.status(CONFLICT).json(
+                doesNotExistCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+            );
         }
         await Skill.updateSkill(skillData, { guid: request.params.guid });
         await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
@@ -163,13 +128,9 @@ const updateSkillAllData = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -179,13 +140,9 @@ const updateSkill = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -195,13 +152,9 @@ const deleteSkill = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.params.guid)
+        );
     }
 };
 

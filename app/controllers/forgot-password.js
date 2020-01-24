@@ -16,6 +16,11 @@ const client = require('../../config/env-settings.json').client;
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    doesNotExistCriteria,
+    unautorized,
+    internalServerError
+ } = require('../helper/errorResponseBodyBuilder');
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
@@ -23,13 +28,9 @@ const checkForgotPasswordUser = async function(request, response) {
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         const user = await User.findOne({ guid: decodedToken.guid });
         if (!user) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                doesNotExistCriteria(Constants.TypeNames.USER, decodedToken.guid)
+            );
         }
         return response.status(OK).json({
             success: true,
@@ -37,10 +38,9 @@ const checkForgotPasswordUser = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(UNAUTHORIZED).json({
-            success: false,
-            message: getStatusText(UNAUTHORIZED),
-        });
+        return response.status(UNAUTHORIZED).json(
+            unautorized(getStatusText(UNAUTHORIZED))
+        );
     }
 };
 
@@ -48,13 +48,9 @@ const forgotPassword = async function(request, response) {
     try {
         const user = await User.findOne({ email: request.body.email });
         if (!user) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                doesNotExistCriteria(Constants.TypeNames.USER, request.body.email)
+            );
         }
         const token = jwt.sign(
             {
@@ -70,10 +66,9 @@ const forgotPassword = async function(request, response) {
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch (error) {
             logger.error(error);
-            return response.status(INTERNAL_SERVER_ERROR).json({
-                success: false,
-                message: `${Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL}`,
-            });
+            return response.status(INTERNAL_SERVER_ERROR).json(
+                internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL)
+            );
         }
         return response.status(OK).json({
             success: true,
@@ -85,10 +80,9 @@ const forgotPassword = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: getStatusText(INTERNAL_SERVER_ERROR),
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            internalServerError(getStatusText(INTERNAL_SERVER_ERROR))
+        );
     }
 };
 
@@ -100,10 +94,9 @@ async function changePassword(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD)
+        );
     }
 }
 

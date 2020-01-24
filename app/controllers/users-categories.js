@@ -10,8 +10,15 @@ const User = require('../models/user');
 const Category = require('../models/category');
 const UserCategory = require('../models/users-categories');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
 const CategoryHistory = require('../models/categories-history');
+const {
+    couldNotGetCriteria,
+    couldNotUpdateCriteria,
+    couldNotAddCriteria,
+    couldNotDeleteCriteria,
+    elementDoesNotExist,
+    alreadyExistsCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getUsersCategories = async function(_, response) {
     try {
@@ -19,13 +26,9 @@ const getUsersCategories = async function(_, response) {
         response.status(OK).json(usersCategories);
     } catch (error) {
         logger.error(error);
-        response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase())
+        );
     }
 };
 
@@ -37,13 +40,9 @@ const getUserCategories = async function(request, response) {
         return response.status(OK).json(userCategories);
     } catch (error) {
         logger.error(error);
-        response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase(), request.params.userCategoryGuid)
+        );
     }
 };
 
@@ -75,50 +74,32 @@ const addUserCategory = async function(request, response) {
                             status = OK;
                             expectedResponse.items.push(userCategoryData);
                         } else {
-                            const userCategory = await UserCategory.create(
-                                category
-                            );
+                            const userCategory = await UserCategory.create(category);
                             status = CREATED;
                             expectedResponse.items.push(userCategory);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push({
-                            success: false,
-                            error: ErrorMessageParser.stringFormatter(Constants.Controllers.UserCategory.ALREADY_EXISTS,
-                                existingCategory.name,
-                                user.guid)
-                        });
+                        expectedResponse.errors.push(
+                            alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase())
+                        );
                     }
                 } else {
-                    expectedResponse.errors.push({
-                        success: false,
-                        error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.TypeNames.CATEGORY,
-                            category.categoryGuid,
-                            Constants.Keys.guid
-                        )}`,
-                    });
+                    expectedResponse.errors.push(
+                        elementDoesNotExist(Constants.TypeNames.CATEGORY, category.categoryGuid)
+                    );
                 }
             }
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_ADD,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotAddCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()) // TODO
+        );
     }
 };
 
@@ -132,7 +113,7 @@ const addUserCategoryAndUpdateHistory = async function(userCategoryData, user, e
         experience: userCategoryData.experience,
         profficience: userCategoryData.profficience,
     });
-    const userCategory = await UserCategory.update(category, {
+    await UserCategory.update(category, {
         user_id: user.id,
         category_id: existingCategory.id,
     });
@@ -158,36 +139,23 @@ const updateUserCategory = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push({
-                        success: false,
-                        error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.TypeNames.CATEGORY,
-                            category.categoryGuid,
-                            Constants.Keys.guid
-                        )}`,
-                    });
+                    expectedResponse.errors.push(
+                        elementDoesNotExist(Constants.TypeNames.CATEGORY, category.categoryGuid)
+                    );
                 }
             }
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.USER_CATEGORY)
+        );
     }
 };
 
@@ -205,38 +173,20 @@ const deleteUserCategory = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.COULD_NOT_DELETE,
-                        Constants.TypeNames.USER_CATEGORY.toLowerCase()
-                    )}. ${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.TypeNames.SKILL
-                    )}`,
-                });
+                return response.status(CONFLICT).json(
+                    elementDoesNotExist(Constants.TypeNames.CATEGORY, request.body.categoryGuid)
+                )
             }
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.COULD_NOT_DELETE,
-                    Constants.TypeNames.USER_CATEGORY.toLowerCase()
-                )} ${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.categoryGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase())
+        );
     }
 };
 
@@ -246,13 +196,9 @@ const deleteUserCategoryById = async function(request, response) {
         return response.status(ACCEPTED).end();
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.USER_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase())
+        );
     }
 };
 

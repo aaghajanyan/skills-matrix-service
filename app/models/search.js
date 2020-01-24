@@ -16,8 +16,7 @@ class SearchUser {
     collectSearchQuery(data) {
         const collectedSqlComand = this.parseJsonToSql(data, true);
         if (collectedSqlComand.error &&
-            collectedSqlComand.error.isError
-        ) {
+            collectedSqlComand.error.isError) {
             return collectedSqlComand;
         }
         let sqlCommand =

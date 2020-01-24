@@ -16,7 +16,13 @@ const User = require('../models/user');
 const Invitation = require('../models/invitation');
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    couldNotUpdateCriteria,
+    doesNotExistCriteria,
+    couldNotRegisterUser,
+    internalServerError
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getUsers = async function(_, response) {
     try {
@@ -24,13 +30,9 @@ const getUsers = async function(_, response) {
         return response.status(OK).json(users);
     } catch (error) {
         logger.error(error);
-        response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USERS.toLowerCase())
+        );
     }
 };
 
@@ -40,13 +42,9 @@ const getUser = async function(request, response) {
         return response.status(OK).json(user);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -56,13 +54,9 @@ const updateUser = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.USER.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -72,13 +66,9 @@ const signUp = async function(request, response) {
         const decodedToken = await jwtDecode(token, invitationSecretToken);
         const invitation = await Invitation.findByPk(decodedToken.guid);
         if (!invitation) {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.INVITATION
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                doesNotExistCriteria(Constants.TypeNames.INVITATION.toLowerCase(), decodedToken.guid)
+            );
         }
         request.body.email = invitation.email;
         request.body[Constants.Controllers.Users.guid] = invitation.id;
@@ -89,10 +79,9 @@ const signUp = async function(request, response) {
         response.status(CREATED).json({ guid: user.guid });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${Constants.Controllers.Users.COULD_NOT_REGISTER_USER}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotRegisterUser(Constants.Controllers.Users.COULD_NOT_REGISTER_USER)
+        );
     }
 };
 
@@ -100,22 +89,18 @@ const login = async function(request, response) {
     try {
         const user = await User.findOne({ email: request.body.email });
         if (!user) {
-            return response.status(BAD_REQUEST).json({
-                success: false,
-                message:
-                    Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT,
-            });
+            return response.status(OK).json(
+                internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
+            );
         }
         const validPassword = bcrypt.compareSync(
             request.body.password,
             user.password
         );
         if (!validPassword) {
-            return response.status(BAD_REQUEST).json({
-                success: false,
-                message:
-                    Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT,
-            });
+            return response.status(OK).json(
+                internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
+            );
         }
         const token = jwt.sign(
             {
@@ -135,10 +120,9 @@ const login = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${Constants.Controllers.Users.COULD_NOT_LOGIN}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            internalServerError(Constants.Controllers.Users.COULD_NOT_LOGIN)
+        );
     }
 };
 

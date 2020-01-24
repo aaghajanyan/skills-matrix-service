@@ -11,7 +11,14 @@ const Skill = require('../models/skill');
 const UserSkill = require('../models/users-skills');
 const SkillHistory = require('../models/skills-history');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    couldNotUpdateCriteria,
+    couldNotAddCriteria,
+    couldNotDeleteCriteria,
+    elementDoesNotExist,
+    alreadyExistsCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getUsersSkills = async function(_, response) {
     try {
@@ -19,13 +26,9 @@ const getUsersSkills = async function(_, response) {
         return response.status(OK).json(usersSkills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase())
+        );
     }
 };
 
@@ -37,13 +40,9 @@ const getUserSkills = async function(request, response) {
         return response.status(OK).json(userSkills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase(), request.params.userSkillGuid)
+        );
     }
 };
 
@@ -79,45 +78,27 @@ const addUserSkill = async function(request, response) {
                             expectedResponse.items.push(userSkill);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push({
-                            success: false,
-                            error: ErrorMessageParser.stringFormatter(
-                                Constants.Controllers.UserSkills.ALREADY_EXISTS,
-                                existingSkill.name,
-                                user.guid
-                            ),
-                        });
+                        expectedResponse.errors.push(
+                            alreadyExistsCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
+                        );
                     }
                 } else {
-                    expectedResponse.errors.push({
-                        success: false,
-                        error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.TypeNames.SKILL,
-                            skill.skillGuid,
-                            Constants.Keys.guid
-                        )}`,
-                    });
+                    expectedResponse.errors.push(
+                        elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid)
+                    );
                 }
             }
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_ADD,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotAddCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()) // TODO
+        );
     }
 };
 
@@ -158,36 +139,23 @@ const updateUserSkill = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push({
-                        success: false,
-                        error: `${ErrorMessageParser.elementDoesNotExist(
-                            Constants.TypeNames.SKILL,
-                            skill.skillGuid,
-                            Constants.Keys.guid
-                        )}`,
-                    });
+                    expectedResponse.errors.push(
+                        elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid)
+                    );
                 }
             }
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_UPDATE,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotUpdateCriteria(Constants.TypeNames.USER_SKILL)
+        );
     }
 };
 
@@ -203,38 +171,20 @@ const deleteUserSkill = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.COULD_NOT_DELETE,
-                        Constants.TypeNames.USER_SKILL.toLowerCase()
-                    )} ${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.TypeNames.SKILL
-                    )}`,
-                });
+                return response.status(CONFLICT).json(
+                    elementDoesNotExist(Constants.TypeNames.SKILL, request.body.skillGuid)
+                );
             }
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.COULD_NOT_DELETE,
-                    Constants.TypeNames.USER_SKILL.toLowerCase()
-                )} ${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.USER
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
+        );
     }
 };
 
@@ -244,13 +194,9 @@ const deleteUserSkillById = async function(request, response) {
         response.status(ACCEPTED).end();
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_DELETE,
-                Constants.TypeNames.USER_SKILL.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
+        );
     }
 };
 

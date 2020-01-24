@@ -10,6 +10,13 @@ const Category = require('../models/category');
 const CategoryRelation = require('../models/category-relation');
 const logger = require('../helper/logger');
 const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria,
+    doesNotExistCriteria,
+    couldNotAddCriteria,
+    couldNotUpdateCriteria,
+    couldNotDeleteCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
 const getCategoriesRelations = async function(_, response) {
     try {
@@ -17,13 +24,9 @@ const getCategoriesRelations = async function(_, response) {
         return response.status(OK).json(categoriesRelations);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).send(
+            couldNotGetCriteria(Constants.TypeNames.REL_CATEGORIES.toLowerCase())
+        );
     }
 };
 
@@ -35,13 +38,9 @@ const getCategoryRelation = async function(request, response) {
         return response.status(OK).json(categoryRelation);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).send(
+            couldNotGetCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId)
+        );
     }
 };
 
@@ -50,42 +49,26 @@ const addCategoryRelation = async function(request, response) {
         const category = await Category.findByPk(request.body.category_id);
         if (category) {
             const existingCategory = await Category.findByPk(
-                request.body.related_rategory_id
+                request.body.related_category_id
             );
             if (existingCategory) {
-                const categoryRelation = await CategoryRelation.create(
-                    request.body
-                );
-                return response
-                    .status(CREATED)
-                    .json({ id: categoryRelation.id });
+                const categoryRelation = await CategoryRelation.create(request.body);
+                return response.status(CREATED).json({ id: categoryRelation.id });
             } else {
-                return response.status(CONFLICT).json({
-                    success: false,
-                    message: `${ErrorMessageParser.stringFormatter(
-                        Constants.ErrorMessages.DOES_NOT_EXSTS,
-                        Constants.TypeNames.REL_CATEGORY
-                    )}`,
-                });
+                return response.status(CONFLICT).json(
+                    doesNotExistCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.body.related_category_id)
+                );
             }
         } else {
-            return response.status(CONFLICT).json({
-                success: false,
-                message: `${ErrorMessageParser.stringFormatter(
-                    Constants.ErrorMessages.DOES_NOT_EXSTS,
-                    Constants.TypeNames.REL_CATEGORY
-                )}`,
-            });
+            return response.status(CONFLICT).json(
+                doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id)
+            );
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).send(
+            couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id)
+        );
     }
 };
 
@@ -97,13 +80,9 @@ const updateCategoryRelation = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).send(
+            couldNotUpdateCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId)
+        );
     }
 };
 
@@ -115,13 +94,9 @@ const deleteCategoryRelation = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.REL_CATEGORY.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).send(
+            couldNotDeleteCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId)
+        );
     }
 };
 

@@ -5,21 +5,19 @@ const {
 const { Constants } = require('../constants/Constants');
 const RoleGroup = require('../models/roles-groups');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    couldNotGetCriteria
+ } = require('../helper/errorResponseBodyBuilder');
 
-const getRoleGroup = async function(requesfind, response) {
+const getRoleGroup = async function(request, response) {
     try {
         const roleGroup = await RoleGroup.find({ guid: request.params.guid });
         return response.status(OK).json(roleGroup);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.RolesGroup.COULD_NOT_GET_ROLE_GROUP_F,
-                request.params.guid
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.ROLE_GROUP.toLowerCase(), request.params.guid)
+        );
     }
 };
 
@@ -29,13 +27,9 @@ const getRoleGroups = async function(request, response) {
         response.status(OK).json(roleGroup);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_GET,
-                Constants.TypeNames.ROLE_GROUP.toLowerCase()
-            )}`,
-        });
+        return response.status(INTERNAL_SERVER_ERROR).json(
+            couldNotGetCriteria(Constants.TypeNames.ROLE_GROUPS.toLowerCase())
+        );
     }
 };
 
