@@ -128,10 +128,10 @@ module.exports = (sequelize, DataTypes) => {
         await initializeRolesRelationTable(models, rolesAndGroupRelation);
         await initializeUserTable(models);
         await sequelize.query(
-            `${Constants.ViewQueries.create_or_replace_view} ${config.queryTemplate.view_name} AS ${config.queryTemplate.users_view}`
+            `${Constants.ViewQueries.CREATE_OR_REPLACE_VIEW} ${config.queryTemplate.viewName} AS ${config.queryTemplate.usersView}`
         );
         await sequelize.query(
-            `${Constants.ViewQueries.create_or_replace_view} ${config.queryTemplate.unique_view_name} AS ${config.queryTemplate.users_view_unique}`
+            `${Constants.ViewQueries.CREATE_OR_REPLACE_VIEW} ${config.queryTemplate.uniqueViewName} AS ${config.queryTemplate.usersViewUnique}`
         );
     };
 

@@ -13,11 +13,11 @@ const Constants = {
     FORGOT_PASSWORD_ENDPOINT: '/forgot_password/change/',
 
     ViewQueries: {
-        view_name: 'users_view',
-        unique_view_name: 'users_view_unique',
-        create_or_replace_view: 'CREATE OR REPLACE VIEW ',
-        select_all_from: 'select * from',
-        where: 'where',
+        VIEW_NAME: 'users_view',
+        UNIQUE_VIEW_NAME: 'users_view_unique',
+        CREATE_OR_REPLACE_VIEW: 'CREATE OR REPLACE VIEW ',
+        SELECT_ALL_FROM: 'select * from',
+        WHERE: 'where',
     },
 
     Permissions: {

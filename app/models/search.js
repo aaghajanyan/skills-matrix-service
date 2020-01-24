@@ -16,8 +16,8 @@ class SearchUser {
             return collectedSqlComand;
         }
         let sqlCommand =
-            `${Constants.ViewQueries.select_all_from} ${Constants.ViewQueries.unique_view_name} \
-            ${Constants.ViewQueries.where} ` +
+            `${Constants.ViewQueries.SELECT_ALL_FROM} ${Constants.ViewQueries.UNIQUE_VIEW_NAME} \
+            ${Constants.ViewQueries.WHERE} ` +
             collectedSqlComand.currSqlStr +
             ');';
         sqlCommand = sqlCommand

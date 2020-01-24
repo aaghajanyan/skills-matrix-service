@@ -28,11 +28,11 @@ const getUsers = async function(_, response) {
 
 const getUser = async function(request, response) {
     try {
-        const user = await User.getByGuid(request.params.guid);
+        const user = await User.getByGuid(request.params.userGuid);
         return response.status(OK).json(user);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid));
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.userGuid));
     }
 };
 
@@ -69,6 +69,7 @@ const signUp = async function(request, response) {
 const login = async function(request, response) {
     try {
         const user = await User.findOne({ email: request.body.email });
+
         if (!user) {
             return response.status(UNAUTHORIZED).json(internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT));
         }

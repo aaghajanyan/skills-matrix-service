@@ -81,7 +81,6 @@ const addUserSkill = async function(request, response) {
             return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
-        console.log(error);
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
             couldNotAddCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()) // TODO

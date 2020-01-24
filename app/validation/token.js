@@ -16,8 +16,6 @@ const verifyToken = async (request, response, next, token, secret) => {
         request.user = verified;
         const decodedToken = await jwtDecode(token, loginSecretKey);
         request.guid = decodedToken.guid;
-        console.log('111 request = ', request.guid);
-
         next();
     } catch (err) {
         response.status(UNAUTHORIZED).send();

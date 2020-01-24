@@ -7,6 +7,7 @@ const SearchUser = require('../models/search');
 const { validateEmptyQueryBodySchema } = require('../validation/search');
 const CustomError = require('../errors/CustomError');
 const util = require('util');
+
 const decodeQuery = async function(encodedQuery) {
     try {
         return {

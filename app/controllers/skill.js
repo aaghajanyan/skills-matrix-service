@@ -83,7 +83,6 @@ const addSkill = async function(request, response) {
                 ...sendedList,
             });
         } catch (error) {
-            console.log(error);
             logger.error(error);
             return response.status(CONFLICT).json(couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase()));
         }
