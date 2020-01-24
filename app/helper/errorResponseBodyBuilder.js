@@ -1,9 +1,5 @@
 const { Constants } = require('../constants/Constants');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
-const {
-    UNAUTHORIZED,
-    getStatusText
-} = require('http-status-codes');
+const util = require('util');
 
 module.exports.couldNotGetCriteria = (criteriaType, value = '') => {
     return criteria(Constants.ErrorMessages.COULD_NOT_GET1, criteriaType, value);
@@ -29,32 +25,17 @@ module.exports.doesNotExistCriteria = (criteriaType, value = '') => {
     return criteria(Constants.ErrorMessages.DOES_NOT_EXSTS1, criteriaType, value);
 }
 
-module.exports.unautorized = (criteriaType, value = '') => {
-    return criteria('%1', criteriaType, value);
+module.exports.addErrorMsg = (msg) => {
+    return criteria(msg, '', '');
 }
 
 module.exports.internalServerError = (criteriaType, value = '') => {
-    return criteria('%1', criteriaType, value);
+    return criteria('', criteriaType, value);
 }
 
-module.exports.badRequest = (criteriaType, value = '') => {
-    return criteria('%1', criteriaType, value);
-}
-
-module.exports.conflictError = (criteriaType, value = '') => {
-    return criteria('%1', criteriaType, value);
-}
-
-module.exports.couldNotRegisterUser = (criteriaType, value = '') => {
-    return criteria('%1', criteriaType, value);
-}
-
-const criteria = (errorType, criteriaType, value = '') => {
+const criteria = (errorTypeMsg, criteriaType, value = '') => {
     return {
         success: false,
-        message: `${ErrorMessageParser.stringFormatter(
-            errorType,
-            criteriaType, value
-        )}`,
+        message: `${util.format(errorTypeMsg, criteriaType, value)}`
     }
 };

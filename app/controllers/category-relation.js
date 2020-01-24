@@ -9,7 +9,6 @@ const { Constants } = require('../constants/Constants');
 const Category = require('../models/category');
 const CategoryRelation = require('../models/category-relation');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
 const {
     couldNotGetCriteria,
     doesNotExistCriteria,

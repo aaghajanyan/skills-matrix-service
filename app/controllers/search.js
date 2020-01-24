@@ -9,8 +9,7 @@ const db = require('../sequelize/models');
 const SearchUser = require('../models/search');
 const { validateEmptyQueryBodySchema } = require('../validation/search');
 const CustomError = require('../errors/CustomError');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
-
+const util = require('util');
 const decodeQuery = async function(encodedQuery) {
     try {
         return {
@@ -25,10 +24,8 @@ const decodeQuery = async function(encodedQuery) {
         return {
             success: false,
             error: true,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.Controllers.Search.QUERY_PARAM_IS_INVALID,
-                Constants.Controllers.Search.QUERY_PARAM_NAME
-            )}`,
+            message: `${util.format(Constants.Controllers.Search.QUERY_PARAM_IS_INVALID,
+                Constants.Controllers.Search.QUERY_PARAM_NAME)}`,
         };
     }
 };
@@ -94,10 +91,8 @@ const searchUsers = async function(request, response, next) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${ErrorMessageParser.stringFormatter(
-                Constants.ErrorMessages.COULD_NOT_FIND,
-                Constants.TypeNames.USER.toLowerCase()
-            )}`,
+            message: `${util.format(Constants.ErrorMessages.COULD_NOT_FIND,
+                Constants.TypeNames.USER.toLowerCase())}`,
         });
     }
 };

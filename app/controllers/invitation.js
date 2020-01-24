@@ -21,7 +21,7 @@ const logger = require('../helper/logger');
 const {
     couldNotAddCriteria,
     internalServerError,
-    conflictError
+    addErrorMsg
  } = require('../helper/errorResponseBodyBuilder');
 
 const checkInvitationInDB = async function(request, response) {
@@ -74,12 +74,12 @@ const addInvitation = async function(request, response) {
                 });
             } else {
                 return response.status(CONFLICT).json(
-                    conflictError(Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_USER_MODEL)
+                    addErrorMsg(Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_USER_MODEL)
                 );
             }
         } else {
             return response.status(CONFLICT).json(
-                conflictError(Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_INVITATION_MODEL)
+                addErrorMsg(Constants.Controllers.Invitation.EMAIL_ALREADY_EXISTS_INVITATION_MODEL)
             );
         }
     } catch (error) {

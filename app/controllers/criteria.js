@@ -8,7 +8,6 @@ const {
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
 const Criteria = require('../models/criteria');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
 const {
     couldNotGetCriteria,
     couldNotAddCriteria,

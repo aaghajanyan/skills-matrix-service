@@ -191,20 +191,20 @@ const Constants = {
     },
 
     ErrorMessages: {
-        COULD_NOT_GET: 'Could not get %1.',
-        COULD_NOT_FIND: 'Could not find %1.',
-        COULD_NOT_ADD: 'Could not add %1.',
-        COULD_NOT_UPDATE: 'Could not update %1.',
-        COULD_NOT_DELETE: 'Could not delete %1.',
-        DOES_NOT_EXSTS: '%1 does not exists.',
-        ALREADY_EXISTS: '%1 already exists.',
+        COULD_NOT_GET: 'Could not get %s.',
+        COULD_NOT_FIND: 'Could not find %s.',
+        COULD_NOT_ADD: 'Could not add %s.',
+        COULD_NOT_UPDATE: 'Could not update %s.',
+        COULD_NOT_DELETE: 'Could not delete %s.',
+        DOES_NOT_EXSTS: '%s does not exists.',
+        ALREADY_EXISTS: '%s already exists.',
 
-        COULD_NOT_GET1: 'Could not get %2 %1',
-        COULD_NOT_ADD1: 'Could not add \'%2\' %1.',
-        ALREADY_EXISTS1: '\'%2\' %1 already exists.',
-        COULD_NOT_UPDATE1: 'Could not update \'%2\' %1.',
-        COULD_NOT_DELETE1: 'Could not delete \'%2\' %1.',
-        DOES_NOT_EXSTS1: '\'%2\' %1 does not exists.',
+        COULD_NOT_GET1: 'Could not get %s %s',
+        COULD_NOT_ADD1: 'Could not add \'%s\' %s.',
+        ALREADY_EXISTS1: '\'%s\' %s already exists.',
+        COULD_NOT_UPDATE1: 'Could not update \'%s\' %s.',
+        COULD_NOT_DELETE1: 'Could not delete \'%s\' %s.',
+        DOES_NOT_EXSTS1: '\'%s\' %s does not exists.',
     },
 
     TypeNames: {
@@ -254,7 +254,7 @@ const Constants = {
         },
         ForgotPassword: {
             COULD_NOT_SEND_EMAIL: 'Could not send email.',
-            SENDED_MAIL_ADDRESS: 'Mail sended to %1 email.',
+            SENDED_MAIL_ADDRESS: 'Mail sended to %s email.',
             COULD_NOT_CHANGE_PASSWORD: 'Could not change password.',
         },
         CategoryRelation: {
@@ -295,8 +295,8 @@ const Constants = {
                 AND: '$and',
                 NE: '$ne',
             },
-            QUERY_PARAM_IS_INVALID: '<%1> query parameter is invalid.',
-            QUERY_PARAM_IS_MISSING: '<%1> query parameter is missing.',
+            QUERY_PARAM_IS_INVALID: '<%s> query parameter is invalid.',
+            QUERY_PARAM_IS_MISSING: '<%s> query parameter is missing.',
             QUERY_PARAM_NAME: 'search_query',
         },
     },

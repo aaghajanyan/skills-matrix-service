@@ -4,7 +4,9 @@ const {
     skills_relation: skillRelationModel,
 } = require('../sequelize/models');
 const { Constants } = require('../constants/Constants');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const {
+    elementDoesNotExist,
+ } = require('../helper/errorResponseBodyBuilder');
 
 class Skill {
     static async findAll() {
@@ -77,11 +79,7 @@ class Skill {
                     where: { guid: categoryGuid },
                 });
                 const message = {
-                    message: `${ErrorMessageParser.elementDoesNotExist(
-                        Constants.TypeNames.CATEGORY,
-                        categoryGuid,
-                        Constants.Keys.id
-                    )}`,
+                    message: `${elementDoesNotExist(Constants.TypeNames.CATEGORY, categoryGuid)}`,
                     success: false,
                 };
 

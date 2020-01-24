@@ -15,15 +15,16 @@ const mailer = require('../email/email');
 const client = require('../../config/env-settings.json').client;
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
-const ErrorMessageParser = require('../errors/ErrorMessageParser');
+const util = require('util');
 const {
     doesNotExistCriteria,
-    unautorized,
+    addErrorMsg,
     internalServerError
  } = require('../helper/errorResponseBodyBuilder');
 
 const checkForgotPasswordUser = async function(request, response) {
     try {
+        11/asdf;
         const token = request.params.token;
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         const user = await User.findOne({ guid: decodedToken.guid });
@@ -39,7 +40,7 @@ const checkForgotPasswordUser = async function(request, response) {
     } catch (error) {
         logger.error(error);
         return response.status(UNAUTHORIZED).json(
-            unautorized(getStatusText(UNAUTHORIZED))
+            addErrorMsg(getStatusText(UNAUTHORIZED))
         );
     }
 };
@@ -72,7 +73,7 @@ const forgotPassword = async function(request, response) {
         }
         return response.status(OK).json({
             success: true,
-            message: `${ErrorMessageParser.stringFormatter(
+            message: `${util.format(
                 Constants.Controllers.ForgotPassword.SENDED_MAIL_ADDRESS,
                 request.body.email
             )}`,

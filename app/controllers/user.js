@@ -20,7 +20,7 @@ const {
     couldNotGetCriteria,
     couldNotUpdateCriteria,
     doesNotExistCriteria,
-    couldNotRegisterUser,
+    addErrorMsg,
     internalServerError
  } = require('../helper/errorResponseBodyBuilder');
 
@@ -80,7 +80,7 @@ const signUp = async function(request, response) {
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotRegisterUser(Constants.Controllers.Users.COULD_NOT_REGISTER_USER)
+            addErrorMsg(Constants.Controllers.Users.COULD_NOT_REGISTER_USER)
         );
     }
 };
