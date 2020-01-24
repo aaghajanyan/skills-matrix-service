@@ -1,7 +1,6 @@
 const {
     OK,
     INTERNAL_SERVER_ERROR,
-    CONFLICT,
     ACCEPTED,
     CREATED,
 } = require('http-status-codes');
@@ -50,9 +49,7 @@ const addBranch = async function(request, response) {
                 alreadyExistsCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.body.name)
             );
         }
-        return response.status(CREATED).json({
-            branch,
-        });
+        return response.status(CREATED).json({branch});
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(

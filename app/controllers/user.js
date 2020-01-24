@@ -10,7 +10,8 @@ const {
     CREATED,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
-    CONFLICT
+    CONFLICT,
+    UNAUTHORIZED
 } = require('http-status-codes');
 const User = require('../models/user');
 const Invitation = require('../models/invitation');
@@ -89,7 +90,7 @@ const login = async function(request, response) {
     try {
         const user = await User.findOne({ email: request.body.email });
         if (!user) {
-            return response.status(OK).json(
+            return response.status(UNAUTHORIZED).json(
                 internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
             );
         }
@@ -98,7 +99,7 @@ const login = async function(request, response) {
             user.password
         );
         if (!validPassword) {
-            return response.status(OK).json(
+            return response.status(UNAUTHORIZED).json(
                 internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
             );
         }
