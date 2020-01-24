@@ -4,7 +4,7 @@ const invitationSecretToken = require('../../config/env-settings.json')
     .invitationSecretKey;
 const forgotPasswordTokenSecret = require('../../config/env-settings.json')
     .forgotPasswordSecretKey;
-const { BAD_REQUEST, UNAUTHORIZED, getStatusText } = require('http-status-codes');
+const { UNAUTHORIZED, getStatusText } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 
 const verifyToken = async (request, response, next, token, secret) => {

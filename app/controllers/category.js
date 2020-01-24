@@ -254,7 +254,6 @@ const addCategory = async function(request, response) {
             [Constants.Keys.addedSkills]: sendedList.addedSkills,
         });
     } catch (error) {
-        console.log(error);
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
             couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase())
@@ -294,10 +293,9 @@ const updateCategoryAllData = async function(request, response) {
             [Constants.Keys.removedSkills]: sendedList.removedSkills,
         });
     } catch (error) {
-        console.log(error);
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
-            //alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), ) TBD
+            alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase())
         );
     }
 };

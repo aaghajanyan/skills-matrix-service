@@ -31,7 +31,6 @@ const getBranch = async function(request, response) {
         const branch = await Branch.find({ guid: request.params.guid });
         response.status(OK).json(branch);
     } catch (error) {
-        console.log(error)
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
             couldNotGetCriteria(Constants.TypeNames.BRANCH.toLowerCase(), request.params.guid)
