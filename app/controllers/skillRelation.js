@@ -1,22 +1,16 @@
-const {
-    OK,
-    INTERNAL_SERVER_ERROR,
-    ACCEPTED,
-    CONFLICT,
-    CREATED
-} = require('http-status-codes');
+const { OK, INTERNAL_SERVER_ERROR, ACCEPTED, CONFLICT, CREATED } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const Skill = require('../models/skill');
 const Category = require('../models/category');
-const SkillRelation = require('../models/skill-relation');
+const SkillRelation = require('../models/skillRelation');
 const logger = require('../helper/logger');
 const {
     couldNotGetCriteria,
     couldNotAddCriteria,
     couldNotUpdateCriteria,
     couldNotDeleteCriteria,
-    doesNotExistCriteria
- } = require('../helper/errorResponseBodyBuilder');
+    doesNotExistCriteria,
+} = require('../helper/errorResponseBodyBuilder');
 
 const getSkillsRelations = async function(_, response) {
     try {
@@ -24,23 +18,19 @@ const getSkillsRelations = async function(_, response) {
         return response.status(OK).json(skillsRelations);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(
-            couldNotGetCriteria(Constants.TypeNames.SKILL_RELS.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).send(couldNotGetCriteria(Constants.TypeNames.SKILL_RELS.toLowerCase()));
     }
 };
 
 const getSkillRelation = async function(request, response) {
     try {
-        const skillRelation = await SkillRelation.findByPk(
-            request.params.skillRelationId
-        );
+        const skillRelation = await SkillRelation.findByPk(request.params.skillRelationId);
         response.status(OK).json(skillRelation);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(
-            couldNotGetCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId)
-        );
+        return response
+            .status(INTERNAL_SERVER_ERROR)
+            .send(couldNotGetCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId));
     }
 };
 
@@ -53,20 +43,14 @@ const addSkillRelation = async function(request, response) {
                 const skillRelation = await SkillRelation.create(request.body);
                 response.status(CREATED).json({ id: skillRelation.id });
             } else {
-                return response.status(CONFLICT).json(
-                    doesNotExistCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.body.skill_id)
-                );
+                return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.SKILL.toLowerCase(), request.body.skill_id));
             }
         } else {
-            return response.status(CONFLICT).json(
-                doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id)
-            );
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(
-            couldNotAddCriteria(Constants.TypeNames.SKILL_REL)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).send(couldNotAddCriteria(Constants.TypeNames.SKILL_REL));
     }
 };
 
@@ -79,15 +63,13 @@ const updateSkillRelation = async function(request, response) {
             });
             response.status(ACCEPTED).json({ success: true });
         } else {
-            return response.status(CONFLICT).json(
-                doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id)
-            );
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(
-            couldNotUpdateCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId)
-        );
+        return response
+            .status(INTERNAL_SERVER_ERROR)
+            .send(couldNotUpdateCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId));
     }
 };
 
@@ -97,9 +79,9 @@ const deleteSkillRelation = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(
-            couldNotDeleteCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId)
-        );
+        return response
+            .status(INTERNAL_SERVER_ERROR)
+            .send(couldNotDeleteCriteria(Constants.TypeNames.SKILL_REL.toLowerCase(), request.params.skillRelationId));
     }
 };
 

@@ -21,6 +21,5 @@ module.exports = {
             },
         });
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.Skills),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Skills),
 };

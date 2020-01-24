@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             created_date: {
                 allowNull: false,
                 type: DataTypes.DATE,
-            }
+            },
         },
         {
             timestamps: false,

@@ -3,7 +3,7 @@ const { Constants } = require('../../constants/Constants');
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface
-            .createTable(Constants.TableNames.UsersSkills, {
+            .createTable(Constants.TableNames.UsersCategories, {
                 id: {
                     autoIncrement: true,
                     primaryKey: true,
@@ -24,14 +24,14 @@ module.exports = {
                         as: Constants.Keys.user_id,
                     },
                 },
-                skill_id: {
+                category_id: {
                     allowNull: false,
                     type: Sequelize.INTEGER,
                     onDelete: Constants.CASCADE,
                     references: {
-                        model: Constants.TableNames.Skills,
+                        model: Constants.TableNames.Categories,
                         key: Constants.Keys.id,
-                        as: Constants.Keys.skill_id,
+                        as: Constants.Keys.category_id,
                     },
                 },
                 experience: {
@@ -48,16 +48,11 @@ module.exports = {
                 },
             })
             .then(() =>
-                queryInterface.addConstraint(
-                    Constants.TableNames.UsersSkills,
-                    [Constants.Keys.user_id, Constants.Keys.skill_id],
-                    {
-                        type: Constants.Keys.unique,
-                        name: Constants.Migrations.UserSkill.uniqueUserSkill,
-                    }
-                )
+                queryInterface.addConstraint(Constants.TableNames.UsersCategories, [Constants.Keys.user_id, Constants.Keys.category_id], {
+                    type: Constants.Keys.unique,
+                    name: Constants.Migrations.UsersCategories.uniqueUserCategory,
+                })
             );
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.UsersSkills),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.UsersCategories),
 };

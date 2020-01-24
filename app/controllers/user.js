@@ -2,17 +2,8 @@ const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
-const invitationSecretToken = require('../../config/env-settings.json')
-    .invitationSecretKey;
-const {
-    OK,
-    ACCEPTED,
-    CREATED,
-    INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
-    CONFLICT,
-    UNAUTHORIZED
-} = require('http-status-codes');
+const invitationSecretToken = require('../../config/env-settings.json').invitationSecretKey;
+const { OK, ACCEPTED, CREATED, INTERNAL_SERVER_ERROR, BAD_REQUEST, CONFLICT, UNAUTHORIZED } = require('http-status-codes');
 const User = require('../models/user');
 const Invitation = require('../models/invitation');
 const { Constants } = require('../constants/Constants');
@@ -22,8 +13,8 @@ const {
     couldNotUpdateCriteria,
     doesNotExistCriteria,
     addErrorMsg,
-    internalServerError
- } = require('../helper/errorResponseBodyBuilder');
+    internalServerError,
+} = require('../helper/errorResponseBodyBuilder');
 
 const getUsers = async function(_, response) {
     try {
@@ -31,9 +22,7 @@ const getUsers = async function(_, response) {
         return response.status(OK).json(users);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.USERS.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USERS.toLowerCase()));
     }
 };
 
@@ -43,21 +32,17 @@ const getUser = async function(request, response) {
         return response.status(OK).json(user);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid));
     }
 };
 
 const updateUser = async function(request, response) {
     try {
-        await User.update(request.params.guid, request.body);
+        await User.update(request.params.userGuid, request.body);
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotUpdateCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.USER.toLowerCase(), request.params.userGuid));
     }
 };
 
@@ -67,22 +52,17 @@ const signUp = async function(request, response) {
         const decodedToken = await jwtDecode(token, invitationSecretToken);
         const invitation = await Invitation.findByPk(decodedToken.guid);
         if (!invitation) {
-            return response.status(CONFLICT).json(
-                doesNotExistCriteria(Constants.TypeNames.INVITATION.toLowerCase(), decodedToken.guid)
-            );
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.INVITATION.toLowerCase(), decodedToken.guid));
         }
         request.body.email = invitation.email;
         request.body[Constants.Controllers.Users.guid] = invitation.id;
-        request.body[Constants.Controllers.Users.invitationId] =
-            decodedToken.guid;
+        request.body[Constants.Controllers.Users.invitationId] = decodedToken.guid;
         const user = await User.create(request.body);
         await invitation.destroy();
         response.status(CREATED).json({ guid: user.guid });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            addErrorMsg(Constants.Controllers.Users.COULD_NOT_REGISTER_USER)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(addErrorMsg(Constants.Controllers.Users.COULD_NOT_REGISTER_USER));
     }
 };
 
@@ -90,18 +70,11 @@ const login = async function(request, response) {
     try {
         const user = await User.findOne({ email: request.body.email });
         if (!user) {
-            return response.status(UNAUTHORIZED).json(
-                internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
-            );
+            return response.status(UNAUTHORIZED).json(internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT));
         }
-        const validPassword = bcrypt.compareSync(
-            request.body.password,
-            user.password
-        );
+        const validPassword = bcrypt.compareSync(request.body.password, user.password);
         if (!validPassword) {
-            return response.status(UNAUTHORIZED).json(
-                internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT)
-            );
+            return response.status(UNAUTHORIZED).json(internalServerError(Constants.ModelErrors.USERNAME_OR_PASSWORD_IS_INCORRECT));
         }
         const token = jwt.sign(
             {
@@ -121,9 +94,7 @@ const login = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            internalServerError(Constants.Controllers.Users.COULD_NOT_LOGIN)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(internalServerError(Constants.Controllers.Users.COULD_NOT_LOGIN));
     }
 };
 

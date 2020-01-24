@@ -1,4 +1,4 @@
-module.exports.initializePositionTable = async (models) => {
+module.exports.initializePositionTable = async models => {
     const positionList = [
         'Beginner SW Engineer',
         'SW Engineer',
@@ -24,4 +24,4 @@ module.exports.initializePositionTable = async (models) => {
         };
     });
     await models.position.bulkCreate(defaultPositionObj).catch(err => {});
-}
+};

@@ -2,9 +2,6 @@ const Joi = require('joi');
 const { BAD_REQUEST } = require('http-status-codes');
 
 const addBodySchema = Joi.object().keys({
-    userGuid: Joi.string()
-        .uuid()
-        .required(),
     categories: Joi.array().items(
         Joi.object()
             .keys({
@@ -21,16 +18,13 @@ const addBodySchema = Joi.object().keys({
                     .min(0)
                     .max(5)
                     .required(),
-                last_worked_date: Joi.date().required()
+                last_worked_date: Joi.date().required(),
             })
             .required()
     ),
 });
 
 const updateBodySchema = Joi.object().keys({
-    userGuid: Joi.string()
-        .uuid()
-        .required(),
     categories: Joi.array().items(
         Joi.object()
             .keys({
@@ -45,7 +39,7 @@ const updateBodySchema = Joi.object().keys({
                     .integer()
                     .min(0)
                     .max(5),
-                last_worked_date: Joi.date()
+                last_worked_date: Joi.date(),
             })
             .required()
     ),

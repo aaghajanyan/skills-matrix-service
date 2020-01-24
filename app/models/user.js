@@ -25,10 +25,7 @@ class User {
         const user = await userModel.findOne({
             where: { guid: guid },
             attributes: {
-                exclude: [
-                    Constants.Keys.password,
-                    Constants.Keys.role_group_id,
-                ],
+                exclude: [Constants.Keys.password, Constants.Keys.role_group_id],
             },
             include: [
                 {
@@ -109,10 +106,7 @@ class User {
         const filtredWhereCondition = whereCondition ? whereCondition : {};
         const users = await userModel.findAll({
             attributes: {
-                exclude: [
-                    Constants.Keys.password,
-                    Constants.Keys.role_group_id,
-                ],
+                exclude: [Constants.Keys.password, Constants.Keys.role_group_id],
             },
             where: filtredWhereCondition,
             include: [

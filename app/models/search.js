@@ -1,8 +1,5 @@
 const { Constants } = require('../constants/Constants');
-const {
-    validateRuleBodySchema,
-    validateGroupBodySchema,
-} = require('../validation/search');
+const { validateRuleBodySchema, validateGroupBodySchema } = require('../validation/search');
 const replaceAll = require('../helper/recursiveReplace');
 
 class SearchUser {
@@ -15,8 +12,7 @@ class SearchUser {
 
     collectSearchQuery(data) {
         const collectedSqlComand = this.parseJsonToSql(data, true);
-        if (collectedSqlComand.error &&
-            collectedSqlComand.error.isError) {
+        if (collectedSqlComand.error && collectedSqlComand.error.isError) {
             return collectedSqlComand;
         }
         let sqlCommand =
@@ -25,16 +21,8 @@ class SearchUser {
             collectedSqlComand.currSqlStr +
             ');';
         sqlCommand = sqlCommand
-            .replace(
-                new RegExp(
-                    `${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'),
-                `${Constants.Condition.and}`
-            )
-            .replace(
-                new RegExp(
-                    `${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'),
-                `${Constants.Condition.or}`
-            )
+            .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
+            .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
             .replace(/and \)/g, `\)`)
             .replace(/or \)/g, `\)`);
         sqlCommand = replaceAll(sqlCommand, '() and', '');
@@ -109,25 +97,13 @@ class SearchUser {
             if (properties.type) {
                 switch (properties.type.toLowerCase()) {
                     case Constants.Keys.skill:
-                        return this.convertSkillCategoryRuleToQuery(
-                            properties,
-                            true
-                        );
+                        return this.convertSkillCategoryRuleToQuery(properties, true);
                     case Constants.Keys.category:
-                        return this.convertSkillCategoryRuleToQuery(
-                            properties,
-                            false
-                        );
+                        return this.convertSkillCategoryRuleToQuery(properties, false);
                     case Constants.Keys.branch:
-                        return this.convertBranchPositionRuleToQuery(
-                            properties,
-                            true
-                        );
+                        return this.convertBranchPositionRuleToQuery(properties, true);
                     case Constants.Keys.position:
-                        return this.convertBranchPositionRuleToQuery(
-                            properties,
-                            false
-                        );
+                        return this.convertBranchPositionRuleToQuery(properties, false);
                 }
             }
         }
@@ -150,25 +126,24 @@ class SearchUser {
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
         const experience = properties.experience ? properties.experience : 1;
         const proficiency = properties.proficiency ? properties.proficiency : 1;
-        properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING,
-            Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
+        properties.name = properties.name.replace(Constants.SPECIAL_CHARACTER_REG_EXP_BEGINING, Constants.SPECIAL_CHARACTER_REG_EXP_ENDING);
 
         sqlStr = sqlStr.concat(`${properties.name},`);
-        sqlStr = properties.opCondition === 'equal' ?
-            sqlStr.concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`) :
-            sqlStr.concat(`[${Constants.Controllers.Search.MIN_EXPERIENCE}-${experience-1}],`);
-        sqlStr = properties.opCondition === 'equal' ?
-            sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]`) :
-            sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency-1}]`)
+        sqlStr =
+            properties.opCondition === 'equal'
+                ? sqlStr.concat(`[${experience}-${Constants.Controllers.Search.MAX_EXPERIENCE}],`)
+                : sqlStr.concat(`[${Constants.Controllers.Search.MIN_EXPERIENCE}-${experience - 1}],`);
+        sqlStr =
+            properties.opCondition === 'equal'
+                ? sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]`)
+                : sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency - 1}]`);
         sqlStr = sqlStr.concat("'");
         return sqlStr;
     }
 
     convertBranchPositionRuleToQuery(properties, isBranchRule) {
         const opCondition = this.getCondition(properties.opCondition);
-        let sqlStr = isBranchRule
-            ? ` ${Constants.Keys.branch_name}${opCondition}`
-            : ` ${Constants.Keys.position_name}${opCondition}`;
+        let sqlStr = isBranchRule ? ` ${Constants.Keys.branch_name}${opCondition}` : ` ${Constants.Keys.position_name}${opCondition}`;
         sqlStr = sqlStr.concat(`'${properties.name}'`);
         return sqlStr;
     }

@@ -1,15 +1,9 @@
-const {
-    OK,
-    INTERNAL_SERVER_ERROR,
-    CONFLICT,
-    ACCEPTED,
-    CREATED,
-} = require('http-status-codes');
+const { OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const User = require('../models/user');
 const Skill = require('../models/skill');
-const UserSkill = require('../models/users-skills');
-const SkillHistory = require('../models/skills-history');
+const UserSkill = require('../models/usersSkills');
+const SkillHistory = require('../models/skillsHistory');
 const logger = require('../helper/logger');
 const {
     couldNotGetCriteria,
@@ -17,8 +11,8 @@ const {
     couldNotAddCriteria,
     couldNotDeleteCriteria,
     elementDoesNotExist,
-    alreadyExistsCriteria
- } = require('../helper/errorResponseBodyBuilder');
+    alreadyExistsCriteria,
+} = require('../helper/errorResponseBodyBuilder');
 
 const getUsersSkills = async function(_, response) {
     try {
@@ -26,9 +20,7 @@ const getUsersSkills = async function(_, response) {
         return response.status(OK).json(usersSkills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase()));
     }
 };
 
@@ -40,9 +32,9 @@ const getUserSkills = async function(request, response) {
         return response.status(OK).json(userSkills);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase(), request.params.userSkillGuid)
-        );
+        return response
+            .status(INTERNAL_SERVER_ERROR)
+            .json(couldNotGetCriteria(Constants.TypeNames.USER_SKILLS.toLowerCase(), request.params.userSkillGuid));
     }
 };
 
@@ -53,7 +45,7 @@ const addUserSkill = async function(request, response) {
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOne({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { skills } = request.body;
             for (skill of skills) {
@@ -78,23 +70,18 @@ const addUserSkill = async function(request, response) {
                             expectedResponse.items.push(userSkill);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push(
-                            alreadyExistsCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
-                        );
+                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()));
                     }
                 } else {
-                    expectedResponse.errors.push(
-                        elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid)
-                    );
+                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid));
                 }
             }
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json(
-                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
-            );
+            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
+        console.log(error);
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(
             couldNotAddCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()) // TODO
@@ -116,7 +103,7 @@ const addUserSkillAndUpdateHistory = async function(userSkillData, user, existin
         user_id: user.id,
         skill_id: existingSkill.id,
     });
-}
+};
 
 const updateUserSkill = async function(request, response) {
     try {
@@ -125,7 +112,7 @@ const updateUserSkill = async function(request, response) {
             errors: [],
         };
         let status = CONFLICT;
-        const user = await User.findOne({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { skills } = request.body;
             for (skill of skills) {
@@ -139,29 +126,23 @@ const updateUserSkill = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push(
-                        elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid)
-                    );
+                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid));
                 }
             }
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json(
-                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
-            );
+            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotUpdateCriteria(Constants.TypeNames.USER_SKILL)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.USER_SKILL));
     }
 };
 
 const deleteUserSkill = async function(request, response) {
     try {
-        const user = await User.findOne({ guid: request.body.userGuid });
+        const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
@@ -171,20 +152,14 @@ const deleteUserSkill = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json(
-                    elementDoesNotExist(Constants.TypeNames.SKILL, request.body.skillGuid)
-                );
+                return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.SKILL, request.body.skillGuid));
             }
         } else {
-            return response.status(CONFLICT).json(
-                elementDoesNotExist(Constants.TypeNames.USER, request.body.userGuid)
-            );
+            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()));
     }
 };
 
@@ -194,9 +169,7 @@ const deleteUserSkillById = async function(request, response) {
         response.status(ACCEPTED).end();
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()));
     }
 };
 

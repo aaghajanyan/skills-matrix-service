@@ -1,5 +1,5 @@
 const { Constants } = require('../../constants/Constants');
-const {initializeCriteriaTable} = require('../utils/defaultCriteries');
+const { initializeCriteriaTable } = require('../utils/defaultCriteries');
 
 module.exports = (sequelize, DataTypes) => {
     const Criteria = sequelize.define(

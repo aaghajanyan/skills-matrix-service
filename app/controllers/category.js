@@ -1,9 +1,4 @@
-const {
-    OK,
-    INTERNAL_SERVER_ERROR,
-    CONFLICT,
-    ACCEPTED
-} = require('http-status-codes');
+const { OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED } = require('http-status-codes');
 const {
     category: categoryModel,
     skill: skillModel,
@@ -19,9 +14,8 @@ const {
     couldNotAddCriteria,
     couldNotUpdateCriteria,
     couldNotDeleteCriteria,
-    alreadyExistsCriteria
- } = require('../helper/errorResponseBodyBuilder');
-
+    alreadyExistsCriteria,
+} = require('../helper/errorResponseBodyBuilder');
 
 const getCategories = async function(_, response) {
     try {
@@ -29,9 +23,7 @@ const getCategories = async function(_, response) {
         return response.status(OK).json(categories);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase()));
     }
 };
 
@@ -41,9 +33,7 @@ const getCategory = async function(request, response) {
         response.status(OK).json(category);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
 };
 
@@ -53,9 +43,7 @@ const updateCategory = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotUpdateCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
 };
 
@@ -65,21 +53,11 @@ const deleteCategory = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotDeleteCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
 };
 
-const includeModel = (
-    modelName,
-    alians,
-    required,
-    attributes,
-    through_modelName,
-    through_alians,
-    through_attributes
-) => {
+const includeModel = (modelName, alians, required, attributes, through_modelName, through_alians, through_attributes) => {
     return {
         model: modelName,
         as: alians,
@@ -148,18 +126,10 @@ const getCategoriesAllData = async function(_, response) {
                 ),
             ],
         });
-        return response
-            .status(OK)
-            .json(
-                await Category.mergeRelatedCategories(
-                    JSON.parse(JSON.stringify(categories))
-                )
-            );
+        return response.status(OK).json(await Category.mergeRelatedCategories(JSON.parse(JSON.stringify(categories))));
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase()));
     }
 };
 
@@ -222,28 +192,20 @@ const getCategoryAllData = async function(request, response) {
         return response.status(OK).json(categories);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
 };
 
 const addCategory = async function(request, response) {
     try {
         const sendedList = [];
-        const {
-            relatedCategoriesIds,
-            skillsIds,
-            ...categoryData
-        } = request.body;
+        const { relatedCategoriesIds, skillsIds, ...categoryData } = request.body;
         const { category, isNewRecord } = await Category.findOrCreate({
             name: categoryData.name,
         });
 
         if (!isNewRecord) {
-            return response.status(OK).json(
-                alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), category.name)
-            );
+            return response.status(OK).json(alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), category.name));
         }
         await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
         await Category.addSkills(skillsIds, category, sendedList);
@@ -255,30 +217,20 @@ const addCategory = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase()));
     }
 };
 
 const updateCategoryAllData = async function(request, response) {
     try {
         const sendedList = [];
-        const {
-            addedCategories,
-            removedCategories,
-            addedskills,
-            removedSkills,
-            ...categoryData
-        } = request.body;
+        const { addedCategories, removedCategories, addedskills, removedSkills, ...categoryData } = request.body;
         const existingCategory = await Category.find({
             guid: request.params.guid,
         });
 
         if (!existingCategory) {
-            return response.status(OK).json(
-                doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid)
-            );
+            return response.status(OK).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
         }
         await Category.update(categoryData, { guid: request.params.guid });
         await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
@@ -287,16 +239,13 @@ const updateCategoryAllData = async function(request, response) {
         await Category.removeSkills(removedSkills, existingCategory, sendedList);
         return response.status(201).json({
             [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
-            [Constants.Keys.removedRelatedCategories]:
-                sendedList.removedCategories,
+            [Constants.Keys.removedRelatedCategories]: sendedList.removedCategories,
             [Constants.Keys.addedSkills]: sendedList.addedSkills,
             [Constants.Keys.removedSkills]: sendedList.removedSkills,
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase()));
     }
 };
 

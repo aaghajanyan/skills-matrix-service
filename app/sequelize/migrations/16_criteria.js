@@ -26,6 +26,5 @@ module.exports = {
             },
         });
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.Criteria),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Criteria),
 };

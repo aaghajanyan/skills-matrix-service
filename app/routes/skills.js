@@ -19,27 +19,9 @@ router.get('/', verifyLoginToken, getSkills);
 router.get('/all', verifyLoginToken, getSkillsAllData);
 router.get('/:guid', verifyLoginToken, getSkill);
 router.get('/all/:guid', verifyLoginToken, getSkillAllData);
-router.post(
-    '/',
-    verifyLoginToken,
-    verifyPermissions,
-    validateAddBody,
-    addSkill
-);
-router.put(
-    '/:guid',
-    verifyLoginToken,
-    verifyPermissions,
-    validateUpdateBody,
-    updateSkill
-);
-router.put(
-    '/all/:guid',
-    verifyLoginToken,
-    verifyPermissions,
-    validateUpdateBody,
-    updateSkillAllData
-);
+router.post('/', verifyLoginToken, verifyPermissions, validateAddBody, addSkill);
+router.put('/:guid', verifyLoginToken, verifyPermissions, validateUpdateBody, updateSkill);
+router.put('/all/:guid', verifyLoginToken, verifyPermissions, validateUpdateBody, updateSkillAllData);
 router.delete('/:guid', verifyLoginToken, verifyPermissions, deleteSkill);
 
 module.exports = router;

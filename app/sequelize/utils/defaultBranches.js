@@ -1,4 +1,4 @@
-module.exports.initializeBranchTable = async (models) => {
+module.exports.initializeBranchTable = async models => {
     const branchList = ['Vanadzor', 'Erevan', 'Goris'];
     let defaultBranchesObj = await branchList.map(branch => {
         return {
@@ -6,4 +6,4 @@ module.exports.initializeBranchTable = async (models) => {
         };
     });
     await models.branch.bulkCreate(defaultBranchesObj).catch(err => {});
-}
+};

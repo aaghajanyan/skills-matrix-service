@@ -1,4 +1,4 @@
-module.exports.initializeCriteriaTable = async (models) => {
+module.exports.initializeCriteriaTable = async models => {
     const defaultCriteries = ['Branch', 'Position', 'Category', 'Skill'];
     let defaultCriteriesObj = await defaultCriteries.map(criteria => {
         return {
@@ -7,4 +7,4 @@ module.exports.initializeCriteriaTable = async (models) => {
         };
     });
     await models.criteria.bulkCreate(defaultCriteriesObj).catch(err => {});
-}
+};

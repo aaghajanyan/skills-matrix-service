@@ -41,7 +41,7 @@ class Category {
     static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
         sendedList.addedCategories = [];
         if (relatedCategoriesIds && relatedCategoriesIds.length) {
-            const promise = relatedCategoriesIds.map(async (categoryGuid) => {
+            const promise = relatedCategoriesIds.map(async categoryGuid => {
                 const relatedCategory = await categoryModel.findOne({
                     where: { guid: categoryGuid },
                 });
@@ -69,9 +69,7 @@ class Category {
 
     static async mergeRelatedCategories(categories) {
         categories.forEach(category => {
-            category.relatedCategories = category.relatedCategories.concat(
-                category.relatedCategoriesRef
-            );
+            category.relatedCategories = category.relatedCategories.concat(category.relatedCategoriesRef);
             delete category.relatedCategoriesRef;
         });
         return categories;
@@ -80,7 +78,7 @@ class Category {
     static async removeRelatedCategories(removedCategories, category, sendedList) {
         sendedList.removedCategories = [];
         if (removedCategories && removedCategories.length) {
-            const promise = removedCategories.map(async (categoryGuid) => {
+            const promise = removedCategories.map(async categoryGuid => {
                 const relatedCategory = await categoryModel.findOne({
                     where: { guid: categoryGuid },
                 });
@@ -111,7 +109,7 @@ class Category {
     static async addSkills(skillsIds, category, sendedList) {
         sendedList.addedSkills = [];
         if (skillsIds && skillsIds.length) {
-            const promise = skillsIds.map(async (skillGuid) => {
+            const promise = skillsIds.map(async skillGuid => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
@@ -142,7 +140,7 @@ class Category {
     static async removeSkills(removedSkills, category, sendedList) {
         sendedList.removedSkills = [];
         if (removedSkills && removedSkills.length) {
-            const promise = removedSkills.map(async (skillGuid) => {
+            const promise = removedSkills.map(async skillGuid => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,

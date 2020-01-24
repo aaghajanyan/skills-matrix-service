@@ -7,13 +7,7 @@ module.exports = {
         database: dbConfig.database,
         ...dbConfig.options,
     },
-    roles: [
-        'create_user',
-        'create_skill',
-        'update_skill',
-        'manage_team',
-        'employee',
-    ],
+    roles: ['create_user', 'create_skill', 'update_skill', 'manage_team', 'employee'],
     rolesGroups: ['super_user', 'team_lead', 'employee'],
     queryTemplate: {
         view_name: 'users_view',

@@ -70,12 +70,8 @@ const resetPassword = (email, host, expiration) => {
 const sendEmail = (template, context) => {
     return new Promise((resolve, reject) => {
         try {
-            const username = Buffer.from(adminData.username, 'base64').toString(
-                'ascii'
-            );
-            const password = Buffer.from(adminData.password, 'base64').toString(
-                'ascii'
-            );
+            const username = Buffer.from(adminData.username, 'base64').toString('ascii');
+            const password = Buffer.from(adminData.password, 'base64').toString('ascii');
             const transport = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -85,27 +81,21 @@ const sendEmail = (template, context) => {
             });
             const email = new EmailTemplates();
             //render and send
-            email.render(
-                path.join(__dirname, `./templates/${template}.html`),
-                context,
-                (err, html, text, subject) => {
-                    if (err) {
-                        next(err);
-                    }
-                    //base options
-                    const options = {
-                        from: adminData.defaultFromAddress,
-                        to: context.email,
-                        subject,
-                        html,
-                        text,
-                    };
-
-                    transport.sendMail(options, (err, info) =>
-                        err ? reject(err) : resolve(info)
-                    );
+            email.render(path.join(__dirname, `./templates/${template}.html`), context, (err, html, text, subject) => {
+                if (err) {
+                    next(err);
                 }
-            );
+                //base options
+                const options = {
+                    from: adminData.defaultFromAddress,
+                    to: context.email,
+                    subject,
+                    html,
+                    text,
+                };
+
+                transport.sendMail(options, (err, info) => (err ? reject(err) : resolve(info)));
+            });
         } catch (error) {
             logger.error(error);
             return reject(err);

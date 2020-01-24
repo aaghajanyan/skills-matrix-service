@@ -3,14 +3,14 @@ const { Constants } = require('../../constants/Constants');
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface
-            .createTable(Constants.TableNames.SkillHistory, {
+            .createTable(Constants.TableNames.UsersSkills, {
                 id: {
                     autoIncrement: true,
                     primaryKey: true,
                     type: Sequelize.INTEGER,
                 },
                 guid: {
-                    unique: false,
+                    unique: true,
                     allowNull: false,
                     type: Sequelize.UUID,
                 },
@@ -46,12 +46,13 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
-                created_date: {
-                    allowNull: false,
-                    type: Sequelize.DATE,
-                },
-            });
+            })
+            .then(() =>
+                queryInterface.addConstraint(Constants.TableNames.UsersSkills, [Constants.Keys.user_id, Constants.Keys.skill_id], {
+                    type: Constants.Keys.unique,
+                    name: Constants.Migrations.UserSkill.uniqueUserSkill,
+                })
+            );
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.SkillHistory),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.UsersSkills),
 };

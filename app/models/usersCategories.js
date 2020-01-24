@@ -1,6 +1,4 @@
-const {
-    users_categories: usersCategoriesModel,
-} = require('../sequelize/models');
+const { users_categories: usersCategoriesModel } = require('../sequelize/models');
 
 class UserCategory {
     static async findAll() {

@@ -74,6 +74,5 @@ module.exports = {
             },
         });
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.Users),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Users),
 };

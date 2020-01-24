@@ -23,7 +23,7 @@ const Constants = {
     Permissions: {
         ACCESS_DENIED: 'Access denied.',
         NEEDED_ADMIN_PERMISSIONS: 'Need admin permissions.',
-        UNAUTHORIZED: 'Unauthorized'
+        UNAUTHORIZED: 'Unauthorized',
     },
 
     TableNames: {
@@ -63,7 +63,6 @@ const Constants = {
         Criteria: 'criteria',
         SkillHistory: 'skill_history',
         CategoryHistory: 'category_history',
-
     },
 
     ModelErrors: {
@@ -133,7 +132,7 @@ const Constants = {
         rule: 'rule',
         skill_experience_proficiency: 'skill_experience_proficiency',
         category_experience_proficiency: 'category_experience_proficiency',
-        created_date: 'created_date'
+        created_date: 'created_date',
     },
 
     Condition: {
@@ -200,11 +199,11 @@ const Constants = {
         ALREADY_EXISTS: '%s already exists.',
 
         COULD_NOT_GET1: 'Could not get %s %s',
-        COULD_NOT_ADD1: 'Could not add \'%s\' %s.',
-        ALREADY_EXISTS1: '\'%s\' %s already exists.',
-        COULD_NOT_UPDATE1: 'Could not update \'%s\' %s.',
-        COULD_NOT_DELETE1: 'Could not delete \'%s\' %s.',
-        DOES_NOT_EXSTS1: '\'%s\' %s does not exists.',
+        COULD_NOT_ADD1: "Could not add '%s' %s.",
+        ALREADY_EXISTS1: "'%s' %s already exists.",
+        COULD_NOT_UPDATE1: "Could not update '%s' %s.",
+        COULD_NOT_DELETE1: "Could not delete '%s' %s.",
+        DOES_NOT_EXSTS1: "'%s' %s does not exists.",
     },
 
     TypeNames: {
@@ -242,8 +241,7 @@ const Constants = {
         },
         Invitation: {
             EMAIL_ALREADY_EXISTS_USER_MODEL: 'Email already exists in users.',
-            EMAIL_ALREADY_EXISTS_INVITATION_MODEL:
-                'Email already exists in invitations',
+            EMAIL_ALREADY_EXISTS_INVITATION_MODEL: 'Email already exists in invitations',
             COULD_NOT_SEND_EMAIL: 'Could not send email',
         },
         Skills: {
@@ -262,8 +260,7 @@ const Constants = {
             CATEGORY_DOES_NOT_EXISTS: 'Category does not exists',
         },
         RolesGroup: {
-            COULD_NOT_GET_ROLE_GROUP_F:
-                'Could not get role group with %1 guid.',
+            COULD_NOT_GET_ROLE_GROUP_F: 'Could not get role group with %1 guid.',
         },
         UserSkills: {
             ALREADY_EXISTS: '"%1" skill already exists for "%2" user.',
@@ -301,8 +298,8 @@ const Constants = {
         },
     },
     Roles: {
-        SUPER_USER: 'super_user'
-    }
+        SUPER_USER: 'super_user',
+    },
 };
 
 module.exports = { Constants };

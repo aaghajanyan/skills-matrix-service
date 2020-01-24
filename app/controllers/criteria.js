@@ -1,10 +1,4 @@
-const {
-    OK,
-    INTERNAL_SERVER_ERROR,
-    CONFLICT,
-    ACCEPTED,
-    CREATED
-} = require('http-status-codes');
+const { OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED } = require('http-status-codes');
 const { Constants } = require('../constants/Constants');
 const logger = require('../helper/logger');
 const Criteria = require('../models/criteria');
@@ -13,8 +7,8 @@ const {
     couldNotAddCriteria,
     couldNotUpdateCriteria,
     couldNotDeleteCriteria,
-    alreadyExistsCriteria
- } = require('../helper/errorResponseBodyBuilder');
+    alreadyExistsCriteria,
+} = require('../helper/errorResponseBodyBuilder');
 
 const getCriteries = async function(_, response) {
     try {
@@ -22,9 +16,7 @@ const getCriteries = async function(_, response) {
         return response.status(OK).json(criteries);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CRITERIAS.toLowerCase())
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CRITERIAS.toLowerCase()));
     }
 };
 
@@ -34,9 +26,7 @@ const getCriteria = async function(request, response) {
         response.status(OK).json(criteria);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotGetCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }
 };
 
@@ -47,18 +37,14 @@ const addCriteria = async function(request, response) {
             type: request.body.type,
         });
         if (!isNewRecord) {
-            return response.status(OK).json(
-                alreadyExistsCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name)
-            );
+            return response.status(OK).json(alreadyExistsCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name));
         }
         return response.status(CREATED).json({
             criteria,
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotAddCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotAddCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name));
     }
 };
 
@@ -68,9 +54,7 @@ const updateCriteria = async function(request, response) {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotUpdateCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }
 };
 
@@ -80,9 +64,7 @@ const deleteCriteria = async function(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotDeleteCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid)
-        );
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }
 };
 

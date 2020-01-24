@@ -15,6 +15,5 @@ module.exports = {
             },
         });
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.invitations),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.invitations),
 };

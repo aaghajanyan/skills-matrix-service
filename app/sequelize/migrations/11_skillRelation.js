@@ -3,7 +3,7 @@ const { Constants } = require('../../constants/Constants');
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface
-            .createTable(Constants.TableNames.UsersCategories, {
+            .createTable(Constants.TableNames.SkillsRelations, {
                 id: {
                     autoIncrement: true,
                     primaryKey: true,
@@ -14,14 +14,14 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.UUID,
                 },
-                user_id: {
+                skill_id: {
                     allowNull: false,
                     type: Sequelize.INTEGER,
                     onDelete: Constants.CASCADE,
                     references: {
-                        model: Constants.TableNames.Users,
+                        model: Constants.TableNames.Skills,
                         key: Constants.Keys.id,
-                        as: Constants.Keys.user_id,
+                        as: Constants.Keys.skill_id,
                     },
                 },
                 category_id: {
@@ -34,32 +34,13 @@ module.exports = {
                         as: Constants.Keys.category_id,
                     },
                 },
-                experience: {
-                    allowNull: false,
-                    type: Sequelize.INTEGER,
-                },
-                profficience: {
-                    allowNull: false,
-                    type: Sequelize.INTEGER,
-                },
-                last_worked_date: {
-                    allowNull: false,
-                    type: Sequelize.DATE,
-                },
             })
             .then(() =>
-                queryInterface.addConstraint(
-                    Constants.TableNames.UsersCategories,
-                    [Constants.Keys.user_id, Constants.Keys.category_id],
-                    {
-                        type: Constants.Keys.unique,
-                        name:
-                            Constants.Migrations.UsersCategories
-                                .uniqueUserCategory,
-                    }
-                )
+                queryInterface.addConstraint(Constants.TableNames.SkillsRelations, [Constants.Keys.skill_id, Constants.Keys.category_id], {
+                    type: Constants.Keys.unique,
+                    name: Constants.Migrations.SkillRelation.uniqueSkillRel,
+                })
             );
     },
-    down: queryInterface =>
-        queryInterface.dropTable(Constants.TableNames.UsersCategories),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.SkillsRelations),
 };

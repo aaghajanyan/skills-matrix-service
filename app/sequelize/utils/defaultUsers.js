@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-module.exports.initializeUserTable = async (models) => {
+module.exports.initializeUserTable = async models => {
     const salt = await bcrypt.genSalt(10);
     const password = bcrypt.hashSync('Admin01!', salt);
     let user = {
@@ -17,4 +17,4 @@ module.exports.initializeUserTable = async (models) => {
         .build(user)
         .save()
         .catch(err => {});
-}
+};
