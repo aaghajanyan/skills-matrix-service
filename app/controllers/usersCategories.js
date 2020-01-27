@@ -10,7 +10,7 @@ const {
     couldNotUpdateCriteria,
     couldNotAddCriteria,
     couldNotDeleteCriteria,
-    elementDoesNotExist,
+    doesNotExistCriteria,
     alreadyExistsCriteria,
 } = require('../helper/errorResponseBodyBuilder');
 
@@ -48,7 +48,7 @@ const addUserCategory = async function(request, response) {
         const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { categories } = request.body;
-            for (category of categories) {
+            const promise = categories.map(async (category) => {
                 const existingCategory = await Category.find({
                     guid: category.categoryGuid,
                 });
@@ -70,15 +70,16 @@ const addUserCategory = async function(request, response) {
                             expectedResponse.items.push(userCategory);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
+                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase(), existingCategory.name));
                     }
                 } else {
-                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.CATEGORY, category.categoryGuid));
+                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
                 }
-            }
+            });
+            await Promise.all(promise).catch(err => logger.error(err))
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
@@ -113,7 +114,7 @@ const updateUserCategory = async function(request, response) {
         const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { categories } = request.body;
-            for (category of categories) {
+            const promise = categories.map(async (category) => {
                 const existingCategory = await Category.find({
                     guid: category.categoryGuid,
                 });
@@ -124,13 +125,14 @@ const updateUserCategory = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.CATEGORY, category.categoryGuid));
+                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
                 }
-            }
+            });
+            await Promise.all(promise).catch(err => logger.error(err));
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
@@ -152,10 +154,10 @@ const deleteUserCategory = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.CATEGORY, request.body.categoryGuid));
+                return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY, request.body.categoryGuid));
             }
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.body.categoryGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.body.categoryGuid));
         }
     } catch (error) {
         logger.error(error);

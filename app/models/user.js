@@ -138,7 +138,6 @@ class User {
                     required: false,
                 },
                 {
-                    // attributes: { exclude: ["id"] },
                     model: skillModel,
                     as: Constants.Associate.Aliases.skills,
                     required: false,
@@ -165,7 +164,6 @@ class User {
                     },
                 },
                 {
-                    // attributes: { exclude: ["id"] },
                     model: categoryModel,
                     as: Constants.Associate.Aliases.categories,
                     required: false,

@@ -10,7 +10,7 @@ const {
     couldNotUpdateCriteria,
     couldNotAddCriteria,
     couldNotDeleteCriteria,
-    elementDoesNotExist,
+    doesNotExistCriteria,
     alreadyExistsCriteria,
 } = require('../helper/errorResponseBodyBuilder');
 
@@ -48,7 +48,7 @@ const addUserSkill = async function(request, response) {
         const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { skills } = request.body;
-            for (skill of skills) {
+            const promise = skills.map(async (skill) => {
                 const existingSkill = await Skill.find({
                     guid: skill.skillGuid,
                 });
@@ -70,15 +70,17 @@ const addUserSkill = async function(request, response) {
                             expectedResponse.items.push(userSkill);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_SKILL.toLowerCase()));
+                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_SKILL.toLowerCase(), existingSkill.name));
                     }
                 } else {
-                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid));
+                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.SKILL, skill.skillGuid));
                 }
-            }
+
+            });
+            await Promise.all(promise).catch(err => logger.error(err))
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
@@ -114,6 +116,42 @@ const updateUserSkill = async function(request, response) {
         const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
             const { skills } = request.body;
+            const promise = skills.map(async (skill) => {
+                const existingSkill = await Skill.find({
+                    guid: skill.skillGuid,
+                });
+                if (existingSkill) {
+                    await UserSkill.update(skill, {
+                        user_id: user.id,
+                        skill_id: existingSkill.id,
+                    });
+                    status = OK;
+                } else {
+                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.SKILL, skill.skillGuid));
+                }
+            })
+            await Promise.all(promise).catch(err => logger.error(err));
+            expectedResponse.success = status === CONFLICT ? false : true;
+            return response.status(status).json(expectedResponse);
+        } else {
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
+        }
+    } catch (error) {
+        logger.error(error);
+        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.USER_SKILL));
+    }
+};
+
+const updateUserSkill1 = async function(request, response) {
+    try {
+        const expectedResponse = {
+            success: false,
+            errors: [],
+        };
+        let status = CONFLICT;
+        const user = await User.findOne({ guid: request.params.userGuid });
+        if (user) {
+            const { skills } = request.body;
             for (skill of skills) {
                 const existingSkill = await Skill.find({
                     guid: skill.skillGuid,
@@ -125,13 +163,13 @@ const updateUserSkill = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push(elementDoesNotExist(Constants.TypeNames.SKILL, skill.skillGuid));
+                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.SKILL, skill.skillGuid));
                 }
             }
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
@@ -151,10 +189,10 @@ const deleteUserSkill = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.SKILL, request.body.skillGuid));
+                return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.SKILL, request.body.skillGuid));
             }
         } else {
-            return response.status(CONFLICT).json(elementDoesNotExist(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
