@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Select, Row, Col, Button } from 'antd';
-import { SearchRow } from './SearchRow';
-import { SMIcon } from 'view/components/SMIcon';
+import React, {useState} from 'react';
+import {Select, Row, Col, Button} from 'antd';
+import {SearchRow} from './SearchRow';
+import {SMIcon} from 'view/components/SMIcon';
+import {search} from 'constants';
+import {uuid} from '../../../../../configSearch/criteria';
 
-const { Option } = Select;
+const {Option} = Select;
 
 function SearchGroup(props) {
 
-    const uuid = () => `ID${+ new Date() + Math.floor(Math.random() * 999999)}`;
 
     const rules = {
         type: 'rule',
@@ -23,24 +24,24 @@ function SearchGroup(props) {
     const [groupData, setGroupData] = useState(props.defaultProperties);
 
     const handleClickAddCriteria = () => {
-        groupData.childrens = { ...groupData.childrens, [uuid()]: rules };
-        setGroupData({ ...groupData });
+        groupData.childrens = {...groupData.childrens, [uuid()]: rules};
+        setGroupData({...groupData});
     };
 
     const handleClickAddGroup = () => {
-        groupData.childrens = { ...groupData.childrens, [uuid()]: groups };
-        setGroupData({ ...groupData });
+        groupData.childrens = {...groupData.childrens, [uuid()]: groups};
+        setGroupData({...groupData});
     };
 
     const handleChangeChildInfo = (nweProperties, rowId, childrenId = null) => {
         Object.keys(groupData.childrens).map(item => {
-            if (item === rowId) {
-                if (groupData.childrens[item].type === 'group' && childrenId !== null) {
+            if(item === rowId) {
+                if(groupData.childrens[item].type === 'group' && childrenId !== null) {
                     groupData.childrens[item] = nweProperties;
-                } else if (groupData.childrens[item].type === 'rule') {
+                } else if(groupData.childrens[item].type === 'rule') {
                     groupData.childrens[item].properties = nweProperties[item];
                 }
-                setGroupData({ ...groupData });
+                setGroupData({...groupData});
             }
         });
         props.update(groupData, props.groupId, childrenId);
@@ -48,12 +49,12 @@ function SearchGroup(props) {
 
     const handleDeleteRow = (rowId) => {
         delete groupData.childrens[rowId];
-        setGroupData({ ...groupData });
+        setGroupData({...groupData});
     };
 
     const handleChangeCondition = (val) => {
         groupData.condition = val;
-        setGroupData({ ...groupData });
+        setGroupData({...groupData});
         props.update(groupData, props.groupId, props.groupId);
     };
 
@@ -62,14 +63,14 @@ function SearchGroup(props) {
     };
 
     const renderRows = () => {
-        if (Object.keys(groupData.childrens).length === 0) {
+        if(Object.keys(groupData.childrens).length === 0) {
             handleClickAddCriteria();
         }
         return (<Row className="group--children">{Object.keys(groupData.childrens).map((item, index) => {
 
             const displayDellBtn = Object.keys(groupData.childrens).length === 1 && index === 0 ? 'display_dell_btn' : '';
 
-            if (groupData.childrens[item].type === 'rule') {
+            if(groupData.childrens[item].type === 'rule') {
                 return (
                     <SearchRow
                         disabled={props.disabled}
@@ -78,9 +79,11 @@ function SearchGroup(props) {
                         className={displayDellBtn}
                         criteriaId={item}
                         delete={handleDeleteRow}
-                        update={handleChangeChildInfo} form={props.form} key={item} />
+                        update={handleChangeChildInfo}
+                        form={props.form}
+                        key={item} />
                 );
-            } else if (groupData.childrens[item].type === 'group') {
+            } else if(groupData.childrens[item].type === 'group') {
                 return (
                     <SearchGroup
                         disabled={props.disabled}
@@ -90,18 +93,20 @@ function SearchGroup(props) {
                         className={displayDellBtn}
                         groupId={item}
                         delete={handleDeleteRow}
-                        update={handleChangeChildInfo} form={props.form} key={item} />
+                        update={handleChangeChildInfo}
+                        form={props.form}
+                        key={item} />
                 );
             }
         })}</Row>);
     };
 
     const addGroup = () => {
-        if (props.parentsCount < 2) {
+        if(props.parentsCount < 2) {
             return (
                 <Col {...props.content.contentCol}>
                     <Button disabled={props.disabled} icon="plus-circle" onClick={handleClickAddGroup}>
-                        Add group
+                        {search.buttons.add_group}
                     </Button>
                 </Col>
             );
@@ -115,13 +120,13 @@ function SearchGroup(props) {
                     <Col>
                         <Col {...props.content.rowColFirst}>
                             <Select disabled={props.disabled} defaultValue={props.defaultProperties.condition} onSelect={handleChangeCondition}>
-                                <Option value="And">And</Option>
-                                <Option value="Or">Or</Option>
+                                <Option value={search.condition.and}>{search.condition.and}</Option>
+                                <Option value={search.condition.or}>{search.condition.or}</Option>
                             </Select>
                         </Col>
                         <Col {...props.content.contentCol}>
                             <Button disabled={props.disabled} icon="plus" onClick={handleClickAddCriteria}>
-                                Add more criteria
+                                {search.buttons.add_criteria}
                             </Button>
                         </Col>
                         {addGroup()}
@@ -138,4 +143,4 @@ function SearchGroup(props) {
     );
 }
 
-export { SearchGroup };
+export {SearchGroup};

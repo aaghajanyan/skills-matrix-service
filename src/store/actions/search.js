@@ -1,8 +1,8 @@
-import { get } from 'client/lib/axiosWrapper';
+import {get} from 'client/lib/axiosWrapper';
 import {searchUsersBegin, searchUsersSuccess, searchUsersFailure, criteriaRow} from './searchAction';
-import { CRITERIA } from '../../configSearch/criteria';
-import { SMNotification } from 'view/components';
-import { messages, endpoint } from 'constants';
+import {CRITERIA} from '../../configSearch/criteria';
+import {SMNotification} from 'view/components';
+import {messages, endpoint} from 'constants';
 
 const initialTree = {};
 
@@ -10,7 +10,7 @@ export function getSearchParams(params){
     return (dispatch) => {
         dispatch(criteriaRow({values: params}));
         Object.assign(initialTree, params);
-    }
+    };
 }
 
 function getEndpoint(field) {
@@ -36,7 +36,7 @@ export function getCriteria() {
                         } 	else if(cat.key === 'position' && cat.items.length < index + 1) {
                             cat.items.push({name: item.name, id: item.id});
                         }
-                    })
+                    });
                 });
             })
             .catch(error => {
@@ -59,9 +59,9 @@ export function doSearch(data){
                 if(error.message === 'Network Error'){
                     SMNotification('error', messages.noConnection);
                     dispatch(getSearchParams());
-                } else{
+                } else {
                     dispatch(searchUsersFailure(error));
                 }
             });
-    }
+    };
 }

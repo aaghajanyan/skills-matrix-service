@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Select, Row, Col, Button} from 'antd';
-import { SMIcon } from 'view/components/SMIcon';
-import { CRITERIA } from '../../../../../configSearch/criteria';
+import React, {useState} from 'react';
+import {Select, Row, Col, Button} from 'antd';
+import {SMIcon} from 'view/components/SMIcon';
+import {CRITERIA} from '../../../../../configSearch/criteria';
 
-const { Option } = Select;
+const {Option} = Select;
 
 function SearchRow(props) {
 
     const [criteriaValue, setCriteriaValue] = useState(props.defaultProperties ? props.defaultProperties.properties.type : null);
-    const { getFieldDecorator, getFieldsValue } = props.form;
+    const {getFieldDecorator, getFieldsValue} = props.form;
 
     const handleSelect = (val) => {
         setCriteriaValue(val);
@@ -23,7 +23,7 @@ function SearchRow(props) {
     };
 
     const conditionQuery = (item) => (
-        item.key === 'list' || item.key === 'branch' ||  item.key === 'position' ? 'name' : item.key
+        item.key === 'list' || item.key === 'branch' || item.key === 'position' ? 'name' : item.key
     );
 
     const initialValues = (item) => {
@@ -48,7 +48,7 @@ function SearchRow(props) {
         <Row className="rule-rows">
             <Col {...props.content.contentRightSelect}>
                 {getFieldDecorator(`${props.criteriaId}[type]`, {initialValue: criteriaValue})(
-                    <Select disabled={props.disabled}  placeholder="Criteria" onSelect={handleSelect}>
+                    <Select disabled={props.disabled} placeholder="Criteria" onSelect={handleSelect}>
                         {Object.keys(CRITERIA).map((item, index) => {
                             return <Option key={item}>{item}</Option>;
                         })}

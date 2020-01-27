@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { get } from 'client/lib/axiosWrapper';
 import { SMUserBar } from '../SMUserBar';
-import { SMSpinner, SMTabs } from 'view/components';
+import { SMTabs } from 'view/components';
 import { Summary } from './Summary';
 import { Assessment } from './Assessment';
 
@@ -31,6 +31,7 @@ function SMEmployee(props) {
             <SMTabs
                 className='sm-tabs'
                 defaultActiveKey='Summary'
+                userData={user}
                 renderTabBar={(tabBarProps, TabBar) => (
                     <div className='sm-tabs-header sm-component'>
                         <SMUserBar
@@ -43,14 +44,10 @@ function SMEmployee(props) {
                     </div>)
                 }
             >
-                 <SMSpinner isLoading={!user} className='sm-spinner' size='large'>
-
                 <Summary key='Summary' />
                 <Assessment key='Assessment' />
                 <div key='History'> <h1> History </h1> </div>
                 <div key='About'> <h1> About </h1> </div>
-                </SMSpinner>
-
             </SMTabs>
     )
 }

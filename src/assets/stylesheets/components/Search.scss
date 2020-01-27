@@ -1,14 +1,16 @@
-.main_container_people_finder {
+@import '../variables.scss';
+
+.main_container_search {
     min-height: calc(100vh - 70vh);
     max-height: calc(100vh - 100px);
     padding: 30px;
-    background: #fff;
+    background: $sm-light-color;
     overflow: auto;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px $sm-shadow-search;
     transition: 0.3s ease-out;
     position: relative;
     margin-bottom: 20px;
-    button:not(.delBtn):not(#people_finder_btn){
+    button:not(.delBtn):not(#search_btn) {
         width: 100%;
     }
     .ant-form-item-control {
@@ -16,26 +18,26 @@
     }
     .header_container {
         margin-bottom: 10px;
-        div[class*="ant-col-"]:not(.del_btn_right){
+        div[class*="ant-col-"]:not(.del_btn_right) {
             margin-right: 10px;
         }
     }
     .ant-form-horizontal {
         padding: 10px;
-        border: 1px solid #2764944a;
+        border: 1px solid $sm-shadow-rows;
         border-radius: 10px;
         .ant-row.rule-rows {
-            background: #fff;
+            background: $sm-light-color;
             border-radius: 5px;
             padding: 8px 20px 8px 0px;
             margin-left: 40px;
             margin-right: -5px;
             margin-bottom: 10px;
-            box-shadow: 0px 0px 2px 0px #27649494;
+            box-shadow: 0px 0px 2px 0px $sm-shadow-rows;
             display: flex;
             position: relative;
             margin-top: 8px;
-            div[class*="ant-col-"]{
+            div[class*="ant-col-"] {
                 padding: 0 8px;
             }
 
@@ -44,7 +46,7 @@
                 position: absolute;
                 left: -10px;
                 width: 10px;
-                border-color: #276494;
+                border-color: $sm-primary-color;
                 border-style: solid;
                 box-sizing: border-box;
                 border-width: 0 0 2px 2px;
@@ -53,11 +55,11 @@
         .ant-row.group-rows {
             padding: 8px 20px 8px 0px;
             margin-left: 40px;
-            background: #fff;
-            box-shadow: 0px 0px 2px 0px #27649494;
+            background: $sm-light-color;
+            box-shadow: 0px 0px 2px 0px $sm-shadow-rows;
             border-radius: 5px;
             margin-bottom: 10px;
-            .header_container{
+            .header_container {
                 padding-left: 8px;
             }
             .ant-row.rule-rows {
@@ -69,7 +71,7 @@
                 position: absolute;
                 left: -10px;
                 width: 10px;
-                border-color: #276494;
+                border-color: $sm-primary-color;
                 border-style: solid;
                 box-sizing: border-box;
                 border-width: 0 0 2px 2px;
@@ -105,7 +107,7 @@
             content: none;
         }
     }
-    .people_finder_header {
+    .search_header {
         display: flex;
         justify-content: space-between;
         div:first-child {
@@ -113,7 +115,7 @@
         }
         h1 {
             font-size: 22px;
-            color: #B0B0B0;
+            color: $sm-subheading-color;
             font-style: normal;
             font-weight: normal;
         }
@@ -121,7 +123,7 @@
     .visible_info_desc {
         display: none;
     }
-    .people_finder_buttons {
+    .search_buttons {
         display: flex;
         justify-content: center;
         text-align: center;
@@ -134,18 +136,18 @@
             text-align: left;
         }
 
-        #people_finder_btn {
-            background: #266494;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+        #search_btn {
+            background: $sm-primary-color;
+            box-shadow: 0px 4px 4px $sm-shadow;
             border-radius: 10px;
             font-size: 16px;
-            color: #FFFFFF;
+            color: $sm-light-color;
         }
 
         #reset_people_btn {
             font-size: 16px;
             line-height: 18px;
-            color: #266494;
+            color: $sm-primary-color;
             border: none;
             span {
                 text-decoration-line: underline;
@@ -153,29 +155,14 @@
         }
     }
 
-    #add_people_btn_disabled {
-        background: #C4C4C4;
-    }
-
-    #add_people_btn_enabled {
-        background: #266494;
-    }
-    #add_people_btn_enabled, #add_people_btn_disabled {
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        font-size: 16px;
-        border: none;
-        color: #FFFFFF;
-    }
-
     .delBtn {
         border: none;
-        background-color: none;
+        background-color: transparent;
         display: none;
         font-size: large;
         path {
-            stroke: grey;
-            fill:grey;
+            stroke: $sm-search-select-color;
+            fill:$sm-search-select-color;
         }
     }
 
@@ -197,7 +184,7 @@
         display: block;
         position: absolute;
         z-index: 2;
-        background: #fff;
+        background: $sm-light-color;
         width: 100%;
         font-size: 20px;
         height: 40px;
@@ -221,7 +208,7 @@
 
     .label_select {
         span {
-            color: #777;
+            color: $sm-search-select-color;
             top: 15px;
             position: relative;
             font-weight: 600;
@@ -252,14 +239,14 @@
     padding: 0 !important;
 }
 
-.employees-table{
+.employees-table {
     .ant-table-tbody {
-        background-color: #fff;
+        background-color: $sm-light-color;
     }
 }
 
 @media (max-width: 800px) {
-    .main_container_people_finder .ant-form-horizontal .ant-row.rule-rows {
+    .main_container_search .ant-form-horizontal .ant-row.rule-rows {
         flex-direction: column;
         div[class*="ant-col-"] {
             width: 100%;

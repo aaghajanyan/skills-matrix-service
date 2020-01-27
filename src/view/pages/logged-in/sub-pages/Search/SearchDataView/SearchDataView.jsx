@@ -1,7 +1,7 @@
 import React from 'react';
-import { AddSearchColumns } from './AddSearchColumns';
-import { SkillsColumns } from './SkillsColumns';
-import { SMTable } from 'view/components';
+import {AddSearchColumns} from './AddSearchColumns';
+import {SkillsColumns} from './SkillsColumns';
+import {SMTable} from 'view/components';
 
 function SearchDataView(props) {
 
@@ -12,17 +12,17 @@ function SearchDataView(props) {
     return (
         <SMTable
             history={props.history}
-            columns={AddSearchColumns({ userData: props.userData })}
-            className='sm-table employees-table'
+            columns={AddSearchColumns({userData: props.userData})}
+            className="sm-table employees-table"
             loading={!props.userData}
             showHeader={true}
-            dataSource={SkillsColumns({ userData: props.userData })}
+            dataSource={SkillsColumns({userData: props.userData})}
             pagination={false}
             onRow={onEmployeeSelect}
-            scroll={{ x: 1300 }}
+            scroll={{x: 1300}}
             bordered
         />
     );
 }
 
-export { SearchDataView }
+export {SearchDataView};

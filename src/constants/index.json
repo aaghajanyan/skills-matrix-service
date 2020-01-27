@@ -70,11 +70,30 @@
         "#019199",
         "#7F8851"
     ],
+    "colors_search_table": {
+        "blue": "#1890ff",
+        "yellow": "#faad14c7",
+        "green": "#52c41a"
+    },
     "avatars": {
         "sizes": {
             "small": 30,
             "medium": 40,
             "large": 60
+        }
+    },
+    "search": {
+        "title": "Search",
+        "buttons": {
+            "export": "Export AS",
+            "add_criteria": "Add more criteria",
+            "add_group": "Add group",
+            "find": "Find",
+            "reset": "Reset"
+        },
+        "condition": {
+            "and": "And",
+            "or": "Or"
         }
     }
 }

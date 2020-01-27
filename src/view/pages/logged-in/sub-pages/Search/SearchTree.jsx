@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Select, Row, Col, Button } from 'antd';
-import { SearchRow } from './SearchRow';
-import { SearchGroup } from './SearchGroup';
-import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useState, useEffect, useRef} from 'react';
+import {Select, Row, Col, Button} from 'antd';
+import {SearchRow} from './SearchRow';
+import {SearchGroup} from './SearchGroup';
+import {useHistory} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {search} from 'constants';
+import {uuid, contentColForRow} from '../../../../../configSearch/criteria';
 
 import {getSearchParams} from 'store/actions/search';
 
 import queryString from 'query-string';
 
-const { Option } = Select;
-
-const uuid = () => `ID${+ new Date() + Math.floor(Math.random() * 999999)}`;
+const {Option} = Select;
 
 export default function SearchTree(props) {
 
@@ -22,7 +22,7 @@ export default function SearchTree(props) {
 
     const generalId = uuid();
 
-    const DefoultTree = {
+    const defaultTree = {
         'type': 'group',
         'id': generalId,
         'childrens':
@@ -33,6 +33,11 @@ export default function SearchTree(props) {
         'condition': 'And'
     };
 
+    const groups = {
+        type: 'group',
+        childrens: {},
+        condition: 'And'
+    };
 
     let history = useHistory();
 
@@ -41,7 +46,7 @@ export default function SearchTree(props) {
     const clickFind = useRef();
 
     const paramsRedux = useSelector((state) => {
-        return  {
+        return {
             defoultFields: state.Search.items
         };
     });
@@ -50,11 +55,11 @@ export default function SearchTree(props) {
         if(query.search_query && JSON.parse(atob(query.search_query))) {
             return JSON.parse(atob(query.search_query));
         } else {
-            return (paramsRedux.defoultFields && paramsRedux.defoultFields.values) || (props.data ? props.data.fieldValues : DefoultTree);
+            return (paramsRedux.defoultFields && paramsRedux.defoultFields.values) || (props.data ? props.data.fieldValues : defaultTree);
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         if(query.search_query && JSON.parse(atob(query.search_query))) {
             clickFind.current.buttonNode.click();
         }
@@ -62,59 +67,17 @@ export default function SearchTree(props) {
 
     const [loadInitValue, setLoadInitValue] = useState(getDefaultValue());
 
-    const group = {
-        type: 'group',
-        childrens: {},
-        condition: 'And'
-    };
-
-    const contentColForRow = {
-        contentCol : {
-            xs: {span: 6},
-            sm: {span: 6},
-            md: {span: 6},
-            lg: {span: 6},
-            xl: {span: 5},
-            xxl: {span: 3},
-        },
-        rowColFirst : {
-            xs: {span: 3},
-            sm: {span: 3},
-            md: {span: 3},
-            lg: {span: 3},
-            xl: {span: 3},
-            xxl: {span: 2},
-        },
-        contentRightSelect: {
-            xs: {span: 24},
-            sm: {span: 24},
-            md: {span: 6},
-            lg: {span: 6},
-            xl: {span: 5},
-            xxl: {span: 5},
-        },
-        buttonsCol: {
-            xs: {span: 4},
-            sm: {span: 4},
-            md: {span: 4},
-            lg: {span: 4},
-            xl: {span: 2},
-            xxl: {span: 2},
-        }
-
-    };
-
     const handleClickAddGroup = () => {
-        loadInitValue.childrens = {...loadInitValue.childrens, [uuid()]: group};
+        loadInitValue.childrens = {...loadInitValue.childrens, [uuid()]: groups};
 
         dispatch(getSearchParams(loadInitValue));
-        setLoadInitValue({ ...loadInitValue });
+        setLoadInitValue({...loadInitValue});
     };
 
     const handleClickAddCriteria = () => {
         loadInitValue.childrens = {...loadInitValue.childrens, [uuid()]: rules};
 
-        setLoadInitValue({ ...loadInitValue });
+        setLoadInitValue({...loadInitValue});
     };
 
     const handleChangeChildInfo = (nweProperties, rowId, childrenId=null) => {
@@ -129,7 +92,7 @@ export default function SearchTree(props) {
                 }
                 dispatch(getSearchParams(loadInitValue));
 
-                setLoadInitValue({ ...loadInitValue });
+                setLoadInitValue({...loadInitValue});
 
             }
         });
@@ -137,19 +100,19 @@ export default function SearchTree(props) {
 
     const handleDeleteRow = (rowId) => {
         delete loadInitValue.childrens[rowId];
-        setLoadInitValue({ ...loadInitValue });
+        setLoadInitValue({...loadInitValue});
     };
 
     const handleReset = () => {
         history.push('/find_employees');
         dispatch(getSearchParams());
-        setLoadInitValue(DefoultTree);
+        setLoadInitValue(defaultTree);
     };
 
     const handleChangeCondition = (val) => {
         loadInitValue.condition = val;
         dispatch(getSearchParams(loadInitValue));
-        setLoadInitValue({ ...loadInitValue });
+        setLoadInitValue({...loadInitValue});
     };
 
 
@@ -161,7 +124,7 @@ export default function SearchTree(props) {
     };
 
     const renderRows = () => {
-        if (Object.keys(loadInitValue.childrens).length === 0) {
+        if(Object.keys(loadInitValue.childrens).length === 0) {
             handleClickAddCriteria();
         }
 
@@ -171,7 +134,7 @@ export default function SearchTree(props) {
 
                     const displayDellBtn = Object.keys(loadInitValue.childrens).length === 1 && index === 0 ? 'display_dell_btn' : '';
 
-                    if (loadInitValue.childrens[item].type === 'rule') {
+                    if(loadInitValue.childrens[item].type === 'rule') {
                         return (
                             <SearchRow
                                 disabled={props.disabledBtn}
@@ -180,9 +143,11 @@ export default function SearchTree(props) {
                                 className={displayDellBtn}
                                 criteriaId={item}
                                 delete={handleDeleteRow}
-                                update={handleChangeChildInfo} form={props.formItem} key={item} />
+                                update={handleChangeChildInfo}
+                                form={props.formItem}
+                                key={item} />
                         );
-                    } else if (loadInitValue.childrens[item].type === 'group') {
+                    } else if(loadInitValue.childrens[item].type === 'group') {
                         return (
                             <SearchGroup
                                 disabled={props.disabledBtn}
@@ -192,7 +157,9 @@ export default function SearchTree(props) {
                                 className={displayDellBtn}
                                 groupId={item}
                                 delete={handleDeleteRow}
-                                update={handleChangeChildInfo} form={props.formItem} key={item} />
+                                update={handleChangeChildInfo}
+                                form={props.formItem}
+                                key={item} />
                         );
                     }
                 })}
@@ -204,31 +171,31 @@ export default function SearchTree(props) {
         <Row>
             <Row className="header_container" justify="center">
                 <Col {...contentColForRow.rowColFirst} >
-                    <Select disabled={props.disabledBtn}  defaultValue={loadInitValue.condition} onSelect={handleChangeCondition}>
-                        <Option value="And">And</Option>
-                        <Option value="Or">Or</Option>
+                    <Select disabled={props.disabledBtn} defaultValue={loadInitValue.condition} onSelect={handleChangeCondition}>
+                        <Option value={search.condition.and}>{search.condition.and}</Option>
+                        <Option value={search.condition.or}>{search.condition.or}</Option>
                     </Select>
                 </Col>
                 <Col {...contentColForRow.contentCol} >
                     <Button disabled={props.disabledBtn} icon="plus" onClick={handleClickAddCriteria}>
-                        Add more criteria
+                        {search.buttons.add_criteria}
                     </Button>
                 </Col>
                 <Col {...contentColForRow.contentCol} >
                     <Button disabled={props.disabledBtn} icon="plus-circle" onClick={handleClickAddGroup}>
-                        Add group
+                        {search.buttons.add_group}
                     </Button>
                 </Col>
             </Row>
             {renderRows()}
-            <Row className="people_finder_buttons" gutter={10} justify="center">
+            <Row className="search_buttons" gutter={10} justify="center">
                 <Col {...contentColForRow.buttonsCol}>
-                    <Button ref={clickFind} onClick={handleClickFind} type="primary" htmlType="submit" id="people_finder_btn">
-                        Find
+                    <Button ref={clickFind} onClick={handleClickFind} type="primary" htmlType="submit" id="search_btn">
+                        {search.buttons.find}
                     </Button>
                 </Col>
                 <Col {...contentColForRow.buttonsCol}>
-                    <Button onClick={handleReset} id="reset_people_btn"> Reset </Button>
+                    <Button onClick={handleReset} id="reset_people_btn"> {search.buttons.reset} </Button>
                 </Col>
             </Row>
         </Row>
