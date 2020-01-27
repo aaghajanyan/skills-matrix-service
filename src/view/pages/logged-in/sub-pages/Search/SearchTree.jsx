@@ -23,14 +23,12 @@ export default function SearchTree(props) {
     const generalId = uuid();
 
     const defaultTree = {
-        'type': 'group',
-        'id': generalId,
-        'childrens':
-        {
+        type: 'group',
+        id: generalId,
+        childrens: {
             [uuid()]: rules
-        }
-        ,
-        'condition': 'And'
+        },
+        condition: 'And'
     };
 
     const groups = {
