@@ -1,6 +1,7 @@
 const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
-const {replaceAll} = require('../helper/recursiveReplace');
+const replaceAll = require('../helper/recursiveReplace');
+const logger = require('../helper/logger');
 
 class SearchUser {
     constructor() {
@@ -20,9 +21,12 @@ class SearchUser {
             ${Constants.ViewQueries.WHERE} ` +
             collectedSqlComand.currSqlStr +
             ');';
+
         sqlCommand = sqlCommand
             .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
             .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
+            .replace(/and \(\)/g, ``)
+            .replace(/or \(\)/g, ``)
             .replace(/and \)/g, `\)`)
             .replace(/or \)/g, `\)`);
         sqlCommand = replaceAll(sqlCommand, '() and', '');
@@ -70,7 +74,7 @@ class SearchUser {
             }
             return { currSqlStr: currSqlStr, error: this.error };
         } catch (error) {
-            console.log(error); // TBD
+            logger.error(error);
         }
     }
 

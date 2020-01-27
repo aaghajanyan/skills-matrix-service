@@ -46,22 +46,20 @@ const ruleSchema = Joi.object().keys({
     type: Joi.string()
         .valid(['rule', 'group'])
         .required(),
-    properties: Joi.object()
-        .keys({
-            type: Joi.string()
-                .valid(['Skill', 'Category', 'Branch', 'Position'])
-                .required(),
-            opCondition: Joi.string()
-                .valid(['equal', 'not equal'])
-                .required(),
-            name: Joi.string()
-                .min(1)
-                .max(32)
-                .required(),
-            experience: Joi.string().valid(['1', '2', '3', '4', '5']),
-            proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
-        })
-        .required(),
+    properties: Joi.object().keys({
+        type: Joi.string()
+            .valid(['Skill', 'Category', 'Branch', 'Position'])
+            .required(),
+        opCondition: Joi.string()
+            .valid(['equal', 'not equal'])
+            .required(),
+        name: Joi.string()
+            .min(1)
+            .max(32)
+            .required(),
+        experience: Joi.string().valid(['1', '2', '3', '4', '5']),
+        proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
+    }).required(),
 });
 
 module.exports.validateEmptyQueryBodySchema = data => {
