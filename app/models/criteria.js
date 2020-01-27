@@ -1,4 +1,4 @@
-const { criteria: criteriaModel } = require('../sequelize/models');
+const {criteria: criteriaModel} = require('../sequelize/models');
 
 class Criteria {
     static async findAll() {

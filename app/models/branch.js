@@ -1,4 +1,4 @@
-const { branch: branchModel } = require('../sequelize/models');
+const {branch: branchModel} = require('../sequelize/models');
 
 class Branch {
     static async findAll() {

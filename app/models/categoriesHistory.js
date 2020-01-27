@@ -1,4 +1,4 @@
-const { category_history: categoryHistoryModel } = require('../sequelize/models');
+const {category_history: categoryHistoryModel} = require('../sequelize/models');
 
 class CategoryHistory {
     static async findAll() {

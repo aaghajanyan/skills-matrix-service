@@ -1,4 +1,4 @@
-const { invitation: invitationModel } = require('../sequelize/models');
+const {invitation: invitationModel} = require('../sequelize/models');
 
 class Invitation {
     static async findAll() {

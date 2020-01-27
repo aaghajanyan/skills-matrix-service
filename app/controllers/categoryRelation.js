@@ -1,27 +1,21 @@
-const { OK, INTERNAL_SERVER_ERROR, ACCEPTED, CONFLICT, CREATED } = require('http-status-codes');
-const { Constants } = require('../constants/Constants');
+const {OK, INTERNAL_SERVER_ERROR, ACCEPTED, CONFLICT, CREATED} = require('http-status-codes');
+const {Constants} = require('../constants/Constants');
+const responseBuilder = require('../helper/errorResponseBodyBuilder');
 const Category = require('../models/category');
 const CategoryRelation = require('../models/categoryRelation');
 const logger = require('../helper/logger');
-const {
-    couldNotGetCriteria,
-    doesNotExistCriteria,
-    couldNotAddCriteria,
-    couldNotUpdateCriteria,
-    couldNotDeleteCriteria,
-} = require('../helper/errorResponseBodyBuilder');
 
-const getCategoriesRelations = async function(_, response) {
+module.exports.getCategoriesRelations = async (_, response) => {
     try {
         const categoriesRelations = await CategoryRelation.findAll();
         return response.status(OK).json(categoriesRelations);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(couldNotGetCriteria(Constants.TypeNames.REL_CATEGORIES.toLowerCase()));
+        return response.status(INTERNAL_SERVER_ERROR).send(responseBuilder.couldNotGetCriteria(Constants.TypeNames.REL_CATEGORIES.toLowerCase()));
     }
 };
 
-const getCategoryRelation = async function(request, response) {
+module.exports.getCategoryRelation = async (request, response) => {
     try {
         const categoryRelation = await CategoryRelation.find({
             guid: request.params.categoryRelationId,
@@ -31,11 +25,11 @@ const getCategoryRelation = async function(request, response) {
         logger.error(error);
         return response
             .status(INTERNAL_SERVER_ERROR)
-            .send(couldNotGetCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
+            .send(responseBuilder.couldNotGetCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
     }
 };
 
-const addCategoryRelation = async function(request, response) {
+module.exports.addCategoryRelation = async (request, response) => {
     try {
         const category = await Category.findByPk(request.body.category_id);
         if (category) {
@@ -46,18 +40,18 @@ const addCategoryRelation = async function(request, response) {
             } else {
                 return response
                     .status(CONFLICT)
-                    .json(doesNotExistCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.body.related_category_id));
+                    .json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.body.related_category_id));
             }
         } else {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).send(couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
+        return response.status(INTERNAL_SERVER_ERROR).send(responseBuilder.couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.body.category_id));
     }
 };
 
-const updateCategoryRelation = async function(request, response) {
+module.exports.updateCategoryRelation = async (request, response) => {
     try {
         await CategoryRelation.update(request.body, {
             category_id: request.params.categoryRelationId,
@@ -67,11 +61,11 @@ const updateCategoryRelation = async function(request, response) {
         logger.error(error);
         return response
             .status(INTERNAL_SERVER_ERROR)
-            .send(couldNotUpdateCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
+            .send(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
     }
 };
 
-const deleteCategoryRelation = async function(request, response) {
+module.exports.deleteCategoryRelation = async (request, response) => {
     try {
         await CategoryRelation.delete({
             guid: request.params.categoryRelationId,
@@ -81,14 +75,6 @@ const deleteCategoryRelation = async function(request, response) {
         logger.error(error);
         return response
             .status(INTERNAL_SERVER_ERROR)
-            .send(couldNotDeleteCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
+            .send(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.REL_CATEGORY.toLowerCase(), request.params.categoryRelationId));
     }
-};
-
-module.exports = {
-    getCategoriesRelations,
-    getCategoryRelation,
-    addCategoryRelation,
-    updateCategoryRelation,
-    deleteCategoryRelation,
 };

@@ -1,6 +1,6 @@
-const { skill: skillModel, category: categoryModel, skills_relation: skillRelationModel } = require('../sequelize/models');
-const { Constants } = require('../constants/Constants');
-const { doesNotExistCriteria } = require('../helper/errorResponseBodyBuilder');
+const {skill: skillModel, category: categoryModel, skills_relation: skillRelationModel} = require('../sequelize/models');
+const {Constants} = require('../constants/Constants');
+const {doesNotExistCriteria} = require('../helper/errorResponseBodyBuilder');
 
 class Skill {
     static async findAll() {

@@ -1,4 +1,4 @@
-const { position: positionModel } = require('../sequelize/models');
+const {position: positionModel} = require('../sequelize/models');
 
 class Position {
     static async findAll() {

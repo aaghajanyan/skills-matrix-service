@@ -1,6 +1,6 @@
-const { Constants } = require('../constants/Constants');
-const { validateRuleBodySchema, validateGroupBodySchema } = require('../validation/search');
-const replaceAll = require('../helper/recursiveReplace');
+const {Constants} = require('../constants/Constants');
+const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
+const {replaceAll} = require('../helper/recursiveReplace');
 
 class SearchUser {
     constructor() {

@@ -1,14 +1,14 @@
-const { OK, INTERNAL_SERVER_ERROR } = require('http-status-codes');
-const User = require('../models/user');
-const { Constants } = require('../constants/Constants');
-const logger = require('../helper/logger');
-const db = require('../sequelize/models');
-const SearchUser = require('../models/search');
-const { validateEmptyQueryBodySchema } = require('../validation/search');
-const CustomError = require('../errors/CustomError');
 const util = require('util');
+const {OK, INTERNAL_SERVER_ERROR} = require('http-status-codes');
+const {validateEmptyQueryBodySchema} = require('../validation/search');
+const {Constants} = require('../constants/Constants');
+const db = require('../sequelize/models');
+const User = require('../models/user');
+const SearchUser = require('../models/search');
+const CustomError = require('../errors/CustomError');
+const logger = require('../helper/logger');
 
-const decodeQuery = async function(encodedQuery) {
+const decodeQuery = async (encodedQuery) => {
     try {
         return {
             success: true,
@@ -25,7 +25,7 @@ const decodeQuery = async function(encodedQuery) {
     }
 };
 
-const validateIsQueryEmptyObject = async function(decodedQueryJson) {
+const validateIsQueryEmptyObject = async (decodedQueryJson) => {
     if (decodedQueryJson) {
         const errorMsg = validateEmptyQueryBodySchema(decodedQueryJson);
         const obj = {
@@ -39,7 +39,7 @@ const validateIsQueryEmptyObject = async function(decodedQueryJson) {
     }
 };
 
-const validateFinallyObject = async function(sqlCmd) {
+const validateFinallyObject = async (sqlCmd) => {
     return {
         success: sqlCmd.error && sqlCmd.error.isError ? false : true,
         message: sqlCmd.error && sqlCmd.error.isError ? sqlCmd.error.message : '',
@@ -47,7 +47,7 @@ const validateFinallyObject = async function(sqlCmd) {
     };
 };
 
-const searchUsers = async function(request, response, next) {
+module.exports.searchUsers = async (request, response, next) => {
     try {
         const decodedQueryObj = await decodeQuery(request.params.search_query);
         if (decodedQueryObj.error) {
@@ -78,14 +78,11 @@ const searchUsers = async function(request, response, next) {
             result: foundUsers,
         });
     } catch (error) {
+        console.log(error)
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
             message: `${util.format(Constants.ErrorMessages.COULD_NOT_FIND, Constants.TypeNames.USER.toLowerCase())}`,
         });
     }
-};
-
-module.exports = {
-    searchUsers,
 };

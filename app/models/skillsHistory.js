@@ -1,4 +1,4 @@
-const { skill_history: skillHistoryModel } = require('../sequelize/models');
+const {skill_history: skillHistoryModel} = require('../sequelize/models');
 
 class SkillHistory {
     static async findAll() {

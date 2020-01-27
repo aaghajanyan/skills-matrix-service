@@ -64,24 +64,18 @@ const ruleSchema = Joi.object().keys({
         .required(),
 });
 
-const validateEmptyQueryBodySchema = data => {
+module.exports.validateEmptyQueryBodySchema = data => {
     return validateBody(data, emptyQueryParamSchema);
 };
 
-const validateGroupBodySchema = data => {
+module.exports.validateGroupBodySchema = data => {
     return validateBody(data, groupSchema);
 };
 
-const validateRuleBodySchema = data => {
+module.exports.validateRuleBodySchema = data => {
     return validateBody(data, ruleSchema);
 };
 const validateBody = (data, schema) => {
     const result = Joi.validate(data, schema);
     return result.error;
-};
-
-module.exports = {
-    validateRuleBodySchema,
-    validateGroupBodySchema,
-    validateEmptyQueryBodySchema,
 };

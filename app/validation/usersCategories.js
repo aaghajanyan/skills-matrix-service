@@ -45,11 +45,11 @@ const updateBodySchema = Joi.object().keys({
     ),
 });
 
-const validateAddBody = (request, response, next) => {
+module.exports.validateAddBody = (request, response, next) => {
     validateBody(request, response, next, addBodySchema);
 };
 
-const validateUpdateBody = (request, response, next) => {
+module.exports.validateUpdateBody = (request, response, next) => {
     validateBody(request, response, next, updateBodySchema);
 };
 
@@ -59,9 +59,4 @@ const validateBody = (request, response, next, schema) => {
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();
-};
-
-module.exports = {
-    validateAddBody,
-    validateUpdateBody,
 };

@@ -7,7 +7,7 @@ const { Constants } = require('../constants/Constants');
 const { FORBIDDEN, UNAUTHORIZED, getStatusText } = require('http-status-codes');
 const { addErrorMsg } = require('../helper/errorResponseBodyBuilder');
 
-const verifyPermissions = async (request, response, next) => {
+module.exports.verifyPermissions = async (request, response, next) => {
     try {
         const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
         if (!token) {
@@ -26,5 +26,3 @@ const verifyPermissions = async (request, response, next) => {
         return response.status(UNAUTHORIZED).send(addErrorMsg(getStatusText(UNAUTHORIZED)));
     }
 };
-
-module.exports = { verifyPermissions };

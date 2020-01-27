@@ -1,22 +1,22 @@
-const { OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, UNAUTHORIZED, getStatusText } = require('http-status-codes');
-const User = require('../models/user');
-const forgotPasswordTokenSecret = require('../../config/env-settings.json').forgotPasswordSecretKey;
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
+const util = require('util');
+const {OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, UNAUTHORIZED, getStatusText} = require('http-status-codes');
+const {Constants} = require('../constants/Constants');
+const responseBuilder = require('../helper/errorResponseBodyBuilder');
+const User = require('../models/user');
 const mailer = require('../email/email');
 const client = require('../../config/env-settings.json').client;
-const { Constants } = require('../constants/Constants');
+const forgotPasswordTokenSecret = require('../../config/env-settings.json').forgotPasswordSecretKey;
 const logger = require('../helper/logger');
-const util = require('util');
-const { doesNotExistCriteria, addErrorMsg, internalServerError } = require('../helper/errorResponseBodyBuilder');
 
-const checkForgotPasswordUser = async function(request, response) {
+module.exports.checkForgotPasswordUser = async (request, response) => {
     try {
         const token = request.params.token;
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
         const user = await User.findOne({ guid: decodedToken.guid });
         if (!user) {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, decodedToken.guid));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, decodedToken.guid));
         }
         return response.status(OK).json({
             success: true,
@@ -24,15 +24,15 @@ const checkForgotPasswordUser = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(UNAUTHORIZED).json(addErrorMsg(getStatusText(UNAUTHORIZED)));
+        return response.status(UNAUTHORIZED).json(responseBuilder.addErrorMsg(getStatusText(UNAUTHORIZED)));
     }
 };
 
-const forgotPassword = async function(request, response) {
+module.exports.forgotPassword = async (request, response) => {
     try {
         const user = await User.findOne({ email: request.body.email });
         if (!user) {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.body.email));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.body.email));
         }
         const token = jwt.sign(
             {
@@ -48,7 +48,7 @@ const forgotPassword = async function(request, response) {
             await mailer.resetPassword(request.body.email, host, expiration);
         } catch (error) {
             logger.error(error);
-            return response.status(INTERNAL_SERVER_ERROR).json(internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL));
+            return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_SEND_EMAIL));
         }
         return response.status(OK).json({
             success: true,
@@ -57,11 +57,11 @@ const forgotPassword = async function(request, response) {
         });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(internalServerError(getStatusText(INTERNAL_SERVER_ERROR)));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.internalServerError(getStatusText(INTERNAL_SERVER_ERROR)));
     }
 };
 
-async function changePassword(request, response) {
+module.exports.changePassword = async (request, response) => {
     try {
         const token = request.params.token;
         const decodedToken = await jwtDecode(token, forgotPasswordTokenSecret);
@@ -69,12 +69,6 @@ async function changePassword(request, response) {
         return response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.internalServerError(Constants.Controllers.ForgotPassword.COULD_NOT_CHANGE_PASSWORD));
     }
-}
-
-module.exports = {
-    forgotPassword,
-    checkForgotPasswordUser,
-    changePassword,
 };

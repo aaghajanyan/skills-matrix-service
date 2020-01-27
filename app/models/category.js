@@ -1,8 +1,4 @@
-const {
-    category: categoryModel,
-    skill: skillModel,
-    categories_relation: categoryRelationModel,
-    skills_relation: skillRelationModel,
+const {category: categoryModel, skill: skillModel, categories_relation: categoryRelationModel, skills_relation: skillRelationModel
 } = require('../sequelize/models');
 
 class Category {

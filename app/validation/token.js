@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
+const { UNAUTHORIZED, FORBIDDEN, getStatusText } = require('http-status-codes');
+const { Constants } = require('../constants/Constants');
 const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const invitationSecretToken = require('../../config/env-settings.json').invitationSecretKey;
 const forgotPasswordTokenSecret = require('../../config/env-settings.json').forgotPasswordSecretKey;
-const { UNAUTHORIZED, getStatusText } = require('http-status-codes');
-const { Constants } = require('../constants/Constants');
-const jwtDecode = require('jwt-decode');
-const { OK, INTERNAL_SERVER_ERROR, CONFLICT, FORBIDDEN } = require('http-status-codes');
 
 const verifyToken = async (request, response, next, token, secret) => {
     try {
@@ -22,7 +21,7 @@ const verifyToken = async (request, response, next, token, secret) => {
     }
 };
 
-const verifyLoginToken = async (request, response, next) => {
+module.exports.verifyLoginToken = async (request, response, next) => {
     try {
         const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
         verifyToken(request, response, next, token, loginSecretKey);
@@ -31,7 +30,7 @@ const verifyLoginToken = async (request, response, next) => {
     }
 };
 
-const verifyRightPermission = async (request, response, next) => {
+module.exports.verifyRightPermission = async (request, response, next) => {
     try {
         if (request.guid !== request.params.userGuid) {
             return response.status(FORBIDDEN).send(getStatusText(FORBIDDEN));
@@ -42,7 +41,7 @@ const verifyRightPermission = async (request, response, next) => {
     }
 };
 
-const verifyRegisterToken = async (request, response, next) => {
+module.exports.verifyRegisterToken = async (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, invitationSecretToken);
@@ -51,18 +50,11 @@ const verifyRegisterToken = async (request, response, next) => {
     }
 };
 
-const verifyForgotPasswordToken = async (request, response, next) => {
+module.exports.verifyForgotPasswordToken = async (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, forgotPasswordTokenSecret);
     } catch (err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }
-};
-
-module.exports = {
-    verifyLoginToken,
-    verifyRegisterToken,
-    verifyForgotPasswordToken,
-    verifyRightPermission,
 };

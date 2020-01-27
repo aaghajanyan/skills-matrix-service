@@ -1,30 +1,23 @@
-const { OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED } = require('http-status-codes');
-const { Constants } = require('../constants/Constants');
+const {OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED} = require('http-status-codes');
+const {Constants} = require('../constants/Constants');
+const responseBuilder = require('../helper/errorResponseBodyBuilder');
 const User = require('../models/user');
 const Category = require('../models/category');
 const UserCategory = require('../models/usersCategories');
-const logger = require('../helper/logger');
 const CategoryHistory = require('../models/categoriesHistory');
-const {
-    couldNotGetCriteria,
-    couldNotUpdateCriteria,
-    couldNotAddCriteria,
-    couldNotDeleteCriteria,
-    doesNotExistCriteria,
-    alreadyExistsCriteria,
-} = require('../helper/errorResponseBodyBuilder');
+const logger = require('../helper/logger');
 
-const getUsersCategories = async function(_, response) {
+module.exports.getUsersCategories = async (_, response) => {
     try {
         const usersCategories = await UserCategory.findAll();
         response.status(OK).json(usersCategories);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase()));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase()));
     }
 };
 
-const getUserCategories = async function(request, response) {
+module.exports.getUserCategories = async (request, response) => {
     try {
         const userCategories = await UserCategory.find({
             guid: request.params.userCategoryGuid,
@@ -34,11 +27,11 @@ const getUserCategories = async function(request, response) {
         logger.error(error);
         return response
             .status(INTERNAL_SERVER_ERROR)
-            .json(couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase(), request.params.userCategoryGuid));
+            .json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase(), request.params.userCategoryGuid));
     }
 };
 
-const addUserCategory = async function(request, response) {
+module.exports.addUserCategory = async (request, response) => {
     const expectedResponse = {
         errors: [],
         items: [],
@@ -70,26 +63,26 @@ const addUserCategory = async function(request, response) {
                             expectedResponse.items.push(userCategory);
                         }
                     } catch (error) {
-                        expectedResponse.errors.push(alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase(), existingCategory.name));
+                        expectedResponse.errors.push(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase(), existingCategory.name));
                     }
                 } else {
-                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
+                    expectedResponse.errors.push(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
                 }
             });
             await Promise.all(promise).catch(err => logger.error(err))
             return response.status(status).json({ expectedResponse });
         } else {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json(
-            couldNotAddCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()) // TODO
+            responseBuilder.couldNotAddCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()) // TODO
         );
     }
 };
 
-const addUserCategoryAndUpdateHistory = async function(userCategoryData, user, existingCategory) {
+const addUserCategoryAndUpdateHistory = async (userCategoryData, user, existingCategory) => {
     const dataValues = userCategoryData.dataValues;
     dataValues.created_date = new Date();
     delete dataValues.guid;
@@ -105,7 +98,7 @@ const addUserCategoryAndUpdateHistory = async function(userCategoryData, user, e
     });
 };
 
-const updateUserCategory = async function(request, response) {
+module.exports.updateUserCategory = async (request, response) => {
     const expectedResponse = {
         errors: [],
     };
@@ -125,22 +118,22 @@ const updateUserCategory = async function(request, response) {
                     });
                     status = OK;
                 } else {
-                    expectedResponse.errors.push(doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
+                    expectedResponse.errors.push(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
                 }
             });
             await Promise.all(promise).catch(err => logger.error(err));
             expectedResponse.success = status === CONFLICT ? false : true;
             return response.status(status).json(expectedResponse);
         } else {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(couldNotUpdateCriteria(Constants.TypeNames.USER_CATEGORY));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.USER_CATEGORY));
     }
 };
 
-const deleteUserCategory = async function(request, response) {
+module.exports.deleteUserCategory = async (request, response) => {
     try {
         const user = await User.findOne({ guid: request.params.userGuid });
         if (user) {
@@ -154,32 +147,23 @@ const deleteUserCategory = async function(request, response) {
                 });
                 return response.status(ACCEPTED).json({ success: true });
             } else {
-                return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.CATEGORY, request.body.categoryGuid));
+                return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY, request.body.categoryGuid));
             }
         } else {
-            return response.status(CONFLICT).json(doesNotExistCriteria(Constants.TypeNames.USER, request.body.categoryGuid));
+            return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.body.categoryGuid));
         }
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
     }
 };
 
-const deleteUserCategoryById = async function(request, response) {
+module.exports.deleteUserCategoryById = async (request, response) => {
     try {
         await UserCategory.delete({ id: request.params.userCategoryGuid });
         return response.status(ACCEPTED).end();
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
     }
-};
-
-module.exports = {
-    getUserCategories,
-    getUsersCategories,
-    addUserCategory,
-    updateUserCategory,
-    deleteUserCategory,
-    deleteUserCategoryById,
 };

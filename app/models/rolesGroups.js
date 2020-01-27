@@ -1,4 +1,4 @@
-const { roles_groups: rolesGroupsModel } = require('../sequelize/models');
+const {roles_groups: rolesGroupsModel} = require('../sequelize/models');
 
 class RoleGroup {
     static async findAll() {

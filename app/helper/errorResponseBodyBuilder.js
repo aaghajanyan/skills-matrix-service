@@ -1,5 +1,5 @@
-const { Constants } = require('../constants/Constants');
 const util = require('util');
+const {Constants} = require('../constants/Constants');
 
 module.exports.couldNotGetCriteria = (criteriaType, value = '') => {
     return criteria(Constants.ErrorMessages.COULD_NOT_GET1, criteriaType, value);

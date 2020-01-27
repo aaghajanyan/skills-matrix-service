@@ -7,7 +7,7 @@ const forgotPasswordBodySchema = Joi.object().keys({
         .required(),
 });
 
-const validateForgotPasswordBody = (request, response, next) => {
+module.exports.validateForgotPasswordBody = (request, response, next) => {
     validateBody(request, response, next, forgotPasswordBodySchema);
 };
 
@@ -17,8 +17,4 @@ const validateBody = (request, response, next, schema) => {
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();
-};
-
-module.exports = {
-    validateForgotPasswordBody,
 };

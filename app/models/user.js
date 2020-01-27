@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const {
     user: userModel,
     roles: rolesModel,
@@ -9,10 +10,9 @@ const {
     users_categories: userCategoriesModel,
     skill: skillModel,
     category: categoryModel,
-    skills_relation: skillsRelationModel,
+    skills_relation: skillsRelationModel
 } = require('../sequelize/models');
-const bcrypt = require('bcrypt');
-const { Constants } = require('../constants/Constants');
+const {Constants} = require('../constants/Constants');
 const Position = require('./position');
 const Branch = require('./branch');
 

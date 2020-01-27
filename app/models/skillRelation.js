@@ -1,4 +1,4 @@
-const { skills_relation: skillRelationModel } = require('../sequelize/models');
+const {skills_relation: skillRelationModel} = require('../sequelize/models');
 
 class SkillRelation {
     static async findAll() {
