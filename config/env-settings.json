@@ -1,0 +1,25 @@
+{
+    "node_port": 3002,
+    "db": {
+        "username": "cG9zdGdyZXM=",
+        "password": "cG9zdGdyZXM=",
+        "database": "skills_matrix",
+        "options": {
+            "host": "127.0.0.1",
+            "dialect": "postgres"
+        }
+    },
+    "client": {
+        "protocol": "http://",
+        "host": "localhost",
+        "port": "3000"
+    },
+    "forgotPasswordSecretKey": "dfefbab7-74fd-48a6-88dc-50aad109aead",
+    "invitationSecretKey": "861fa35a-4ce3-458e-94b2-6768fde83a1f",
+    "loginSecretKey": "6d23c4d5-3758-4ce2-b3d5-615ec9ad8a79",
+    "nodeMailer": {
+        "username": "YWxiZXJ0LmFnaGFqYW55YW4uaW1AZ21haWwuY29t",
+        "password": "YWxiZXJ0MTk5Mw==",
+        "defaultFromAddress": "albert1993aghajanyan@gmail.com"
+    }
+}
