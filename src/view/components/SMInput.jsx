@@ -1,9 +1,9 @@
 import React from 'react';
-import { Input } from 'antd';
+import {Input} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMInput(props) {
-    return <Input {...props} />
+    return props.type === "password"? (<Input.Password  {...props}/>): <Input   {...props}/>
 }
 
 SMInput.propTypes = {

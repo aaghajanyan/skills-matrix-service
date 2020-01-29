@@ -1,6 +1,7 @@
 import React from 'react';
-import { Select } from 'antd';
+import {Select} from 'antd';
 import {PropTypes} from 'prop-types'
+
 const { Option } = Select;
 
 function SMSelect({options, ...restProps}) {
@@ -31,7 +32,7 @@ SMSelect.propTypes = {
     options: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.string,
     })),
-}
+};
 
 
 export { SMSelect };

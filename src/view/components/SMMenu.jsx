@@ -1,7 +1,8 @@
 import React from 'react';
-import { Menu } from 'antd';
-import { SMIconLink } from './SMIconLink';
+import {Menu} from 'antd';
+import {SMIconLink} from './SMIconLink';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 function SMMenu(props) {
 
@@ -10,8 +11,11 @@ function SMMenu(props) {
             return (
                 <Menu.Item
                     key = { item.key }
-                    title = {item.title}
-                    className = {item.className}
+                    title = { item.title }
+                    className = { classNames(
+                        item.className,
+                        "unselectable"
+                    ) }
                     href={item.href}
                     type={'sider'}
                 >
@@ -20,6 +24,7 @@ function SMMenu(props) {
                         parentType={props.type}
                         icon={item.icon}
                         title={item.title}
+                        href={item.href}
                     />
                 </Menu.Item>
             );
@@ -41,6 +46,7 @@ SMMenu.propTypes = {
         disabled: PropTypes.string,
         title: PropTypes.string,
         keyPath: PropTypes.string,
+        href: PropTypes.string,
         className: PropTypes.string,
         icon: PropTypes.string
     })),

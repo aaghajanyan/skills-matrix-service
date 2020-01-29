@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from "prop-types"
 import classNames from 'classnames';
-import { SMAvatar } from 'view/components'
+import {SMAvatar} from "src/view/components";
 
-function SMUserBar({ className, firstName, lastName, size }) {
+function SMUserBar({ className, firstName, lastName, size,  onClick , ...rest}) {
 
     return (
-        <div className={classNames("sm-user-bar", className)} >
+        <div onClick={onClick} {...rest} className={classNames("sm-user-bar", className, onClick ? "pointer": "")} >
             <SMAvatar  name={firstName + ' ' + lastName} size={size}/>
-            <span className='sm-user-bar_name'>{firstName} {lastName}</span>
+            <span className='sm-user-bar_name unselectable'>{firstName} {lastName}</span>
         </div>
     )
 }
@@ -19,6 +19,7 @@ SMUserBar.propTypes = {
     lastName: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string,
     colorCode: PropTypes.number,
-}
+    onClick: PropTypes.func
+};
 
 export { SMUserBar };

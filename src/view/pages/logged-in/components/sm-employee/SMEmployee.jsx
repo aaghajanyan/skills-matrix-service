@@ -1,31 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { get } from 'client/lib/axiosWrapper';
-import { SMUserBar } from '../SMUserBar';
-import { SMTabs } from 'view/components';
-import { Summary } from './Summary';
-import { Assessment } from './Assessment';
+import React, {useEffect, useState} from 'react';
+import {shallowEqual, useSelector} from 'react-redux';
+import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
+import {Summary} from 'src/view/pages/logged-in/components/sm-employee/Summary';
+import {Assessment} from 'src/view/pages/logged-in/components/sm-employee/Assessment';
+import {getUser} from "src/services/usersService"
 
-function SMEmployee(props) {
+function SMEmployeeInitial(props) {
 
-    const currentUser = useSelector(state => state.CurrentUser);
-    const [user, setUser] = useState(currentUser);
+    const currentUser = useSelector(state => state.user, shallowEqual);
 
-    if (!user && currentUser) {
+    const [user, setUser] = useState({
+        fname:"",
+        lname:""
+    });
+
+    const userIsDefined = () => user.fname !== "" && user.lname !== "";
+
+    if (!userIsDefined() && currentUser) {
         setUser(currentUser);
     }
 
     useEffect(() => {
-        if (user && props.match && props.match.params.id !== user.data.guid) {
-            get({ url: `users/${props.match.params.id}` })
-                .then(result => {
-                    setUser(result);
+        if (user && props.match && props.match.params.id !== user.guid) {
+            getUser(props.match.params.id)
+                .then(fetchUser => {
+                    setUser(fetchUser);
                 })
                 .catch(error => {
-                    user.data = {};
+                    console.warn("Handle error", error)
                 })
         }
-    }, [])
+    }, [props.match, user]);
 
     return (
             <SMTabs
@@ -34,22 +39,26 @@ function SMEmployee(props) {
                 userData={user}
                 renderTabBar={(tabBarProps, TabBar) => (
                     <div className='sm-tabs-header sm-component'>
-                        <SMUserBar
+                        {<SMUserBar
                             className='sm-user'
                             firstName={user && user.data.fname}
                             lastName={user && user.data.lname}
                             size='large'
-                        />
+                        />}
                         <TabBar {...tabBarProps} />
                     </div>)
                 }
             >
-                <Summary key='Summary' />
-                <Assessment key='Assessment' />
-                <div key='History'> <h1> History </h1> </div>
-                <div key='About'> <h1> About </h1> </div>
+                <Summary key='Summary'/>
+                <Assessment key='Assessment'/>
+                <div key='History'><h1> History </h1></div>
+                <div key='About'><h1> About </h1></div>
             </SMTabs>
     )
 }
 
-export { SMEmployee }
+
+const SMEmployee = React.memo(SMEmployeeInitial,
+    () => true);
+
+export {SMEmployee}

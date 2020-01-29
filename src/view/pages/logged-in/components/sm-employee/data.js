@@ -1,11 +1,12 @@
 import React from 'react';
-import { Tag } from 'antd'; //TODO : move to common components
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-library.add(fab, far, fas)
+import {Tag} from 'antd'; //TODO : move to common components
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fab} from '@fortawesome/free-brands-svg-icons'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {far} from '@fortawesome/free-regular-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+
+library.add(fab, far, fas);
 
 const categories = [
   {
@@ -259,6 +260,6 @@ const summary = {
     },
   ]
 
-}
+};
 
 export { categories, categorySkills, summary }

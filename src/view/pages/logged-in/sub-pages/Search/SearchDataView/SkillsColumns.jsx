@@ -5,7 +5,7 @@ import {colors_search_table} from 'constants';
 function SkillsColumns(props) {
     const data = [];
 
-    props.userData.map((item, index) => {
+    props.userData.forEach((item, index) => {
         const row = {
             key: index,
             avatar: item.avatar,

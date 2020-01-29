@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker } from 'antd';
+import {DatePicker} from 'antd';
 import {PropTypes} from 'prop-types'
 
 function SMDatePicker(props) {
@@ -13,6 +13,6 @@ SMDatePicker.propTypes = {
     rules: PropTypes.arrayOf(PropTypes.object),
     placeholder: PropTypes.string,
     dateFormat: PropTypes.string,
-}
+};
 
 export { SMDatePicker };

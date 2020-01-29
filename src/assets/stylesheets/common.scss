@@ -106,13 +106,16 @@
     & > input {
         padding-left: 60px !important;
     }
-    & > span {
+    & > .ant-input-prefix {
         width: 36px;
+        height: 24px;
         border-right: 2px solid $sm-grey-color;
     }
-    & > input::placeholder {
-        color: $sm-grey-color;
-        font-size: larger;
+    & > .ant-input-suffix {
+        width: 36px;
+        height: 24px;
+        border-left: 2px solid $sm-grey-color;
+        padding-left: 15px;
     }
 }
 
@@ -151,7 +154,7 @@
 
 .sm-alert {
     border-radius: $sm-border-radius;
-    height: $sm-input-height;
+    height: auto;
     margin-top: 10%;
 }
 
@@ -192,4 +195,19 @@
 .sm-sider > div {
     z-index: 999;
     background-color: $sm-primary-color;
+}
+
+.unselectable {
+    user-select: none;
+}
+.pointer {
+    cursor: pointer;;
+}
+
+img {
+    user-select: none;
+}
+
+.sm-input-suffix{
+    padding-right: 0;
 }

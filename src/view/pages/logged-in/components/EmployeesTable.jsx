@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types"
-import { SMTable } from 'view/components';
+import {SMTable} from "../../../components";
 
 function EmployeesTable(props) {
 
@@ -9,7 +9,7 @@ function EmployeesTable(props) {
         if (a > b) { return -1; }
         if (a < b) { return 1; }
         return 0;
-    }
+    };
 
     const data = [];
 
@@ -36,7 +36,7 @@ function EmployeesTable(props) {
 
     const onEmployeeSelect = (record, rowIndex) => ({
         onClick: () => props.history.push(`employees/${record.guid}`)
-    })
+    });
 
     const addDataSource = () => {
         props.dataSource && props.dataSource.map((item, index) => {
@@ -68,6 +68,6 @@ EmployeesTable.propTypes = {
     loading: PropTypes.bool,
     showHeader: PropTypes.bool,
     pagination: PropTypes.bool,
-}
+};
 
 export { EmployeesTable };

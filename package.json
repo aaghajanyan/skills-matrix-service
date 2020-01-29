@@ -150,6 +150,8 @@
   "devDependencies": {
     "eslint": "^6.1.0",
     "eslint-plugin-react": "^7.18.0",
-    "remote-redux-devtools": "^0.5.16"
+    "remote-redux-devtools": "^0.5.16",
+    "prop-types": "latest",
+    "classnames": "latest"
   }
 }

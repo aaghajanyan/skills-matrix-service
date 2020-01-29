@@ -1,13 +1,13 @@
 import React from 'react';
-import { SMTable, SMButton } from 'view/components';
-import { categories } from './data'
-import { categorySkills } from './data'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-library.add(fab, far, fas)
+import {SMButton, SMTable} from 'src/view/components';
+import {categories, categorySkills} from './data'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fab} from '@fortawesome/free-brands-svg-icons'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {far} from '@fortawesome/free-regular-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+
+library.add(fab, far, fas);
 
 function Assessment() {
 
@@ -15,15 +15,15 @@ function Assessment() {
         if (a > b) { return -1; }
         if (a < b) { return 1; }
         return 0;
-    }
+    };
 
     const comparatorDate = (a, b) => {
-        const date1 = new Date(a)
-        const date2 = new Date(b)
+        const date1 = new Date(a);
+        const date2 = new Date(b);
         if (date1 > date2) { return -1; }
         if (date1 < date2) { return 1; }
         return 0;
-    }
+    };
 
     const categoriesColumns = [
         {

@@ -1,34 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { post, get } from 'client/lib/axiosWrapper';
-import { emailValidator } from 'helpers/validators';
-import { messages } from 'constants';
-import { EmployeesTable } from 'view/pages/logged-in/components'
-import { SMUserBar } from '../components';
-
-import { SMModal, SMForm, SMButton, SMInput, SMNotification, SMIcon } from 'view/components';
+import React, {useEffect, useState} from 'react';
+import {emailValidator} from 'src/helpers/validators';
+import {EmployeesTable} from 'src/view/pages/logged-in/components'
+import {SMUserBar} from '../components';
+import {SMConfig} from 'src/config'
+import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification} from 'src/view/components';
+import {sendInvitation} from "src/services/invitationsService";
+import {getUsers} from "src/services/usersService";
+import {useValidator} from "../../../../hooks/common";
 
 
 function Employees(props) {
 
     const [visible, setVisible] = useState(false);
-    const [modalValue, setModalValue] = useState(null);
 
     const [users, setUsers] = useState(null);
 
     const [loading, setLoading] = useState(false);
 
-    const emailRules = { rules: [{ validator: emailValidator }] };
+    const [isEmailValid, email, emailRule] = useValidator(emailValidator);
 
     const handleOk = () => {
         setLoading(true);
-        const options = {
-            url: 'invitations/',
-            data: { email: modalValue }
-        }
-        post(options)
-            .then(result => {
+        sendInvitation(email)
+            .then(() => {
                 setLoading(false);
-                SMNotification('success', messages.invitations.sendInvitation.success)
+                SMNotification('success', SMConfig.messages.invitations.sendInvitation.success)
             })
             .catch(error => {
                 setLoading(false);
@@ -37,43 +33,39 @@ function Employees(props) {
                 }
                 if (error.response) {
                     if (error.response.status === 409) {
-                        SMNotification('error', messages.invitations.sendInvitation.error)
+                        SMNotification('error', SMConfig.messages.invitations.sendInvitation.error)
                     }
                 }
-            })
+            });
         setVisible(false);
-    }
+    };
 
     const handleCancel = () => {
         setVisible(false);
-    }
+    };
 
     const openModal = () => {
         setVisible(true)
-    }
-
-    const handleChange = (a) => {
-        setModalValue(a.target.value)
-    }
+    };
 
     useEffect(() => {
-        get({ url: 'users/' })
-            .then(result => {
-                result.data = result.data.map(item => {
-                    item.key = item.guid
-                    item.avatar = <SMUserBar
-                        firstName={item.fname}
-                        lastName={item.lname}
+        getUsers()
+            .then(users => {
+                users = users.map(user => {
+                    user.key = user.guid;
+                    user.avatar = (<SMUserBar
+                        firstName={user.fname}
+                        lastName={user.lname}
                         size='medium'
-                    />
-                    return item;
-                })
-                setUsers(result.data)
+                    />);
+                    return user;
+                });
+                setUsers(users)
             })
-            .catch(error => {
+            .catch(() => {
                 setUsers([])
             })
-    }, [])
+    }, []);
 
     return (
         <div className="employees-content sm-content">
@@ -83,13 +75,13 @@ function Employees(props) {
                     onClick={openModal}
                     loading={loading}
                 >
-                    Send invitation email
+                    { loading ? "Sending" : "Send"} invitation email
                 </SMButton>
             </div>
             <EmployeesTable
                 className='sm-table sm-component'
                 history={props.history}
-                loading={users === null ? true : false}
+                loading={users === null}
                 showHeader={true}
                 dataSource={users}
                 pagination={false}
@@ -111,6 +103,7 @@ function Employees(props) {
                         className='sm-link'
                         key='cancel'
                         type='link'
+                        href={SMConfig.routes.employees}
                         onClick={handleCancel}
                     >
                         Cancel
@@ -120,6 +113,7 @@ function Employees(props) {
                         key='ok'
                         type='primary'
                         onClick={handleOk}
+                        disabled={!isEmailValid}
                     >
                         Send
                     </SMButton>
@@ -132,8 +126,7 @@ function Employees(props) {
                             name: 'email',
                             type: 'text',
                             placeholder: 'Email',
-                            rules: emailRules.rules,
-                            onChange: handleChange,
+                            rules: emailRule,
                             prefix: (
                                 <SMIcon
                                     className='sm-icon-grey'
@@ -150,4 +143,4 @@ function Employees(props) {
     );
 }
 
-export { Employees };
+export {Employees};

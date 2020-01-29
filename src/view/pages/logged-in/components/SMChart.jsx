@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend
-} from 'recharts';
+import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from 'recharts';
 import PropTypes from 'prop-types';
 
 function SMChart(props) {
   const getColor = () => {
     return '#' + Math.random().toString(16).slice(2, 8);
-  }
+  };
   return (
     <div className={props.className}>
       <h3 className='sm-subheading'> Top Skills Categories</h3>
       <BarChart
-        margin={{
-          // top: 20, right: 30, left: 20, bottom: 5,
-        }}
+
         width={props.width}
         height={props.height}
         data={props.data}

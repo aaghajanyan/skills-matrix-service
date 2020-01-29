@@ -1,18 +1,25 @@
 import React from 'react';
-import { Layout, Row, Col } from 'antd';
-import logo from 'assets/images/logo.png';
-import { isLoggedIn } from 'client/lib/authService';
-import { Redirect } from 'react-router-dom';
-import { SMButton } from 'view/components';
-import { RegisterForm } from './RegisterForm';
-import { LoginForm } from './LoginForm';
+import {Redirect, Route, useHistory} from 'react-router-dom';
+
+import {Col, Layout, Row} from 'antd';
+
+import logo from 'src/assets/images/logo.png';
+
+import {isLoggedIn} from 'src/services/authService';
+import {RegisterForm} from 'src/view/pages/logged-out/RegisterForm';
+import {LoginForm} from 'src/view/pages/logged-out/LoginForm';
+import {SMButton} from "src/view/components";
+import {ForgotPasswordConfirmation} from "./forgot-password/ForgotPasswordConfirmationForm";
+import {ForgotPasswordSendForm} from "./forgot-password/ForgotPasswordSendForm";
+import {SMConfig} from "../../../config";
+
 const { Header, Content, Footer } = Layout;
 
-function SMPageLoggedOut(props) {
+function SMPageLoggedOut() {
 
     const loggedIn = isLoggedIn();
 
-    const location = props.match.path;
+    const history = useHistory();
 
     return loggedIn ? (
         <Redirect to="/" />
@@ -30,7 +37,10 @@ function SMPageLoggedOut(props) {
                                 src={logo}
                                 alt="instigate mobile logo"
                             />
-                            {location === '/login' ? <LoginForm {...props} /> : <RegisterForm {...props}/>}
+                            <Route exact path={SMConfig.routes.login} render={ () => <LoginForm successEndpoint={history.location.state ? history.location.state.url: SMConfig.routes.home}/>} />
+                            <Route exact path={SMConfig.routes.forgotPassword} component={ForgotPasswordSendForm} />
+                            <Route exact path={`${SMConfig.routes.forgotPassword}/change/:token`} component={ForgotPasswordConfirmation} />
+                            <Route exact path={`${SMConfig.routes.registration}/:token`} component={RegisterForm} />
                         </div>
                     </Col>
                 </Row>
