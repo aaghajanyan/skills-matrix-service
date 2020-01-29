@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'antd';
+import {Form} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMFormInitial(props) {
@@ -57,6 +57,7 @@ function SMFormInitial(props) {
 }
 
 const SMForm = Form.create({ name: 'SMForm' })(SMFormInitial);
+
 export { SMForm };
 
 SMFormInitial.propTypes = {

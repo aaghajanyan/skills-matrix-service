@@ -1,0 +1,65 @@
+{
+    "invalidToken": "Invalid token",
+    "unknownError" : "Something went wrong. Please try again later",
+    "forgotPassword" : {
+        "pageDescription": {
+            "title": "Please enter your email",
+            "message": "We will send you an email with further instructions"
+        },
+        "userNotFound": "Please check the email",
+        "instructionsHasBeenSent" : "Instructions has been sent to %s",
+        "passwordHasBeenChangedSuccessfully": "Password has been changed successfully",
+        "passwordHasNotBeenChanged": "Password has not been changed, please try again later"
+    },
+    "noConnection": {
+        "message": "Connection error",
+        "description": "Could not connect to remote server"
+    },
+    "invitations": {
+        "sendInvitation": {
+            "success": {
+                "message": "Invitation has been sent successfully"
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Invitation already sent to this email address"
+            }
+        },
+        "nonexistentInvitation": {
+            "message": "Invalid invitation URL"
+        }
+    },
+    "singIn": {
+        "error": "Email or password is incorrect"
+    },
+    "validation": {
+        "email": {
+            "required": "Email is required!",
+            "invalid": "Email is invalid!"
+        },
+        "password": {
+            "required": "Password is required!",
+            "invalid": "Password is invalid!",
+            "passwordsDoNotMatch": "Passwords don't match!"
+        },
+        "name": {
+            "required": {
+                "first": "First-name is required!",
+                "last": "Last-name is required!"
+            },
+            "invalid": {
+                "first": "First-name is invalid!",
+                "last": "Last-name is invalid!"
+            }
+        },
+        "branch": {
+            "required": "Branch is required!"
+        },
+        "position": {
+            "required": "Position is required!"
+        },
+        "date": {
+            "required": "Date is required!"
+        }
+    }
+}

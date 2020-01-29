@@ -1,10 +1,13 @@
 import React from 'react';
-import { Spin } from 'antd';
+import {Spin} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMSpinner({isLoading, children, className, size}) {
     return (
-        isLoading ? <Spin className={className} size={size} /> : children
+
+        <Spin className={className} size={size} spinning={isLoading} >
+            {children}
+        </Spin>
     )
 }
 
@@ -15,4 +18,4 @@ SMSpinner.propTypes = {
     children: PropTypes.element,
     className: PropTypes.string,
     size: PropTypes.string
-}
+};

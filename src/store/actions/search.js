@@ -1,6 +1,6 @@
-import { get, post } from 'client/lib/axiosWrapper';
-import {searchUsersBegin, searchUsersSuccess, searchUsersFailure, criteriaRow} from './searchAction';
-import { CRITERIA } from '../../configSearch/criteria';
+import {get, post} from 'src/services/client';
+import {criteriaRow, searchUsersBegin, searchUsersFailure, searchUsersSuccess} from 'src/store/actions/searchAction';
+import {CRITERIA} from 'src/configSearch/criteria';
 
 const id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
 
@@ -18,30 +18,30 @@ export function getSearchParams(params){
 
 const getIdValues = (type, item) => {
   let id;
-  Object.values(CRITERIA).map((criteria) => {
+  Object.values(CRITERIA).forEach((criteria) => {
       if(criteria.name !== type) {
           return null;
       }
 
-      criteria.input.map((data, index) => {
-          if(data.key === "list"){
-              data.items.map(e => {
-                  if(e.name === item){
-                      id = e.id;
-                  }
-              })
-          }
+      criteria.input.forEach((data, index) => {
+              if(data.key === "list"){
+                  data.items.forEach(e => {
+                      if(e.name === item){
+                          id = e.id;
+                      }
+                  })
+              }
+          });
       });
-  });
-  return id;
-  }
+    return id;
+  };
 
 function getCriteria(){
-  Object.values(CRITERIA).map(field => {
+  Object.values(CRITERIA).forEach(field => {
     if(field.name === "Category"){
       get({url: "categories/all"}).then(result => {
-        result && result.data.map(item => {
-             Object.values(field.input).map(cat => {
+        result && result.data.forEach(item => {
+             Object.values(field.input).forEach(cat => {
                  if(cat.key === "list"){
                      cat.items.push({name: item.name, id: item.id});
                  }
@@ -54,8 +54,8 @@ function getCriteria(){
       });
     } else {
       get({url: "skills"}).then(result => {
-        result && result.data.map(item => {
-             Object.values(field.input).map(cat => {
+        result && result.data.forEach(item => {
+             Object.values(field.input).forEach(cat => {
                  if(cat.key === "list"){
                      cat.items.push({name: item.name,  id: item.id});
                  }
@@ -98,7 +98,7 @@ export function getUsers(data){
                   items: itemObject,
                   relCondition: item.relCondition ? item.relCondition.toLowerCase() : "and"
               }
-          })
+          });
         post({url: "search/", data: bodyObject})
         .then(result => {
           dispatch(searchUsersSuccess({data: result.data.users, values: data, rows: searchParams}));

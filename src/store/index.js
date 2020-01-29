@@ -1,7 +1,8 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import Search from './reducers/search';
-import CurrentUser from './reducers/currentUser';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import searchReducer from './reducers/searchReducer';
+import userReducer from './reducers/userReducer';
 import thunk from "redux-thunk";
+
 const composeEnhancers = process.env.NODE_ENV !== 'production' &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -9,7 +10,7 @@ const composeEnhancers = process.env.NODE_ENV !== 'production' &&
     }) : compose;
 
 const enhancer = composeEnhancers( applyMiddleware(thunk) );
-const reducers = combineReducers({ Search, CurrentUser });
+const reducers = combineReducers({ search: searchReducer, user: userReducer});
 
 const store = createStore(reducers, enhancer);
 export default store;

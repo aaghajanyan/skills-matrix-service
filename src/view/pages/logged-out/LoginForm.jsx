@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Alert } from 'antd';
-import { SMForm, SMInput, SMButton, SMIcon } from 'view/components';
-import { Redirect } from 'react-router-dom';
-import { login } from 'client/lib/authService';
-import { messages } from 'constants'
+import React, {useState} from 'react';
+import * as PropTypes from "prop-types";
 
-import { setCurrentUser } from 'store/actions/currentUserAction';
-import { useDispatch } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
-function LoginForm(props) {
+import {Alert} from 'antd';
+import {useDispatch} from 'react-redux';
+import {SMButton, SMForm, SMIcon, SMInput} from 'src/view/components';
+import {login} from 'src/services/authService';
+import {setCurrentUser} from "src/store/actions/userActions";
+import {SMConfig} from "src/config";
+
+function LoginForm({successEndpoint}) {
 
     const dispatch = useDispatch();
 
@@ -39,16 +41,16 @@ function LoginForm(props) {
                 setLoading(false);
                 showError(error)
             })
-    }
+    };
 
     return success ? (
-        <Redirect to={props.location.state ? props.location.state.url : '/'} />
+        <Redirect to={successEndpoint} />
     ) : (
             <React.Fragment>
                 {errorMessage && (
                     <Alert
                         className="sm-alert"
-                        message={messages.singIn.error}
+                        message={SMConfig.messages.singIn.error}
                         type="error"
                         closable
                         afterClose={onAlertClose}
@@ -91,7 +93,7 @@ function LoginForm(props) {
                             className: 'sm-link',
                             name: 'forgot-password',
                             type: 'link',
-                            href: '#',
+                            href: SMConfig.routes.forgotPassword,
                             children: 'Forgot Password?',
                         }),
                         SMButton({
@@ -108,5 +110,9 @@ function LoginForm(props) {
             </React.Fragment>
         );
 }
+
+LoginForm.propTypes = {
+    successEndpoint : PropTypes.string.isRequired
+};
 
 export { LoginForm };

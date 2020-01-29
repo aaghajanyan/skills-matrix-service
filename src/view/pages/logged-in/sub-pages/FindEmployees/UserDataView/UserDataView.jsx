@@ -1,7 +1,7 @@
 import React from 'react';
-import { AddColumns } from './AddColumns';
-import { AddDataInColumns } from './AddDataInColumns';
-import { SMTable } from 'view/components';
+import {AddColumns} from './AddColumns';
+import {AddDataInColumns} from './AddDataInColumns';
+import {SMTable} from 'src/view/components';
 
 function UserDataView(props) {
 

@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { AddPeopleRow } from './AddPeopleRow/AddPeopleRow';
-import { getUsers } from 'store/actions/search';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import {AddPeopleRow} from './AddPeopleRow/AddPeopleRow';
+import {getUsers} from 'src/store/actions/search';
+import {useDispatch} from 'react-redux';
 
 function PeopleRow(props) {
 
-  const [rowSelect, setRowSelect] = useState()
+  const [rowSelect, setRowSelect] = useState();
   const dispatch = useDispatch();
   const handleChange = (item) => {
     if (item) {
       setRowSelect(item);
       dispatch(getUsers(props.formItem.getFieldsValue()))
     }
-
-  }
+  };
 
   return (
     <>

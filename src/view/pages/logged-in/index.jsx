@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { Layout } from 'antd';
-import { HeaderBar, SideMenu } from './components';
-import { SMLogo } from 'view/components'
-import { sideMenuItems } from './components/sm-menu/side-menu/sideMenuItems';
+import React, {useState} from 'react';
+import {Layout} from 'antd';
+import {HeaderBar, SideMenu} from './components';
+import {SMLogo} from 'src/view/components'
+import {sideMenuItems} from './components/sm-menu/side-menu/sideMenuItems';
 
 const { Header, Sider, Content } = Layout;
 
 function SMPageLoggedIn(props) {
 
-    const [collapsed, setCollapsed] = useState(false)
+    const [collapsed, setCollapsed] = useState(false);
 
     const collapseSideBar = () => {
         setCollapsed(!collapsed)
-    }
+    };
 
     return (
         <React.Fragment>

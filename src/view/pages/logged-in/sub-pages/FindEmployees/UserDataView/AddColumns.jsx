@@ -1,5 +1,3 @@
-import React from 'react';
-
 function AddColumns(props){
 
     const skills = [];
@@ -27,7 +25,7 @@ function AddColumns(props){
         },
       ];
 
-    props.userData.map((item) => item.skills.map( (skill, index) => {
+    props.userData.forEach((item) => item.skills.forEach( (skill) => {
         if(!skills.includes(skill.name)) {
             columns.splice(2, 0, {
                 title: skill.name,
@@ -43,10 +41,10 @@ function AddColumns(props){
                       children: text,
                     };
                   },
-            })
+            });
             skills.push(skill.name);
         }
-    }))
+    }));
 
     return columns
 }

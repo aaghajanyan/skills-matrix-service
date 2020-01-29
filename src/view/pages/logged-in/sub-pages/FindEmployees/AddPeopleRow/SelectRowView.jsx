@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Row, Col, Select, Button } from 'antd';
-import { CRITERIA } from '../../../../../../configSearch/criteria';
+import React, {useEffect} from 'react';
+import {Button, Col, Row, Select} from 'antd';
+import {CRITERIA} from 'src/configSearch/criteria';
 
 const { Option } = Select;
 
@@ -10,16 +10,16 @@ function SelectRowView(props) {
         props.selectCriteriaValue(props.cellData.criteriaValue);
         props.rowSelect(props.cellData.criteriaValue);
 
-    }, [])
+    }, [props]);
 
     const handleSelect = (e) => {
         props.selectCriteriaValue(e);
         props.rowSelect(e);
-    }
+    };
 
     const onDelEvent = () => {
         props.onRowDel(props.rowIndex);
-    }
+    };
 
     return (
         <Row gutter={16} >
@@ -41,7 +41,7 @@ function SelectRowView(props) {
             <Col span={18}>
                 <Row gutter={16}>
                     {props.addSelectField(props.rowIndex, props.cellData.criteriaValue)}
-                    {props.rowIndex > 0 && <Button className="delBtn" onClick={onDelEvent} icon="close"></Button>}
+                    {props.rowIndex > 0 && <Button className="delBtn" onClick={onDelEvent} icon="close"/>}
                 </Row>
             </Col>
         </Row>

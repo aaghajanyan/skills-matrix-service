@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal } from 'antd';
-import PropTypes, { element } from 'prop-types';
+import {Modal} from 'antd';
+import PropTypes, {element} from 'prop-types';
 
 function SMModal(props) {
     return (
@@ -18,6 +18,6 @@ SMModal.propTypes = {
     onCancel: PropTypes.func,
     children: PropTypes.element,
     footer: PropTypes.arrayOf(element)
-}
+};
 
 export { SMModal };

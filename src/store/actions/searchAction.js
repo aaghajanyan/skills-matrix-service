@@ -20,5 +20,5 @@ export const searchUsersFailure = (error) => ({
 export const criteriaRow = (searchData) => ({
     type: CRITERIA_ROW,
     payload: searchData
-})
+});
 

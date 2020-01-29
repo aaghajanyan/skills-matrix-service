@@ -1,128 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { post, head } from 'client/lib/axiosWrapper';
-import { messages } from 'constants';
-import {
-    nameValidator,
-    passwordValidator,
-    confirmPasswordValidator
-} from 'helpers/validators';
-import {
-    SMForm,
-    SMInput,
-    SMSelect,
-    SMButton,
-    SMSpinner,
-    SMDatePicker,
-    SMNotification
-} from 'view/components';
+import React, {useState} from 'react';
+import {nameValidator, passwordValidator, requiredValidator} from 'src/helpers/validators';
+import {SMButton, SMDatePicker, SMForm, SMInput, SMSelect, SMSpinner} from 'src/view/components';
+import {SMConfig} from "src/config";
+import {checkInvitation} from "src/services/invitationsService";
+import {registerUser} from "src/services/authService";
+import {useNavigation, useService, useValidator} from "../../../hooks/common";
 
 function RegisterForm(props) {
 
     const token = props.match.params.token;
 
-    const [loadingButton, setLoadingButton] = useState(false);
+    const [isPending, setIsPending] = useState(false);
 
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    const [firstPassword, setSetFirstPassword] = useState(null);
+    const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator("First"));
+    const [isLastNameValid, , lastNameRule] = useValidator(nameValidator("Last"));
+    const [isBranchValid, , branchRule] = useValidator(nameValidator("Branch"));
+    const [isPositionValid, , positionRule] = useValidator(requiredValidator("Position"));
+    const [isPasswordValid, passwordValue, passwordRule] = useValidator(passwordValidator);
+    const [isConfirmPassword, confirmPasswordValue, confirmPasswordRule] = useValidator(passwordValidator);
+    const [isDateValid, , dateRule] = useValidator(requiredValidator("Date"));
 
-    const onChange = (e) => {
-        setSetFirstPassword(e.target.value);
+    const isEntireFormValid = [isFirstNameValid,
+        isLastNameValid,
+        isBranchValid,
+        isPositionValid,
+        isPasswordValid,
+        isConfirmPassword,
+        isDateValid
+    ].every(e => e) && passwordValue === confirmPasswordValue;
+
+    const navigateTo = useNavigation();
+
+    const [isCompleted, , error] = useService(checkInvitation, token)
+
+    if(error){
+        navigateTo(SMConfig.routes.login, {
+            error: SMConfig.messages.invitations.nonexistentInvitation.message
+        });
     }
 
-    const firstNameRule = { rules: [{ validator: nameValidator("first") }] };
-    const lastNameRule = { rules: [{ validator: nameValidator("last") }] };
-    const branchRule = { rules: [{ required: true, message: messages.validation.branch.required }] };
-    const positionRule = { rules: [{ required: true, message: messages.validation.position.required }] };
-    const passwordRule = { rules: [{ validator: passwordValidator }] };
-    const confirmPasswordRule = { rules: [{ validator: confirmPasswordValidator(firstPassword) }] }
-    const dateRule = { rules: [{ required: true, message: messages.validation.date.required }] }
+    const handleSubmit = data => {
+        setIsPending(true);
+        registerUser(token, data)
+            .then(() => {
+                navigateTo(SMConfig.routes.login, {
+                    success: "User has been added"
+                })
+            })
+            .catch(() => {
+                setIsPending(false);
+            })
+    };
 
-    useEffect(() => {
-        const options = {
-            url: `invitations/${token}`,
-        }
-        head(options)
-            .then(result => {
-                setLoading(false)
-            })
-            .catch(error => {
-                if (error.response) {
-                    SMNotification('error', messages.invitations.nonexistentInvitation);
-                }
-                props.history.push('/login');
-            })
-    })
-
-    const handleSubmit = formData => {
-        setLoadingButton(true);
-        const data = {
-            fname: formData.fname,
-            lname: formData.lname,
-            branchName: formData.branchName,
-            position: formData.position,
-            password: formData.password,
-            startedToWorkDate: formData.startedToWorkDate.toString()
-        }
-        const options = {
-            url: `users/${token}`,
-            data: data
-        }
-        post(options)
-            .then(result => {
-                setLoadingButton(false);
-            })
-            .catch(error => {
-                setLoadingButton(false);
-            })
-    }
-
-    // TODO: Get from back end
+    // TODO: Fetch from back end
     const positions = [
-        { value: "SW Engineer" },
-        { value: "Senior SW Engineer" },
-        { value: "Beginner QA Tester" },
-        { value: "QA Tester" },
-        { value: "SQE Analyst" },
-        { value: "Sr. Software Quality Engineer" },
-        { value: "QA Analyst" },
-        { value: "QA lead" },
-        { value: "Team lead" },
-        { value: "Graphic designer" },
-        { value: "technical manager" },
-        { value: "Senior Team lead" },
-        { value: "Project Manager" },
-        { value: "3D modeler" },
-        { value: "UIUX designer" },
-        { value: "SW Architect" }
-    ]
+        {value: "SW Engineer"},
+        {value: "Senior SW Engineer"},
+        {value: "Beginner QA Tester"},
+        {value: "QA Tester"},
+        {value: "SQE Analyst"},
+        {value: "Sr. Software Quality Engineer"},
+        {value: "QA Analyst"},
+        {value: "QA lead"},
+        {value: "Team lead"},
+        {value: "Graphic designer"},
+        {value: "technical manager"},
+        {value: "Senior Team lead"},
+        {value: "Project Manager"},
+        {value: "3D modeler"},
+        {value: "UIUX designer"},
+        {value: "SW Architect"}
+    ];
 
     // TODO: Get from back end
     const branches = [
-        { value: "Vanadzor" },
-        { value: "Erevan" },
-        { value: "Goris" }
-    ]
+        {value: "Vanadzor"},
+        {value: "Erevan"},
+        {value: "Goris"}
+    ];
 
     return (
-        <SMSpinner isLoading={loading} className='sm-spin' size='large'>
+        <SMSpinner isLoading={!isCompleted} className='sm-spin' size='large'>
             <SMForm
                 className="sm-form register-form"
                 items={[
                     SMInput({
-                        className: 'sm-input',
+                        className: 'sm-input sm-input-register',
                         name: 'fname',
                         type: 'text',
                         placeholder: 'First name',
-                        rules: firstNameRule.rules,
+                        rules: firstNameRule,
                         autoComplete: 'off'
                     }),
                     SMInput({
-                        className: 'sm-input',
+                        className: 'sm-input sm-input-register',
                         name: 'lname',
                         type: 'text',
                         placeholder: 'Last name',
-                        rules: lastNameRule.rules,
+                        rules: lastNameRule,
                         autoComplete: 'off'
                     }),
                     SMSelect({
@@ -130,30 +107,29 @@ function RegisterForm(props) {
                         name: 'branchName',
                         placeholder: "Branch",
                         options: branches,
-                        rules: branchRule.rules
+                        rules: branchRule
                     }),
                     SMSelect({
                         className: 'sm-select',
                         name: 'position',
                         placeholder: "Position",
                         options: positions,
-                        rules: positionRule.rules
+                        rules: positionRule
                     }),
                     SMInput({
-                        className: 'sm-input',
+                        className: 'sm-input sm-input-register',
                         name: 'password',
                         type: 'password',
                         placeholder: 'Password',
-                        rules: passwordRule.rules,
-                        onChange: onChange,
+                        rules: passwordRule,
                         autoComplete: 'off',
                     }),
                     SMInput({
-                        className: 'sm-input',
+                        className: 'sm-input sm-input-register',
                         name: 'repeat_password',
                         type: 'password',
                         placeholder: 'Repeat Password',
-                        rules: confirmPasswordRule.rules,
+                        rules: confirmPasswordRule,
                         autoComplete: 'off',
                     }),
                     SMDatePicker({
@@ -161,7 +137,7 @@ function RegisterForm(props) {
                         name: 'startedToWorkDate',
                         placeholder: 'Start working date',
                         format: 'YYYY-MM-DD',
-                        rules: dateRule.rules
+                        rules: dateRule
                     })
                 ]}
                 buttons={[
@@ -171,7 +147,8 @@ function RegisterForm(props) {
                         type: 'primary',
                         htmlType: 'submit',
                         children: 'Sing up',
-                        loading: loadingButton,
+                        loading: isPending,
+                        disabled: !isEntireFormValid
                     }),
                 ]}
                 onSubmit={handleSubmit}
@@ -180,4 +157,4 @@ function RegisterForm(props) {
     );
 }
 
-export { RegisterForm };
+export {RegisterForm};

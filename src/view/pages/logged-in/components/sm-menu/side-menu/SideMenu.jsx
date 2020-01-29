@@ -1,12 +1,17 @@
-
 import React from 'react';
-import { SMMenu } from 'view/components';
-import { withRouter } from "react-router-dom"
+import {SMMenu} from 'src/view/components';
+import {useHistory} from "react-router-dom"
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { logOut } from 'client/lib/authService';
+import {onMenuItemSelect} from "../";
 
-function SideMenuInitial(props) {
+export function SideMenu(props) {
+
+    const history = useHistory();
+
+    const currentSelectedMenuItem = history.location.pathname === '/' ? 'home' : history.location.pathname.split('/')[1];
+
+    const onSelect = onMenuItemSelect(history);
 
     const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container_collapsed-mode' :
         props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';
@@ -15,29 +20,21 @@ function SideMenuInitial(props) {
         siderStyle ,
     );
 
-    const handleSelect = ({ item, key }) => {
-        const { href } = item.props;
-        key === 'logOut' && logOut();
-        props.history.push(href)
-    }
-
-    const selectedKeys = [props.history.location.pathname === '/' ? 'home' : props.history.location.pathname.split('/')[1]];
-
     return (
         <SMMenu
-            type={props.type || undefined}
-            mode={props.mode || ''}
-            theme={props.theme || ''}
+            type={props.type}
+            mode={props.mode}
+            theme={props.theme}
             className={classes}
             items={props.items}
-            onSelect={handleSelect}
-            selectedKeys={selectedKeys}
+            selectedKeys={[currentSelectedMenuItem]}
+            onClick={onSelect}
         >
         </SMMenu>
     );
 }
 
-SideMenuInitial.propTypes = {
+SideMenu.propTypes = {
     isCollapsed: PropTypes.bool,
     type: PropTypes.string.isRequired,
     mode: PropTypes.string,
@@ -51,7 +48,3 @@ SideMenuInitial.propTypes = {
         icon: PropTypes.string
     }))
 };
-
-const SideMenu = withRouter(SideMenuInitial)
-
-export { SideMenu };

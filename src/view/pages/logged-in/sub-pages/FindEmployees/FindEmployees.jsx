@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { Row, Form, Col, Icon, Select, Button } from 'antd';
-import { PeopleRow } from './PeopleRow';
-import { UserDataView } from './UserDataView/UserDataView';
-import { SMUserBar } from '../../components/SMUserBar';
-import { SMButton } from 'view/components';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useRef, useState} from 'react';
+import {Button, Col, Form, Icon, Row, Select} from 'antd';
+import {PeopleRow} from './PeopleRow';
+import {UserDataView} from './UserDataView/UserDataView';
+import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
+import {SMButton} from 'src/view/components';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { CRITERIA } from '../../../../../configSearch/criteria';
-import { getSearchParams, getUsers, searchParams } from 'store/actions/search';
+import {CRITERIA} from 'src/configSearch/criteria';
+import {getSearchParams, getUsers, searchParams} from 'src/store/actions/search';
 
 const { Option } = Select;
 
@@ -16,13 +16,13 @@ function FindPeople(props) {
     const [criteriaValue, setCriteriaValue] = useState("");
     const [disabledBtn, setDisabledBtn] = useState(true);
     const [collapseFind, setCollapseFind] = useState(false);
-    const [dataFields, setdataFields] = useState([
+    const [dataFields, setDataFields] = useState([
         {
             id: id
         }
     ]);
 
-    const [rowIndex, setrowIndex] = useState()
+    const [rowIndex, setRowIndex] = useState();
 
     const refForScroll = useRef();
 
@@ -33,26 +33,26 @@ function FindPeople(props) {
     const handleAddEvent = () => {
         const rows = {
             id: id,
-        }
+        };
 
         setDisabledBtn(true);
-        setdataFields(dataFields.concat(rows));
+        setDataFields(dataFields.concat(rows));
         dispatch(getSearchParams(searchParams.concat(rows)));
-    }
+    };
 
     const usersData = useSelector((state) => {
         if (state.Search.items && state.Search.items.data) {
             state.Search.items.data = state.Search.items.data.map(item => {
-                item.key = item.guid
+                item.key = item.guid;
                 const colorCode = Math.floor(100000 + Math.random() * 900000);
                 item.avatar = <SMUserBar
                     colorCode={colorCode}
                     firstName={item.fname}
                     lastName={item.lname}
                     size='medium'
-                />
+                />;
                 return item;
-            })
+            });
 
             return ({
                 users: state.Search.items.data,
@@ -69,7 +69,7 @@ function FindPeople(props) {
     const handleRowDel = (rows) => {
         searchParams.splice(rows, 1);
         const delRow = [...searchParams];
-        setdataFields(delRow);
+        setDataFields(delRow);
         dispatch(getSearchParams(delRow));
     };
 
@@ -80,11 +80,11 @@ function FindPeople(props) {
             setDisabledBtn(false);
         }
         // dispatch(getUsers(fieldsValue));
-    }
+    };
 
     const renderFields = (data, index) => {
         if (searchParams[index]) {
-            setrowIndex(searchParams[index].id);
+            setRowIndex(searchParams[index].id);
             return getFieldDecorator(`${searchParams[index].id}[${data.key}]`, { initialValue: usersData && usersData.fieldValues[searchParams[index].id] && usersData.fieldValues[searchParams[index].id][data.key] })(
                 <Select key={index} placeholder={data.name} onSelect={handleChange}>
                     {data.items.map(item => <Option key={index} value={item.name}>{item.name}</Option>)}
@@ -97,7 +97,7 @@ function FindPeople(props) {
                 </Select>
             )
         }
-    }
+    };
 
     const addSelectField = (indexRow, criteriaVal) => (
         Object.values(CRITERIA).map((criteria) => {
@@ -123,12 +123,12 @@ function FindPeople(props) {
             id: id
         }]));
         usersData.users = null;
-        setdataFields([{
+        setDataFields([{
             id: id
         }]);
         setCriteriaValue();
         setDisabledBtn(true);
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -139,16 +139,16 @@ function FindPeople(props) {
                 dispatch(getUsers(values));
             }
         });
-    }
+    };
 
     const collapsesOut = () => {
         setCollapseFind(false);
-    }
+    };
 
     const selectCriteriaValue = (value) => {
         setCriteriaValue(value);
         return value;
-    }
+    };
 
     return (
         <>

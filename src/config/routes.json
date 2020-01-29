@@ -1,0 +1,12 @@
+{
+  "home": "/",
+  "login": "/login",
+  "registration": "/registration",
+  "employees": "/employees",
+  "findEmployees": "/find_employees",
+  "branches": "/branches",
+  "categories": "/categories",
+  "skills": "/skills",
+  "settings": "/settings",
+  "forgotPassword": "/forgot_password"
+}

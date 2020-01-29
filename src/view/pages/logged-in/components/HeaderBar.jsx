@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu';
-import { SMButton, SMInput, SMIcon } from 'view/components';
-import { SMUserBar } from './SMUserBar';
+
+import {useSelector} from 'react-redux';
+
+import {SMButton, SMIcon, SMInput} from 'src/view/components';
+import {DropDownUserBar} from "src/view/pages/logged-in/components/DropDownUserBar";
+
 
 function HeaderBar(props) {
 
-    const currentUser = useSelector(state => state.CurrentUser)
+    const currentUser = useSelector(state => state.user);
 
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isSiderMenuIconCollapsed, setIsSiderMenuIconCollapsed] = useState(false);
+
+    const toggleSiderMenu = () => {
+        setIsSiderMenuIconCollapsed(!isSiderMenuIconCollapsed);
+        props.collapseSideBar()
+    };
 
     return (
         <div className={props.className}>
@@ -17,19 +24,15 @@ function HeaderBar(props) {
                 <SMButton
                     className='sider-container_collapse-btn'
                     type=""
-                    onClick={() => {
-                        setIsCollapsed(!isCollapsed)
-                        props.collapseSideBar()
-                    }}
+                    onClick={toggleSiderMenu}
                     >
                     <div>
                         <SMIcon
-                            icon={isCollapsed ? 'list' : 'ellipsis-v'}
+                            icon={isSiderMenuIconCollapsed ? 'list' : 'ellipsis-v'}
                             className='sm-icon-fill-light'
                         />
                     </div>
                 </SMButton>
-
                 <SMInput
                     className='sider-container_search-btn'
                     prefix={
@@ -43,15 +46,14 @@ function HeaderBar(props) {
                 />
 
             </div>
-
-            <div className="sm-layout-container_header-bar-col-2">
-                <SMUserBar
-                    firstName={currentUser ? currentUser.data.fname : ''}
-                    lastName={currentUser ? currentUser.data.lname : ''}
+            {
+                 (currentUser && <DropDownUserBar
+                    className="sm-layout-container_header-bar-col-2"
+                    firstName={ currentUser.fname }
+                    lastName={ currentUser.lname }
                     size={'small'}
-                />
-                <DropdownMenu key="ant-dropdown-link" />
-            </div>
+                />)
+            }
         </div>
     );
 }

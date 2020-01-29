@@ -1,7 +1,10 @@
 .ant-dropdown-link {
     border: none;
     box-shadow: none;
-    padding: 0;
+    padding: 0 0 0 .35em;
+    &:after{
+        content: none;
+    }
 }
 
 .sm-layout-container {

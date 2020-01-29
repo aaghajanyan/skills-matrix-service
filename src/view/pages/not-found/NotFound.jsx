@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Row, Col } from 'antd';
-import not_found_404 from 'assets/images/404.png';
-import logo from 'assets/images/instigate.svg';
+import {Col, Layout, Row} from 'antd';
+import not_found_404 from 'src/assets/images/404.png';
+import logo from 'src/assets/images/instigate.svg';
+
 const { Header, Content } = Layout;
 
 function NotFound() {

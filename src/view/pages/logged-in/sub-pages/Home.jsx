@@ -1,5 +1,5 @@
 import React from 'react';
-import { SMEmployee } from 'pages/logged-in/components'
+import {SMEmployee} from 'src/view/pages/logged-in/components'
 
 function Home() {
 

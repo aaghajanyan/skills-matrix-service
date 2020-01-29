@@ -1,6 +1,7 @@
 import React from 'react';
-import { Tabs } from 'antd';
+import {Tabs} from 'antd';
 import PropTypes from "prop-types";
+
 const { TabPane } = Tabs;
 
 function SMTabs({ children, ...rest }) {
@@ -13,7 +14,7 @@ function SMTabs({ children, ...rest }) {
                 </TabPane>
             )
         })
-    }
+    };
 
     return (
         <Tabs {...rest}>
@@ -28,6 +29,6 @@ SMTabs.propTypes = {
     defaultActiveKey: PropTypes.string,
     onChange: PropTypes.func,
     renderTabBar: PropTypes.func
-}
+};
 
 export { SMTabs };

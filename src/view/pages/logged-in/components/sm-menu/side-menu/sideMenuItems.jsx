@@ -3,7 +3,7 @@ const sideMenuItems = [
         key: "home",
         disabled: "false",
         title: "My Profile",
-        href: "/home",
+        href: "/",
         className: "sm-menu-container_item sm-menu-container_summary",
         icon: 'user'
 

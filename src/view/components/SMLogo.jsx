@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { ReactComponent as Logo } from 'assets/images/instigate.svg';
+import {ReactComponent as Logo} from 'src/assets/images/instigate.svg';
 
 function SMLogo({ title, isCollapsed }) {
 
@@ -9,7 +9,7 @@ function SMLogo({ title, isCollapsed }) {
             <a href='/' className="sm-logo-image" >
                 <Logo/>
             </a>
-            <h1 className={`sm-logo-title ${isCollapsed && "collapsed"}`}>{title}</h1>
+            <h1 className={`sm-logo-title ${isCollapsed && "collapsed"} unselectable`}>{title}</h1>
         </div>
     )
 }
@@ -17,6 +17,6 @@ function SMLogo({ title, isCollapsed }) {
 SMLogo.prototypes = {
     title: PropTypes.string,
     isCollapsed: PropTypes.bool,
-}
+};
 
 export { SMLogo }

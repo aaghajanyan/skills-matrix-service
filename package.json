@@ -147,5 +147,9 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "prop-types": "latest",
+    "classnames": "latest"
   }
 }

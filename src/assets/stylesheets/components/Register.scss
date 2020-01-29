@@ -6,3 +6,9 @@
         margin-left: 25%;
     }
 }
+
+.sm-input-register {
+    & > input {
+        padding-left: 15px !important;
+    }
+}

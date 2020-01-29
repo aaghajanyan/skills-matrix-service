@@ -1,6 +1,6 @@
 export { SMEmployee } from "./sm-employee/SMEmployee"
 export { EmployeesTable } from './EmployeesTable'
 export { HeaderBar } from './HeaderBar'
-export { DropdownMenu } from './sm-menu/dropdown-menu/DropdownMenu'
+export { DropdownMenu } from './sm-menu'
 export { SMUserBar } from './SMUserBar'
-export { SideMenu } from './sm-menu/side-menu/SideMenu'
+export { SideMenu } from './sm-menu'
