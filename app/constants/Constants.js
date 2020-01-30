@@ -236,6 +236,7 @@ const Constants = {
         Users: {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
             COULD_NOT_LOGIN: 'Could not make login.',
+            USER_NOT_FOUND: 'User not found.',
             invitationId: 'invitationId',
             guid: 'guid',
         },

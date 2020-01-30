@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
-const {OK, ACCEPTED, CREATED, INTERNAL_SERVER_ERROR, CONFLICT, UNAUTHORIZED} = require('http-status-codes');
+const {OK, ACCEPTED, CREATED, INTERNAL_SERVER_ERROR, CONFLICT, UNAUTHORIZED, NOT_FOUND} = require('http-status-codes');
 const {Constants} = require('../constants/Constants');
 const responseBuilder = require('../helper/errorResponseBodyBuilder');
 const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
@@ -91,5 +91,15 @@ module.exports.login = async (request, response) => {
     } catch (error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.internalServerError(Constants.Controllers.Users.COULD_NOT_LOGIN));
+    }
+};
+
+module.exports.getCurrentUser = async (request, response) => {
+    try {
+        const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
+        const user = await User.getByGuid(jwt.decode(token).guid);
+        response.status(OK).json(user)
+    } catch (err) {
+        response.status(NOT_FOUND).send(Constants.Controllers.Users.USER_NOT_FOUND);
     }
 };
