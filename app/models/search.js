@@ -7,51 +7,57 @@ class SearchUser {
     constructor() {
         this.error = {
             isError: false,
-            message: [],
+            message: []
         };
     }
 
     collectSearchQuery(data) {
         const collectedSqlComand = this.parseJsonToSql(data, true);
-        if (collectedSqlComand.error && collectedSqlComand.error.isError) {
+        if(collectedSqlComand.error && collectedSqlComand.error.isError) {
             return collectedSqlComand;
         }
         let sqlCommand =
             `${Constants.ViewQueries.SELECT_ALL_FROM} ${Constants.ViewQueries.UNIQUE_VIEW_NAME} \
-            ${Constants.ViewQueries.WHERE} ` +
-            collectedSqlComand.currSqlStr +
-            ');';
-
+            ${Constants.ViewQueries.WHERE} ${
+    collectedSqlComand.currSqlStr
+});`;
         sqlCommand = sqlCommand
             .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
             .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
-            .replace(/and \(\)/g, ``)
-            .replace(/or \(\)/g, ``)
-            .replace(/and \)/g, `\)`)
-            .replace(/or \)/g, `\)`);
-        sqlCommand = replaceAll(sqlCommand, '() and', '');
+            .replace(/and \(\)/g, '')
+            .replace(/or \(\)/g, '')
+            .replace(/and \)/g, '\)')
+            .replace(/or \)/g, '\)');
+        sqlCommand = sqlCommand.replace(/  +/g, ' ');
+        sqlCommand = sqlCommand.replace(new RegExp(/\s?\([ ]+\)/, 'g'), '()');
+        sqlCommand = sqlCommand.replace(/  +/g, ' ');
+        sqlCommand = sqlCommand.replace(/\(\) and|\( \) and/, '');
+        // sqlCommand = replaceAll(sqlCommand, '() and', '');
         sqlCommand = replaceAll(sqlCommand, '() or', '');
         sqlCommand = replaceAll(sqlCommand, '()', '');
         return sqlCommand;
     }
 
+
+
+
     validateSchema(callBack, data) {
         let errorMsg = callBack(data);
-        if (errorMsg) {
+        if(errorMsg) {
             this.error.isError = true;
-            this.error.message.push({ errorMsg: errorMsg });
+            this.error.message.push({errorMsg: errorMsg});
         }
     }
 
     parseJsonToSql(data, firstTime) {
         try {
             let currSqlStr = '';
-            if (data.type === Constants.Keys.group) {
-                if (firstTime) {
+            if(data.type === Constants.Keys.group) {
+                if(firstTime) {
                     this.validateSchema(validateGroupBodySchema, data);
                 }
-                if (this.error.isError) {
-                    return { currSqlStr: '', error: this.error };
+                if(this.error.isError) {
+                    return {currSqlStr: '', error: this.error};
                 }
                 let groupLength = Object.keys(data.childrens).length;
                 const groupCondition = data.condition.toLowerCase();
@@ -59,21 +65,21 @@ class SearchUser {
 
                 currSqlStr = currSqlStr.concat('(');
 
-                for (let [index, key] of keys.entries()) {
-                    if (data.childrens[key].type === Constants.Keys.rule) {
-                        if (!data.childrens[key].properties.type) {
+                for(let [index, key] of keys.entries()) {
+                    if(data.childrens[key].type === Constants.Keys.rule) {
+                        if(!data.childrens[key].properties.type) {
                             continue;
                         }
                         currSqlStr = this.validateAndParseRuleObj(index, keys.length, data.childrens[key], currSqlStr, groupCondition);
-                    } else if (data.childrens[key].type === Constants.Keys.group) {
+                    } else if(data.childrens[key].type === Constants.Keys.group) {
                         currSqlStr = this.validateAndParseGroupObj(data.childrens[key], currSqlStr, groupLength, groupCondition);
                     } else {
                         this.collectCurrentStepError(data.childrens[key]);
                     }
                 }
             }
-            return { currSqlStr: currSqlStr, error: this.error };
-        } catch (error) {
+            return {currSqlStr: currSqlStr, error: this.error};
+        } catch(error) {
             logger.error(error);
         }
     }
@@ -89,16 +95,16 @@ class SearchUser {
     validateAndParseRuleObj(index, parentObjKeysLength, data, currSqlStr, groupCondition) {
         this.validateSchema(validateRuleBodySchema, data);
         currSqlStr = currSqlStr.concat(this.convertRuleToQuery(data));
-        if (index < parentObjKeysLength - 1) {
+        if(index < parentObjKeysLength - 1) {
             currSqlStr = currSqlStr.concat(` ${groupCondition} `);
         }
         return currSqlStr;
     }
 
     convertRuleToQuery(rule) {
-        if (rule.properties) {
+        if(rule.properties) {
             const properties = rule.properties;
-            if (properties.type) {
+            if(properties.type) {
                 switch (properties.type.toLowerCase()) {
                     case Constants.Keys.skill:
                         return this.convertSkillCategoryRuleToQuery(properties, true);
@@ -114,7 +120,7 @@ class SearchUser {
     }
 
     getCondition(condition) {
-        if (condition) {
+        if(condition) {
             switch (condition.toLowerCase()) {
                 case Constants.Controllers.Search.EQUAL:
                     return '=';
@@ -141,7 +147,7 @@ class SearchUser {
             properties.opCondition === 'equal'
                 ? sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]`)
                 : sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency - 1}]`);
-        sqlStr = sqlStr.concat("'");
+        sqlStr = sqlStr.concat('\'');
         return sqlStr;
     }
 
@@ -155,8 +161,8 @@ class SearchUser {
     collectCurrentStepError(data) {
         this.error.isError = true;
         this.error.message.push({
-            errorMsg: `type is required`,
-            object: data,
+            errorMsg: 'type is required',
+            object: data
         });
     }
 }

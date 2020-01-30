@@ -3,7 +3,7 @@ module.exports.initializeCriteriaTable = async models => {
     let defaultCriteriesObj = await defaultCriteries.map(criteria => {
         return {
             name: criteria,
-            type: criteria.toLowerCase(),
+            type: criteria.toLowerCase()
         };
     });
     await models.criteria.bulkCreate(defaultCriteriesObj).catch(err => {});

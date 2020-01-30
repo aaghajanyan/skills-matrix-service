@@ -7,7 +7,7 @@ class CategoryHistory {
 
     static async find(condition) {
         return await categoryHistoryModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,19 +16,19 @@ class CategoryHistory {
     }
 
     static async delete(condition) {
-        await categoryHistoryModel.destroy({ where: { ...condition } });
+        await categoryHistoryModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await categoryHistoryModel.create(data);
     }
 
     static async update(data, condition) {
-        await categoryHistoryModel.update(data, { where: { ...condition } });
+        await categoryHistoryModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(data, condition) {
         const categoryHistoryData = await CategoryHistory.find(condition);
-        if (!categoryHistoryData) {
+        if(!categoryHistoryData) {
             return await CategoryHistory.create(data);
         }
         return categoryHistoryData;

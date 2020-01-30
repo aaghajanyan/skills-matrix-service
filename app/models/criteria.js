@@ -7,7 +7,7 @@ class Criteria {
 
     static async find(condition) {
         return await criteriaModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,7 +16,7 @@ class Criteria {
     }
 
     static async delete(condition) {
-        await criteriaModel.destroy({ where: { ...condition } });
+        await criteriaModel.destroy({where: {...condition}});
     }
 
     static async create(data) {
@@ -24,16 +24,16 @@ class Criteria {
     }
 
     static async update(data, condition) {
-        return await criteriaModel.update(data, { where: { ...condition } });
+        return await criteriaModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(condition) {
         const criteria = await criteriaModel.findOrCreate({
-            where: { ...condition },
+            where: {...condition}
         });
         return {
             criteria: criteria[0],
-            isNewRecord: criteria[1],
+            isNewRecord: criteria[1]
         };
     }
 }

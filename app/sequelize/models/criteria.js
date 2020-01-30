@@ -1,5 +1,5 @@
-const { Constants } = require('../../constants/Constants');
-const { initializeCriteriaTable } = require('../utils/defaultCriteries');
+const {Constants} = require('../../constants/Constants');
+const {initializeCriteriaTable} = require('../utils/defaultCriteries');
 
 module.exports = (sequelize, DataTypes) => {
     const Criteria = sequelize.define(
@@ -7,32 +7,31 @@ module.exports = (sequelize, DataTypes) => {
         {
             guid: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                defaultValue: DataTypes.UUIDV4
             },
             name: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.NAME_IS_MISSING,
+                    msg: Constants.ModelErrors.NAME_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.NAME_ALREADY_EXISTS,
-                },
+                    msg: Constants.ModelErrors.NAME_ALREADY_EXISTS
+                }
             },
             type: {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.TYPE_IS_MISSING,
-                },
-            },
+                    msg: Constants.ModelErrors.TYPE_IS_MISSING
+                }
+            }
         },
         {
-            timestamps: false,
+            timestamps: false
         }
     );
-    Criteria.associate = models => {};
 
     Criteria.initDefaultValues = async function(models) {
         await initializeCriteriaTable(models);

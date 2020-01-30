@@ -7,7 +7,7 @@ class RoleGroup {
 
     static async find(condition) {
         return await rolesGroupsModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,7 +16,7 @@ class RoleGroup {
     }
 
     static async delete(condition) {
-        await rolesGroupsModel.destroy({ where: { ...condition } });
+        await rolesGroupsModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await rolesGroupsModel.create(data);

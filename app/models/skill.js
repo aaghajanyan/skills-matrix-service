@@ -1,6 +1,7 @@
 const {skill: skillModel, category: categoryModel, skills_relation: skillRelationModel} = require('../sequelize/models');
 const {Constants} = require('../constants/Constants');
 const {doesNotExistCriteria} = require('../helper/errorResponseBodyBuilder');
+const logger = require('../helper/logger');
 
 class Skill {
     static async findAll() {
@@ -12,16 +13,16 @@ class Skill {
     }
 
     static async find(condition) {
-        return await skillModel.findOne({ where: { ...condition } });
+        return await skillModel.findOne({where: {...condition}});
     }
 
     static async delete(condition) {
-        await skillModel.destroy({ where: { ...condition } });
+        await skillModel.destroy({where: {...condition}});
     }
 
     static async getSkillAllData(guid) {
         const skill = await skillModel.findOne({
-            where: { guid: guid },
+            where: {guid: guid},
             include: [
                 {
                     model: categoryModel,
@@ -31,10 +32,10 @@ class Skill {
                     through: {
                         model: skillRelationModel,
                         as: Constants.Associate.Aliases.skillRelation,
-                        attributes: [],
-                    },
-                },
-            ],
+                        attributes: []
+                    }
+                }
+            ]
         });
         return skill;
     }
@@ -50,10 +51,10 @@ class Skill {
                     through: {
                         model: skillRelationModel,
                         as: Constants.Associate.Aliases.skillRelation,
-                        attributes: [],
-                    },
-                },
-            ],
+                        attributes: []
+                    }
+                }
+            ]
         });
         return skills;
     }
@@ -62,15 +63,15 @@ class Skill {
         sendedList.addedCategories = [];
         sendedList.errors = [];
 
-        if (categoriesId && categoriesId.length > 0) {
+        if(categoriesId && categoriesId.length > 0) {
             const promise = categoriesId.map(async function(categoryGuid) {
                 const category = await categoryModel.findOne({
-                    where: { guid: categoryGuid },
+                    where: {guid: categoryGuid}
                 });
                 const message = doesNotExistCriteria(Constants.TypeNames.CATEGORY, categoryGuid);
-                if (category) {
+                if(category) {
                     const skillRelation = await skillRelationModel.findOrCreate({
-                        where: { skill_id: skill.id, category_id: category.id },
+                        where: {skill_id: skill.id, category_id: category.id}
                     });
                     return {
                         id: skill.id,
@@ -78,7 +79,7 @@ class Skill {
                         categoryGuid: category.guid,
                         categoryName: category.name,
                         skillRelationId: skillRelation[0].id,
-                        success: true,
+                        success: true
                     };
                 }
                 return message;
@@ -88,33 +89,37 @@ class Skill {
                 list.forEach(item => {
                     sendedList.addedCategories.push(item);
                 });
+                return;
             });
         } else {
-            if (categoriesRequired) {
-                sendedList.errors.push(errMessageReqCategory);
+            if(categoriesRequired) {
+                sendedList.errors.push({
+                    success: false,
+                    message: Constants.ModelErrors.CATEGORY_ID_IS_MISSING
+                });
             }
         }
     }
 
     static async removeCategories(removedCategories, sendedList, skill) {
         sendedList.removedCategories = [];
-        if (removedCategories && removedCategories.length) {
+        if(removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async function(categoryGuid) {
                 const category = await categoryModel.findOne({
-                    where: { guid: categoryGuid },
+                    where: {guid: categoryGuid}
                 });
                 const obj = {
                     categoryGuid: categoryGuid,
-                    status: false,
+                    status: false
                 };
                 const existingSkillCategory = await skillRelationModel.findOne({
                     where: {
                         skill_id: skill.id,
-                        category_id: category.id,
-                    },
+                        category_id: category.id
+                    }
                 });
 
-                if (existingSkillCategory) {
+                if(existingSkillCategory) {
                     obj.status = true;
                     await existingSkillCategory.destroy();
                 }
@@ -123,32 +128,33 @@ class Skill {
 
             await Promise.all(promise).then(list => {
                 sendedList.removedCategories.push(list);
+                return;
             });
         }
     }
 
     static async findOneSkill(condition) {
-        return await skillModel.findOne({ where: { ...condition } });
+        return await skillModel.findOne({where: {...condition}});
     }
 
     static async updateSkill(data, condition) {
-        await skillModel.update(data, { where: { ...condition } });
+        await skillModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreateSkill(condition) {
         const skill = await skillModel.findOrCreate({
-            where: { ...condition },
+            where: {...condition}
         });
         return {
             skill: skill[0],
-            isNewRecord: skill[1],
+            isNewRecord: skill[1]
         };
     }
 
-    static async getStatus(sendedList, keyName) {
+    static getStatus(sendedList, keyName) {
         let status = false;
         sendedList[keyName].forEach(item => {
-            if (item.success === true) {
+            if(item.success === true) {
                 status = true;
             }
         });

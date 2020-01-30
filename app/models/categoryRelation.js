@@ -7,7 +7,7 @@ class CategoryRelation {
 
     static async find(condition) {
         return await categoryRelationModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,11 +16,11 @@ class CategoryRelation {
     }
 
     static async update(data, condition) {
-        await categoryRelationModel.update(data, { where: { ...condition } });
+        await categoryRelationModel.update(data, {where: {...condition}});
     }
 
     static async delete(condition) {
-        await categoryRelationModel.destroy({ where: { ...condition } });
+        await categoryRelationModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await categoryRelationModel.create(data);

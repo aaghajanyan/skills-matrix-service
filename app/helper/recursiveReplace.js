@@ -1,5 +1,5 @@
 const replaceAll = (str, searchStr, replaceStr) => {
-    if (str.indexOf(searchStr) === -1) {
+    if(str.indexOf(searchStr) === -1) {
         return str;
     }
     str = str.replace(searchStr, replaceStr);

@@ -1,4 +1,4 @@
-const { Constants } = require('../../constants/Constants');
+const {Constants} = require('../../constants/Constants');
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
@@ -6,19 +6,19 @@ module.exports = {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
             guid: {
                 unique: true,
                 allowNull: false,
-                type: Sequelize.UUID,
+                type: Sequelize.UUID
             },
             name: {
                 unique: true,
                 allowNull: false,
-                type: Sequelize.STRING,
-            },
+                type: Sequelize.STRING
+            }
         });
     },
-    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Categories),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Categories)
 };

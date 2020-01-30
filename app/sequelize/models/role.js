@@ -1,5 +1,5 @@
 const roles = require('../config/config').roles;
-const { Constants } = require('../../constants/Constants');
+const {Constants} = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const Role = sequelize.define(
@@ -11,20 +11,20 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: 'employee',
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.NAME_IS_MISSING,
+                    msg: Constants.ModelErrors.NAME_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.ROLE_ALREADY_EXISTS,
-                },
+                    msg: Constants.ModelErrors.ROLE_ALREADY_EXISTS
+                }
             },
             guid: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-            },
+                defaultValue: DataTypes.UUIDV4
+            }
         },
         {
-            timestamps: false,
+            timestamps: false
         }
     );
 
@@ -33,8 +33,9 @@ module.exports = (sequelize, DataTypes) => {
             through: Constants.TableNames.RolesRelation,
             as: Constants.Associate.Aliases.roleGroup,
             foreignKey: Constants.Keys.role_id,
-            timestamps: false,
+            timestamps: false
         });
     };
+
     return Role;
 };

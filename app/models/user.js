@@ -18,14 +18,14 @@ const Branch = require('./branch');
 
 class User {
     static async findOne(condition) {
-        return await userModel.findOne({ where: { ...condition } });
+        return await userModel.findOne({where: {...condition}});
     }
 
     static async getByGuid(guid) {
         const user = await userModel.findOne({
-            where: { guid: guid },
+            where: {guid: guid},
             attributes: {
-                exclude: [Constants.Keys.password, Constants.Keys.role_group_id],
+                exclude: [Constants.Keys.password, Constants.Keys.role_group_id]
             },
             include: [
                 {
@@ -40,22 +40,22 @@ class User {
                         through: {
                             model: rolesRelationModel,
                             as: Constants.Associate.Aliases.roleRelation,
-                            attributes: [],
-                        },
-                    },
+                            attributes: []
+                        }
+                    }
                 },
                 {
                     model: branchesModel,
                     as: Constants.Associate.Aliases.branch,
-                    required: false,
+                    required: false
                 },
                 {
                     model: positionModel,
                     as: Constants.Associate.Aliases.position,
-                    required: false,
+                    required: false
                 },
                 {
-                    attributes: { exclude: [Constants.Keys.id] },
+                    attributes: {exclude: [Constants.Keys.id]},
                     model: skillModel,
                     as: Constants.Associate.Aliases.skills,
                     required: false,
@@ -66,8 +66,8 @@ class User {
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
                             Constants.Controllers.Search.LAST_WORKED_DATE,
-                            Constants.Keys.guid,
-                        ],
+                            Constants.Keys.guid
+                        ]
                     },
                     include: {
                         model: categoryModel,
@@ -77,9 +77,9 @@ class User {
                         through: {
                             model: skillsRelationModel,
                             as: Constants.Associate.Aliases.skillsRelationModel,
-                            attributes: [],
-                        },
-                    },
+                            attributes: []
+                        }
+                    }
                 },
                 {
                     // attributes: { exclude: ["id"] },
@@ -93,11 +93,11 @@ class User {
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
                             Constants.Controllers.Search.LAST_WORKED_DATE,
-                            Constants.Keys.guid,
-                        ],
-                    },
-                },
-            ],
+                            Constants.Keys.guid
+                        ]
+                    }
+                }
+            ]
         });
         return user;
     }
@@ -106,12 +106,12 @@ class User {
         const filtredWhereCondition = whereCondition ? whereCondition : {};
         const users = await userModel.findAll({
             attributes: {
-                exclude: [Constants.Keys.password, Constants.Keys.role_group_id],
+                exclude: [Constants.Keys.password, Constants.Keys.role_group_id]
             },
             where: filtredWhereCondition,
             include: [
                 {
-                    attributes: { exclude: [Constants.Keys.id] },
+                    attributes: {exclude: [Constants.Keys.id]},
                     model: rolesGroupsModel,
                     as: Constants.Associate.Aliases.roleGroup,
                     required: false,
@@ -123,19 +123,19 @@ class User {
                         through: {
                             model: rolesRelationModel,
                             as: Constants.Associate.Aliases.roleRelation,
-                            attributes: [],
-                        },
-                    },
+                            attributes: []
+                        }
+                    }
                 },
                 {
                     model: branchesModel,
                     as: Constants.Associate.Aliases.branch,
-                    required: false,
+                    required: false
                 },
                 {
                     model: positionModel,
                     as: Constants.Associate.Aliases.position,
-                    required: false,
+                    required: false
                 },
                 {
                     model: skillModel,
@@ -148,8 +148,8 @@ class User {
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
                             Constants.Controllers.Search.LAST_WORKED_DATE,
-                            Constants.Keys.guid,
-                        ],
+                            Constants.Keys.guid
+                        ]
                     },
                     include: {
                         model: categoryModel,
@@ -159,9 +159,9 @@ class User {
                         through: {
                             model: skillsRelationModel,
                             as: Constants.Associate.Aliases.skillsRelationModel,
-                            attributes: [],
-                        },
-                    },
+                            attributes: []
+                        }
+                    }
                 },
                 {
                     model: categoryModel,
@@ -174,11 +174,11 @@ class User {
                             Constants.Controllers.Search.EXPERIENCE,
                             Constants.Controllers.Search.PROFFICIENCE,
                             Constants.Controllers.Search.LAST_WORKED_DATE,
-                            Constants.Keys.guid,
-                        ],
-                    },
-                },
-            ],
+                            Constants.Keys.guid
+                        ]
+                    }
+                }
+            ]
         });
         return users;
     }
@@ -186,19 +186,19 @@ class User {
     static async create(data) {
         const salt = await bcrypt.genSalt(10);
         data.password = bcrypt.hashSync(data.password, salt);
-        const position = await Position.find({ guid: data.positionGuid });
+        const position = await Position.find({guid: data.positionGuid});
         data.position_id = position.id;
-        const branch = await Branch.find({ guid: data.branchGuid });
+        const branch = await Branch.find({guid: data.branchGuid});
         data.branch_id = branch.id;
         return userModel.create(data);
     }
 
     static async update(guid, data) {
         const salt = await bcrypt.genSalt(10);
-        if (data.password) {
+        if(data.password) {
             data.password = bcrypt.hashSync(data.password, salt);
         }
-        return userModel.update(data, { where: { guid: guid } });
+        return userModel.update(data, {where: {guid: guid}});
     }
 }
 

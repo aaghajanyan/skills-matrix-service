@@ -11,7 +11,7 @@ module.exports.getUsersCategories = async (_, response) => {
     try {
         const usersCategories = await UserCategory.findAll();
         response.status(OK).json(usersCategories);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.USER_CATEGORIES.toLowerCase()));
     }
@@ -20,10 +20,10 @@ module.exports.getUsersCategories = async (_, response) => {
 module.exports.getUserCategories = async (request, response) => {
     try {
         const userCategories = await UserCategory.find({
-            guid: request.params.userCategoryGuid,
+            guid: request.params.userCategoryGuid
         });
         return response.status(OK).json(userCategories);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response
             .status(INTERNAL_SERVER_ERROR)
@@ -34,27 +34,27 @@ module.exports.getUserCategories = async (request, response) => {
 module.exports.addUserCategory = async (request, response) => {
     const expectedResponse = {
         errors: [],
-        items: [],
+        items: []
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOne({ guid: request.params.userGuid });
-        if (user) {
-            const { categories } = request.body;
+        const user = await User.findOne({guid: request.params.userGuid});
+        if(user) {
+            const {categories} = request.body;
             const promise = categories.map(async (category) => {
                 const existingCategory = await Category.find({
-                    guid: category.categoryGuid,
+                    guid: category.categoryGuid
                 });
-                if (existingCategory) {
+                if(existingCategory) {
                     category.user_id = user.id;
                     category.category_id = existingCategory.id;
                     try {
                         const userCategoryData = await UserCategory.find({
                             user_id: user.id,
-                            category_id: existingCategory.id,
+                            category_id: existingCategory.id
                         });
-                        if (userCategoryData) {
-                            await addUserCategoryAndUpdateHistory(userCategoryData, user, existingCategory);
+                        if(userCategoryData) {
+                            await addUserCategoryAndUpdateHistory(category, userCategoryData, user, existingCategory);
                             status = OK;
                             expectedResponse.items.push(userCategoryData);
                         } else {
@@ -62,19 +62,19 @@ module.exports.addUserCategory = async (request, response) => {
                             status = CREATED;
                             expectedResponse.items.push(userCategory);
                         }
-                    } catch (error) {
+                    } catch(error) {
                         expectedResponse.errors.push(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase(), existingCategory.name));
                     }
                 } else {
                     expectedResponse.errors.push(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY, category.categoryGuid));
                 }
             });
-            await Promise.all(promise).catch(err => logger.error(err))
-            return response.status(status).json({ expectedResponse });
+            await Promise.all(promise).catch(err => logger.error(err));
+            return response.status(status).json({expectedResponse});
         } else {
             return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         response.status(INTERNAL_SERVER_ERROR).json(
             responseBuilder.couldNotAddCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()) // TODO
@@ -82,7 +82,7 @@ module.exports.addUserCategory = async (request, response) => {
     }
 };
 
-const addUserCategoryAndUpdateHistory = async (userCategoryData, user, existingCategory) => {
+const addUserCategoryAndUpdateHistory = async (category, userCategoryData, user, existingCategory) => {
     const dataValues = userCategoryData.dataValues;
     dataValues.created_date = new Date();
     delete dataValues.guid;
@@ -90,31 +90,31 @@ const addUserCategoryAndUpdateHistory = async (userCategoryData, user, existingC
         user_id: user.id,
         category_id: existingCategory.id,
         experience: userCategoryData.experience,
-        profficience: userCategoryData.profficience,
+        profficience: userCategoryData.profficience
     });
     await UserCategory.update(category, {
         user_id: user.id,
-        category_id: existingCategory.id,
+        category_id: existingCategory.id
     });
 };
 
 module.exports.updateUserCategory = async (request, response) => {
     const expectedResponse = {
-        errors: [],
+        errors: []
     };
     let status = CONFLICT;
     try {
-        const user = await User.findOne({ guid: request.params.userGuid });
-        if (user) {
-            const { categories } = request.body;
+        const user = await User.findOne({guid: request.params.userGuid});
+        if(user) {
+            const {categories} = request.body;
             const promise = categories.map(async (category) => {
                 const existingCategory = await Category.find({
-                    guid: category.categoryGuid,
+                    guid: category.categoryGuid
                 });
-                if (existingCategory) {
+                if(existingCategory) {
                     await UserCategory.update(category, {
                         user_id: user.id,
-                        category_id: existingCategory.id,
+                        category_id: existingCategory.id
                     });
                     status = OK;
                 } else {
@@ -127,7 +127,7 @@ module.exports.updateUserCategory = async (request, response) => {
         } else {
             return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.params.userGuid));
         }
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.USER_CATEGORY));
     }
@@ -135,24 +135,24 @@ module.exports.updateUserCategory = async (request, response) => {
 
 module.exports.deleteUserCategory = async (request, response) => {
     try {
-        const user = await User.findOne({ guid: request.params.userGuid });
-        if (user) {
+        const user = await User.findOne({guid: request.params.userGuid});
+        if(user) {
             const category = await Category.find({
-                guid: request.body.categoryGuid,
+                guid: request.body.categoryGuid
             });
-            if (category) {
+            if(category) {
                 await UserCategory.delete({
                     user_id: user.id,
-                    category_id: category.id,
+                    category_id: category.id
                 });
-                return response.status(ACCEPTED).json({ success: true });
+                return response.status(ACCEPTED).json({success: true});
             } else {
                 return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY, request.body.categoryGuid));
             }
         } else {
             return response.status(CONFLICT).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.USER, request.body.categoryGuid));
         }
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
     }
@@ -160,9 +160,9 @@ module.exports.deleteUserCategory = async (request, response) => {
 
 module.exports.deleteUserCategoryById = async (request, response) => {
     try {
-        await UserCategory.delete({ id: request.params.userCategoryGuid });
+        await UserCategory.delete({id: request.params.userCategoryGuid});
         return response.status(ACCEPTED).end();
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.USER_CATEGORY.toLowerCase()));
     }

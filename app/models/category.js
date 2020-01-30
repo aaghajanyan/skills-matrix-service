@@ -8,7 +8,7 @@ class Category {
 
     static async find(condition) {
         return await categoryModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -17,41 +17,41 @@ class Category {
     }
 
     static async update(data, condition) {
-        await categoryModel.update(data, { where: { ...condition } });
+        await categoryModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(condition) {
         const category = await categoryModel.findOrCreate({
-            where: { ...condition },
+            where: {...condition}
         });
         return {
             category: category[0],
-            isNewRecord: category[1],
+            isNewRecord: category[1]
         };
     }
 
     static async delete(condition) {
-        await categoryModel.destroy({ where: { ...condition } });
+        await categoryModel.destroy({where: {...condition}});
     }
 
     static async addRelatedCategories(relatedCategoriesIds, category, sendedList) {
         sendedList.addedCategories = [];
-        if (relatedCategoriesIds && relatedCategoriesIds.length) {
+        if(relatedCategoriesIds && relatedCategoriesIds.length) {
             const promise = relatedCategoriesIds.map(async categoryGuid => {
                 const relatedCategory = await categoryModel.findOne({
-                    where: { guid: categoryGuid },
+                    where: {guid: categoryGuid}
                 });
                 const obj = {
                     categoryGuid: category.guid,
                     relatedCategoryGuid: categoryGuid,
-                    success: false,
+                    success: false
                 };
-                if (relatedCategory) {
+                if(relatedCategory) {
                     await categoryRelationModel.findOrCreate({
                         where: {
                             category_id: category.id,
-                            related_category_id: relatedCategory.id,
-                        },
+                            related_category_id: relatedCategory.id
+                        }
                     });
                     obj.success = true;
                 }
@@ -59,11 +59,12 @@ class Category {
             });
             await Promise.all(promise).then(list => {
                 sendedList.addedCategories.push(list);
+                return;
             });
         }
     }
 
-    static async mergeRelatedCategories(categories) {
+    static mergeRelatedCategories(categories) {
         categories.forEach(category => {
             category.relatedCategories = category.relatedCategories.concat(category.relatedCategoriesRef);
             delete category.relatedCategoriesRef;
@@ -73,24 +74,24 @@ class Category {
 
     static async removeRelatedCategories(removedCategories, category, sendedList) {
         sendedList.removedCategories = [];
-        if (removedCategories && removedCategories.length) {
+        if(removedCategories && removedCategories.length) {
             const promise = removedCategories.map(async categoryGuid => {
                 const relatedCategory = await categoryModel.findOne({
-                    where: { guid: categoryGuid },
+                    where: {guid: categoryGuid}
                 });
                 const obj = {
                     categoryGuid: category.guid,
                     relatedCategoryGuid: categoryGuid,
-                    success: false,
+                    success: false
                 };
                 const categoryRelation = await categoryRelationModel.findOne({
                     where: {
                         category_id: category.id,
-                        related_category_id: relatedCategory.id,
-                    },
+                        related_category_id: relatedCategory.id
+                    }
                 });
 
-                if (categoryRelation) {
+                if(categoryRelation) {
                     obj.success = true;
                     await categoryRelation.destroy();
                 }
@@ -98,29 +99,30 @@ class Category {
             });
             await Promise.all(promise).then(list => {
                 sendedList.removedCategories.push(list);
+                return;
             });
         }
     }
 
     static async addSkills(skillsIds, category, sendedList) {
         sendedList.addedSkills = [];
-        if (skillsIds && skillsIds.length) {
+        if(skillsIds && skillsIds.length) {
             const promise = skillsIds.map(async skillGuid => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
-                    success: false,
+                    success: false
                 };
                 const existingSkill = await skillModel.findOne({
-                    where: { guid: skillGuid },
+                    where: {guid: skillGuid}
                 });
 
-                if (existingSkill) {
+                if(existingSkill) {
                     await skillRelationModel.findOrCreate({
                         where: {
                             skill_id: existingSkill.id,
-                            category_id: category.id,
-                        },
+                            category_id: category.id
+                        }
                     });
                     obj.success = true;
                 }
@@ -129,27 +131,28 @@ class Category {
 
             await Promise.all(promise).then(list => {
                 sendedList.addedSkills.push(list);
+                return;
             });
         }
     }
 
     static async removeSkills(removedSkills, category, sendedList) {
         sendedList.removedSkills = [];
-        if (removedSkills && removedSkills.length) {
+        if(removedSkills && removedSkills.length) {
             const promise = removedSkills.map(async skillGuid => {
                 const obj = {
                     categoryGuid: category.guid,
                     skillGuid: skillGuid,
-                    success: false,
+                    success: false
                 };
                 const skillRelation = await skillRelationModel.findOne({
                     where: {
                         skillGuid: skillGuid,
-                        categoryGuid: category.guid,
-                    },
+                        categoryGuid: category.guid
+                    }
                 });
 
-                if (skillRelation) {
+                if(skillRelation) {
                     obj.success = true;
                     skillRelation.destroy();
                 }
@@ -158,6 +161,7 @@ class Category {
 
             await Promise.all(promise).then(list => {
                 sendedList.removedSkills.push(list);
+                return;
             });
         }
     }

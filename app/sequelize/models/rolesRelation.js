@@ -1,4 +1,4 @@
-const { Constants } = require('../../constants/Constants');
+const {Constants} = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const RoleRelation = sequelize.define(
@@ -7,32 +7,31 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.INTEGER
             },
             guid: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                defaultValue: DataTypes.UUIDV4
             },
             role_group_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.ROLE_GROUP_ID_IS_MISSING,
-                },
+                    msg: Constants.ModelErrors.ROLE_GROUP_ID_IS_MISSING
+                }
             },
             role_id: {
                 type: DataTypes.INTEGER,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.ROLE_ID_IS_MISSING,
-                },
-            },
+                    msg: Constants.ModelErrors.ROLE_ID_IS_MISSING
+                }
+            }
         },
         {
-            timestamps: false,
+            timestamps: false
         }
     );
 
-    RoleRelation.associate = models => {};
     return RoleRelation;
 };

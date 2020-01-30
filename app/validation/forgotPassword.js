@@ -1,16 +1,16 @@
 const Joi = require('joi');
-const { BAD_REQUEST } = require('http-status-codes');
+const {BAD_REQUEST} = require('http-status-codes');
 const passwordExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/;
 
 const forgotPasswordUpdateBodySchema = Joi.object().keys({
     password: Joi.string()
         .regex(passwordExp)
-        .required(),
+        .required()
 });
 const forgotPasswordBodySchema = Joi.object().keys({
     email: Joi.string()
         .email()
-        .required(),
+        .required()
 });
 
 module.exports.validateForgotPasswordBody = (request, response, next) => {
@@ -23,7 +23,7 @@ module.exports.validateForgotPasswordUpdateBody = (request, response, next) => {
 
 const validateBody = (request, response, next, schema) => {
     const result = Joi.validate(request.body, schema);
-    if (result.error) {
+    if(result.error) {
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();

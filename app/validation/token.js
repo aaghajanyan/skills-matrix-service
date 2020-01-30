@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
-const { UNAUTHORIZED, FORBIDDEN, getStatusText } = require('http-status-codes');
-const { Constants } = require('../constants/Constants');
+const {UNAUTHORIZED, FORBIDDEN, getStatusText} = require('http-status-codes');
+const {Constants} = require('../constants/Constants');
 const loginSecretKey = require('../../config/env-settings.json').loginSecretKey;
 const invitationSecretToken = require('../../config/env-settings.json').invitationSecretKey;
 const forgotPasswordTokenSecret = require('../../config/env-settings.json').forgotPasswordSecretKey;
 
 const verifyToken = async (request, response, next, token, secret) => {
     try {
-        if (!token) {
+        if(!token) {
             return response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
         }
         const verified = await jwt.verify(token, secret);
@@ -16,45 +16,45 @@ const verifyToken = async (request, response, next, token, secret) => {
         const decodedToken = await jwtDecode(token, loginSecretKey);
         request.guid = decodedToken.guid;
         next();
-    } catch (err) {
+    } catch(err) {
         response.status(UNAUTHORIZED).send();
     }
 };
 
-module.exports.verifyLoginToken = async (request, response, next) => {
+module.exports.verifyLoginToken = (request, response, next) => {
     try {
         const token = request.header(Constants.AUTHORIZATION).split(Constants.BEARER)[1];
         verifyToken(request, response, next, token, loginSecretKey);
-    } catch (err) {
+    } catch(err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }
 };
 
-module.exports.verifyRightPermission = async (request, response, next) => {
+module.exports.verifyRightPermission = (request, response, next) => {
     try {
-        if (request.guid !== request.params.userGuid) {
+        if(request.guid !== request.params.userGuid) {
             return response.status(FORBIDDEN).send(getStatusText(FORBIDDEN));
         }
         next();
-    } catch (err) {
+    } catch(err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }
 };
 
-module.exports.verifyRegisterToken = async (request, response, next) => {
+module.exports.verifyRegisterToken = (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, invitationSecretToken);
-    } catch (err) {
+    } catch(err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }
 };
 
-module.exports.verifyForgotPasswordToken = async (request, response, next) => {
+module.exports.verifyForgotPasswordToken = (request, response, next) => {
     try {
         const token = request.params.token;
         verifyToken(request, response, next, token, forgotPasswordTokenSecret);
-    } catch (err) {
+    } catch(err) {
         response.status(UNAUTHORIZED).send(getStatusText(UNAUTHORIZED));
     }
 };

@@ -1,4 +1,4 @@
-const { Constants } = require('../../constants/Constants');
+const {Constants} = require('../../constants/Constants');
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
@@ -6,12 +6,12 @@ module.exports = {
             id: {
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.INTEGER
             },
             guid: {
                 unique: true,
                 allowNull: false,
-                type: Sequelize.UUID,
+                type: Sequelize.UUID
             },
             category_id: {
                 allowNull: false,
@@ -20,8 +20,8 @@ module.exports = {
                 references: {
                     model: Constants.TableNames.Categories,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.category_id,
-                },
+                    as: Constants.Keys.category_id
+                }
             },
             related_category_id: {
                 allowNull: false,
@@ -30,10 +30,10 @@ module.exports = {
                 references: {
                     model: Constants.TableNames.Categories,
                     key: Constants.Keys.id,
-                    as: Constants.Keys.related_category_id,
-                },
-            },
+                    as: Constants.Keys.related_category_id
+                }
+            }
         });
     },
-    down: queryInterface => queryInterface.dropTable(Constants.TableNames.CategoriesRelations),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.CategoriesRelations)
 };

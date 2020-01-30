@@ -36,6 +36,6 @@ module.exports.internalServerError = (criteriaType, value = '') => {
 const criteria = (errorTypeMsg, criteriaType, value = '') => {
     return {
         success: false,
-        message: `${util.format(errorTypeMsg, criteriaType, value)}`,
+        message: `${util.format(errorTypeMsg, criteriaType, value)}`
     };
 };

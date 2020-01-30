@@ -16,11 +16,11 @@ module.exports.initializePositionTable = async models => {
         'Project Manager',
         '3D modeler',
         'UIUX designer',
-        'SW Architect',
+        'SW Architect'
     ];
     let defaultPositionObj = await positionList.map(position => {
         return {
-            name: position,
+            name: position
         };
     });
     await models.position.bulkCreate(defaultPositionObj).catch(err => {});

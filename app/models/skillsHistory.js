@@ -7,7 +7,7 @@ class SkillHistory {
 
     static async find(condition) {
         return await skillHistoryModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,19 +16,19 @@ class SkillHistory {
     }
 
     static async delete(condition) {
-        await skillHistoryModel.destroy({ where: { ...condition } });
+        await skillHistoryModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await skillHistoryModel.create(data);
     }
 
     static async update(data, condition) {
-        await skillHistoryModel.update(data, { where: { ...condition } });
+        await skillHistoryModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(data, condition) {
         const skillHistoryData = await SkillHistory.find(condition);
-        if (!skillHistoryData) {
+        if(!skillHistoryData) {
             return await SkillHistory.create(data);
         }
         return skillHistoryData;

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { BAD_REQUEST } = require('http-status-codes');
+const {BAD_REQUEST} = require('http-status-codes');
 
 const addBodySchema = Joi.object().keys({
     name: Joi.string().required(),
@@ -8,7 +8,7 @@ const addBodySchema = Joi.object().keys({
         .unique(),
     skillsIds: Joi.array()
         .items(Joi.string().uuid())
-        .unique(),
+        .unique()
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
@@ -23,7 +23,7 @@ const updateBodySchema = Joi.object().keys({
         .unique(),
     removedSkills: Joi.array()
         .items(Joi.string().uuid())
-        .unique(),
+        .unique()
 });
 
 module.exports.validateAddBody = (request, response, next) => {
@@ -36,7 +36,7 @@ module.exports.validateUpdateBody = (request, response, next) => {
 
 const validateBody = (request, response, next, schema) => {
     const result = Joi.validate(request.body, schema);
-    if (result.error) {
+    if(result.error) {
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();

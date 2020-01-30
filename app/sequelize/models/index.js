@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const dbConfig = require(__dirname + '/../../../config/env-settings.json').db;
+const dbConfig = require(`${__dirname}/../../../config/env-settings.json`).db;
 const db = {};
 const Op = Sequelize.Op;
 
@@ -14,7 +14,7 @@ const operatorsAliases = {
     $or: Op.or,
     $and: Op.and,
     $gte: Op.gte,
-    $lte: Op.lte,
+    $lte: Op.lte
 };
 
 dbConfig.options.operatorsAliases = operatorsAliases;
@@ -31,15 +31,15 @@ fs.readdirSync(__dirname)
         return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
     })
     .forEach(file => {
-        const model = sequelize['import'](path.join(__dirname, file));
+        const model = sequelize.import(path.join(__dirname, file));
         db[model.name] = model;
     });
 
 Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
+    if(db[modelName].associate) {
         db[modelName].associate(db);
     }
-    if (db[modelName].initDefaultValues) {
+    if(db[modelName].initDefaultValues) {
         db[modelName].initDefaultValues(db);
     }
 });

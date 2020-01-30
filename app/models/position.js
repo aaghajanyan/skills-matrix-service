@@ -7,7 +7,7 @@ class Position {
 
     static async find(condition) {
         return await positionModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,7 +16,7 @@ class Position {
     }
 
     static async delete(condition) {
-        await positionModel.destroy({ where: { ...condition } });
+        await positionModel.destroy({where: {...condition}});
     }
 
     static async create(data) {
@@ -24,16 +24,16 @@ class Position {
     }
 
     static async update(data, condition) {
-        await positionModel.update(data, { where: { ...condition } });
+        await positionModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(condition) {
         const position = await positionModel.findOrCreate({
-            where: { ...condition },
+            where: {...condition}
         });
         return {
             position: position[0],
-            isNewRecord: position[1],
+            isNewRecord: position[1]
         };
     }
 }

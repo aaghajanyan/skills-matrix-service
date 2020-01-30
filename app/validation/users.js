@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { BAD_REQUEST } = require('http-status-codes');
+const {BAD_REQUEST} = require('http-status-codes');
 
 const passwordExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/;
 const nameExp = /^[a-z]{2,20}$/i;
@@ -21,7 +21,7 @@ const addBodySchema = Joi.object().keys({
     role_group_id: Joi.number().integer(),
     positionGuid: Joi.string()
         .uuid()
-        .required(),
+        .required()
 });
 
 const updateBodySchema = Joi.object().keys({
@@ -31,7 +31,7 @@ const updateBodySchema = Joi.object().keys({
     branchGuid: Joi.string().uuid(),
     role_group_id: Joi.number().integer(),
     positionGuid: Joi.string().uuid(),
-    is_active: Joi.boolean(),
+    is_active: Joi.boolean()
 });
 
 const loginBodySchema = Joi.object().keys({
@@ -40,7 +40,7 @@ const loginBodySchema = Joi.object().keys({
         .required(),
     password: Joi.string()
         .regex(passwordExp)
-        .required(),
+        .required()
 });
 
 module.exports.validateLoginBody = (request, response, next) => {
@@ -57,7 +57,7 @@ module.exports.validateUpdateBody = (request, response, next) => {
 
 const validateBody = (request, response, next, schema) => {
     const result = Joi.validate(request.body, schema);
-    if (result.error) {
+    if(result.error) {
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();

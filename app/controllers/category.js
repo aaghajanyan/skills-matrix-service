@@ -10,17 +10,17 @@ module.exports.getCategories = async (_, response) => {
     try {
         const categories = await Category.findAll();
         return response.status(OK).json(categories);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase()));
     }
 };
 
-module.exports.getCategory =  async (request, response) => {
+module.exports.getCategory = async (request, response) => {
     try {
-        const category = await Category.find({ guid: request.params.guid });
+        const category = await Category.find({guid: request.params.guid});
         response.status(OK).json(category);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
@@ -28,9 +28,9 @@ module.exports.getCategory =  async (request, response) => {
 
 module.exports.updateCategory = async (request, response) => {
     try {
-        await Category.update(request.body, { guid: request.params.guid });
-        response.status(ACCEPTED).json({ success: true });
-    } catch (error) {
+        await Category.update(request.body, {guid: request.params.guid});
+        response.status(ACCEPTED).json({success: true});
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
@@ -38,9 +38,9 @@ module.exports.updateCategory = async (request, response) => {
 
 module.exports.deleteCategory = async (request, response) => {
     try {
-        await Category.delete({ guid: request.params.guid });
-        response.status(ACCEPTED).json({ success: true });
-    } catch (error) {
+        await Category.delete({guid: request.params.guid});
+        response.status(ACCEPTED).json({success: true});
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
@@ -55,8 +55,8 @@ const includeModel = (modelName, alians, required, attributes, through_modelName
         through: {
             model: through_modelName,
             as: through_alians,
-            attributes: through_attributes,
-        },
+            attributes: through_attributes
+        }
     };
 };
 
@@ -72,7 +72,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
                     through: {
                         model: categoryRelationModel,
                         as: Constants.Associate.Aliases.categoryRelation,
-                        attributes: [],
+                        attributes: []
                     },
                     include: includeModel(
                         skillModel,
@@ -82,7 +82,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
                         skillRelationModel,
                         Constants.Associate.Aliases.skillRelation,
                         []
-                    ),
+                    )
                 },
                 {
                     model: categoryModel,
@@ -92,7 +92,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
                     through: {
                         model: categoryRelationModel,
                         as: Constants.Associate.Aliases.categoryRelation,
-                        attributes: [],
+                        attributes: []
                     },
                     include: includeModel(
                         skillModel,
@@ -102,7 +102,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
                         skillRelationModel,
                         Constants.Associate.Aliases.skillRelation,
                         []
-                    ),
+                    )
                 },
                 includeModel(
                     skillModel,
@@ -112,11 +112,11 @@ module.exports.getCategoriesAllData = async (_, response) => {
                     skillRelationModel,
                     Constants.Associate.Aliases.skillRelation,
                     []
-                ),
-            ],
+                )
+            ]
         });
         return response.status(OK).json(await Category.mergeRelatedCategories(JSON.parse(JSON.stringify(categories))));
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CATEGORIES.toLowerCase()));
     }
@@ -125,7 +125,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
 module.exports.getCategoryAllData = async (request, response) => {
     try {
         const categories = await categoryModel.findOne({
-            where: { guid: request.params.guid },
+            where: {guid: request.params.guid},
             include: [
                 {
                     model: categoryModel,
@@ -135,7 +135,7 @@ module.exports.getCategoryAllData = async (request, response) => {
                     through: {
                         model: categoryRelationModel,
                         as: Constants.Associate.Aliases.categoryRelation,
-                        attributes: [],
+                        attributes: []
                     },
                     include: includeModel(
                         skillModel,
@@ -145,7 +145,7 @@ module.exports.getCategoryAllData = async (request, response) => {
                         skillRelationModel,
                         Constants.Associate.Aliases.skillRelation,
                         []
-                    ),
+                    )
                 },
                 {
                     model: categoryModel,
@@ -155,7 +155,7 @@ module.exports.getCategoryAllData = async (request, response) => {
                     through: {
                         model: categoryRelationModel,
                         as: Constants.Associate.Aliases.categoryRelation,
-                        attributes: [],
+                        attributes: []
                     },
                     include: includeModel(
                         skillModel,
@@ -165,7 +165,7 @@ module.exports.getCategoryAllData = async (request, response) => {
                         skillRelationModel,
                         Constants.Associate.Aliases.skillRelation,
                         []
-                    ),
+                    )
                 },
                 includeModel(
                     skillModel,
@@ -175,11 +175,11 @@ module.exports.getCategoryAllData = async (request, response) => {
                     skillRelationModel,
                     Constants.Associate.Aliases.skillRelation,
                     []
-                ),
-            ],
+                )
+            ]
         });
         return response.status(OK).json(categories);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
     }
@@ -188,12 +188,12 @@ module.exports.getCategoryAllData = async (request, response) => {
 module.exports.addCategory = async (request, response) => {
     try {
         const sendedList = [];
-        const { relatedCategoriesIds, skillsIds, ...categoryData } = request.body;
-        const { category, isNewRecord } = await Category.findOrCreate({
-            name: categoryData.name,
+        const {relatedCategoriesIds, skillsIds, ...categoryData} = request.body;
+        const {category, isNewRecord} = await Category.findOrCreate({
+            name: categoryData.name
         });
 
-        if (!isNewRecord) {
+        if(!isNewRecord) {
             return response.status(OK).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), category.name));
         }
         await Category.addRelatedCategories(relatedCategoriesIds, category, sendedList);
@@ -202,9 +202,9 @@ module.exports.addCategory = async (request, response) => {
             [Constants.Keys.name]: category.name,
             [Constants.Keys.guid]: category.guid,
             [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
-            [Constants.Keys.addedSkills]: sendedList.addedSkills,
+            [Constants.Keys.addedSkills]: sendedList.addedSkills
         });
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotAddCriteria(Constants.TypeNames.CATEGORY.toLowerCase()));
     }
@@ -213,15 +213,15 @@ module.exports.addCategory = async (request, response) => {
 module.exports.updateCategoryAllData = async (request, response) => {
     try {
         const sendedList = [];
-        const { addedCategories, removedCategories, addedskills, removedSkills, ...categoryData } = request.body;
+        const {addedCategories, removedCategories, addedskills, removedSkills, ...categoryData} = request.body;
         const existingCategory = await Category.find({
-            guid: request.params.guid,
+            guid: request.params.guid
         });
 
-        if (!existingCategory) {
+        if(!existingCategory) {
             return response.status(OK).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
         }
-        await Category.update(categoryData, { guid: request.params.guid });
+        await Category.update(categoryData, {guid: request.params.guid});
         await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
         await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList);
         await Category.addSkills(addedskills, existingCategory, sendedList);
@@ -230,9 +230,9 @@ module.exports.updateCategoryAllData = async (request, response) => {
             [Constants.Keys.addRelatedCategories]: sendedList.addedCategories,
             [Constants.Keys.removedRelatedCategories]: sendedList.removedCategories,
             [Constants.Keys.addedSkills]: sendedList.addedSkills,
-            [Constants.Keys.removedSkills]: sendedList.removedSkills,
+            [Constants.Keys.removedSkills]: sendedList.removedSkills
         });
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.CATEGORY.toLowerCase()));
     }

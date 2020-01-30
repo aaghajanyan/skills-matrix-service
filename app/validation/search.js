@@ -20,10 +20,10 @@ const emptyQueryParamSchema = Joi.object().keys({
                     .required(),
                 properties: Joi.object()
                     .keys({})
-                    .required(),
+                    .required()
             })
         )
-        .required(),
+        .required()
 });
 
 const groupSchema = Joi.object().keys({
@@ -39,7 +39,7 @@ const groupSchema = Joi.object().keys({
     childrens: Joi.object()
         .keys({})
         .required()
-        .unknown(true),
+        .unknown(true)
 });
 
 const ruleSchema = Joi.object().keys({
@@ -58,8 +58,8 @@ const ruleSchema = Joi.object().keys({
             .max(32)
             .required(),
         experience: Joi.string().valid(['1', '2', '3', '4', '5']),
-        proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
-    }).required(),
+        proficiency: Joi.string().valid(['1', '2', '3', '4', '5'])
+    }).required()
 });
 
 module.exports.validateEmptyQueryBodySchema = data => {

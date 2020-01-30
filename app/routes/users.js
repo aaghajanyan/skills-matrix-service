@@ -6,7 +6,7 @@ const {validateAddBody, validateUpdateBody, validateLoginBody} = require('../val
 const {verifyLoginToken, verifyRegisterToken, verifyRightPermission} = require('../validation/token');
 
 router.get('/', verifyLoginToken, getUsers);
-router.get("/current", verifyLoginToken, getCurrentUser);
+router.get('/current', verifyLoginToken, getCurrentUser);
 router.get('/:userGuid', verifyLoginToken, getUser);
 router.put('/:userGuid', verifyLoginToken, verifyRightPermission, validateUpdateBody, updateUser);
 router.post('/login', validateLoginBody, login);

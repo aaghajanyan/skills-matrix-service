@@ -1,4 +1,4 @@
-const { Constants } = require('../../constants/Constants');
+const {Constants} = require('../../constants/Constants');
 
 module.exports = (sequelize, DataTypes) => {
     const Branch = sequelize.define(
@@ -8,23 +8,22 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: {
                     args: false,
-                    msg: Constants.ModelErrors.BRANCH_IS_MISSING,
+                    msg: Constants.ModelErrors.BRANCH_IS_MISSING
                 },
                 unique: {
                     args: true,
-                    msg: Constants.ModelErrors.BRANCH_ALREADY_EXISTS,
-                },
+                    msg: Constants.ModelErrors.BRANCH_ALREADY_EXISTS
+                }
             },
             guid: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-            },
+                defaultValue: DataTypes.UUIDV4
+            }
         },
         {
-            timestamps: false,
+            timestamps: false
         }
     );
 
-    Branch.associate = models => {};
     return Branch;
 };

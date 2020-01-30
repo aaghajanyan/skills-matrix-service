@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {getCriteria, getCriteries, addCriteria, updateCriteria, deleteCriteria} = require('../controllers/criteria');
-const {validateAddBody, validateUpdateBody } = require('../validation/criteria');
+const {validateAddBody, validateUpdateBody} = require('../validation/criteria');
 const {verifyLoginToken} = require('../validation/token');
 const {verifyPermissions} = require('../validation/permissions');
 

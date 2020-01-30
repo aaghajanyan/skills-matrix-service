@@ -1,10 +1,9 @@
 const nodemailer = require('nodemailer');
 const Moment = require('moment');
 const path = require('path');
-const adminData = require(__dirname + '/../../config/env-settings').nodeMailer;
+const adminData = require(`${__dirname}/../../config/env-settings`).nodeMailer;
 const EmailTemplates = require('swig-email-templates');
 const DATETIME_FORMAT_LONG = 'dddd, MMMM Do YYYY';
-const DATE_FORMAT = 'dddd, MMMM Do YYYY';
 const logger = require('../helper/logger');
 
 /**
@@ -21,13 +20,13 @@ const invite = (email, host, expiration) => {
                 link: host,
                 expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
                 invitedBy: 'admin.im@instigatemobile.com',
-                date: Moment().format(DATETIME_FORMAT_LONG),
+                date: Moment().format(DATETIME_FORMAT_LONG)
             };
             const resp = sendEmail('invite', context);
             return resolve(resp);
-        } catch (error) {
+        } catch(error) {
             logger.error(error);
-            return reject(err);
+            return reject(error);
         }
     }).catch(error => {
         logger.error(error);
@@ -49,14 +48,15 @@ const resetPassword = (email, host, expiration) => {
                 email: email,
                 link: host,
                 expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
-                date: Moment().format(DATETIME_FORMAT_LONG),
+                date: Moment().format(DATETIME_FORMAT_LONG)
             };
             const resp = sendEmail('resetPassword', context);
             return resolve(resp);
-        } catch (err) {
+        } catch(err) {
             return reject(err);
         }
-    }).catch(err => {
+    }).catch(error => {
+        logger.error(error);
         // TODO add logger
         // log.error(err, 'emails::invite');
     });
@@ -76,14 +76,14 @@ const sendEmail = (template, context) => {
                 service: 'gmail',
                 auth: {
                     user: username,
-                    pass: password,
-                },
+                    pass: password
+                }
             });
             const email = new EmailTemplates();
             //render and send
             email.render(path.join(__dirname, `./templates/${template}.html`), context, (err, html, text, subject) => {
-                if (err) {
-                    next(err);
+                if(err) {
+                    return reject(err);
                 }
                 //base options
                 const options = {
@@ -91,14 +91,14 @@ const sendEmail = (template, context) => {
                     to: context.email,
                     subject,
                     html,
-                    text,
+                    text
                 };
 
                 transport.sendMail(options, (err, info) => (err ? reject(err) : resolve(info)));
             });
-        } catch (error) {
+        } catch(error) {
             logger.error(error);
-            return reject(err);
+            return reject(error);
         }
     }).catch(error => {
         logger.error(error);
@@ -107,5 +107,5 @@ const sendEmail = (template, context) => {
 
 module.exports = {
     invite,
-    resetPassword,
+    resetPassword
 };

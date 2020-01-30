@@ -8,7 +8,7 @@ module.exports.getCriteries = async (_, response) => {
     try {
         const criteries = await Criteria.findAll();
         return response.status(OK).json(criteries);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CRITERIAS.toLowerCase()));
     }
@@ -16,9 +16,9 @@ module.exports.getCriteries = async (_, response) => {
 
 module.exports.getCriteria = async (request, response) => {
     try {
-        const criteria = await Criteria.find({ guid: request.params.guid });
+        const criteria = await Criteria.find({guid: request.params.guid});
         response.status(OK).json(criteria);
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }
@@ -26,17 +26,17 @@ module.exports.getCriteria = async (request, response) => {
 
 module.exports.addCriteria = async (request, response) => {
     try {
-        const { criteria, isNewRecord } = await Criteria.findOrCreate({
+        const {criteria, isNewRecord} = await Criteria.findOrCreate({
             name: request.body.name,
-            type: request.body.type,
+            type: request.body.type
         });
-        if (!isNewRecord) {
+        if(!isNewRecord) {
             return response.status(OK).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name));
         }
         return response.status(CREATED).json({
-            criteria,
+            criteria
         });
-    } catch (error) {
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotAddCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.body.name));
     }
@@ -44,9 +44,9 @@ module.exports.addCriteria = async (request, response) => {
 
 module.exports.updateCriteria = async (request, response) => {
     try {
-        await Criteria.update(request.body, { guid: request.params.guid });
-        response.status(ACCEPTED).json({ success: true });
-    } catch (error) {
+        await Criteria.update(request.body, {guid: request.params.guid});
+        response.status(ACCEPTED).json({success: true});
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }
@@ -54,9 +54,9 @@ module.exports.updateCriteria = async (request, response) => {
 
 module.exports.deleteCriteria = async (request, response) => {
     try {
-        await Criteria.delete({ guid: request.params.guid });
-        return response.status(ACCEPTED).json({ success: true });
-    } catch (error) {
+        await Criteria.delete({guid: request.params.guid});
+        return response.status(ACCEPTED).json({success: true});
+    } catch(error) {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.CRITERIA.toLowerCase(), request.params.guid));
     }

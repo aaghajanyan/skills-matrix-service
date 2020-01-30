@@ -7,7 +7,7 @@ class SkillRelation {
 
     static async find(condition) {
         return await skillRelationModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,14 +16,14 @@ class SkillRelation {
     }
 
     static async delete(condition) {
-        await skillRelationModel.destroy({ where: { ...condition } });
+        await skillRelationModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await skillRelationModel.create(data);
     }
 
-    static async update(data) {
-        await skillRelationModel.update(data, { where: { ...condition } });
+    static async update(data, condition) {
+        await skillRelationModel.update(data, {where: {...condition}});
     }
 }
 

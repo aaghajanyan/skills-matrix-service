@@ -7,7 +7,7 @@ class Branch {
 
     static async find(condition) {
         return await branchModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,7 +16,7 @@ class Branch {
     }
 
     static async delete(condition) {
-        await branchModel.destroy({ where: { ...condition } });
+        await branchModel.destroy({where: {...condition}});
     }
 
     static async create(data) {
@@ -24,16 +24,16 @@ class Branch {
     }
 
     static async update(data, condition) {
-        await branchModel.update(data, { where: { ...condition } });
+        await branchModel.update(data, {where: {...condition}});
     }
 
     static async findOrCreate(condition) {
         const branch = await branchModel.findOrCreate({
-            where: { ...condition },
+            where: {...condition}
         });
         return {
             branch: branch[0],
-            isNewRecord: branch[1],
+            isNewRecord: branch[1]
         };
     }
 }

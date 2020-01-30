@@ -7,7 +7,7 @@ class Invitation {
 
     static async find(condition) {
         return await invitationModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -16,7 +16,7 @@ class Invitation {
     }
 
     static async delete(condition) {
-        await invitationModel.destroy({ where: { ...condition } });
+        await invitationModel.destroy({where: {...condition}});
     }
 
     static async create(data) {

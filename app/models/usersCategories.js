@@ -8,7 +8,7 @@ class UserCategory {
 
     static async find(condition) {
         return await usersCategoriesModel.findOne({
-            where: { ...condition },
+            where: {...condition}
         });
     }
 
@@ -17,14 +17,14 @@ class UserCategory {
     }
 
     static async delete(condition) {
-        await usersCategoriesModel.destroy({ where: { ...condition } });
+        await usersCategoriesModel.destroy({where: {...condition}});
     }
     static async create(data) {
         return await usersCategoriesModel.create(data);
     }
 
     static async update(data, condition) {
-        await usersCategoriesModel.update(data, { where: { ...condition } });
+        await usersCategoriesModel.update(data, {where: {...condition}});
     }
 }
 
