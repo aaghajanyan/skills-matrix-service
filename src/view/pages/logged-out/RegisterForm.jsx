@@ -12,8 +12,6 @@ function RegisterForm(props) {
 
     const [isPending, setIsPending] = useState(false);
 
-    // const [loading, setLoading] = useState(true);
-
     const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator("First"));
     const [isLastNameValid, , lastNameRule] = useValidator(nameValidator("Last"));
     const [isBranchValid, , branchRule] = useValidator(nameValidator("Branch"));

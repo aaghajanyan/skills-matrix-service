@@ -4,7 +4,7 @@ import {SearchDataView} from 'view/pages/logged-in/sub-pages/Search/SearchDataVi
 import {SMUserBar} from 'view/pages/logged-in/components/SMUserBar';
 import {SMButton} from 'view/components/SMButton';
 import {useSelector, useDispatch} from 'react-redux';
-import {search} from 'constants';
+import {SMConfig} from 'config';
 import {doSearch, getCriteria} from 'store/actions/search';
 
 import SearchTree from './SearchTree';
@@ -35,8 +35,8 @@ function SearchPeople(props) {
     };
 
     const usersData = useSelector((state) => {
-        if(state.Search.items && state.Search.items.data) {
-            state.Search.items.data = state.Search.items.data.map(item => {
+        if(state.search.items && state.search.items.data) {
+            state.search.items.data = state.search.items.data.map(item => {
                 item.key = item.guid;
                 const colorCode = Math.floor(100000 + Math.random() * 900000);
                 item.avatar = <SMUserBar
@@ -49,10 +49,10 @@ function SearchPeople(props) {
             });
 
             return ({
-                users: state.Search.items.data,
-                fieldValues: state.Search.items.values,
-                loading: state.Search.loading,
-                error: state.Search.error
+                users: state.search.items.data,
+                fieldValues: state.search.items.values,
+                loading: state.search.loading,
+                error: state.search.error
             });
         }
 
@@ -62,9 +62,9 @@ function SearchPeople(props) {
         <>
             <div ref={refForScroll} className={`main_container_search ${collapseFind && 'default_main_container'} `}>
                 <Row className="search_header">
-                    <div><h1> {search.title} </h1></div>
+                    <div><h1> {SMConfig.search.title} </h1></div>
                     <div> <SMButton className="sm-button skills-table-add-skill-button">
-                        {search.buttons.export}
+                        {SMConfig.search.search.buttons.export}
                     </SMButton></div>
                 </Row>
                 <Row className= {collapseFind ? 'collapses_visible' : 'collapses_hidden'}>

@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import {Provider} from 'react-redux'
-import {SMPageLoggedOut} from 'src/view/pages/logged-out'
+import {Provider} from 'react-redux';
+import {SMPageLoggedOut} from 'src/view/pages/logged-out';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {PrivateRoute} from 'src/view/routers/PrivateRoute'
+import {PrivateRoute} from 'src/view/routers/PrivateRoute';
 import {NotFound} from 'src/view/pages/not-found/NotFound';
 import {
     Branches,
     Categories,
     Employees,
-    FindEmployees,
+    Search,
     Home,
     Settings,
     Skills
 } from 'src/view/pages/logged-in/sub-pages';
-import {SMEmployee} from 'src/view/pages/logged-in/components'
+import {SMEmployee} from 'src/view/pages/logged-in/components';
 
 
 import {ErrorBoundary} from "src/view/components/ErrorBoundary";
@@ -29,36 +29,31 @@ class App extends Component {
     render() {
         return (
             <ErrorBoundary>
-
                 <Provider store={store}>
-                        <Router>
-                                <Switch>
-                                    <Route path={
-                                        [
-                                            this.routes.login,
-                                            this.routes.forgotPassword,
-                                            this.routes.forgotPassword,
-                                            this.routes.registration
-                                        ]}
-                                        component={SMPageLoggedOut}
-                                    />
-
-                                    <PrivateRoute exact path={this.routes.home} component={Home} />
-                                    <PrivateRoute exact path={this.routes.employees} component={Employees} />
-                                    <PrivateRoute exact path={`${this.routes.employees}/:id`} component={SMEmployee} />
-                                    <PrivateRoute exact path={this.routes.findEmployees}  component={FindEmployees} />
-                                    <PrivateRoute exact path={this.routes.branches}  component={Branches} />
-                                    <PrivateRoute exact path={this.routes.categories}  component={Categories} />
-                                    <PrivateRoute exact path={this.routes.skills}  component={Skills} />
-                                    <PrivateRoute exact path={this.routes.settings} component={Settings} />
-
-                                    <Route path="**" component={NotFound} />
-                                </Switch>
-
-                        </Router>
-                    </Provider>
+                    <Router>
+                        <Switch>
+                            <Route path={
+                                [
+                                    this.routes.login,
+                                    this.routes.forgotPassword,
+                                    this.routes.forgotPassword,
+                                    this.routes.registration
+                                ]}
+                                component={SMPageLoggedOut}
+                            />
+                            <PrivateRoute exact path={this.routes.home} component={Home} />
+                            <PrivateRoute exact path={this.routes.employees} component={Employees} />
+                            <PrivateRoute exact path={`${this.routes.employees}/:id`} component={SMEmployee} />
+                            <PrivateRoute path={this.routes.findEmployees}  component={Search} />
+                            <PrivateRoute exact path={this.routes.branches}  component={Branches} />
+                            <PrivateRoute exact path={this.routes.categories}  component={Categories} />
+                            <PrivateRoute exact path={this.routes.skills}  component={Skills} />
+                            <PrivateRoute exact path={this.routes.settings} component={Settings} />
+                            <Route path="**" component={NotFound} />
+                        </Switch>
+                     </Router>
+                </Provider>
             </ErrorBoundary>
-
         );
     }
 }

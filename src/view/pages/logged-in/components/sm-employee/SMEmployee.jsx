@@ -3,8 +3,8 @@ import {shallowEqual, useSelector} from 'react-redux';
 import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {Summary} from 'src/view/pages/logged-in/components/sm-employee/Summary';
 import {Assessment} from 'src/view/pages/logged-in/components/sm-employee/Assessment';
-import {getUser} from "src/services/usersService"
-
+import {getUser} from "src/services/usersService";
+import {SMTabs} from "src/view/components";
 function SMEmployeeInitial(props) {
 
     const currentUser = useSelector(state => state.user, shallowEqual);
@@ -41,8 +41,8 @@ function SMEmployeeInitial(props) {
                     <div className='sm-tabs-header sm-component'>
                         {<SMUserBar
                             className='sm-user'
-                            firstName={user && user.data.fname}
-                            lastName={user && user.data.lname}
+                            firstName={user && user.fname}
+                            lastName={user && user.lname}
                             size='large'
                         />}
                         <TabBar {...tabBarProps} />

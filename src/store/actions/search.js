@@ -1,10 +1,12 @@
-import {get} from 'client/lib/axiosWrapper';
+import {get} from '../../services/client/axiosWrapper';
 import {searchUsersBegin, searchUsersSuccess, searchUsersFailure, criteriaRow} from './searchAction';
 import {CRITERIA} from '../../configSearch/criteria';
 import {SMNotification} from 'view/components';
-import {messages, endpoint} from 'constants';
+import {SMConfig} from '../../config/';
 
 const initialTree = {};
+const endpoint = SMConfig.search.endpoint;
+const messages = SMConfig.messages;
 
 export function getSearchParams(params){
     return (dispatch) => {

@@ -1,8 +1,10 @@
 import apiEndpoints from "./api-endpoints";
 import routes from "./routes";
-import serverConfig from "./server-config"
-import messages from "src/config/messages"
-import common from "src/config/common-config"
+import serverConfig from "./server-config";
+import messages from "src/config/messages";
+import common from "src/config/common-config";
+import search from "src/config/search";
+
 
 export const SMConfig = {
     serverConfig: {
@@ -14,5 +16,6 @@ export const SMConfig = {
     apiEndpoints,
     routes,
     messages,
-    common
+    common,
+    search
 };

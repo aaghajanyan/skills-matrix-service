@@ -34,10 +34,8 @@ function LoginForm({successEndpoint}) {
             .then((user) => {
                 if(user){
                     setSuccess(true);
-                    onAlertClose(null);
                     dispatch(setCurrentUser(user));
                 }
-                setLoading(false);
             })
             .catch(error => {
                 setLoading(false);

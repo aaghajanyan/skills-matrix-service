@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Select, Row, Col, Button} from 'antd';
 import {SearchRow} from './SearchRow';
 import {SMIcon} from 'view/components/SMIcon';
-import {search} from 'constants';
+import {SMConfig} from 'config';
 import {uuid} from '../../../../../configSearch/criteria';
 
 const {Option} = Select;
@@ -106,7 +106,7 @@ function SearchGroup(props) {
             return (
                 <Col {...props.content.contentCol}>
                     <Button disabled={props.disabled} icon="plus-circle" onClick={handleClickAddGroup}>
-                        {search.buttons.add_group}
+                        {SMConfig.search.search.buttons.add_group}
                     </Button>
                 </Col>
             );
@@ -120,13 +120,13 @@ function SearchGroup(props) {
                     <Col>
                         <Col {...props.content.rowColFirst}>
                             <Select disabled={props.disabled} defaultValue={props.defaultProperties.condition} onSelect={handleChangeCondition}>
-                                <Option value={search.condition.and}>{search.condition.and}</Option>
-                                <Option value={search.condition.or}>{search.condition.or}</Option>
+                                <Option value={SMConfig.search.search.condition.and}>{SMConfig.search.search.condition.and}</Option>
+                                <Option value={SMConfig.search.search.condition.or}>{SMConfig.search.search.condition.or}</Option>
                             </Select>
                         </Col>
                         <Col {...props.content.contentCol}>
                             <Button disabled={props.disabled} icon="plus" onClick={handleClickAddCriteria}>
-                                {search.buttons.add_criteria}
+                                {SMConfig.search.search.buttons.add_criteria}
                             </Button>
                         </Col>
                         {addGroup()}

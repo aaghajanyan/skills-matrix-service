@@ -1,0 +1,27 @@
+{
+    "search": {
+        "title": "Search",
+        "buttons": {
+            "export": "Export AS",
+            "add_criteria": "Add more criteria",
+            "add_group": "Add group",
+            "find": "Find",
+            "reset": "Reset"
+        },
+        "condition": {
+            "and": "And",
+            "or": "Or"
+        }
+    },
+    "endpoint" : {
+        "Category" : "categories/all",
+        "Skill" : "skills",
+        "Branch" : "branch",
+        "Position" : "position"
+    },
+    "colors_search_table": {
+        "blue": "#1890ff",
+        "yellow": "#faad14c7",
+        "green": "#52c41a"
+    }
+}

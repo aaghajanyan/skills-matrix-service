@@ -4,7 +4,7 @@ import {SearchRow} from './SearchRow';
 import {SearchGroup} from './SearchGroup';
 import {useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {search} from 'constants';
+import {SMConfig} from 'config';
 import {uuid, contentColForRow} from '../../../../../configSearch/criteria';
 
 import {getSearchParams} from 'store/actions/search';
@@ -45,7 +45,7 @@ export default function SearchTree(props) {
 
     const paramsRedux = useSelector((state) => {
         return {
-            defoultFields: state.Search.items
+            defoultFields: state.search.items
         };
     });
     const query = queryString.parse(history.location.search);
@@ -170,18 +170,18 @@ export default function SearchTree(props) {
             <Row className="header_container" justify="center">
                 <Col {...contentColForRow.rowColFirst} >
                     <Select disabled={props.disabledBtn} defaultValue={loadInitValue.condition} onSelect={handleChangeCondition}>
-                        <Option value={search.condition.and}>{search.condition.and}</Option>
-                        <Option value={search.condition.or}>{search.condition.or}</Option>
+                        <Option value={SMConfig.search.search.condition.and}>{SMConfig.search.search.condition.and}</Option>
+                        <Option value={SMConfig.search.search.condition.or}>{SMConfig.search.search.condition.or}</Option>
                     </Select>
                 </Col>
                 <Col {...contentColForRow.contentCol} >
                     <Button disabled={props.disabledBtn} icon="plus" onClick={handleClickAddCriteria}>
-                        {search.buttons.add_criteria}
+                        {SMConfig.search.search.buttons.add_criteria}
                     </Button>
                 </Col>
                 <Col {...contentColForRow.contentCol} >
                     <Button disabled={props.disabledBtn} icon="plus-circle" onClick={handleClickAddGroup}>
-                        {search.buttons.add_group}
+                        {SMConfig.search.search.buttons.add_group}
                     </Button>
                 </Col>
             </Row>
@@ -189,11 +189,11 @@ export default function SearchTree(props) {
             <Row className="search_buttons" gutter={10} justify="center">
                 <Col {...contentColForRow.buttonsCol}>
                     <Button ref={clickFind} onClick={handleClickFind} type="primary" htmlType="submit" id="search_btn">
-                        {search.buttons.find}
+                        {SMConfig.search.search.buttons.find}
                     </Button>
                 </Col>
                 <Col {...contentColForRow.buttonsCol}>
-                    <Button onClick={handleReset} id="reset_people_btn"> {search.buttons.reset} </Button>
+                    <Button onClick={handleReset} id="reset_people_btn"> {SMConfig.search.search.buttons.reset} </Button>
                 </Col>
             </Row>
         </Row>

@@ -15,7 +15,7 @@ class ErrorBoundary extends React.Component {
     }
 
     handleError = () => {
-        // window.location.href = "/"
+        window.location.href = "/"
     };
 
 
