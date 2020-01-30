@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {useRouteMatch} from "react-router-dom"
+import React, {useEffect, useState} from 'react';
+import {useRouteMatch} from 'react-router-dom';
 
-import {useNavigation, useValidator} from "src/hooks/common";
-import {changePassword, checkResetPasswordToken} from "src/services/authService";
-import {SMConfig} from "src/config";
-import {SMButton, SMForm, SMIcon, SMInput} from "src/view/components";
-import {passwordValidator} from "src/helpers/validators";
-import {Alert} from "antd";
+import {useNavigation, useValidator} from 'src/hooks/common';
+import {changePassword, checkResetPasswordToken} from 'src/services/authService';
+import {SMConfig} from 'src/config';
+import {SMButton, SMForm, SMIcon, SMInput} from 'src/view/components';
+import {passwordValidator} from 'src/helpers/validators';
+import {Alert} from 'antd';
 
 
 export function ForgotPasswordConfirmation(){
@@ -23,11 +23,11 @@ export function ForgotPasswordConfirmation(){
 
     const messages = SMConfig.messages;
 
-    useEffect(()=> {
+    useEffect(() => {
         checkResetPasswordToken(match.params.token)
             .catch(() => {
-                navigateTo(SMConfig.routes.login, {error : messages.invalidToken} )
-            })
+                navigateTo(SMConfig.routes.login, {error : messages.invalidToken} );
+            });
     });
 
     const onForgotPasswordFormSubmitted = () => {
@@ -37,15 +37,15 @@ export function ForgotPasswordConfirmation(){
             setLoading(true);
             changePassword(match.params.token, password)
                 .then(() => {
-                    navigateTo(SMConfig.routes.login, {success: messages.forgotPassword.passwordHasBeenChangedSuccessfully})
+                    navigateTo(SMConfig.routes.login, {success: messages.forgotPassword.passwordHasBeenChangedSuccessfully});
                 })
                 .catch(() => {
-                    navigateTo(SMConfig.routes.login, {error: messages.forgotPassword.passwordHasNotBeenChanged})
-                })
+                    navigateTo(SMConfig.routes.login, {error: messages.forgotPassword.passwordHasNotBeenChanged});
+                });
         }
 
     };
-    return  (<React.Fragment>
+    return (<React.Fragment>
         {errorMessage && (
             <Alert
                 className="sm-alert"
@@ -57,41 +57,41 @@ export function ForgotPasswordConfirmation(){
         <SMForm
             className="sm-form login-form"
             items={[
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'confirm password',
-                        type: 'password',
-                        placeholder: 'New password',
-                        prefix: (<SMIcon
-                            className='sm-icon-grey'
-                            iconType='fas'
-                            icon='lock'
-                        />),
-                        rules: passwordRule
-                    }),
-                    SMInput({
-                        className: 'sm-input',
-                        name: 'password',
-                        type: 'password',
-                        placeholder: 'Confirm password',
-                        prefix: (<SMIcon
-                            className='sm-icon-grey'
-                            iconType='fas'
-                            icon='lock'
-                        />),
-                        rules: confirmPasswordRule
-                    })
-                ]
+                SMInput({
+                    className: 'sm-input',
+                    name: 'confirm password',
+                    type: 'password',
+                    placeholder: 'New password',
+                    prefix: (<SMIcon
+                        className="sm-icon-grey"
+                        iconType="fas"
+                        icon="lock"
+                    />),
+                    rules: passwordRule
+                }),
+                SMInput({
+                    className: 'sm-input',
+                    name: 'password',
+                    type: 'password',
+                    placeholder: 'Confirm password',
+                    prefix: (<SMIcon
+                        className="sm-icon-grey"
+                        iconType="fas"
+                        icon="lock"
+                    />),
+                    rules: confirmPasswordRule
+                })
+            ]
             }
             buttons={[ SMButton({
-                    className: 'sm-button forgot-password-button',
-                    name: 'submit',
-                    type: 'primary',
-                    htmlType: 'submit',
-                    children: 'Reset',
-                    loading: loading,
-                    disabled: !(isPasswordValid && isConfirmPasswordValid) || (password !== confirmPassword)
-                })]
+                className: 'sm-button forgot-password-button',
+                name: 'submit',
+                type: 'primary',
+                htmlType: 'submit',
+                children: 'Reset',
+                loading: loading,
+                disabled: !(isPasswordValid && isConfirmPasswordValid) || (password !== confirmPassword)
+            })]
             }
             onSubmit={onForgotPasswordFormSubmitted}
         /> </React.Fragment>);

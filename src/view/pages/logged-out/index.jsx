@@ -8,12 +8,12 @@ import logo from 'src/assets/images/logo.png';
 import {isLoggedIn} from 'src/services/authService';
 import {RegisterForm} from 'src/view/pages/logged-out/RegisterForm';
 import {LoginForm} from 'src/view/pages/logged-out/LoginForm';
-import {SMButton} from "src/view/components";
-import {ForgotPasswordConfirmation} from "./forgot-password/ForgotPasswordConfirmationForm";
-import {ForgotPasswordSendForm} from "./forgot-password/ForgotPasswordSendForm";
-import {SMConfig} from "../../../config";
+import {SMButton} from 'src/view/components';
+import {ForgotPasswordConfirmation} from './forgot-password/ForgotPasswordConfirmationForm';
+import {ForgotPasswordSendForm} from './forgot-password/ForgotPasswordSendForm';
+import {SMConfig} from '../../../config';
 
-const { Header, Content, Footer } = Layout;
+const {Header, Content, Footer} = Layout;
 
 function SMPageLoggedOut() {
 
@@ -47,7 +47,7 @@ function SMPageLoggedOut() {
             </Content>
             <Footer className="sm-footer">
                 <SMButton
-                    className='sm-link'
+                    className="sm-link"
                     type="link"
                     target="_blank"
                     href="https://ggg.instigatemobile.com/"
@@ -58,4 +58,4 @@ function SMPageLoggedOut() {
     );
 }
 
-export { SMPageLoggedOut };
+export {SMPageLoggedOut};

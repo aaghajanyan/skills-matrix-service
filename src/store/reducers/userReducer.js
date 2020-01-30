@@ -10,6 +10,6 @@ const USER_ACTIONS = {
 
 export default function userReducer(state = null, action) {
     const userAction = USER_ACTIONS[action.type];
-    if(userAction) return userAction(state, action);
+    if(userAction) {return userAction(state, action);}
     return state;
 }

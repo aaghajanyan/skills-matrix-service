@@ -5,7 +5,7 @@ const SMNotification = (type, data) => {
     notification[type](data);
 };
 
-export { SMNotification };
+export {SMNotification};
 
 SMNotification.PropTypes = {
     type: PropTypes.string,

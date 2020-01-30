@@ -1,9 +1,9 @@
 import React from 'react';
 import {Dropdown} from 'antd';
-import {useHistory} from "react-router-dom"
+import {useHistory} from 'react-router-dom';
 import {SMButton, SMIcon, SMMenu} from 'src/view/components';
-import {dropdownMenuItems} from "./dropdownMenuItems"
-import {onMenuItemSelect} from "../";
+import {dropdownMenuItems} from './dropdownMenuItems';
+import {onMenuItemSelect} from '../';
 
 export function DropdownMenu({isVisible, onClick}) {
 
@@ -17,7 +17,7 @@ export function DropdownMenu({isVisible, onClick}) {
             onClick={onClick}
             overlay={
                 <SMMenu
-                    className='sm-dropdown-menu'
+                    className="sm-dropdown-menu"
                     type={'dropdown'}
                     items={dropdownMenuItems}
                     onClick={onSelect}
@@ -26,9 +26,9 @@ export function DropdownMenu({isVisible, onClick}) {
         >
             <SMButton className="ant-dropdown-link">
                 <SMIcon
-                    className='sm-icon-fill-grey'
-                    iconType='fas'
-                    icon='caret-down'
+                    className="sm-icon-fill-grey"
+                    iconType="fas"
+                    icon="caret-down"
                 />
             </SMButton>
         </Dropdown>

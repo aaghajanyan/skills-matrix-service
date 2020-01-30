@@ -14,13 +14,13 @@ function SMMenu(props) {
                     title = { item.title }
                     className = { classNames(
                         item.className,
-                        "unselectable"
+                        'unselectable'
                     ) }
                     href={item.href}
                     type={'sider'}
                 >
                     <SMIconLink
-                        className='sm-icon-light'
+                        className="sm-icon-light"
                         parentType={props.type}
                         icon={item.icon}
                         title={item.title}
@@ -31,7 +31,7 @@ function SMMenu(props) {
         });
     };
 
-    return(
+    return (
         <Menu {...props} >
             {renderMenuItems()}
         </Menu>
@@ -57,4 +57,4 @@ SMMenu.propTypes = {
     theme: PropTypes.string
 };
 
-export { SMMenu };
+export {SMMenu};

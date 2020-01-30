@@ -1,6 +1,6 @@
 import cookie from 'react-cookies';
 import {get, post} from 'src/services/client';
-import {SMConfig} from "src/config";
+import {SMConfig} from 'src/config';
 
 export const AUTH_TOKEN = 'auth_token';
 
@@ -20,14 +20,14 @@ const login = ({email, password}) => {
         .then(result => {
             cookie.save(AUTH_TOKEN, result.data.token, {
                 path: '/',
-                maxAge: 86400,
+                maxAge: 86400
             });
-            return get({ url: `${SMConfig.apiEndpoints.getUsers}/${result.data.guid}` }).then(user => user.data)
+            return get({url: `${SMConfig.apiEndpoints.getUsers}/${result.data.guid}`}).then(user => user.data);
         })
         .catch(error => {
-            if (error.response) {
-                return Promise.reject(error.response.data.message)
-            } else if (error.request) {
+            if(error.response) {
+                return Promise.reject(error.response.data.message);
+            } else if(error.request) {
                 //TODO
             } else {
                 //TODO
@@ -47,7 +47,7 @@ const registerUser = (token, {fname, lname, branchName, position, password, star
             startedToWorkDate: startedToWorkDate.toString()
         }
     };
-    return post(options)
+    return post(options);
 };
 
 const sendPasswordUpdatingLinkTo = (email) => {
@@ -57,27 +57,27 @@ const sendPasswordUpdatingLinkTo = (email) => {
             email
         }
     };
-    return post(options)
+    return post(options);
 };
 
 const checkResetPasswordToken = (token) => {
     const options = {
-        url: `${SMConfig.apiEndpoints.forgotPassword}/change/${token}`,
+        url: `${SMConfig.apiEndpoints.forgotPassword}/change/${token}`
     };
-    return get(options)
+    return get(options);
 };
 
 const changePassword = (token, password) => {
     const options = {
         url: `${SMConfig.apiEndpoints.forgotPassword}/change/${token}`,
-        data: { password }
+        data: {password}
     };
-    return post(options)
+    return post(options);
 };
 
 
 const logOut = () => {
-    cookie.remove(AUTH_TOKEN, { path: '/' })
+    cookie.remove(AUTH_TOKEN, {path: '/'});
 };
 
-export { isLoggedIn, login, logOut, registerUser, sendPasswordUpdatingLinkTo, checkResetPasswordToken, changePassword }
+export {isLoggedIn, login, logOut, registerUser, sendPasswordUpdatingLinkTo, checkResetPasswordToken, changePassword};

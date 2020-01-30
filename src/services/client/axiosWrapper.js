@@ -1,24 +1,24 @@
-import * as axiosHelper from "./axiosHelper";
+import * as axiosHelper from './axiosHelper';
 
 
 const get = (options) => {
-  return axiosHelper.apiClient('GET', options);
+    return axiosHelper.apiClient('GET', options);
 };
 
 const put = (options) => {
-  return axiosHelper.apiClient('PUT', options);
+    return axiosHelper.apiClient('PUT', options);
 };
 
 const post = (options) => {
-  return axiosHelper.apiClient('POST', options);
+    return axiosHelper.apiClient('POST', options);
 };
 
 const del = (options) => {
-  return axiosHelper.apiClient('DELETE', options);
+    return axiosHelper.apiClient('DELETE', options);
 };
 
 const head = (options) => {
-  return axiosHelper.apiClient('HEAD', options);
+    return axiosHelper.apiClient('HEAD', options);
 };
 
 export {get , post, head, put, del};

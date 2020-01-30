@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 function Settings() {
     return (
         <div>
             Settings
         </div>
-    )
+    );
 }
 
-export { Settings };
+export {Settings};

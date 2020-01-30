@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Table } from 'antd';
+import {Table} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMTable(props) {
@@ -19,4 +19,4 @@ SMTable.propTypes = {
     scroll: PropTypes.object
 };
 
-export { SMTable };
+export {SMTable};

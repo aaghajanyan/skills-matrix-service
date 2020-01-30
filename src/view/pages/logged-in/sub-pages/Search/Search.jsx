@@ -38,9 +38,7 @@ function SearchPeople(props) {
         if(state.search.items && state.search.items.data) {
             state.search.items.data = state.search.items.data.map(item => {
                 item.key = item.guid;
-                const colorCode = Math.floor(100000 + Math.random() * 900000);
                 item.avatar = <SMUserBar
-                    colorCode={colorCode}
                     firstName={item.fname}
                     lastName={item.lname}
                     size="medium"

@@ -1,7 +1,7 @@
-import {logOut} from "src/services/authService";
+import {logOut} from 'src/services/authService';
 
-export const onMenuItemSelect  = (history) => ({item, key}) => {
-    const { href } = item.props;
+export const onMenuItemSelect = (history) => ({item, key}) => {
+    const {href} = item.props;
     key === 'logOut' && logOut();
 
     if(item.props.href !== history.location.pathname){
@@ -10,5 +10,5 @@ export const onMenuItemSelect  = (history) => ({item, key}) => {
 };
 
 
-export {DropdownMenu} from './dropdown-menu/DropdownMenu'
-export {SideMenu} from './side-menu/SideMenu'
+export {DropdownMenu} from './dropdown-menu/DropdownMenu';
+export {SideMenu} from './side-menu/SideMenu';

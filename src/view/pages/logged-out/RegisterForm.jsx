@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {nameValidator, passwordValidator, requiredValidator} from 'src/helpers/validators';
 import {SMButton, SMDatePicker, SMForm, SMInput, SMSelect, SMSpinner} from 'src/view/components';
-import {SMConfig} from "src/config";
-import {checkInvitation} from "src/services/invitationsService";
-import {registerUser} from "src/services/authService";
-import {useNavigation, useService, useValidator} from "../../../hooks/common";
+import {SMConfig} from 'src/config';
+import {checkInvitation} from 'src/services/invitationsService';
+import {registerUser} from 'src/services/authService';
+import {useNavigation, useService, useValidator} from '../../../hooks/common';
 
 function RegisterForm(props) {
 
@@ -12,13 +12,13 @@ function RegisterForm(props) {
 
     const [isPending, setIsPending] = useState(false);
 
-    const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator("First"));
-    const [isLastNameValid, , lastNameRule] = useValidator(nameValidator("Last"));
-    const [isBranchValid, , branchRule] = useValidator(nameValidator("Branch"));
-    const [isPositionValid, , positionRule] = useValidator(requiredValidator("Position"));
+    const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator('First'));
+    const [isLastNameValid, , lastNameRule] = useValidator(nameValidator('Last'));
+    const [isBranchValid, , branchRule] = useValidator(nameValidator('Branch'));
+    const [isPositionValid, , positionRule] = useValidator(requiredValidator('Position'));
     const [isPasswordValid, passwordValue, passwordRule] = useValidator(passwordValidator);
     const [isConfirmPassword, confirmPasswordValue, confirmPasswordRule] = useValidator(passwordValidator);
-    const [isDateValid, , dateRule] = useValidator(requiredValidator("Date"));
+    const [isDateValid, , dateRule] = useValidator(requiredValidator('Date'));
 
     const isEntireFormValid = [isFirstNameValid,
         isLastNameValid,
@@ -31,7 +31,7 @@ function RegisterForm(props) {
 
     const navigateTo = useNavigation();
 
-    const [isCompleted, , error] = useService(checkInvitation, token)
+    const [isCompleted, , error] = useService(checkInvitation, token);
 
     if(error){
         navigateTo(SMConfig.routes.login, {
@@ -44,43 +44,43 @@ function RegisterForm(props) {
         registerUser(token, data)
             .then(() => {
                 navigateTo(SMConfig.routes.login, {
-                    success: "User has been added"
-                })
+                    success: 'User has been added'
+                });
             })
             .catch(() => {
                 setIsPending(false);
-            })
+            });
     };
 
     // TODO: Fetch from back end
     const positions = [
-        {value: "SW Engineer"},
-        {value: "Senior SW Engineer"},
-        {value: "Beginner QA Tester"},
-        {value: "QA Tester"},
-        {value: "SQE Analyst"},
-        {value: "Sr. Software Quality Engineer"},
-        {value: "QA Analyst"},
-        {value: "QA lead"},
-        {value: "Team lead"},
-        {value: "Graphic designer"},
-        {value: "technical manager"},
-        {value: "Senior Team lead"},
-        {value: "Project Manager"},
-        {value: "3D modeler"},
-        {value: "UIUX designer"},
-        {value: "SW Architect"}
+        {value: 'SW Engineer'},
+        {value: 'Senior SW Engineer'},
+        {value: 'Beginner QA Tester'},
+        {value: 'QA Tester'},
+        {value: 'SQE Analyst'},
+        {value: 'Sr. Software Quality Engineer'},
+        {value: 'QA Analyst'},
+        {value: 'QA lead'},
+        {value: 'Team lead'},
+        {value: 'Graphic designer'},
+        {value: 'technical manager'},
+        {value: 'Senior Team lead'},
+        {value: 'Project Manager'},
+        {value: '3D modeler'},
+        {value: 'UIUX designer'},
+        {value: 'SW Architect'}
     ];
 
     // TODO: Get from back end
     const branches = [
-        {value: "Vanadzor"},
-        {value: "Erevan"},
-        {value: "Goris"}
+        {value: 'Vanadzor'},
+        {value: 'Erevan'},
+        {value: 'Goris'}
     ];
 
     return (
-        <SMSpinner isLoading={!isCompleted} className='sm-spin' size='large'>
+        <SMSpinner isLoading={!isCompleted} className="sm-spin" size="large">
             <SMForm
                 className="sm-form register-form"
                 items={[
@@ -103,14 +103,14 @@ function RegisterForm(props) {
                     SMSelect({
                         className: 'sm-select',
                         name: 'branchName',
-                        placeholder: "Branch",
+                        placeholder: 'Branch',
                         options: branches,
                         rules: branchRule
                     }),
                     SMSelect({
                         className: 'sm-select',
                         name: 'position',
-                        placeholder: "Position",
+                        placeholder: 'Position',
                         options: positions,
                         rules: positionRule
                     }),
@@ -120,7 +120,7 @@ function RegisterForm(props) {
                         type: 'password',
                         placeholder: 'Password',
                         rules: passwordRule,
-                        autoComplete: 'off',
+                        autoComplete: 'off'
                     }),
                     SMInput({
                         className: 'sm-input sm-input-register',
@@ -128,7 +128,7 @@ function RegisterForm(props) {
                         type: 'password',
                         placeholder: 'Repeat Password',
                         rules: confirmPasswordRule,
-                        autoComplete: 'off',
+                        autoComplete: 'off'
                     }),
                     SMDatePicker({
                         className: 'sm-date-picker',
@@ -147,7 +147,7 @@ function RegisterForm(props) {
                         children: 'Sing up',
                         loading: isPending,
                         disabled: !isEntireFormValid
-                    }),
+                    })
                 ]}
                 onSubmit={handleSubmit}
             />

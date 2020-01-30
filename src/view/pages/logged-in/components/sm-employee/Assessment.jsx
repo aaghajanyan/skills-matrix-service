@@ -1,27 +1,27 @@
 import React from 'react';
 import {SMButton, SMTable} from 'src/view/components';
-import {categories, categorySkills} from './data'
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {fab} from '@fortawesome/free-brands-svg-icons'
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {far} from '@fortawesome/free-regular-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {categories, categorySkills} from './data';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fab} from '@fortawesome/free-brands-svg-icons';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 library.add(fab, far, fas);
 
 function Assessment() {
 
     const comparator = (a, b) => {
-        if (a > b) { return -1; }
-        if (a < b) { return 1; }
+        if(a > b) { return -1; }
+        if(a < b) { return 1; }
         return 0;
     };
 
     const comparatorDate = (a, b) => {
         const date1 = new Date(a);
         const date2 = new Date(b);
-        if (date1 > date2) { return -1; }
-        if (date1 < date2) { return 1; }
+        if(date1 > date2) { return -1; }
+        if(date1 < date2) { return 1; }
         return 0;
     };
 
@@ -30,21 +30,21 @@ function Assessment() {
             title: 'Name',
             dataIndex: 'name',
             width: '33%',
-            sorter: (a, b) => comparator(a.name, b.name),
+            sorter: (a, b) => comparator(a.name, b.name)
 
         },
         {
             title: 'Average',
             dataIndex: 'average',
             width: '33%',
-            sorter: (a, b) => comparator(a.average, b.average),
+            sorter: (a, b) => comparator(a.average, b.average)
         },
         {
-            title: "Date",
-            dataIndex: "date",
+            title: 'Date',
+            dataIndex: 'date',
             width: '33%',
-            sorter: (a, b) => comparatorDate(a.date, b.date),
-        },
+            sorter: (a, b) => comparatorDate(a.date, b.date)
+        }
     ];
 
     const categorySkillsColumns = [
@@ -56,7 +56,7 @@ function Assessment() {
         {
             dataIndex: 'skill',
             width: '15%',
-            sorter: (a, b) => comparator(a.skill, b.skill),
+            sorter: (a, b) => comparator(a.skill, b.skill)
         },
         {
             title: 'Assessment',
@@ -65,10 +65,10 @@ function Assessment() {
             width: '20%'
         },
         {
-            title: "Date",
-            dataIndex: "date",
+            title: 'Date',
+            dataIndex: 'date',
             width: '20%',
-            sorter: (a, b) => comparatorDate(a.date, b.date),
+            sorter: (a, b) => comparatorDate(a.date, b.date)
         },
         {
             title: 'Categories',
@@ -76,13 +76,13 @@ function Assessment() {
             width: '30%'
         },
         {
-            title: "",
-            dataIndex: "operation",
+            title: '',
+            dataIndex: 'operation',
             render: (text, record) =>
                 categorySkills.length >= 1 ? (
-                    <div style={{ cursor: 'not-allowed', opacity: '0.5', width: '100px', paddingLeft: '45px' }}>
-                        <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{ width: '20px', height: '20px' }} /> </span>
-                        <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{ width: '20px', height: '20px', marginLeft: '10px' }} /> </span>
+                    <div style={{cursor: 'not-allowed', opacity: '0.5', width: '100px', paddingLeft: '45px'}}>
+                        <span> <FontAwesomeIcon icon={['fas', 'pencil-alt']} style={{width: '20px', height: '20px'}} /> </span>
+                        <span> <FontAwesomeIcon icon={['far', 'trash-alt']} style={{width: '20px', height: '20px', marginLeft: '10px'}} /> </span>
                         {/*
                 //TODO check if current user is admin
                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
@@ -96,19 +96,19 @@ function Assessment() {
 
     return (
         <React.Fragment>
-            <div className='sm-component'>
-                <h3 className='sm-subheading'>Categories</h3>
+            <div className="sm-component">
+                <h3 className="sm-subheading">Categories</h3>
                 <SMTable
-                    className='sm-table'
+                    className="sm-table"
                     columns={categoriesColumns}
                     dataSource={categories}
                     pagination={false}
                 />
             </div>
-            <div className='sm-component'>
-                <div className='skills-table-header'>
-                    <h3 className='sm-subheading' >All Skills</h3>
-                    <SMButton className='sm-button'> Add Skill </SMButton>
+            <div className="sm-component">
+                <div className="skills-table-header">
+                    <h3 className="sm-subheading" >All Skills</h3>
+                    <SMButton className="sm-button"> Add Skill </SMButton>
                 </div>
                 <SMTable
                     className="sm-table"
@@ -121,4 +121,4 @@ function Assessment() {
     );
 }
 
-export { Assessment };
+export {Assessment};

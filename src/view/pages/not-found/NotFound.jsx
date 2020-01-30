@@ -3,7 +3,7 @@ import {Col, Layout, Row} from 'antd';
 import not_found_404 from 'src/assets/images/404.png';
 import logo from 'src/assets/images/instigate.svg';
 
-const { Header, Content } = Layout;
+const {Header, Content} = Layout;
 
 function NotFound() {
     return (
@@ -20,7 +20,7 @@ function NotFound() {
                 </Row>
             </Content>
         </Layout>
-    )
+    );
 }
 
-export { NotFound };
+export {NotFound};

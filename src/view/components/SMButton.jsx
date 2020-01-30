@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from 'antd';
+import {Button} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMButton(props) {
-    return <Button {...props}> {props.children} </Button>
+    return <Button {...props}> {props.children} </Button>;
 }
 
 SMButton.propTypes = {
@@ -19,4 +19,4 @@ SMButton.propTypes = {
     target: PropTypes.string
 };
 
-export { SMButton };
+export {SMButton};

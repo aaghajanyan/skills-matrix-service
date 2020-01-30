@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {emailValidator} from 'src/helpers/validators';
-import {EmployeesTable} from 'src/view/pages/logged-in/components'
+import {EmployeesTable} from 'src/view/pages/logged-in/components';
 import {SMUserBar} from '../components';
-import {SMConfig} from 'src/config'
+import {SMConfig} from 'src/config';
 import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification} from 'src/view/components';
-import {sendInvitation} from "src/services/invitationsService";
-import {getUsers} from "src/services/usersService";
-import {useValidator} from "../../../../hooks/common";
+import {sendInvitation} from 'src/services/invitationsService';
+import {getUsers} from 'src/services/usersService';
+import {useValidator} from '../../../../hooks/common';
 
 
 function Employees(props) {
@@ -24,16 +24,16 @@ function Employees(props) {
         sendInvitation(email)
             .then(() => {
                 setLoading(false);
-                SMNotification('success', SMConfig.messages.invitations.sendInvitation.success)
+                SMNotification('success', SMConfig.messages.invitations.sendInvitation.success);
             })
             .catch(error => {
                 setLoading(false);
-                if(error.message === "Network Error"){
+                if(error.message === 'Network Error'){
                     SMNotification('error', messages.noConnection);
                 }
-                if (error.response) {
-                    if (error.response.status === 409) {
-                        SMNotification('error', SMConfig.messages.invitations.sendInvitation.error)
+                if(error.response) {
+                    if(error.response.status === 409) {
+                        SMNotification('error', SMConfig.messages.invitations.sendInvitation.error);
                     }
                 }
             });
@@ -45,7 +45,7 @@ function Employees(props) {
     };
 
     const openModal = () => {
-        setVisible(true)
+        setVisible(true);
     };
 
     useEffect(() => {
@@ -56,30 +56,30 @@ function Employees(props) {
                     user.avatar = (<SMUserBar
                         firstName={user.fname}
                         lastName={user.lname}
-                        size='medium'
+                        size="medium"
                     />);
                     return user;
                 });
-                setUsers(users)
+                setUsers(users);
             })
             .catch(() => {
-                setUsers([])
-            })
+                setUsers([]);
+            });
     }, []);
 
     return (
         <div className="employees-content sm-content">
-            <div className='employees_send-invitation-container'>
+            <div className="employees_send-invitation-container">
                 <SMButton
-                    className='sm-button'
+                    className="sm-button"
                     onClick={openModal}
                     loading={loading}
                 >
-                    { loading ? "Sending" : "Send"} invitation email
+                    { loading ? 'Sending' : 'Send'} invitation email
                 </SMButton>
             </div>
             <EmployeesTable
-                className='sm-table sm-component'
+                className="sm-table sm-component"
                 history={props.history}
                 loading={users === null}
                 showHeader={true}
@@ -89,9 +89,9 @@ function Employees(props) {
             </EmployeesTable>
 
             <SMModal
-                className='add-employ-modal'
+                className="add-employ-modal"
                 title={
-                    <h3 className='sm-subheading'>
+                    <h3 className="sm-subheading">
                         Send invitation email
                     </h3>
                 }
@@ -100,18 +100,18 @@ function Employees(props) {
                 onCancel={handleCancel}
                 footer={[
                     <SMButton
-                        className='sm-link'
-                        key='cancel'
-                        type='link'
+                        className="sm-link"
+                        key="cancel"
+                        type="link"
                         href={SMConfig.routes.employees}
                         onClick={handleCancel}
                     >
                         Cancel
                     </SMButton>,
                     <SMButton
-                        className='sm-button'
-                        key='ok'
-                        type='primary'
+                        className="sm-button"
+                        key="ok"
+                        type="primary"
                         onClick={handleOk}
                         disabled={!isEmailValid}
                     >
@@ -129,13 +129,13 @@ function Employees(props) {
                             rules: emailRule,
                             prefix: (
                                 <SMIcon
-                                    className='sm-icon-grey'
-                                    iconType='fas'
-                                    icon='envelope'
+                                    className="sm-icon-grey"
+                                    iconType="fas"
+                                    icon="envelope"
                                 />
                             ),
-                            autoComplete: 'username',
-                        }),
+                            autoComplete: 'username'
+                        })
                     ]}
                 />
             </SMModal>

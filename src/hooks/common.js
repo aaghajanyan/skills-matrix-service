@@ -1,6 +1,6 @@
-import {useHistory} from "react-router-dom"
-import {SMNotification} from "../view/components";
-import {useEffect, useState} from "react";
+import {useHistory} from 'react-router-dom';
+import {SMNotification} from '../view/components';
+import {useEffect, useState} from 'react';
 
 
 export const useNavigation = () => {
@@ -8,30 +8,30 @@ export const useNavigation = () => {
     const history = useHistory();
 
     return (path, {error, success}) => {
-        if (error) {
-            SMNotification("error", {message: error})
-        } else if (success) {
-            SMNotification("success", {message: success})
+        if(error) {
+            SMNotification('error', {message: error});
+        } else if(success) {
+            SMNotification('success', {message: success});
         }
-        history.push(path)
-    }
+        history.push(path);
+    };
 };
 
 export const useValidator = (validator) => {
 
     const [isValid, setIsValid] = useState(false);
 
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState('');
 
-    const rule = { rules: [{ validator: (rule, value, callback) =>  validator(rule, value, (e)=> {
-                if(e) {
-                    setIsValid(false);
-                }else {
-                    setIsValid(true);
-                    callback();
-                }
-                setValue(value);
-            })}] };
+    const rule = {rules: [{validator: (rule, value, callback) => validator(rule, value, (e) => {
+        if(e) {
+            setIsValid(false);
+        } else {
+            setIsValid(true);
+            callback();
+        }
+        setValue(value);
+    })}]};
 
     return [isValid, value, rule.rules];
 };
@@ -47,9 +47,9 @@ export const useService = (service, ...args) => {
         if(!error && !data){
             setLoading(true);
             service(...args)
-                .then(data=> setData(data))
+                .then(data => setData(data))
                 .catch(error => setError(error))
-                .finally(() => setLoading(false))
+                .finally(() => setLoading(false));
         }
     }, [service, args, error, data]);
 

@@ -8,10 +8,10 @@ function SMSpinner({isLoading, children, className, size}) {
         <Spin className={className} size={size} spinning={isLoading} >
             {children}
         </Spin>
-    )
+    );
 }
 
-export { SMSpinner }
+export {SMSpinner};
 
 SMSpinner.propTypes = {
     isLoading: PropTypes.bool,

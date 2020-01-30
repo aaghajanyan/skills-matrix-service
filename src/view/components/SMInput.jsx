@@ -3,7 +3,7 @@ import {Input} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMInput(props) {
-    return props.type === "password"? (<Input.Password  {...props}/>): <Input   {...props}/>
+    return props.type === 'password'? (<Input.Password {...props}/>): <Input {...props}/>;
 }
 
 SMInput.propTypes = {
@@ -15,7 +15,7 @@ SMInput.propTypes = {
     placeholder: PropTypes.string,
     rules: PropTypes.arrayOf(PropTypes.object),
     prefix: PropTypes.element,
-    autoComplete: PropTypes.string,
+    autoComplete: PropTypes.string
 };
 
-export { SMInput };
+export {SMInput};

@@ -1,18 +1,18 @@
-import {SMConfig} from "src/config";
-import {head, post} from "./client";
+import {SMConfig} from 'src/config';
+import {head, post} from './client';
 
 
 const checkInvitation = (token) => {
     const options = {
-        url: `${SMConfig.apiEndpoints.invitations}/${token}`,
+        url: `${SMConfig.apiEndpoints.invitations}/${token}`
     };
-    return head(options)
+    return head(options);
 };
 
 const sendInvitation = (email) => {
     const options = {
         url: SMConfig.apiEndpoints.invitations,
-        data: { email }
+        data: {email}
     };
     return post(options);
 };

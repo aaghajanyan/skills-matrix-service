@@ -1,9 +1,9 @@
 import React from 'react';
 import {SMMenu} from 'src/view/components';
-import {useHistory} from "react-router-dom"
+import {useHistory} from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {onMenuItemSelect} from "../";
+import {onMenuItemSelect} from '../';
 
 export function SideMenu(props) {
 

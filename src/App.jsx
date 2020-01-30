@@ -16,12 +16,12 @@ import {
 import {SMEmployee} from 'src/view/pages/logged-in/components';
 
 
-import {ErrorBoundary} from "src/view/components/ErrorBoundary";
+import {ErrorBoundary} from 'src/view/components/ErrorBoundary';
 
 import store from 'src/store';
 
 import './App.scss';
-import {SMConfig} from "./config";
+import {SMConfig} from './config';
 
 
 class App extends Component {
@@ -44,18 +44,18 @@ class App extends Component {
                             <PrivateRoute exact path={this.routes.home} component={Home} />
                             <PrivateRoute exact path={this.routes.employees} component={Employees} />
                             <PrivateRoute exact path={`${this.routes.employees}/:id`} component={SMEmployee} />
-                            <PrivateRoute path={this.routes.findEmployees}  component={Search} />
-                            <PrivateRoute exact path={this.routes.branches}  component={Branches} />
-                            <PrivateRoute exact path={this.routes.categories}  component={Categories} />
-                            <PrivateRoute exact path={this.routes.skills}  component={Skills} />
+                            <PrivateRoute path={this.routes.findEmployees} component={Search} />
+                            <PrivateRoute exact path={this.routes.branches} component={Branches} />
+                            <PrivateRoute exact path={this.routes.categories} component={Categories} />
+                            <PrivateRoute exact path={this.routes.skills} component={Skills} />
                             <PrivateRoute exact path={this.routes.settings} component={Settings} />
                             <Route path="**" component={NotFound} />
                         </Switch>
-                     </Router>
+                    </Router>
                 </Provider>
             </ErrorBoundary>
         );
     }
 }
 
-export { App };
+export {App};

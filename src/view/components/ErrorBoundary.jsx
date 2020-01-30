@@ -1,5 +1,5 @@
-import * as React from "react";
-import {Modal} from "antd";
+import * as React from 'react';
+import {Modal} from 'antd';
 
 class ErrorBoundary extends React.Component {
     state = {
@@ -11,32 +11,32 @@ class ErrorBoundary extends React.Component {
         this.setState({
             error: error,
             errorInfo: errorInfo
-        })
+        });
     }
 
     handleError = () => {
-        window.location.href = "/"
+        window.location.href = '/';
     };
 
 
     render() {
-        if (this.state.error !== null) {
+        if(this.state.error !== null) {
             let timeout = 5;
             const errorModal = Modal.error({
                 title: 'Something went wrong',
-                okText: "Reload immediately",
+                okText: 'Reload immediately',
                 onOk: this.handleError
             });
             const interval = setInterval(() => {
                 errorModal.update( {
-                    content: `This page will be reloaded after ${ timeout-- }s`,
+                    content: `This page will be reloaded after ${timeout--}s`
                 });
                 if(timeout < 1){
                     errorModal.update( {
-                        visible: false,
+                        visible: false
                     });
                     clearInterval(interval);
-                    this.handleError()
+                    this.handleError();
                 }
             }, 1000);
 
@@ -47,4 +47,4 @@ class ErrorBoundary extends React.Component {
 }
 
 
-export {ErrorBoundary}
+export {ErrorBoundary};
