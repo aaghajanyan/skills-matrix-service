@@ -1,6 +1,6 @@
 const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
-const replaceAll = require('../helper/recursiveReplace');
+const {replaceAll, replaceAllAndDeleteSpaces} = require('../helper/recursiveReplace');
 const logger = require('../helper/logger');
 
 class SearchUser {
@@ -21,25 +21,22 @@ class SearchUser {
             ${Constants.ViewQueries.WHERE} ${
     collectedSqlComand.currSqlStr
 });`;
+        sqlCommand = replaceAllAndDeleteSpaces(sqlCommand, '()', '');
         sqlCommand = sqlCommand
             .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
             .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
-            .replace(/and \(\)/g, '')
-            .replace(/or \(\)/g, '')
-            .replace(/and \)/g, '\)')
-            .replace(/or \)/g, '\)');
+            .replace(/and \(\)|or \(\)|/g, '')
+            .replace(/and \)|or \)/g, '\)')
+            .replace(/\( and|\( or/g, '\(')
         sqlCommand = sqlCommand.replace(/  +/g, ' ');
         sqlCommand = sqlCommand.replace(new RegExp(/\s?\([ ]+\)/, 'g'), '()');
         sqlCommand = sqlCommand.replace(/  +/g, ' ');
-        sqlCommand = sqlCommand.replace(/\(\) and|\( \) and/, '');
-        // sqlCommand = replaceAll(sqlCommand, '() and', '');
+        // sqlCommand = sqlCommand.replace(/\(\) and|\( \) and/, '');
+        sqlCommand = replaceAll(sqlCommand, '() and', '');
         sqlCommand = replaceAll(sqlCommand, '() or', '');
         sqlCommand = replaceAll(sqlCommand, '()', '');
         return sqlCommand;
     }
-
-
-
 
     validateSchema(callBack, data) {
         let errorMsg = callBack(data);

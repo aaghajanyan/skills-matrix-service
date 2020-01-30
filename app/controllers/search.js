@@ -57,6 +57,7 @@ const validateFinallyObject = (sqlCmd) => {
 module.exports.searchUsers = async (request, response, next) => {
     try {
         const decodedQueryObj = await decodeQuery(request.params.search_query);
+
         if(decodedQueryObj.error) {
             next(new CustomError(BAD_REQUEST, decodedQueryObj.message));
             return;
@@ -67,6 +68,7 @@ module.exports.searchUsers = async (request, response, next) => {
             next(new CustomError());
             return;
         }
+
         const sqlCmd = searchUser.collectSearchQuery(decodedQueryObj.decodedQueryJson);
         const finallyObjValidResult = await validateFinallyObject(sqlCmd);
         if(!finallyObjValidResult.success) {
