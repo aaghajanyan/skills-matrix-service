@@ -66,14 +66,14 @@ export default function SearchTree(props) {
     const [loadInitValue, setLoadInitValue] = useState(getDefaultValue());
 
     const handleClickAddGroup = () => {
-        loadInitValue.childrens = {...loadInitValue.childrens, [uuid()]: groups};
+        loadInitValue.childrens = Object.assign(loadInitValue.childrens, {[uuid()]: groups});
 
         dispatch(getSearchParams(loadInitValue));
         setLoadInitValue({...loadInitValue});
     };
 
     const handleClickAddCriteria = () => {
-        loadInitValue.childrens = {...loadInitValue.childrens, [uuid()]: rules};
+        loadInitValue.childrens =  Object.assign(loadInitValue.childrens, {[uuid()]: rules});
 
         setLoadInitValue({...loadInitValue});
     };

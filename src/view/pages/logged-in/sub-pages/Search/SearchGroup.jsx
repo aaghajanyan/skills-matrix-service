@@ -24,12 +24,12 @@ function SearchGroup(props) {
     const [groupData, setGroupData] = useState(props.defaultProperties);
 
     const handleClickAddCriteria = () => {
-        groupData.childrens = {...groupData.childrens, [uuid()]: rules};
+        groupData.childrens = Object.assign(groupData.childrens, {[uuid()]: rules});
         setGroupData({...groupData});
     };
 
     const handleClickAddGroup = () => {
-        groupData.childrens = {...groupData.childrens, [uuid()]: groups};
+        groupData.childrens = Object.assign(groupData.childrens, {[uuid()]: groups});
         setGroupData({...groupData});
     };
 
