@@ -1,6 +1,6 @@
 const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
-const replaceAll = require('../helper/recursiveReplace');
+const replaceAllByList = require('../helper/recursiveReplace');
 const logger = require('../helper/logger');
 
 class SearchUser {
@@ -18,23 +18,13 @@ class SearchUser {
         }
         let sqlCommand =
             `${Constants.ViewQueries.SELECT_ALL_FROM} ${Constants.ViewQueries.UNIQUE_VIEW_NAME} \
-            ${Constants.ViewQueries.WHERE} ${
-    collectedSqlComand.currSqlStr
-});`;
-        sqlCommand = replaceAll(sqlCommand, '()', '', true);
+            ${Constants.ViewQueries.WHERE} ${collectedSqlComand.currSqlStr});`;
+        sqlCommand = sqlCommand.replace(/  +/g, ' ');
         sqlCommand = sqlCommand
             .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
-            .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
-            .replace(/and \(\)|or \(\)|/g, '')
-            .replace(/and \)|or \)/g, '\)')
-            .replace(/\( and|\( or/g, '\(')
-        sqlCommand = sqlCommand.replace(/  +/g, ' ');
-        sqlCommand = sqlCommand.replace(new RegExp(/\s?\([ ]+\)/, 'g'), '()');
-        sqlCommand = sqlCommand.replace(/  +/g, ' ');
-        // sqlCommand = sqlCommand.replace(/\(\) and|\( \) and/, '');
-        sqlCommand = replaceAll(sqlCommand, '() and', '');
-        sqlCommand = replaceAll(sqlCommand, '() or', '');
-        sqlCommand = replaceAll(sqlCommand, '()', '');
+            .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`);
+        sqlCommand = replaceAllByList(sqlCommand, ['() and', '() or', '( ) and', '( ) or', 'and ()', 'or ()', 'and ( )', 'or ( )'], '');
+        sqlCommand = replaceAllByList(sqlCommand, ['and )', 'or )'], ')');
         return sqlCommand;
     }
 

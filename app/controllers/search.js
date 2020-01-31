@@ -88,6 +88,7 @@ module.exports.searchUsers = async (request, response, next) => {
             result: foundUsers
         });
     } catch(error) {
+        console.log(error)
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
