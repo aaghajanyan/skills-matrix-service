@@ -1,6 +1,6 @@
 const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
-const {replaceAll, replaceAllAndDeleteSpaces} = require('../helper/recursiveReplace');
+const replaceAll = require('../helper/recursiveReplace');
 const logger = require('../helper/logger');
 
 class SearchUser {
@@ -21,7 +21,7 @@ class SearchUser {
             ${Constants.ViewQueries.WHERE} ${
     collectedSqlComand.currSqlStr
 });`;
-        sqlCommand = replaceAllAndDeleteSpaces(sqlCommand, '()', '');
+        sqlCommand = replaceAll(sqlCommand, '()', '', true);
         sqlCommand = sqlCommand
             .replace(new RegExp(`${Constants.Condition.and}  ${Constants.Condition.and}`, 'g'), `${Constants.Condition.and}`)
             .replace(new RegExp(`${Constants.Condition.or}  ${Constants.Condition.or}`, 'g'), `${Constants.Condition.or}`)
