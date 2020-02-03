@@ -13,6 +13,7 @@ function SMSkillBar({className, icon, style, name, onClick}) {
 
     const colorCodeMaker = () => Math.floor(100000 + Math.random() * 900000);
 
+    // TODO use SMIcon
     return (
         <div className={classNames('sm-skill-bar', className, onClick ? 'pointer': '')} >
             <FontAwesomeIcon icon={icon} style={style}/>

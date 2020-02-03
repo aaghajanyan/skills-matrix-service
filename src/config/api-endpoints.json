@@ -4,5 +4,8 @@
     "login": "/users/login",
     "invitations": "/invitations",
     "forgotPassword": "/forgot_password",
-    "skills": "/skills/all"
+    "skills": "/skills/all",
+    "categories": "/categories/all",
+    "addSkills": "/skills",
+    "branches": "/branch"
 }

@@ -18,15 +18,12 @@ function SkillsTable(props) {
 
     const dispatch = useDispatch()
 
-    console.log("010101010101", props.skillsLists)
-    console.log("030303030303", props)
-    console.log("020202022002", props.column)
     return (
         <React.Fragment>
             <div className="sm-component">
                 <div className="skills-table-header">
                     <h3 className="sm-subheading" >All Skills</h3>
-                    <SMButton className="sm-button"> Add Skill </SMButton>
+                    {/* <SMButton className="sm-button"> Add Skill </SMButton> */}
                 </div>
                 <SMTable
                     className="sm-table"

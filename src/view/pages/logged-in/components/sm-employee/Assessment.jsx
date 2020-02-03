@@ -78,6 +78,7 @@ function Assessment() {
         {
             title: '',
             dataIndex: 'operation',
+            // TODO use SMIcon
             render: (text, record) =>
                 categorySkills.length >= 1 ? (
                     <div style={{cursor: 'not-allowed', opacity: '0.5', width: '100px', paddingLeft: '45px'}}>

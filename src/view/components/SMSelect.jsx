@@ -16,7 +16,7 @@ function SMSelect({options, ...restProps}) {
     };
 
     return (
-        <Select {...restProps}>
+        <Select mode={restProps.mode} {...restProps}>
             {renderOptions(options)}
         </Select>
     );
@@ -31,7 +31,8 @@ SMSelect.propTypes = {
     rules: PropTypes.arrayOf(PropTypes.object),
     options: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.string
-    }))
+    })),
+    mode: PropTypes.string
 };
 
 

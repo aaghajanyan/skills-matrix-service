@@ -29,6 +29,20 @@
             "message": "Invalid invitation URL"
         }
     },
+    "skills": {
+        "addSkill": {
+            "success": {
+                "message": "Skill added successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not add skill."
+            }
+        },
+        "nonexistentInvitation": {
+            "message": "Invalid invitation URL"
+        }
+    },
     "singIn": {
         "error": "Email or password is incorrect"
     },
