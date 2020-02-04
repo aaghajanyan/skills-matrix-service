@@ -1,13 +1,13 @@
-const getSkills = (data) => {
+const addSkill = (data) => {
     return {
-        type: 'GET_SKILLS',
+        type: 'ADD_SKILLS',
         payload: data
     }
 }
 
-const addSkill = (data) => {
+const updateSkill = (data) => {
     return {
-        type: 'ADD_SKILL',
+        type: 'UPDATE_SKILL',
         payload: data
     }
 }
@@ -20,7 +20,7 @@ const deleteSkill = (id) => {
 }
 
 export {
-    getSkills,
     addSkill,
+    updateSkill,
     deleteSkill
 }

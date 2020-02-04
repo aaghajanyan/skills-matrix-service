@@ -2,14 +2,9 @@ import {SMConfig} from 'src/config';
 import {get} from './client';
 
 
-const getCategories = async () => {
+const getCategoriesData = async () => {
     return get({url: `${SMConfig.apiEndpoints.categories}`})
-        .then(result => {
-            return result.data;
-        })
-        .catch(error => {
-            console.warn('Handle error', error);
-        });
+        .then(result => result.data);
 };
 
-export {getCategories};
+export {getCategoriesData};

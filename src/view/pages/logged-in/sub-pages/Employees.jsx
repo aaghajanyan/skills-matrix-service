@@ -103,7 +103,6 @@ function Employees(props) {
                         className="sm-link"
                         key="cancel"
                         type="link"
-                        href={SMConfig.routes.employees}
                         onClick={handleCancel}
                     >
                         Cancel

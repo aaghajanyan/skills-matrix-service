@@ -5,6 +5,7 @@ import {PropTypes} from 'prop-types';
 const {Option} = Select;
 
 function SMSelect({options, ...restProps}) {
+
     const renderOptions = options => {
         return options.map(option => {
             return (

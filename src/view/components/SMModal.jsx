@@ -16,7 +16,11 @@ SMModal.propTypes = {
     visible: PropTypes.bool,
     onOk: PropTypes.func,
     onCancel: PropTypes.func,
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.arrayOf(element),
+    ]),
+    // children: PropTypes.element,
     footer: PropTypes.arrayOf(element)
 };
 

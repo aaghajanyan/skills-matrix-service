@@ -1,17 +1,15 @@
-
-
-
 const skills = (state = [], action) => {
     switch(action.type) {
-        case 'GET_SKILLS':
+        case 'ADD_SKILLS':
             return [...action.payload]
-        case 'ADD_SKILL':
+        case 'UPDATE_SKILL':
             return [...state, action.payload];
         case 'DELETE_SKILL':
-            return {
-                ...state,
-                ...action.payload
-            }
+            return state.filter(item => item.name !== action.payload)
+            // return {
+            //     ...state,
+            //     ...action.payload
+            // }
         default:
             return state;
     }

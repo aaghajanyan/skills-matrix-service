@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Form} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMFormInitial(props) {
-    const {getFieldDecorator} = props.form;
+    const {getFieldDecorator, resetFields} = props.form;
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -13,6 +13,10 @@ function SMFormInitial(props) {
             }
         });
     };
+
+    useEffect(() => {
+        !props.resetValues  ? resetFields() : null;
+    }, [props.resetValues]);
 
     const renderFormItems = () => {
         return props.items && props.items.map(item => {
@@ -63,5 +67,6 @@ export {SMForm};
 SMFormInitial.propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.node),
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    resetValues: PropTypes.bool
 };

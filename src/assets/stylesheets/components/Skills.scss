@@ -4,3 +4,23 @@
     margin-right: 1%;
     margin-bottom: 20px;
 }
+
+.sm-select_skill > div {
+    height: auto;
+    & > div {
+        padding: 5px 3px 5px 3px;
+    }
+}
+
+.add-skill-container {
+    display: flex;
+}
+
+.category-refresh {
+    margin-top: 15%;
+    margin-right: 15px;
+}
+
+.add-skill-form {
+    width: 81%;
+}

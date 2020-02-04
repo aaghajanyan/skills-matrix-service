@@ -4,12 +4,7 @@ import {get} from './client';
 
 const getBranches = async () => {
     return get({url: `${SMConfig.apiEndpoints.branches}`})
-        .then(result => {
-            return result.data;
-        })
-        .catch(error => {
-            console.warn('Handle error', error);
-        });
+        .then(result => result.data)
 };
 
 export {getBranches};

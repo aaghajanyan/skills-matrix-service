@@ -2,6 +2,7 @@ import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import searchReducer from './reducers/searchReducer';
 import userReducer from './reducers/userReducer';
 import skillReducer from './reducers/skillReducer';
+import categoryReducer from './reducers/categoryReducer';
 import thunk from 'redux-thunk';
 
 const composeEnhancers = process.env.NODE_ENV !== 'production' &&
@@ -11,7 +12,7 @@ const composeEnhancers = process.env.NODE_ENV !== 'production' &&
     }) : compose;
 
 const enhancer = composeEnhancers( applyMiddleware(thunk) );
-const reducers = combineReducers({search: searchReducer, user: userReducer, skill: skillReducer});
+const reducers = combineReducers({search: searchReducer, user: userReducer, skill: skillReducer, category: categoryReducer});
 
 const store = createStore(reducers, enhancer);
 export default store;
