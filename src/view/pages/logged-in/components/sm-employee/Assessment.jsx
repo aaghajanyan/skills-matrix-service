@@ -6,10 +6,11 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Tag} from 'antd'; //TODO : move to common components
 
 library.add(fab, far, fas);
 
-function Assessment() {
+function Assessment(props) {
 
     const comparator = (a, b) => {
         if(a > b) { return -1; }
@@ -94,6 +95,58 @@ function Assessment() {
         }
     ];
 
+    const categories = () => {
+        if(!props.dashboard){
+            return [];
+        }
+        const categories = props.dashboard.categoriesUsers.map( (category, index) => {
+            return ({
+                key: index,
+                name: category.name,
+                average: category.average,
+                date: category.last_worked_date
+            });
+        });
+
+        return categories;
+    };
+
+    const allSkills = () => {
+        if(!props.dashboard){
+            return [];
+        }
+        const needToImproveSort = props.dashboard.needToImproveSort.reverse();
+
+        const skills = props.dashboard.topSkilsSort.map( (skill, index) => {
+            return ({
+                key: index,
+                icon: <FontAwesomeIcon icon={['fab', skill.icon]} style={{width: '30px', height: '30px'}} />,
+                skill: skill.name,
+                assesment: skill.experience,
+                date: skill.last_worked_date,
+                categories: [
+                    <Tag key="1" color="volcano" className="sm-tag">{skill.categories}</Tag>,
+                ]
+            });
+        });
+
+        needToImproveSort.map( (skill, index) => {
+            skills.push({
+                key: index + props.dashboard.topSkilsSort.length,
+                icon: <FontAwesomeIcon icon={['fab', skill.icon]} style={{width: '30px', height: '30px'}} />,
+                skill: skill.name,
+                assesment: skill.experience,
+                date: skill.last_worked_date,
+                categories: [
+                    <Tag key="1" color="volcano" className="sm-tag">{skill.categories}</Tag>,
+                ]
+            })
+        });
+
+        return skills;
+    };
+
+
     return (
         <React.Fragment>
             <div className="sm-component">
@@ -101,7 +154,7 @@ function Assessment() {
                 <SMTable
                     className="sm-table"
                     columns={categoriesColumns}
-                    dataSource={categories}
+                    dataSource={categories()}
                     pagination={false}
                 />
             </div>
@@ -113,7 +166,7 @@ function Assessment() {
                 <SMTable
                     className="sm-table"
                     columns={categorySkillsColumns}
-                    dataSource={categorySkills}
+                    dataSource={allSkills()}
                     pagination={false}
                 />
             </div>

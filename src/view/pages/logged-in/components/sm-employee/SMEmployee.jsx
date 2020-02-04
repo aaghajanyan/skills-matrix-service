@@ -4,6 +4,7 @@ import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {Summary} from 'src/view/pages/logged-in/components/sm-employee/Summary';
 import {Assessment} from 'src/view/pages/logged-in/components/sm-employee/Assessment';
 import {getUser} from 'src/services/usersService';
+import {getDashboardInfo} from 'src/services/dashboardService';
 import {SMTabs} from 'src/view/components';
 function SMEmployeeInitial(props) {
 
@@ -13,6 +14,8 @@ function SMEmployeeInitial(props) {
         fname:'',
         lname:''
     });
+
+    const [dashboardInfo, setDashboardInfo] = useState(null);
 
     const userIsDefined = () => user.fname !== '' && user.lname !== '';
 
@@ -27,6 +30,14 @@ function SMEmployeeInitial(props) {
                     setUser(fetchUser);
                 })
                 .catch(error => {
+                    console.warn('Handle error', error);
+                });
+        }
+        if(dashboardInfo === null){
+            getDashboardInfo()
+               .then(dashboardInfo => {
+                    setDashboardInfo(dashboardInfo);
+                }) .catch(error => {
                     console.warn('Handle error', error);
                 });
         }
@@ -49,8 +60,8 @@ function SMEmployeeInitial(props) {
                 </div>)
             }
         >
-            <Summary key="Summary"/>
-            <Assessment key="Assessment"/>
+            <Summary dashboard={dashboardInfo} key="Summary"/>
+            <Assessment dashboard={dashboardInfo} key="Assessment"/>
             <div key="History"><h1> History </h1></div>
             <div key="About"><h1> About </h1></div>
         </SMTabs>

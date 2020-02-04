@@ -5,14 +5,58 @@ import {summary} from './data';
 
 function Summary(props) {
 
+    const topSkills = () => {
+        if(!props.dashboard){
+            return [];
+        }
+        const skills = props.dashboard.topSkilsSort.map( (skill) => {
+            return ({
+                icon: skill.icon,
+                skill: skill.name,
+                mark: skill.experience,
+            });
+        });
+
+        return skills;
+    };
+
+    const needToImproveSkills = () => {
+        if(!props.dashboard){
+            return [];
+        }
+        const skills = props.dashboard.needToImproveSort.map( (skill) => {
+            return ({
+                icon: skill.icon,
+                skill: skill.name,
+                mark: skill.experience,
+            });
+        });
+
+        return skills;
+    };
+
+    const similarUsers = () => {
+        if(!props.dashboard){
+            return [];
+        }
+        const users = props.dashboard.getSimilarUsers.map( (user) => {
+            return ({
+                firstName: user.fname,
+                lastName: user.lname,
+            });
+        });
+
+        return users;
+    };
+
     return (
         <React.Fragment>
             <SMChart className="sm-component" data={summary.chartData} width={800} height={200} keys={summary.chartKeys}/>
             <div className="sm-tabs_component-container" >
-                <SkillsList className="sm-component" title="Top Skills" data={summary.topSkills} />
-                <SkillsList className="sm-component" title="Need To Improve" data={summary.needToImprove} />
+                <SkillsList className="sm-component" title="Top Skills" data={topSkills()} />
+                <SkillsList className="sm-component" title="Need To Improve" data={needToImproveSkills()} />
                 <SkillsList className="sm-component" title="Top Interests" data={summary.topInterests} />
-                <SkillsList className="sm-component" title="People With Similar Skills" data={summary.peopleWithSimilarSkills} isUsers={true} />
+                <SkillsList className="sm-component" title="People With Similar Skills" data={similarUsers()} isUsers={true} />
             </div>
         </React.Fragment>
     );

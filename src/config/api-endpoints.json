@@ -3,5 +3,6 @@
     "getUsers": "/users",
     "login": "/users/login",
     "invitations": "/invitations",
-    "forgotPassword": "/forgot_password"
+    "forgotPassword": "/forgot_password",
+    "dashboard": "/dashboard"
 }
