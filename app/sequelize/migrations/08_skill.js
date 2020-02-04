@@ -19,6 +19,11 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
+            icon: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.STRING,
+            },
         });
     },
     down: queryInterface => queryInterface.dropTable(Constants.TableNames.Skills),

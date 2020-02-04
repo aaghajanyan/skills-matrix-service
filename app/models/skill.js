@@ -75,6 +75,7 @@ class Skill {
                     return {
                         id: skill.id,
                         name: skill.name,
+                        icon: skill.icon,
                         categoryGuid: category.guid,
                         categoryName: category.name,
                         skillRelationId: skillRelation[0].id,

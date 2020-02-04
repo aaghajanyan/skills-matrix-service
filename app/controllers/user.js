@@ -93,3 +93,13 @@ module.exports.login = async (request, response) => {
         return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.internalServerError(Constants.Controllers.Users.COULD_NOT_LOGIN));
     }
 };
+
+module.exports.getCurrentUser = async (request, response) => {
+    try {
+        const token = request.header("Authorization").split('Bearer ')[1];
+        const user = await User.getByGuid(jwt.decode(token).guid);
+        response.status(200).json(user);
+    } catch (err) {
+        response.status(404).send("User is not found");
+    }
+};

@@ -7,12 +7,14 @@ const addBodySchema = Joi.object().keys({
         .items(Joi.string().uuid())
         .unique()
         .required(),
+    icon: Joi.string().required(),
 });
 const updateBodySchema = Joi.object().keys({
     name: Joi.string(),
     addCategories: Joi.array()
         .items(Joi.string().uuid())
         .unique(),
+    icon: Joi.string(),
     deleteCategories: Joi.array()
         .items(Joi.string().uuid())
         .unique(),

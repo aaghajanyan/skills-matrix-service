@@ -19,6 +19,17 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
+            icon: {
+                type: DataTypes.STRING,
+                allowNull: {
+                    args: false,
+                    msg: Constants.ModelErrors.NAME_IS_MISSING,
+                },
+                unique: {
+                    args: true,
+                    msg: Constants.ModelErrors.SKILL_ALREADY_EXISTS,
+                },
+            },
         },
         {
             timestamps: false,

@@ -51,9 +51,10 @@ module.exports.addSkill = async (request, response) => {
         try {
             const { skill, isNewRecord } = await Skill.findOrCreateSkill({
                 name: skillData.name,
+                icon: skillData.icon,
             });
             if (!isNewRecord) {
-                return response.status(OK).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.SKILL.toLowerCase(), skill.name));
+                return response.status(OK).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.SKILL.toLowerCase(), skill.name, skill.icon));
             }
             const sendedList = [];
             await Skill.addedNewCategories(categoriesId, skill, sendedList, true);
@@ -64,13 +65,14 @@ module.exports.addSkill = async (request, response) => {
                 return response
                     .status(CONFLICT)
                     .json(responseBuilder.couldNotAddCriteria(
-                        Constants.TypeNames.SKILL.toLowerCase() + ' ' + skill.name,
+                        Constants.TypeNames.SKILL.toLowerCase() + ' ' + skill.name + ' ' + skill.icon,
                         Constants.Controllers.CategoryRelation.CATEGORY_DOES_NOT_EXISTS)
                     );
             }
             return response.status(status).json({
                 [Constants.Keys.name]: skill.name,
                 [Constants.Keys.guid]: skill.guid,
+                [Constants.Keys.icon]: skill.icon,
                 [Constants.Keys.addedCategories]: sendedList.addedCategories,
                 ...sendedList,
             });

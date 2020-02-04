@@ -111,6 +111,7 @@ const Constants = {
         skill_id: 'skill_id',
         skill: 'skill',
         skills: 'skills',
+        icon: 'icon',
         unique: 'unique',
         related_category_id: 'related_category_id',
         name: 'name',
