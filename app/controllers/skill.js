@@ -1,4 +1,4 @@
-const {OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED} = require('http-status-codes');
+const {OK, INTERNAL_SERVER_ERROR, CONFLICT, ACCEPTED, CREATED, NOT_FOUND} = require('http-status-codes');
 const {Constants} = require('../constants/Constants');
 const responseBuilder = require('../helper/errorResponseBodyBuilder');
 const Skill = require('../models/skill');
@@ -76,11 +76,12 @@ module.exports.addSkill = async (request, response) => {
             });
         } catch(error) {
             logger.error(error);
-            return response.status(CONFLICT).json(responseBuilder.couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase()));
+            return response.status(NOT_FOUND).json(responseBuilder.couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase(), Constants.Controllers.CategoryRelation.CATEGORY_DOES_NOT_EXISTS));
+
         }
     } else {
         return response
-            .status(INTERNAL_SERVER_ERROR)
+            .status(NOT_FOUND)
             .json(responseBuilder.couldNotAddCriteria(Constants.TypeNames.SKILL.toLowerCase(), Constants.Controllers.CategoryRelation.CATEGORY_DOES_NOT_EXISTS));
     }
 };
@@ -99,7 +100,7 @@ module.exports.updateSkillAllData = async (request, response) => {
         await Skill.updateSkill(skillData, {guid: request.params.guid});
         await Skill.addedNewCategories(addCategories, existingSkill, sendedList, false);
         await Skill.removeCategories(deleteCategories, sendedList, existingSkill);
-        return response.status(201).json({
+        return response.status(CREATED).json({
             [Constants.Keys.addedCategories]: sendedList.addedCategories,
             [Constants.Keys.removedCategories]: sendedList.removedCategories
         });
