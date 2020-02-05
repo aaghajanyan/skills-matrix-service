@@ -5,7 +5,8 @@ const skills = (state = [], action) => {
         case 'UPDATE_SKILL':
             return [...state, action.payload];
         case 'DELETE_SKILL':
-            return state.filter(item => item.name !== action.payload)
+            return [...action.payload]
+            // return state.filter(item => item.name !== action.payload)
             // return {
             //     ...state,
             //     ...action.payload

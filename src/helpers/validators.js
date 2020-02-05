@@ -47,6 +47,7 @@ const emailValidator = (rule, value, callback) => {
 };
 
 const nameValidator = (type) => (rule, value, callback) => {
+    console.log("000000000000 nameValidator", value);
     validateSchema(nameSchema(type), {name: value}, callback);
 };
 

@@ -14,8 +14,9 @@ SMInput.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     rules: PropTypes.arrayOf(PropTypes.object),
+    initialvalue: PropTypes.string,
     prefix: PropTypes.element,
-    autoComplete: PropTypes.string
+    autoComplete: PropTypes.string,
 };
 
 export {SMInput};

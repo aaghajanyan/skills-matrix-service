@@ -25,7 +25,10 @@ function SMSelect({options, ...restProps}) {
 
 SMSelect.propTypes = {
     className: PropTypes.string,
-    initialValue: PropTypes.string,
+    initialvalue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
     onChange: PropTypes.func,
     name: PropTypes.string,
     placeholder: PropTypes.string,

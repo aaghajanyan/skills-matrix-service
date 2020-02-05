@@ -59,11 +59,15 @@
         "name": {
             "required": {
                 "first": "First-name is required!",
-                "last": "Last-name is required!"
+                "last": "Last-name is required!",
+                "skill": "Skill name is required",
+                "category": "Category name is required"
             },
             "invalid": {
                 "first": "First-name is invalid!",
-                "last": "Last-name is invalid!"
+                "last": "Last-name is invalid!",
+                "skill": "Skill name is invalid",
+                "category": "Category name is invalid"
             }
         },
         "branch": {

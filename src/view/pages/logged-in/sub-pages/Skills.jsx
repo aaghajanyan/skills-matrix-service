@@ -25,8 +25,8 @@ library.add(fab, far, fas);
 
 function Skills(props) {
 
-    let skills = useSelector(state => state.skill);
-    let categoriesState = useSelector(state => state.category);
+    let skillsStore = useSelector(state => state.skill);
+    let categoriesStore = useSelector(state => state.category);
     const dispatch = useDispatch();
 
     const [isAdmin, setIsAdmin] = useState(false);
@@ -34,10 +34,18 @@ function Skills(props) {
     const [loading, setLoading] = useState(false);
     const [skillsLists, setSkillsLists] = useState(null);
 
-    const [isSkillNameValid, skillName, skillNameRule] = useValidator(nameValidator('Skill'));
-    // const [isCategoryNameValid, categoryName, categoryNameRule] = useValidator(nameValidator('Category'));
-    const [isIconNameValid, iconName, iconNameRule] = useValidator(nameValidator('Icon'));
-    const [isCategoriesValid, categoriesNames, categoryRule] = useValidator(nameValidator('Category'));
+    const [initialSkillName, setInitialSkillName] = useState('');
+    const [initialCategories, setInitialCategories] = useState([]);
+    const [initialIconName, setInitialIconName] = useState('');
+
+    let [isSkillNameValid, skillName, skillNameRule] = useValidator(nameValidator('skill'));
+    let [isIconNameValid, iconName, iconNameRule] = useValidator(nameValidator('icon'));
+    let [isCategoriesValid, categoriesNames, categoryRule] = useValidator(nameValidator('category'));
+
+    const [formCurrentValues, setFormCurrentValues] = useState({});
+
+    let [f, setF] = useState('');
+    const [isEdited, setIsEdited] = useState(false);
 
     const isEntireFormValid = [
         isSkillNameValid,
@@ -62,6 +70,7 @@ function Skills(props) {
     }
 
     const collectSkillsData = (skillsRes) => {
+        console.log("========== collectSkillsData ===", skillsRes)
         const allSkillsLists = [];
         skillsRes && skillsRes.map((item, index) => {
             let categoriesList = item.categories && item.categories.map(cat => {
@@ -70,7 +79,9 @@ function Skills(props) {
             const row = {
                 key: item.name,
                 name: item.name,
-                skill:  <SMSkillBar name={item.name} icon={['fab', 'react']} style={{width: '30px', height: '30px'}} />,
+                guid: item.guid,
+                icon: item.icon,
+                skill:  <SMSkillBar name={item.name} icon={['fab', item.icon]} style={{width: '30px', height: '30px'}} />,
                 categories: categoriesList,
             };
             allSkillsLists.push(row);
@@ -84,6 +95,7 @@ function Skills(props) {
                 categories: []
             };
             addedSkill.name = res.data.name;
+            addedSkill.icon = res.data.icon;
             addedSkill.guid = res.data.guid;
             res.data.addedCategories && res.data.addedCategories.map(catItem => {
                 if (catItem.success) {
@@ -97,17 +109,17 @@ function Skills(props) {
         }
     }
 
-    const handleOk = (data) => {
+    const handleAdd = (data) => {
         setLoading(true);
         const guidsList = [];
-        categoriesNames.map(categoryName => {
-            return categoriesState.filter((c) => {
+        categoriesNames && categoriesNames.map(categoryName => {
+            return categoriesStore.filter((c) => {
                 if (c.name === categoryName) {
                     guidsList.push(c.guid);
                 }
             })
         });
-        addNewSkillData({name: skillName, categoriesId: guidsList})
+        addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
             .then((res) => {
                 setLoading(false);
                 SMNotification('success', SMConfig.messages.skills.addSkill.success);
@@ -127,12 +139,42 @@ function Skills(props) {
         setVisible(false);
     };
 
+    const handleSave = () => {
+        console.log("------------------handleSave-----------------------")
+        if (!(initialSkillName === formCurrentValues.skillName && initialIconName === formCurrentValues.iconName)) {
+            console.log("initialSkillName - skillName >>> ", initialSkillName, formCurrentValues.skillName)
+            console.log("initialCategories - categoriesNames >>> ", initialCategories, formCurrentValues.categoriesNames)
+            console.log("initialIconName - iconName >>> ", initialIconName, formCurrentValues.iconName)
+        }
+    }
+
+    const handleAddUpdate = () => {
+        if (isEdited) {
+            handleSave();
+        } else {
+            handleAdd();
+        }
+    }
+
     const handleCancel = () => {
         setVisible(false);
     };
 
     const openModal = () => {
+        setIsEdited(false);
         setVisible(true);
+    };
+
+    const openEditModal = (record) => {
+        setInitialSkillName(record.name);
+        const catList = record.categories.map(c => {
+            return c.key
+        });
+        setInitialCategories(catList);
+        setInitialIconName(record.icon);
+        setIsEdited(true);
+        setVisible(true);
+
     };
 
     const initIsAdmin = () => {
@@ -152,7 +194,7 @@ function Skills(props) {
     }
 
     const getSkillsAllDataFromRedux = () => {
-        if (skills.length === 0) {
+        if (skillsStore.length === 0) {
             getSkillsAllData();
         }
     }
@@ -166,13 +208,13 @@ function Skills(props) {
     }
 
     const getCategoriesAllDataFromRedux = () => {
-        if (categoriesState.length === 0) {
+        if (categoriesStore.length === 0) {
             getCategoriesAllData();
         }
     }
 
     const getCategoryOptions = () => {
-        const categoryOptions = categoriesState ? categoriesState.map(category => {
+        const categoryOptions = categoriesStore ? categoriesStore.map(category => {
             return {value: category.name};
         }) : []
         return categoryOptions;
@@ -194,15 +236,15 @@ function Skills(props) {
     }, [skillsLists]);
 
     useEffect(() => {
-        collectSkillsData(skills);
-    }, [skills]);
+        collectSkillsData(skillsStore);
+    }, [skillsStore]);
 
-    const handleDelete = (key) => {
-        const deletedItem = skills.find(item => {
-            return item.name === key
+    const handleDelete = (record) => {
+        const items = skillsStore.filter(item => {
+            return item.name !== record.name
         });
-        deleteSkillData(deletedItem.guid).then(res => {
-            dispatch(deleteSkill(key));
+        deleteSkillData(record.guid).then(() => {
+            dispatch(deleteSkill(items));
         });
     }
 
@@ -211,6 +253,10 @@ function Skills(props) {
         if(a < b) { return 1; }
         return 0;
     };
+
+    const getFormCurrentValues = (currentValues) => {
+        setFormCurrentValues(currentValues)
+    }
 
     const column = [
         {
@@ -234,8 +280,8 @@ function Skills(props) {
                         {
                             {isAdmin} &&
                             <>
-                                <SMIcon className={'refresh-btn'} iconType={'fas'} icon={'pencil-alt'} style={{width: '20px', height: '20px'}} onClick={openModal}/>
-                                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+                                <SMIcon className={'refresh-btn'} iconType={'fas'} icon={'pencil-alt'} style={{width: '20px', height: '20px'}} onClick={() => openEditModal(record)}/>
+                                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
                                     <SMIcon className={'refresh-btn'} iconType={'fas'} icon={'trash-alt'} style={{width: '20px', height: '20px'}}/>
                                 </Popconfirm>
                             </>
@@ -264,44 +310,22 @@ function Skills(props) {
                 className="add-skill-modal"
                 title={
                     <h3 className="sm-subheading">
-                        Add Skill
+                        {!isEdited ? 'Add' : 'Update'} Skill
                     </h3>
                 }
                 visible={visible}
-                onOk={handleOk}
                 onCancel={handleCancel}
-                footer={[
-                    <SMButton
-                        className="sm-link"
-                        key="cancel"
-                        type="link"
-                        onClick={handleCancel}
-                    >
-                        Cancel
-                    </SMButton>,
-                    <SMButton
-                        className="sm-button"
-                        key="ok"
-                        type="primary"
-                        onClick={handleOk}
-                        disabled={!(isEntireFormValid)}
-                    >
-                        Add
-                    </SMButton>
-                ]}
+                footer={[]}
             >
                 <div className='add-skill-container'>
 
-                    <SMIcon
-                        className={'refresh-btn category-refresh'}
-                        iconType={'fas'}
-                        icon={'sync-alt'}
-                        style={{width: '30px', height: '30px'}}
-                        onClick={getCategoriesAllData}
-                    />
                     <SMForm
                         className={'add-skill-form'}
-                        resetValues={loading}
+                        resetValues={visible}
+                        onSubmit={handleAddUpdate}
+                        onCancel={handleCancel}
+                        getFormCurrentValues={getFormCurrentValues}
+                        onOpened={getFormCurrentValues}
                         items={[
                             SMInput({
                                 className: 'sm-input',
@@ -309,8 +333,8 @@ function Skills(props) {
                                 type: 'text',
                                 placeholder: 'Name',
                                 rules: skillNameRule,
-                                value: 'aaa',
-                                defaultValue: 'aaaaaa'
+                                initialvalue: isEdited ? initialSkillName : '',
+                                // onChange: (e) => fff(e)
                                 // prefix: (
                                 //     <SMIcon
                                 //         className="sm-icon-grey"
@@ -326,7 +350,8 @@ function Skills(props) {
                                 placeholder: 'Category',
                                 options: getCategoryOptions(),
                                 rules: categoryRule,
-                                mode: 'tags'
+                                mode: 'tags',
+                                initialvalue: isEdited ? initialCategories : []
                             }),
                             SMInput({
                                 className: 'sm-input',
@@ -334,18 +359,41 @@ function Skills(props) {
                                 type: 'text',
                                 placeholder: 'Icon',
                                 rules: iconNameRule,
-                                value: 'bbb',
-                                defaultValue: 'bbbbbb'
-                            //     // prefix: (
-                            //     //     <SMIcon
-                            //     //         className="sm-icon-grey"
-                            //     //         iconType="fas"
-                            //     //         icon="envelope"
-                            //     //     />
-                            //     // ),
-                            //     autoComplete: 'username'
-                            }),
+                                initialvalue: isEdited ? initialIconName : '',
+                                // prefix: (
+                                //     <SMIcon
+                                //         className="sm-icon-grey"
+                                //         iconType="fas"
+                                //         icon="envelope"
+                                //     />
+                                // ),
+                            //     autoComplete: ''
+                            })
                         ]}
+                        buttons={[
+                            SMButton({
+                                className: "sm-link",
+                                type: "link",
+                                name: 'cancel',
+                                children: 'Cancel'
+
+                            }),
+                            SMButton({
+                                className: "sm-button",
+                                type: "primary",
+                                name: 'submit',
+                                children: isEdited ? 'Save' : 'Add',
+                                htmlType: 'submit'
+
+                            })
+                        ]}
+                    />
+                    <SMIcon
+                        className={'refresh-btn category-refresh'}
+                        iconType={'fas'}
+                        icon={'sync-alt'}
+                        style={{width: '30px', height: '30px'}}
+                        onClick={getCategoriesAllData}
                     />
                 </div>
             </SMModal>
