@@ -71,7 +71,7 @@ class DashboardInfo {
                         name: item.name,
                         icon: item.icon,
                         categories: item.categories[0].name,
-                        last_worked_date: item.last_worked_date,
+                        last_worked_date: item.users_skills.last_worked_date,
                         experience: item.users_skills.experience
                     }
                     topSkils.push(skillsInfo);
@@ -80,7 +80,7 @@ class DashboardInfo {
                         guid: item.guid,
                         name: item.name,
                         categories: item.categories[0].name,
-                        last_worked_date: item.last_worked_date,
+                        last_worked_date: item.users_skills.last_worked_date,
                         icon: item.icon,
                         experience: item.users_skills.experience
                     }
@@ -107,7 +107,7 @@ class DashboardInfo {
         });
 
         const categoriesUsersSort = categoriesUsers.sort((a, b) => {
-            return b.experience-a.experience;
+            return b.average-a.average;
         });
 
         return {
