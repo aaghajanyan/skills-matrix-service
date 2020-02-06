@@ -1,6 +1,6 @@
 import {Modal} from 'antd';
 
-const confirmDialog = (callback, record) => {
+const SMConfirmModal = (callback, record) => {
     Modal.confirm({
       title: 'Are you sure delete this task?',
       content: '',
@@ -10,4 +10,4 @@ const confirmDialog = (callback, record) => {
     });
 }
 
-export {confirmDialog}
+export {SMConfirmModal}

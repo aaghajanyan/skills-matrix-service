@@ -10,6 +10,7 @@ function SMFormInitial(props) {
         if (props.onCancel) {
             props.handleSave(getFieldsValue());
             props.onSubmit();
+            resetFields();
             return;
         }
         props.form.validateFieldsAndScroll(getFieldsValue(), (err, values) => {

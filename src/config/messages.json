@@ -37,6 +37,10 @@
             "error": {
                 "message": "Operation failed",
                 "description": "Could not add skill."
+            },
+            "missing": {
+                "message": "Operation failed",
+                "description": "Required field is empty."
             }
         },
         "updateSkill": {

@@ -25,7 +25,7 @@ function SkillsTable(props) {
                     className="sm-table"
                     columns={props.column}
                     dataSource={props.skillsLists}
-                    pagination={{pageSize: 10}}
+                    pagination={{pageSize: 2}}
                 />
             </div>
         </React.Fragment>

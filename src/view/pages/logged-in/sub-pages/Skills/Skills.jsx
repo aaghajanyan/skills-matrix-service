@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {SMSkillBar} from '../../components/SMSkillBar';
-import {confirmDialog} from '../../../../components/SMPopConfirm'
+import {SMConfirmModal} from '../../../../components/SMConfirmModal'
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
@@ -44,8 +44,6 @@ function Skills(props) {
     let [isIconNameValid, iconName, iconNameRule] = useValidator(nameValidator('icon'));
     let [isCategoriesValid, categoriesNames, categoryRule] = useValidator(nameValidator('category'));
 
-    // const [formCurrentValues, setFormCurrentValues] = useState({});
-
     const [isEdited, setIsEdited] = useState(false);
     const [editedItem, setEditedItem] = useState(false);
 
@@ -68,13 +66,13 @@ function Skills(props) {
         initIsAdmin();
         getCategoriesAllDataFromRedux();
         getSkillsAllDataFromRedux()
-    }
+    };
 
     const initBasicData = () => {
         initIsAdmin();
         getSkillsAllData()
 
-    }
+    };
 
     const initIsAdmin = () => {
         getCurrentUser().then(res => {
@@ -82,7 +80,7 @@ function Skills(props) {
                 setIsAdmin(true);
             }
         });
-    }
+    };
 
     const getSkillsAllData = () => {
         getSkillsData().then((skillsRes) => {
@@ -90,13 +88,13 @@ function Skills(props) {
         }).catch(error=> {
             console.log("Error to get Skills. ", error);
         })
-    }
+    };
 
     const getSkillsAllDataFromRedux = () => {
         if (skillsStore.length === 0) {
             getSkillsAllData();
         }
-    }
+    };
 
     const getCategoriesAllData = () => {
         getCategoriesData().then((categories) => {
@@ -104,20 +102,20 @@ function Skills(props) {
         }).catch(error=> {
             console.log("Error to get Category. ", error);
         });
-    }
+    };
 
     const getCategoriesAllDataFromRedux = () => {
         if (categoriesStore.length === 0) {
             getCategoriesAllData();
         }
-    }
+    };
 
     const getCategoryOptions = () => {
         const categoryOptions = categoriesStore ? categoriesStore.map(category => {
             return {value: category.name};
         }) : []
         return categoryOptions;
-    }
+    };
 
     const collectSkillsData = (skillsRes) => {
         const allSkillsLists = [];
@@ -136,7 +134,7 @@ function Skills(props) {
             allSkillsLists.push(row);
         });
         setSkillsLists(allSkillsLists);
-    }
+    };
 
     const dispachAddedSkill = (res) => {
         if (res.status === 201) {
@@ -156,7 +154,35 @@ function Skills(props) {
             });
             dispatch(addNewSkill(addedSkill));
         }
-    }
+    };
+
+    const analyzeAndAddSkill = (guidsList) => {
+        if (skillName && iconName && categoriesNames) {
+            addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
+            .then((res) => {
+                SMNotification('success', SMConfig.messages.skills.addSkill.success);
+                dispachAddedSkill(res);
+            })
+            .catch(error => {
+                if(error.message === 'Network Error'){
+                    SMNotification('error', messages.noConnection);
+                }
+                if(error.response) {
+                    if(error.response.status === 409) {
+                        SMNotification('error', SMConfig.messages.skills.addSkill.error);
+                    }
+                }
+            });
+            setLoading(false);
+            setVisible(false);
+            skillName = '';
+            iconName = '';
+            categoriesNames=[];
+        } else {
+            SMNotification('error', SMConfig.messages.skills.addSkill.missing);
+            setLoading(false);
+        }
+    };
 
     const handleAdd = () => {
         setLoading(true);
@@ -168,29 +194,8 @@ function Skills(props) {
                 }
             })
         });
-        addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
-            .then((res) => {
-                setLoading(false);
-                SMNotification('success', SMConfig.messages.skills.addSkill.success);
-                dispachAddedSkill(res);
-            })
-            .catch(error => {
-                setLoading(false);
-                if(error.message === 'Network Error'){
-                    SMNotification('error', messages.noConnection);
-                }
-                if(error.response) {
-                    if(error.response.status === 409) {
-                        SMNotification('error', SMConfig.messages.skills.addSkill.error);
-                    }
-                }
-            });
-        setVisible(false);
+        analyzeAndAddSkill(guidsList);
     };
-
-    const getFormCurrentValues = (currentValues) => {
-        // setFormCurrentValues(currentValues);
-    }
 
     const collectCategoryObj = (currentValues) => {
         const categoriesObj = [];
@@ -201,7 +206,7 @@ function Skills(props) {
             })
         });
         return categoriesObj;
-    }
+    };
 
     const collectCategoriesGuidsFromName = (categoriesNames) => {
         const categoriesGuid = [];
@@ -211,7 +216,7 @@ function Skills(props) {
             })
         });
         return categoriesGuid;
-    }
+    };
 
     const updateSkillItemInStoreObj = (currentValues, categoriesObj) => {
         const foundUpdatedIndex = skillsStore.findIndex(item => item.name == editedItem.name);
@@ -221,9 +226,30 @@ function Skills(props) {
             guid: skillsStore[foundUpdatedIndex].guid,
             categories: categoriesObj
         };
-    }
+    };
+
+    const analyzeAndUpdateSkill = (data) => {
+        updateSkillData(data, editedItem.guid)
+        .then((res) => {
+            setLoading(false);
+            SMNotification('success', SMConfig.messages.skills.updateSkill.success);
+            dispatch(updateSkill(skillsStore));
+        })
+        .catch(error => {
+            setLoading(false);
+            if(error.message === 'Network Error'){
+                SMNotification('error', messages.noConnection);
+            }
+            if(error.response) {
+                if(error.response.status === 409) {
+                    SMNotification('error', SMConfig.messages.skills.updateSkill.error);
+                }
+            }
+        });
+        setVisible(false);
+    };
+
     const handleSave = (currentValues) => {
-        // setFormCurrentValues(currentValues);
         if (isEdited) {
             if (currentValues && !(initialSkillName === currentValues.skillName
                 && initialIconName === currentValues.iconName
@@ -241,38 +267,20 @@ function Skills(props) {
                     deleteCategories: deleteCategoriesGuid
                 };
                 updateSkillItemInStoreObj(currentValues, categoriesObj);
-
-                updateSkillData(data, editedItem.guid)
-                .then((res) => {
-                    setLoading(false);
-                    SMNotification('success', SMConfig.messages.skills.updateSkill.success);
-                    dispatch(updateSkill(skillsStore));
-                })
-                .catch(error => {
-                    setLoading(false);
-                    if(error.message === 'Network Error'){
-                        SMNotification('error', messages.noConnection);
-                    }
-                    if(error.response) {
-                        if(error.response.status === 409) {
-                            SMNotification('error', SMConfig.messages.skills.updateSkill.error);
-                        }
-                    }
-                });
-                setVisible(false);
+                analyzeAndUpdateSkill(data);
             }
         }
-    }
+    };
 
     const handleAddUpdate = () => {
         isEdited ? handleSave() : handleAdd();
-    }
+    };
 
     const handleCancel = () => {
         setVisible(false);
     };
 
-    const openModal = () => {
+    const openAddModal = () => {
         setIsEdited(false);
         setVisible(true);
     };
@@ -297,21 +305,21 @@ function Skills(props) {
         deleteSkillData(record.guid).then(() => {
             dispatch(deleteSkill(items));
         });
-    }
+    };
 
     return (
         <>
             <div className="skills_add-skills-container">
                     <SMButton
                         className="sm-button"
-                        onClick={openModal}
+                        onClick={openAddModal}
                         loading={loading}
                         disabled={!isAdmin}
                     >
                         { loading ? 'Adding' : 'Add'} skill
                     </SMButton>
                 </div>
-            {skillsLists && <SkillsTable refreshTable={initBasicData} skillsLists={skillsLists} column={getColumnData(skillsLists, isAdmin, openEditModal, handleDelete, confirmDialog)}/>}
+            {skillsLists && <SkillsTable refreshTable={initBasicData} skillsLists={skillsLists} column={getColumnData(skillsLists, isAdmin, openEditModal, handleDelete, SMConfirmModal)}/>}
 
             <SMModal
                     className="add-skill-modal"
