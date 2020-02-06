@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Form} from 'antd';
-import PropTypes from 'prop-types';
+import PropTypes, {element} from 'prop-types';
 
 function SMFormInitial(props) {
     const {getFieldDecorator, resetFields, getFieldsValue} = props.form;
@@ -8,10 +8,11 @@ function SMFormInitial(props) {
     const handleSubmit = e => {
         e.preventDefault();
         if (props.onCancel) {
-            props.getFormCurrentValues(getFieldsValue());
+            props.handleSave(getFieldsValue());
             props.onSubmit();
+            return;
         }
-        props.form.validateFieldsAndScroll((err, values) => {
+        props.form.validateFieldsAndScroll(getFieldsValue(), (err, values) => {
             if(!err) {
                 props.onSubmit(values);
             }
@@ -20,7 +21,6 @@ function SMFormInitial(props) {
 
     useEffect(() => {
         !props.resetValues  ? resetFields() : null;
-        props.getFormCurrentValues(getFieldsValue());
     }, [props.resetValues]);
 
     const renderFormItems = () => {
@@ -56,12 +56,37 @@ function SMFormInitial(props) {
         });
     };
 
+    const renderFormFooter = () => {
+        return props.footer && props.footer.map(item => {
+            return (
+                <Form.Item
+                    key={item.props.name}
+                    validateStatus={item.props.status}
+                    help={item.props.help}
+                    onClick={item.props.name === 'cancel' ? props.onCancel : ()=>{}}
+                >
+                    {getFieldDecorator(item.props.name, {
+                        rules: item.props.rules,
+                    })(item)}
+                </Form.Item>
+            );
+        });
+    };
+
     return (
         <Form className={props.className} onSubmit={handleSubmit}>
             <div className="sm-form-fields">
                 {renderFormItems()}
             </div>
             {renderFormButtons()}
+            {
+                props.footer &&
+                <div className="sm-form-footer">
+                    {renderFormFooter()}
+                </div>
+            }
+
+
         </Form>
     );
 
@@ -79,5 +104,7 @@ SMFormInitial.propTypes = {
     onCancel: PropTypes.func,
     resetValues: PropTypes.bool,
     initialvalue: PropTypes.string,
-    getFormCurrentValues: PropTypes.func
+    handleSave: PropTypes.func,
+    footer: PropTypes.arrayOf(element)
+
 };

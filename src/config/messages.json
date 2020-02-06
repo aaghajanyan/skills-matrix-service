@@ -39,6 +39,15 @@
                 "description": "Could not add skill."
             }
         },
+        "updateSkill": {
+            "success": {
+                "message": "Skill updated successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not update skill."
+            }
+        },
         "nonexistentInvitation": {
             "message": "Invalid invitation URL"
         }

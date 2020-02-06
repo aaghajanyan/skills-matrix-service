@@ -1,5 +1,5 @@
 import {SMConfig} from 'src/config';
-import {get, post, del} from './client';
+import {get, post, put, del} from './client';
 
 
 const getSkillsData = async () => {
@@ -15,6 +15,14 @@ const addNewSkillData = async (data) => {
     return post(options);
 };
 
+const updateSkillData = async (data, guid) => {
+    const options = {
+        url: `${SMConfig.apiEndpoints.skills}/${guid}`,
+        data: data
+    };
+    return put(options);
+};
+
 const deleteSkillData = async (guid) => {
     const options = {
         url: `${SMConfig.apiEndpoints.addSkills}/${guid}`
@@ -22,4 +30,4 @@ const deleteSkillData = async (guid) => {
     return del(options);
 };
 
-export {getSkillsData, addNewSkillData, deleteSkillData};
+export {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData};

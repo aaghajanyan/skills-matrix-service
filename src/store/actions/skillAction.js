@@ -5,6 +5,13 @@ const addSkill = (data) => {
     }
 }
 
+const addNewSkill = (data) => {
+    return {
+        type: 'ADD_NEW_SKILL',
+        payload: data
+    }
+}
+
 const updateSkill = (data) => {
     return {
         type: 'UPDATE_SKILL',
@@ -21,6 +28,7 @@ const deleteSkill = (id) => {
 
 export {
     addSkill,
+    addNewSkill,
     updateSkill,
     deleteSkill
 }
