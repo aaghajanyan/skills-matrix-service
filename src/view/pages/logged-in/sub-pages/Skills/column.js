@@ -4,7 +4,6 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {SMIcon} from 'src/view/components';
-import { Popconfirm } from 'antd';
 
 library.add(fab, far, fas);
 
@@ -19,13 +18,17 @@ const getColumnData = (list, permission, editModalCallBack, handleDelete, confir
     {
         title: 'Skill',
         dataIndex: 'skill',
-        width: '15%',
+        width: '30%',
+        className: "table-column-skill",
+
         sorter: (a, b) => comparator(a.name, b.name)
     },
     {
         title: 'Categories',
         dataIndex: 'categories',
-        width: '30%'
+        width: '40%',
+        minWidth: '100px',
+        className: "table-column-category",
     },
     {
         title: '',
@@ -33,17 +36,17 @@ const getColumnData = (list, permission, editModalCallBack, handleDelete, confir
         // TODO use SMIcon
         render: (text, record) =>
         list.length >= 1 ? (
-                <div style={{cursor: 'not-allowed', opacity: '0.5', width: '100px', paddingLeft: '45px'}}>
+                <div style={{wordWrap: 'no-word'}} className='table-action-area'>
                     {
                         {permission} &&
                         <>
-                            <SMIcon className={'refresh-btn'} iconType={'fas'} icon={'pencil-alt'} style={{width: '20px', height: '20px'}} onClick={() => editModalCallBack(record)}/>
-                            <SMIcon onClick={() => {confirmDialog(handleDelete, record)}} className={'refresh-btn'} iconType={'fas'} icon={'trash-alt'} style={{width: '20px', height: '20px'}}/>
+                            <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} style={{width: '45px', height: '20px'}} onClick={() => editModalCallBack(record)}/>
+                            <SMIcon className={'sm-icon-delete'} iconType={'fas'} icon={'trash-alt'} style={{width: '45px', height: '20px'}} onClick={() => {confirmDialog(handleDelete, record)}}/>
                         </>
                     }
                 </div>
             ) : null,
-        width: '10%'
+        width: '5%'
     }
 ];
 

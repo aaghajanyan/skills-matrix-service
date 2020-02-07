@@ -1,8 +1,8 @@
 import {Modal} from 'antd';
 
-const SMConfirmModal = (callback, record) => {
+const SMConfirmModal = (callback, record, title='Are you sure to delete this record ?') => {
     Modal.confirm({
-      title: 'Are you sure delete this task?',
+      title: title,
       content: '',
       okText: 'Yes',
       cancelText: 'No',

@@ -173,15 +173,11 @@ function Skills(props) {
                     }
                 }
             });
-            setLoading(false);
             setVisible(false);
-            skillName = '';
-            iconName = '';
-            categoriesNames=[];
         } else {
             SMNotification('error', SMConfig.messages.skills.addSkill.missing);
-            setLoading(false);
         }
+        setLoading(false);
     };
 
     const handleAdd = () => {
@@ -322,95 +318,73 @@ function Skills(props) {
             {skillsLists && <SkillsTable refreshTable={initBasicData} skillsLists={skillsLists} column={getColumnData(skillsLists, isAdmin, openEditModal, handleDelete, SMConfirmModal)}/>}
 
             <SMModal
-                    className="add-skill-modal"
-                    title={
-                        <h3 className="sm-subheading">
-                            {!isEdited ? 'Add' : 'Update'} Skill
-                        </h3>
-                    }
-                    visible={visible}
-                    onCancel={handleCancel}
-                    footer={[]}
-                >
-                    <div className='add-skill-container'>
-
-                        <SMForm
-                            className={'add-skill-form'}
-                            resetValues={visible}
-                            onSubmit={handleAddUpdate}
-                            onCancel={handleCancel}
-                            handleSave={handleSave}
-                            items={[
-                                SMInput({
-                                    className: 'sm-input',
-                                    name: 'skillName',
-                                    type: 'text',
-                                    placeholder: 'Name',
-                                    rules: skillNameRule,
-                                    initialvalue: isEdited ? initialSkillName : '',
-                                    // prefix: (
-                                    //     <SMIcon
-                                    //         className="sm-icon-grey"
-                                    //         iconType="fas"
-                                    //         icon="envelope"
-                                    //     />
-                                    // ),
-                                    // autoComplete: 'username'
-                                }),
-                                SMSelect({
-                                    className: 'sm-select sm-select_skill',
-                                    name: 'categoryName',
-                                    placeholder: 'Category',
-                                    options: getCategoryOptions(),
-                                    rules: categoryRule,
-                                    mode: 'tags',
-                                    initialvalue: isEdited ? initialCategories : []
-                                }),
-                                SMInput({
-                                    className: 'sm-input',
-                                    name: 'iconName',
-                                    type: 'text',
-                                    placeholder: 'Icon',
-                                    rules: iconNameRule,
-                                    initialvalue: isEdited ? initialIconName : '',
-                                    // prefix: (
-                                    //     <SMIcon
-                                    //         className="sm-icon-grey"
-                                    //         iconType="fas"
-                                    //         icon="envelope"
-                                    //     />
-                                    // ),
-                                //     autoComplete: ''
-                                })
-                            ]}
-                            footer={[
-                                SMButton({
-                                    className: "sm-link",
-                                    type: "link",
-                                    name: 'cancel',
-                                    children: 'Cancel'
-
-                                }),
-                                SMButton({
-                                    className: "sm-button",
-                                    type: "primary",
-                                    name: 'submit',
-                                    children: isEdited ? 'Save' : 'Add',
-                                    htmlType: 'submit'
-
-                                })
-                            ]}
-                        />
-                        <SMIcon
-                            className={'refresh-btn category-refresh'}
-                            iconType={'fas'}
-                            icon={'sync-alt'}
-                            style={{width: '30px', height: '30px'}}
-                            onClick={getCategoriesAllData}
-                        />
-                    </div>
-                </SMModal>
-            </>
+                className="add-skill-modal"
+                title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
+                visible={visible}
+                onCancel={handleCancel}
+                footer={[]}
+            >
+                <div className='add-skill-container'>
+                    <SMForm
+                        className={'add-skill-form'}
+                        resetValues={visible}
+                        onSubmit={handleAddUpdate}
+                        onCancel={handleCancel}
+                        handleSave={handleSave}
+                        items={[
+                            SMInput({
+                                className: 'sm-input',
+                                name: 'skillName',
+                                type: 'text',
+                                placeholder: 'Name',
+                                rules: skillNameRule,
+                                initialvalue: isEdited ? initialSkillName : '',
+                            }),
+                            SMSelect({
+                                className: 'sm-select sm-select-skill',
+                                name: 'categoryName',
+                                placeholder: 'Category',
+                                options: getCategoryOptions(),
+                                rules: categoryRule,
+                                mode: 'tags',
+                                initialvalue: isEdited ? initialCategories : []
+                            }),
+                            SMInput({
+                                className: 'sm-input',
+                                name: 'iconName',
+                                type: 'text',
+                                placeholder: 'Icon',
+                                rules: iconNameRule,
+                                initialvalue: isEdited ? initialIconName : '',
+                            })
+                        ]}
+                        footer={[
+                            SMButton({
+                                className: "sm-link",
+                                type: "link",
+                                name: 'cancel',
+                                children: 'Cancel'
+                            }),
+                            SMButton({
+                                className: "sm-button",
+                                type: "primary",
+                                name: 'submit',
+                                children: isEdited ? 'Save' : 'Add',
+                                htmlType: 'submit',
+                                disabled: isEdited ? false : !isEntireFormValid
+                            })
+                        ]}
+                    />
+                    <SMIcon
+                        className={'sm-icon-refresh sm-icon-refresh-category'}
+                        iconType={'fas'}
+                        icon={'sync-alt'}
+                        style={{width: '30px', height: '30px'}}
+                        onClick={getCategoriesAllData}
+                    />
+                </div>
+            </SMModal>
+        </>
     );
 }
 

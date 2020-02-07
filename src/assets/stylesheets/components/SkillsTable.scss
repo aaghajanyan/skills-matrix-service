@@ -1,3 +1,8 @@
+@import '../variables';
+
+.sm-component-skill {
+    min-width: 500px;
+}
 .skills-table-header {
 
     .sm-button {
@@ -6,11 +11,16 @@
     }
 }
 
-.refresh-btn {
-    color: #266494;
-    margin-right: 5px;
-    cursor: pointer;
+.table-column-skill, .table-column-category{
+    text-align: center!important;
 }
-.refresh-btn:hover {
-    color: #3A79AA;
+
+.sm-table-skill {
+    display: inline-block;
+    width: 100%;
+}
+
+.sm-icon-refresh-category {
+    margin-top: 15%;
+    margin-left: 25px;
 }
