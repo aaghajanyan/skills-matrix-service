@@ -1,7 +1,7 @@
 @import '../variables';
 
 .sm-component-skill {
-    min-width: 500px;
+    min-width: 550px;
 }
 .skills-table-header {
 
@@ -11,6 +11,12 @@
     }
 }
 
+.table-column-skill {
+    width: 20%;
+}
+.table-column-category{
+    width: 50%;
+}
 .table-column-skill, .table-column-category{
     text-align: center!important;
 }

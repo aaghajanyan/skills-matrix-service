@@ -41,15 +41,14 @@ export const useService = (service, ...args) => {
 
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-    const [isCompleted, setLoading] = useState(data !== null || error !== null);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
         if(!error && !data){
-            setLoading(true);
             service(...args)
                 .then(data => setData(data))
                 .catch(error => setError(error))
-                .finally(() => setLoading(false));
+                .finally(() => setIsCompleted(false));
         }
     }, [service, args, error, data]);
 

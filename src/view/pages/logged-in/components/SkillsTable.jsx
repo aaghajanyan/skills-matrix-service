@@ -15,14 +15,14 @@ function SkillsTable(props) {
             <div className="sm-component sm-component-skill">
                 <div className="skills-table-header">
                     <h3 className="sm-subheading" >All Skills</h3>
-                    <SMIcon className={'sm-icon-refresh'} iconType={'fas'} icon={'sync-alt'} style={{width: '25px', height: '25px'}} onClick={props.refreshTable}/>
+                    <SMIcon className={'sm-icon-refresh'} iconType={'fas'} icon={'sync-alt'} onClick={props.refreshTable}/>
                 </div>
 
                 <SMTable
                     className="sm-table sm-table-skill"
                     columns={props.column}
-                    dataSource={props.skillsLists}
-                    pagination={{pageSize: 5}}
+                    dataSource={props.skillsDataSource}
+                    pagination={{ showQuickJumper: true, defaultPageSize: 3, showSizeChanger: true, pageSizeOptions: ['3', '5', '10', '100']}}
                 />
             </div>
         </React.Fragment>

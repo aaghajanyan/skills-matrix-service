@@ -1,27 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {SMSkillBar} from '../../components/SMSkillBar';
-import {SMConfirmModal} from '../../../../components/SMConfirmModal'
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {fab} from '@fortawesome/free-brands-svg-icons';
-import {fas} from '@fortawesome/free-solid-svg-icons';
-import {far} from '@fortawesome/free-regular-svg-icons';
-import {Tag} from 'antd'; //TODO : move to common components
-import {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData} from 'src/services/skillsService';
-import {getCategoriesData} from 'src/services/categoryService';
-import {getCurrentUser} from 'src/services/usersService';
-
+import {SMConfirmModal} from '../../../../components/SMConfirmModal';
 import {SkillsTable} from '../../components/SkillsTable';
 
+
+import {Tag} from 'antd'; //TODO : move to common components
 import {SMConfig} from 'src/config';
+import {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData, collectAddedSkillData} from 'src/services/skillsService';
+import {getCategoriesData} from 'src/services/categoryService';
+import {getCurrentUser} from 'src/services/usersService';
 import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect} from 'src/view/components';
 import {useValidator} from '../../../../../hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {addSkill, addNewSkill, updateSkill, deleteSkill} from 'src/store/actions/skillAction';
 import {addCategory, updateCategory, deleteCategory} from 'src/store/actions/categoryAction';
-import { Popconfirm, Modal } from 'antd';
-import {getColumnData} from './column';
+import {getDataSource} from './column';
 import {toRGB} from '../../../../../helpers/generateColor';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fab} from '@fortawesome/free-brands-svg-icons';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
 
 library.add(fab, far, fas);
 
@@ -34,7 +33,7 @@ function Skills(props) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [skillsLists, setSkillsLists] = useState(null);
+    const [skillsDataSource, setSkillsDataSource] = useState(null);
 
     const [initialSkillName, setInitialSkillName] = useState('');
     const [initialCategories, setInitialCategories] = useState([]);
@@ -121,63 +120,73 @@ function Skills(props) {
         const allSkillsLists = [];
         skillsRes && skillsRes.map((item, index) => {
             let categoriesList = item.categories && item.categories.map(cat => {
-                return <Tag key={cat.name} color={toRGB(cat.name)} className="sm-tag">{cat.name}</Tag>
+                return <Tag style={{...toRGB(cat.name)}} key={cat.name}  className="sm-tag sm-tag-size" >{cat.name}</Tag>
             });
             const row = {
                 key: item.name,
                 name: item.name,
                 guid: item.guid,
                 icon: item.icon,
-                skill:  <SMSkillBar name={item.name} icon={['fab', item.icon]} style={{width: '30px', height: '30px'}} />,
+                skill:  <SMSkillBar name={item.name} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
                 categories: categoriesList,
             };
             allSkillsLists.push(row);
         });
-        setSkillsLists(allSkillsLists);
+        setSkillsDataSource(allSkillsLists);
     };
 
-    const dispachAddedSkill = (res) => {
-        if (res.status === 201) {
-            const addedSkill = {
-                categories: []
-            };
-            addedSkill.name = res.data.name;
-            addedSkill.icon = res.data.icon;
-            addedSkill.guid = res.data.guid;
-            res.data.addedCategories && res.data.addedCategories.map(catItem => {
-                if (catItem.success) {
-                    const currentCat = {};
-                    currentCat.name = catItem.categoryName;
-                    currentCat.guid = catItem.guid;
-                    addedSkill.categories.push(currentCat)
-                }
-            });
-            dispatch(addNewSkill(addedSkill));
-        }
-    };
+    // const dispachAddedSkill = (res) => {
+    //     if (res.status === 201) {
+    //         const addedSkill = {
+    //             categories: []
+    //         };
+    //         addedSkill.name = res.data.name;
+    //         addedSkill.icon = res.data.icon;
+    //         addedSkill.guid = res.data.guid;
+    //         res.data.addedCategories && res.data.addedCategories.map(catItem => {
+    //             if (catItem.success) {
+    //                 const currentCat = {};
+    //                 currentCat.name = catItem.categoryName;
+    //                 currentCat.guid = catItem.guid;
+    //                 addedSkill.categories.push(currentCat)
+    //             }
+    //         });
+    //         dispatch(addNewSkill(addedSkill));
+    //     }
+    // };
 
-    const analyzeAndAddSkill = (guidsList) => {
+    const analyzeAndAddSkill = async(guidsList) => {
         if (skillName && iconName && categoriesNames) {
-            addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
-            .then((res) => {
-                SMNotification('success', SMConfig.messages.skills.addSkill.success);
-                dispachAddedSkill(res);
-            })
-            .catch(error => {
-                if(error.message === 'Network Error'){
-                    SMNotification('error', messages.noConnection);
-                }
-                if(error.response) {
-                    if(error.response.status === 409) {
-                        SMNotification('error', SMConfig.messages.skills.addSkill.error);
-                    }
-                }
-            });
+            const res = await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
+            const addedSkill = collectAddedSkillData(res);
+            dispatch(addNewSkill(addedSkill));
             setVisible(false);
-        } else {
+            setLoading(false);
+                // await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
+        }else {
             SMNotification('error', SMConfig.messages.skills.addSkill.missing);
         }
-        setLoading(false);
+        // if (skillName && iconName && categoriesNames) {
+        //     addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
+        //     .then((res) => {
+        //         SMNotification('success', SMConfig.messages.skills.addSkill.success);
+        //         dispachAddedSkill(res);
+        //     })
+        //     .catch(error => {
+        //         if(error.message === 'Network Error'){
+        //             SMNotification('error', messages.noConnection);
+        //         }
+        //         if(error.response) {
+        //             if(error.response.status === 409) {
+        //                 SMNotification('error', SMConfig.messages.skills.addSkill.error);
+        //             }
+        //         }
+        //     });
+        //     setVisible(false);
+        // } else {
+        //     SMNotification('error', SMConfig.messages.skills.addSkill.missing);
+        // }
+        // setLoading(false);
     };
 
     const handleAdd = () => {
@@ -315,7 +324,7 @@ function Skills(props) {
                         { loading ? 'Adding' : 'Add'} skill
                     </SMButton>
                 </div>
-            {skillsLists && <SkillsTable refreshTable={initBasicData} skillsLists={skillsLists} column={getColumnData(skillsLists, isAdmin, openEditModal, handleDelete, SMConfirmModal)}/>}
+            {skillsDataSource && <SkillsTable refreshTable={initBasicData} skillsDataSource={skillsDataSource} column={getDataSource(skillsDataSource, isAdmin, openEditModal, handleDelete, SMConfirmModal)}/>}
 
             <SMModal
                 className="add-skill-modal"
@@ -323,6 +332,7 @@ function Skills(props) {
                 visible={visible}
                 onCancel={handleCancel}
                 footer={[]}
+                maskClosable={false}
             >
                 <div className='add-skill-container'>
                     <SMForm
@@ -379,7 +389,6 @@ function Skills(props) {
                         className={'sm-icon-refresh sm-icon-refresh-category'}
                         iconType={'fas'}
                         icon={'sync-alt'}
-                        style={{width: '30px', height: '30px'}}
                         onClick={getCategoriesAllData}
                     />
                 </div>

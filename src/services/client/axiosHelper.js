@@ -36,7 +36,7 @@ const service = axios.create({
 service.interceptors.response.use(handleSuccess, handleError);
 service.interceptors.request.use(defaultHeaderHandler);
 
-const apiClient = (method, options) => {
+const apiClient = async (method, options) => {
     return service.request({
         ...options,
         method

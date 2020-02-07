@@ -13,21 +13,17 @@ const comparator = (a, b) => {
     return 0;
 };
 
-const getColumnData = (list, permission, editModalCallBack, handleDelete, confirmDialog) =>
+const getDataSource = (list, permission, editModalCallBack, handleDelete, confirmDialog) =>
  [
     {
         title: 'Skill',
         dataIndex: 'skill',
-        width: '30%',
         className: "table-column-skill",
-
         sorter: (a, b) => comparator(a.name, b.name)
     },
     {
         title: 'Categories',
         dataIndex: 'categories',
-        width: '40%',
-        minWidth: '100px',
         className: "table-column-category",
     },
     {
@@ -40,8 +36,8 @@ const getColumnData = (list, permission, editModalCallBack, handleDelete, confir
                     {
                         {permission} &&
                         <>
-                            <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} style={{width: '45px', height: '20px'}} onClick={() => editModalCallBack(record)}/>
-                            <SMIcon className={'sm-icon-delete'} iconType={'fas'} icon={'trash-alt'} style={{width: '45px', height: '20px'}} onClick={() => {confirmDialog(handleDelete, record)}}/>
+                            <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} onClick={() => editModalCallBack(record)}/>
+                            <SMIcon className={'sm-icon-delete'} iconType={'far'} icon={'trash-alt'} onClick={() => {confirmDialog(handleDelete, record)}}/>
                         </>
                     }
                 </div>
@@ -50,4 +46,4 @@ const getColumnData = (list, permission, editModalCallBack, handleDelete, confir
     }
 ];
 
-export {getColumnData};
+export {getDataSource};

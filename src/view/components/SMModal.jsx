@@ -21,7 +21,8 @@ SMModal.propTypes = {
         PropTypes.arrayOf(element),
     ]),
     // children: PropTypes.element,
-    footer: PropTypes.arrayOf(element)
+    footer: PropTypes.arrayOf(element),
+    maskClosable: PropTypes.bool
 };
 
 export {SMModal};

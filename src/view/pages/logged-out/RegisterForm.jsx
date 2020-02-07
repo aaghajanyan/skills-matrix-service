@@ -80,7 +80,7 @@ function RegisterForm(props) {
     ];
 
     return (
-        <SMSpinner isLoading={!isCompleted} className="sm-spin" size="large">
+        <SMSpinner isLoading={isCompleted} className="sm-spin" size="large">
             <SMForm
                 className="sm-form register-form"
                 items={[

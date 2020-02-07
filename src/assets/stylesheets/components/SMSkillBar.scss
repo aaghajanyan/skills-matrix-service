@@ -1,7 +1,19 @@
 .sm-skill-bar {
     display: flex;
     align-items: center;
-    flex-shrink: 5;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-right: 10px;
+}
+
+.sm-skill-bar-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 20%;
+    max-width: 100px;
+}
+
+.sm-table-icon {
+    width: 25px!important;
+    height: 25px;
 }

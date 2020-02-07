@@ -1,24 +1,24 @@
 import * as axiosHelper from './axiosHelper';
 
 
-const get = (options) => {
-    return axiosHelper.apiClient('GET', options);
+const get = async (options) => {
+    return await axiosHelper.apiClient('GET', options);
 };
 
-const put = (options) => {
-    return axiosHelper.apiClient('PUT', options);
+const put = async (options) => {
+    return await axiosHelper.apiClient('PUT', options);
 };
 
-const post = (options) => {
-    return axiosHelper.apiClient('POST', options);
+const post = async (options) => {
+    return await axiosHelper.apiClient('POST', options);
 };
 
-const del = (options) => {
-    return axiosHelper.apiClient('DELETE', options);
+const del = async (options) => {
+    return await axiosHelper.apiClient('DELETE', options);
 };
 
-const head = (options) => {
-    return axiosHelper.apiClient('HEAD', options);
+const head = async (options) => {
+    return await axiosHelper.apiClient('HEAD', options);
 };
 
 export {get , post, head, put, del};

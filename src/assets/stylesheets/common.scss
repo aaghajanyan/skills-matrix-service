@@ -75,6 +75,13 @@
     margin-top: 4px;
 }
 
+.sm-tag-size {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
 .sm-tabs {
     .ant-tabs-tab {
         color: $sm-subheading-color;
@@ -213,9 +220,18 @@ img {
 }
 
 
-.sm-icon-refresh, .sm-icon-edit, .sm-icon-delete {
+.sm-icon-refresh {
+    color: $sm-primary-color;
+    width: 20px!important;
+    height: 20px;
+    cursor: pointer;
+}
+
+.sm-icon-edit, .sm-icon-delete {
     color: $sm-primary-color;
     cursor: pointer;
+    width: 30px!important;
+    height: 17px;
 }
 
 .sm-icon-refresh:hover, .sm-icon-edit:hover, .sm-icon-delete:hover {
@@ -223,11 +239,10 @@ img {
     transform: scale(1.2, 1.2);
 }
 
-.rotate {
-    -moz-transform:rotate(360deg);
-    -webkit-transform:rotate(360deg);
-    transform: rotate(360deg);
-  }
+.sm-icon-refresh:active, .sm-icon-refresh:focus-within {
+    transition: 0.3s;
+    transform: rotate(-180deg);
+}
 
 .table-action-area {
     display: flex;
