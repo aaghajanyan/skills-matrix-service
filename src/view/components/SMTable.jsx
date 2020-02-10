@@ -16,7 +16,8 @@ SMTable.propTypes = {
     showHeader: PropTypes.bool,
     dataSource: PropTypes.arrayOf(PropTypes.object),
     scroll: PropTypes.object,
-    pagination: PropTypes.object
+    pagination: PropTypes.object,
+    rowSelection: PropTypes.object
 };
 
 export {SMTable};

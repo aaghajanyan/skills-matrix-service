@@ -11,7 +11,7 @@ const updateSkillData = async (data, guid) => {
         url: `${SMConfig.apiEndpoints.skills}/${guid}`,
         data: data
     };
-    return put(options);
+    return await put(options);
 };
 
 const deleteSkillData = async (guid) => {

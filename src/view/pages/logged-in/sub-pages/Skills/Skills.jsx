@@ -4,7 +4,6 @@ import {SMSkillBar} from '../../components/SMSkillBar';
 import {SMConfirmModal} from '../../../../components/SMConfirmModal';
 import {SkillsTable} from '../../components/SkillsTable';
 
-
 import {Tag} from 'antd'; //TODO : move to common components
 import {SMConfig} from 'src/config';
 import {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData, collectAddedSkillData} from 'src/services/skillsService';
@@ -33,15 +32,17 @@ function Skills(props) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+
     const [skillsDataSource, setSkillsDataSource] = useState(null);
 
     const [initialSkillName, setInitialSkillName] = useState('');
     const [initialCategories, setInitialCategories] = useState([]);
     const [initialIconName, setInitialIconName] = useState('');
 
-    let [isSkillNameValid, skillName, skillNameRule] = useValidator(nameValidator('skill'));
-    let [isIconNameValid, iconName, iconNameRule] = useValidator(nameValidator('icon'));
-    let [isCategoriesValid, categoriesNames, categoryRule] = useValidator(nameValidator('category'));
+    let [isSkillNameValid, skillName, skillNameRule, resetSkillName] = useValidator(nameValidator('skill'));
+    let [isIconNameValid, iconName, iconNameRule, resetIconName] = useValidator(nameValidator('icon'));
+    let [isCategoriesListValid, setIsCategoriesListValid] = useState(null);
+    let [categoriesNames, setCategoriesNames] = useState(null);
 
     const [isEdited, setIsEdited] = useState(false);
     const [editedItem, setEditedItem] = useState(false);
@@ -49,9 +50,23 @@ function Skills(props) {
     const isEntireFormValid = [
         isSkillNameValid,
         isIconNameValid,
-        // isCategoriesValid
+        isCategoriesListValid
     ].every(e => e);
 
+    const handleSelectOptionChange = (catList) => {
+        setCategoriesNames(catList);
+        let result = categoriesStore && categoriesStore.map(a => a.name);
+        if (catList.length) {
+            const redundantCat = catList.filter(function(item) {
+                return !result.includes(item);
+            });
+            setIsCategoriesListValid(redundantCat.length ? false : true);
+
+        } else {
+            setIsCategoriesListValid(false);
+        }
+        return isCategoriesListValid;
+    }
 
     useEffect(() => {
         initBasicDataFromRedux();
@@ -119,7 +134,7 @@ function Skills(props) {
     const collectSkillsData = (skillsRes) => {
         const allSkillsLists = [];
         skillsRes && skillsRes.map((item, index) => {
-            let categoriesList = item.categories && item.categories.map(cat => {
+            let categoriesList = item && item.categories && item.categories.map(cat => {
                 return <Tag style={{...toRGB(cat.name)}} key={cat.name}  className="sm-tag sm-tag-size" >{cat.name}</Tag>
             });
             const row = {
@@ -135,58 +150,17 @@ function Skills(props) {
         setSkillsDataSource(allSkillsLists);
     };
 
-    // const dispachAddedSkill = (res) => {
-    //     if (res.status === 201) {
-    //         const addedSkill = {
-    //             categories: []
-    //         };
-    //         addedSkill.name = res.data.name;
-    //         addedSkill.icon = res.data.icon;
-    //         addedSkill.guid = res.data.guid;
-    //         res.data.addedCategories && res.data.addedCategories.map(catItem => {
-    //             if (catItem.success) {
-    //                 const currentCat = {};
-    //                 currentCat.name = catItem.categoryName;
-    //                 currentCat.guid = catItem.guid;
-    //                 addedSkill.categories.push(currentCat)
-    //             }
-    //         });
-    //         dispatch(addNewSkill(addedSkill));
-    //     }
-    // };
-
     const analyzeAndAddSkill = async(guidsList) => {
-        if (skillName && iconName && categoriesNames) {
-            const res = await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
-            const addedSkill = collectAddedSkillData(res);
+        if (skillName && iconName && isCategoriesListValid) {
+            const response = await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
+            const addedSkill = collectAddedSkillData(response);
             dispatch(addNewSkill(addedSkill));
+            setIsCategoriesListValid(false);
             setVisible(false);
             setLoading(false);
-                // await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
         }else {
             SMNotification('error', SMConfig.messages.skills.addSkill.missing);
         }
-        // if (skillName && iconName && categoriesNames) {
-        //     addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList})
-        //     .then((res) => {
-        //         SMNotification('success', SMConfig.messages.skills.addSkill.success);
-        //         dispachAddedSkill(res);
-        //     })
-        //     .catch(error => {
-        //         if(error.message === 'Network Error'){
-        //             SMNotification('error', messages.noConnection);
-        //         }
-        //         if(error.response) {
-        //             if(error.response.status === 409) {
-        //                 SMNotification('error', SMConfig.messages.skills.addSkill.error);
-        //             }
-        //         }
-        //     });
-        //     setVisible(false);
-        // } else {
-        //     SMNotification('error', SMConfig.messages.skills.addSkill.missing);
-        // }
-        // setLoading(false);
     };
 
     const handleAdd = () => {
@@ -199,6 +173,8 @@ function Skills(props) {
                 }
             })
         });
+        resetSkillName();
+        resetIconName();
         analyzeAndAddSkill(guidsList);
     };
 
@@ -312,19 +288,62 @@ function Skills(props) {
         });
     };
 
+    const handleSomeDelete = (selectedRowKeys) => {
+        const newSelectedRowKeys = [];
+        const remainingRows = [];
+        skillsStore.filter((el) => {
+            selectedRowKeys && selectedRowKeys.includes(el.name) ? newSelectedRowKeys.push(el) : remainingRows.push(el);
+        });
+        newSelectedRowKeys.map(selectedEl => {
+            deleteSkillData(selectedEl.guid).then(() => {
+            });
+        })
+        dispatch(deleteSkill(remainingRows));
+    };
+
     return (
         <>
-            <div className="skills_add-skills-container">
-                    <SMButton
-                        className="sm-button"
-                        onClick={openAddModal}
-                        loading={loading}
-                        disabled={!isAdmin}
-                    >
-                        { loading ? 'Adding' : 'Add'} skill
-                    </SMButton>
-                </div>
-            {skillsDataSource && <SkillsTable refreshTable={initBasicData} skillsDataSource={skillsDataSource} column={getDataSource(skillsDataSource, isAdmin, openEditModal, handleDelete, SMConfirmModal)}/>}
+            {skillsDataSource &&
+                <SkillsTable
+                    skillsDataSource={skillsDataSource}
+                    column={getDataSource(skillsDataSource,
+                    isAdmin,
+                    openEditModal,
+                    handleDelete,
+                    SMConfirmModal)}
+                    handleSomeDelete={handleSomeDelete}
+                    items={[
+                        SMIcon({
+                            key: 'refresh',
+                            className: 'sm-icon-refresh',
+                            iconType: 'fas',
+                            icon: 'sync-alt',
+                            onClick: initBasicData}),
+                        SMButton({
+                            key: 'add',
+                            className: "sm-button",
+                            onClick: openAddModal,
+                            loading: loading,
+                            disabled: !isAdmin,
+                            children: loading ? 'Adding skill' : 'Add skill'
+                        }),
+                        SMInput({
+                            key: 'search',
+                            className: 'sm-input',
+                            name: 'search',
+                            type: 'text',
+                            placeholder: 'Search',
+                            prefix: (
+                                <SMIcon
+                                    className="sm-icon-grey"
+                                    iconType="fas"
+                                    icon="search"
+                                />
+                            ),
+                            autoComplete: 'username'
+                        })
+                    ]}
+                    />}
 
             <SMModal
                 className="add-skill-modal"
@@ -355,9 +374,9 @@ function Skills(props) {
                                 name: 'categoryName',
                                 placeholder: 'Category',
                                 options: getCategoryOptions(),
-                                rules: categoryRule,
                                 mode: 'tags',
-                                initialvalue: isEdited ? initialCategories : []
+                                initialvalue: isEdited ? initialCategories : [],
+                                onChange: handleSelectOptionChange
                             }),
                             SMInput({
                                 className: 'sm-input',

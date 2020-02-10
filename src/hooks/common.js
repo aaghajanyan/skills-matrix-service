@@ -20,8 +20,11 @@ export const useNavigation = () => {
 export const useValidator = (validator) => {
 
     const [isValid, setIsValid] = useState(false);
-
     const [value, setValue] = useState('');
+    const reset = ()=> {
+        setValue('');
+        setIsValid(false);
+    }
 
     const rule = {rules: [{validator: (rule, value, callback) => validator(rule, value, (e) => {
         if(e) {
@@ -33,7 +36,7 @@ export const useValidator = (validator) => {
         setValue(value);
     })}]};
 
-    return [isValid, value, rule.rules];
+    return [isValid, value, rule.rules, reset];
 };
 
 
@@ -48,7 +51,7 @@ export const useService = (service, ...args) => {
             service(...args)
                 .then(data => setData(data))
                 .catch(error => setError(error))
-                .finally(() => setIsCompleted(false));
+                .finally(() => setIsCompleted(true));
         }
     }, [service, args, error, data]);
 

@@ -16,6 +16,12 @@ const comparator = (a, b) => {
 const getDataSource = (list, permission, editModalCallBack, handleDelete, confirmDialog) =>
  [
     {
+        title: '',
+        key: 'index',
+        className: "table-column-numbering",
+        render: (text, record, index) => index+1,
+    },
+    {
         title: 'Skill',
         dataIndex: 'skill',
         className: "table-column-skill",
@@ -29,6 +35,7 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
     {
         title: '',
         dataIndex: 'operation',
+        className: "table-column-action",
         // TODO use SMIcon
         render: (text, record) =>
         list.length >= 1 ? (
@@ -42,7 +49,6 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
                     }
                 </div>
             ) : null,
-        width: '5%'
     }
 ];
 

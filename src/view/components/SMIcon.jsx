@@ -8,14 +8,15 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 library.add(fab, far, fas);
 
-function SMIcon({className, iconType, icon, style, onClick}) {
-    return <FontAwesomeIcon onClick={onClick} className={className} icon={[iconType, icon]} style={style}/>;
+function SMIcon({className, iconType, icon, style, onClick, key}) {
+    return <FontAwesomeIcon onClick={onClick} className={className} icon={[iconType, icon]} style={style} key={key}/>;
 }
 
 SMIcon.propTypes = {
     iconType: PropTypes.oneOf(['fab', 'far', 'fas']),
     icon: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    key: PropTypes.string
 };
 
 export {SMIcon};

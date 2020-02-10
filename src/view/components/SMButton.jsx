@@ -16,7 +16,8 @@ SMButton.propTypes = {
     href: PropTypes.string,
     loading: PropTypes.bool,
     onClick: PropTypes.func,
-    target: PropTypes.string
+    target: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 export {SMButton};

@@ -6,6 +6,10 @@ const {Option} = Select;
 
 function SMSelect({options, ...restProps}) {
 
+    function handleChange(value) {
+        return restProps.onChange(value);
+    }
+
     const renderOptions = options => {
         return options.map(option => {
             return (
@@ -17,7 +21,7 @@ function SMSelect({options, ...restProps}) {
     };
 
     return (
-        <Select mode={restProps.mode} {...restProps}>
+        <Select mode={restProps.mode} {...restProps} onChange={handleChange}>
             {renderOptions(options)}
         </Select>
     );
