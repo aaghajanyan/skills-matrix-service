@@ -8,7 +8,7 @@ import {Tag} from 'antd'; //TODO : move to common components
 import {SMConfig} from 'src/config';
 import {getCategoriesData} from 'src/services/categoryService';
 import {getCurrentUser} from 'src/services/usersService';
-import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect} from 'src/view/components';
+import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
 import {useValidator} from '../../../../../hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {addSkill, addNewSkill, updateSkill, deleteSkill} from 'src/store/actions/skillAction';
@@ -22,6 +22,8 @@ import {far} from '@fortawesome/free-regular-svg-icons';
 
 import skills from '../../../../../store/reducers/skillReducer';
 import categories from '../../../../../store/reducers/categoryReducer';
+import {Input} from 'antd';
+const { Search } = Input;
 
 library.add(fab, far, fas);
 
@@ -259,6 +261,21 @@ function Skills(props) {
         dispatchSkill(await deleteSkill(newSelectedRowKeys, remainingRows));
     };
 
+    const handleSearchInput = (value) => {
+        const filtredData = [];
+        skillsStore.filter((skillItem) => {
+            if (skillItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+                filtredData.push(skillItem);
+            }
+            skillItem.categories.filter(catItem => {
+                if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+                    filtredData.push(skillItem);
+                }
+            });
+        });
+        collectSkillsData(filtredData)
+    }
+
     return (
         <>
             {skillsDataSource &&
@@ -268,9 +285,17 @@ function Skills(props) {
                     isAdmin,
                     openEditModal,
                     handleDelete,
-                    SMConfirmModal)}
+                    SMConfirmModal,
+                    )}
                     handleSomeDelete={handleSomeDelete}
                     items={[
+                        SMSearch({
+                            key: 'search',
+                            placeholder: "Input search text",
+                            className: 'sm-search-skill',
+                            onSearch: value => handleSearchInput(value),
+                            // style: {{ width: 200 }}
+                        }),
                         SMIcon({
                             key: 'refresh',
                             className: 'sm-icon-refresh',

@@ -15,12 +15,12 @@ const comparator = (a, b) => {
 
 const getDataSource = (list, permission, editModalCallBack, handleDelete, confirmDialog) =>
  [
-    {
-        title: '',
-        key: 'index',
-        className: "table-column-numbering",
-        render: (text, record, index) => index+1,
-    },
+    // {
+    //     title: '',
+    //     key: 'index',
+    //     className: "table-column-numbering",
+    //     render: (text, record, index) => index+1,
+    // },
     {
         title: 'Skill',
         dataIndex: 'skill',

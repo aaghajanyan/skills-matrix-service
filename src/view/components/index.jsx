@@ -13,3 +13,4 @@ export {SMTabs} from './SMTabs';
 export {SMTable} from './SMTable';
 export {SMIcon} from './SMIcon';
 export {SMLogo} from './SMLogo';
+export {SMSearch} from './SMSearch';
