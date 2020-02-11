@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {SMSkillBar} from '../../components/SMSkillBar';
 import {SMConfirmModal} from '../../../../components/SMConfirmModal';
@@ -6,7 +6,6 @@ import {SkillsTable} from '../../components/SkillsTable';
 
 import {Tag} from 'antd'; //TODO : move to common components
 import {SMConfig} from 'src/config';
-import {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData, collectAddedSkillData} from 'src/services/skillsService';
 import {getCategoriesData} from 'src/services/categoryService';
 import {getCurrentUser} from 'src/services/usersService';
 import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect} from 'src/view/components';
@@ -21,13 +20,14 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 
+import skills from '../../../../../store/reducers/skillReducer';
+import categories from '../../../../../store/reducers/categoryReducer';
+
 library.add(fab, far, fas);
 
 function Skills(props) {
-    const dispatch = useDispatch();
-
-    let skillsStore = useSelector(state => state.skill);
-    let categoriesStore = useSelector(state => state.category);
+    const [skillsStore, dispatchSkill] = useReducer(skills, []);
+    const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
     const [isAdmin, setIsAdmin] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -96,12 +96,8 @@ function Skills(props) {
         });
     };
 
-    const getSkillsAllData = () => {
-        getSkillsData().then((skillsRes) => {
-            dispatch(addSkill(skillsRes));
-        }).catch(error=> {
-            console.log("Error to get Skills. ", error);
-        })
+    const getSkillsAllData = async () => {
+        dispatchSkill(await addSkill());
     };
 
     const getSkillsAllDataFromRedux = () => {
@@ -110,12 +106,8 @@ function Skills(props) {
         }
     };
 
-    const getCategoriesAllData = () => {
-        getCategoriesData().then((categories) => {
-            dispatch(addCategory(categories));
-        }).catch(error=> {
-            console.log("Error to get Category. ", error);
-        });
+    const getCategoriesAllData = async () => {
+        dispatchCategory(await addCategory());
     };
 
     const getCategoriesAllDataFromRedux = () => {
@@ -152,9 +144,7 @@ function Skills(props) {
 
     const analyzeAndAddSkill = async(guidsList) => {
         if (skillName && iconName && isCategoriesListValid) {
-            const response = await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
-            const addedSkill = collectAddedSkillData(response);
-            dispatch(addNewSkill(addedSkill));
+            dispatchSkill(await addNewSkill({name: skillName, icon: iconName, categoriesId: guidsList}));
             setIsCategoriesListValid(false);
             setVisible(false);
             setLoading(false);
@@ -199,34 +189,9 @@ function Skills(props) {
         return categoriesGuid;
     };
 
-    const updateSkillItemInStoreObj = (currentValues, categoriesObj) => {
-        const foundUpdatedIndex = skillsStore.findIndex(item => item.name == editedItem.name);
-        skillsStore[foundUpdatedIndex] = {
-            name: currentValues.skillName,
-            icon: currentValues.iconName,
-            guid: skillsStore[foundUpdatedIndex].guid,
-            categories: categoriesObj
-        };
-    };
-
-    const analyzeAndUpdateSkill = (data) => {
-        updateSkillData(data, editedItem.guid)
-        .then((res) => {
-            setLoading(false);
-            SMNotification('success', SMConfig.messages.skills.updateSkill.success);
-            dispatch(updateSkill(skillsStore));
-        })
-        .catch(error => {
-            setLoading(false);
-            if(error.message === 'Network Error'){
-                SMNotification('error', messages.noConnection);
-            }
-            if(error.response) {
-                if(error.response.status === 409) {
-                    SMNotification('error', SMConfig.messages.skills.updateSkill.error);
-                }
-            }
-        });
+    const analyzeAndUpdateSkill = async (data, currentValues, categoriesObj) => {
+        dispatchSkill(await updateSkill(data, editedItem, currentValues, categoriesObj, skillsStore));
+        setLoading(false);
         setVisible(false);
     };
 
@@ -247,8 +212,7 @@ function Skills(props) {
                     addCategories: addCategoriesGuid,
                     deleteCategories: deleteCategoriesGuid
                 };
-                updateSkillItemInStoreObj(currentValues, categoriesObj);
-                analyzeAndUpdateSkill(data);
+                analyzeAndUpdateSkill(data, currentValues, categoriesObj);
             }
         }
     };
@@ -266,12 +230,11 @@ function Skills(props) {
         setVisible(true);
     };
 
-    const openEditModal = (record) => {
+    const openEditModal = (e, record) => {
+        e.stopPropagation();
         setEditedItem(record);
         setInitialSkillName(record.name);
-        const catList = record.categories.map(c => {
-            return c.key
-        });
+        const catList = record.categories.map(currCat => currCat.key);
         setInitialCategories(catList);
         setInitialIconName(record.icon);
         setIsEdited(true);
@@ -279,26 +242,21 @@ function Skills(props) {
 
     };
 
-    const handleDelete = (record) => {
+    const handleDelete = async (record) => {
         const items = skillsStore.filter(item => {
             return item.name !== record.name
         });
-        deleteSkillData(record.guid).then(() => {
-            dispatch(deleteSkill(items));
-        });
+        dispatchSkill(await deleteSkill([record.guid], items));
+
     };
 
-    const handleSomeDelete = (selectedRowKeys) => {
+    const handleSomeDelete = async (selectedRowKeys) => {
         const newSelectedRowKeys = [];
         const remainingRows = [];
         skillsStore.filter((el) => {
-            selectedRowKeys && selectedRowKeys.includes(el.name) ? newSelectedRowKeys.push(el) : remainingRows.push(el);
+            selectedRowKeys && selectedRowKeys.includes(el.name) ? newSelectedRowKeys.push(el.guid) : remainingRows.push(el);
         });
-        newSelectedRowKeys.map(selectedEl => {
-            deleteSkillData(selectedEl.guid).then(() => {
-            });
-        })
-        dispatch(deleteSkill(remainingRows));
+        dispatchSkill(await deleteSkill(newSelectedRowKeys, remainingRows));
     };
 
     return (
@@ -327,21 +285,6 @@ function Skills(props) {
                             disabled: !isAdmin,
                             children: loading ? 'Adding skill' : 'Add skill'
                         }),
-                        SMInput({
-                            key: 'search',
-                            className: 'sm-input',
-                            name: 'search',
-                            type: 'text',
-                            placeholder: 'Search',
-                            prefix: (
-                                <SMIcon
-                                    className="sm-icon-grey"
-                                    iconType="fas"
-                                    icon="search"
-                                />
-                            ),
-                            autoComplete: 'username'
-                        })
                     ]}
                     />}
 

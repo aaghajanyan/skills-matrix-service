@@ -9,7 +9,7 @@ import {far} from '@fortawesome/free-regular-svg-icons';
 library.add(fab, far, fas);
 
 function SkillsTable(props) {
-    const [selectedRowKeys, setSelectedRowKeys ] = useState(null);
+    let [selectedRowKeys, setSelectedRowKeys ] = useState(null);
 
     const onSelectChange = selectedRowKeys => {
         setSelectedRowKeys(selectedRowKeys);
@@ -29,7 +29,21 @@ function SkillsTable(props) {
     };
 
     const onSkillSelect = (record, rowIndex) =>({
-        onClick: () => selectedRowKeys ? setSelectedRowKeys([...selectedRowKeys, record.name]) : setSelectedRowKeys([record.name])
+        onClick: () => {
+            if (selectedRowKeys) {
+                if (!selectedRowKeys.includes(record.name)){
+                    setSelectedRowKeys([...selectedRowKeys, record.name])
+                } else {
+                    const index = selectedRowKeys.indexOf(record.name);
+                    if (index > -1){
+                        selectedRowKeys.splice(index, 1);
+                        setSelectedRowKeys([...selectedRowKeys]);
+                    }
+                }
+            } else {
+                setSelectedRowKeys([record.name])
+            }
+        }
     });
 
     return (
@@ -37,7 +51,7 @@ function SkillsTable(props) {
             <div className="sm-component sm-component-skill">
                 <div className="skills-table-header">
                     <h3 className="sm-subheading" >All Skills</h3>
-                    <div className="skills_add-skills-container">
+                    <div className="skills-table-header-items">
                         {props.items}
                     </div>
                 </div>

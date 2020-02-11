@@ -43,8 +43,8 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
                     {
                         {permission} &&
                         <>
-                            <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} onClick={() => editModalCallBack(record)}/>
-                            <SMIcon className={'sm-icon-delete'} iconType={'far'} icon={'trash-alt'} onClick={() => {confirmDialog(handleDelete, record)}}/>
+                            <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} onClick={(e) => editModalCallBack(e, record)}/>
+                            <SMIcon className={'sm-icon-delete'} iconType={'far'} icon={'trash-alt'} onClick={(e) => {confirmDialog(handleDelete, e, record)}}/>
                         </>
                     }
                 </div>

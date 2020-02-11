@@ -2,8 +2,8 @@ import {SMConfig} from 'src/config';
 import {get, post, put, del} from './client';
 
 const getSkillsData = async () => {
-    return get({url: `${SMConfig.apiEndpoints.skills}`})
-        .then(result => result.data);
+    const skillsRes = await get({url: `${SMConfig.apiEndpoints.skills}`});
+    return skillsRes.data;
 };
 
 const updateSkillData = async (data, guid) => {

@@ -52,6 +52,12 @@
                 "description": "Could not update skill."
             }
         },
+        "getSkill": {
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not get skills from remote server."
+            }
+        },
         "nonexistentInvitation": {
             "message": "Invalid invitation URL"
         }
