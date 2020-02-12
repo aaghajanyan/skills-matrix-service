@@ -36,12 +36,11 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
         title: '',
         dataIndex: 'operation',
         className: "table-column-action",
-        // TODO use SMIcon
         render: (text, record) =>
         list.length >= 1 ? (
-                <div style={{wordWrap: 'no-word'}} className='table-action-area'>
+                <div style={{wordWrap: 'no-word'}} className='sm-table-action-area'>
                     {
-                        {permission} &&
+                        permission &&
                         <>
                             <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon={'pencil-alt'} onClick={(e) => editModalCallBack(e, record)}/>
                             <SMIcon className={'sm-icon-delete'} iconType={'far'} icon={'trash-alt'} onClick={(e) => {confirmDialog(handleDelete, e, record)}}/>

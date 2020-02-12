@@ -1,29 +1,24 @@
 import React, {useEffect, useState, useReducer} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {Tag} from 'antd';
+import {SMConfig} from 'src/config';
+import {SkillsTable} from '../../components/SkillsTable';
 import {SMSkillBar} from '../../components/SMSkillBar';
 import {SMConfirmModal} from '../../../../components/SMConfirmModal';
-import {SkillsTable} from '../../components/SkillsTable';
-
-import {Tag} from 'antd'; //TODO : move to common components
-import {SMConfig} from 'src/config';
-import {getCategoriesData} from 'src/services/categoryService';
-import {getCurrentUser} from 'src/services/usersService';
 import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
 import {useValidator} from '../../../../../hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {addSkill, addNewSkill, updateSkill, deleteSkill} from 'src/store/actions/skillAction';
 import {addCategory, updateCategory, deleteCategory} from 'src/store/actions/categoryAction';
+import {getCurrentUser} from 'src/services/usersService';
 import {getDataSource} from './column';
+import skills from '../../../../../store/reducers/skillReducer';
+import categories from '../../../../../store/reducers/categoryReducer';
 import {toRGB} from '../../../../../helpers/generateColor';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
-
-import skills from '../../../../../store/reducers/skillReducer';
-import categories from '../../../../../store/reducers/categoryReducer';
-import {Input} from 'antd';
-const { Search } = Input;
+import {debounce} from 'throttle-debounce';
 
 library.add(fab, far, fas);
 
@@ -55,7 +50,7 @@ function Skills(props) {
         isCategoriesListValid
     ].every(e => e);
 
-    const handleSelectOptionChange = (catList) => {
+    const handleSelectOptionChangeAndValidate = (catList) => {
         setCategoriesNames(catList);
         let result = categoriesStore && categoriesStore.map(a => a.name);
         if (catList.length) {
@@ -92,9 +87,7 @@ function Skills(props) {
 
     const initIsAdmin = () => {
         getCurrentUser().then(res => {
-            if (res && res.roleGroup.name === 'super_user') {
-                setIsAdmin(true);
-            }
+            res && res.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
         });
     };
 
@@ -261,23 +254,27 @@ function Skills(props) {
         dispatchSkill(await deleteSkill(newSelectedRowKeys, remainingRows));
     };
 
-    const handleSearchInput = (value) => {
-        const filtredData = [];
-        skillsStore.filter((skillItem) => {
-            if (skillItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
-                filtredData.push(skillItem);
-            }
-            skillItem.categories.filter(catItem => {
-                if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+    const handleSearchInputChange = (e) => {
+        e.persist();
+        const value = e.target.value;
+        debounce(500, () => {
+            const filtredData = [];
+            skillsStore.filter((skillItem) => {
+                if (skillItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
+                skillItem.categories.filter(catItem => {
+                    if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+                        filtredData.push(skillItem);
+                    }
+                });
             });
-        });
-        collectSkillsData(filtredData)
+            collectSkillsData(filtredData)
+        })()
     }
 
     return (
-        <>
+        <div className='sm-content-skill-style'>
             {skillsDataSource &&
                 <SkillsTable
                     skillsDataSource={skillsDataSource}
@@ -289,27 +286,38 @@ function Skills(props) {
                     )}
                     handleSomeDelete={handleSomeDelete}
                     items={[
-                        SMSearch({
-                            key: 'search',
-                            placeholder: "Input search text",
-                            className: 'sm-search-skill',
-                            onSearch: value => handleSearchInput(value),
-                            // style: {{ width: 200 }}
-                        }),
                         SMIcon({
                             key: 'refresh',
                             className: 'sm-icon-refresh',
                             iconType: 'fas',
                             icon: 'sync-alt',
                             onClick: initBasicData}),
+                        // SMIcon({
+                        //     key: 'add',
+                        //     className: 'sm-icon-add',
+                        //     onClick: openAddModal,
+                        //     loading: loading,
+                        //     disabled: !isAdmin,
+                        //     iconType: 'fas',
+                        //     icon: 'plus-circle',
+                        // }),
                         SMButton({
                             key: 'add',
-                            className: "sm-button",
+                            className: "sm-button-add",
                             onClick: openAddModal,
                             loading: loading,
                             disabled: !isAdmin,
-                            children: loading ? 'Adding skill' : 'Add skill'
+                            children: '+',
+                            shape: "circle"
                         }),
+                    ]}
+                    searchBar = {[
+                        SMSearch({
+                            key: 'search',
+                            placeholder: "Input search text",
+                            className: 'sm-search-skill',
+                            onChange: e => handleSearchInputChange(e),
+                        })
                     ]}
                     />}
 
@@ -344,7 +352,7 @@ function Skills(props) {
                                 options: getCategoryOptions(),
                                 mode: 'tags',
                                 initialvalue: isEdited ? initialCategories : [],
-                                onChange: handleSelectOptionChange
+                                onChange: handleSelectOptionChangeAndValidate
                             }),
                             SMInput({
                                 className: 'sm-input',
@@ -380,7 +388,7 @@ function Skills(props) {
                     />
                 </div>
             </SMModal>
-        </>
+        </div>
     );
 }
 

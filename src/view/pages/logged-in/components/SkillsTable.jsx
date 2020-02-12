@@ -7,6 +7,7 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 library.add(fab, far, fas);
+import {SMConfirmModal} from '../../../components/SMConfirmModal';
 
 function SkillsTable(props) {
     let [selectedRowKeys, setSelectedRowKeys ] = useState(null);
@@ -19,11 +20,14 @@ function SkillsTable(props) {
         selectedRowKeys,
         onChange: onSelectChange,
         hideDefaultSelections: true,
+        columnWidth: '10px',
         selections: [
           {
             key: 'delete-all',
             text: 'Delete',
-            onSelect: () => {props.handleSomeDelete(selectedRowKeys)},
+            onSelect: () => {
+                SMConfirmModal(props.handleSomeDelete, null, selectedRowKeys)
+            },
           }
         ]
     };
@@ -55,6 +59,9 @@ function SkillsTable(props) {
                         {props.items}
                     </div>
                 </div>
+                <div className="skills-table-header-search">
+                        {props.searchBar}
+                </div>
 
                 <SMTable
                     className="sm-table sm-table-skill"
@@ -63,6 +70,7 @@ function SkillsTable(props) {
                     pagination={{ showQuickJumper: true, defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['3', '5', '10', '100']}}
                     rowSelection={rowSelection}
                     onRow={onSkillSelect}
+                    scroll={{ y: 625 }}
                 />
             </div>
         </React.Fragment>

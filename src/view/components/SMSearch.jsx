@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const {Search} = Input;
 
 function SMSearch(props) {
-    return <Search {...props}/>;
+    return <Search allowClear {...props}/>;
 }
 
 SMSearch.propTypes = {

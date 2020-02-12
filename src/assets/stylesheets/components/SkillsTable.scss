@@ -2,9 +2,18 @@
 
 .sm-component-skill {
     min-width: 550px;
+    // max-height: calc(100vh - #{$sm-header-height} - #{$sm-footer-height} + #{$sm-component-padding});
 }
-.skills-table-header {
 
+.skills-table-header {
+    .skills-table-header-items{
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 1%;
+        margin-bottom: 20px;
+        align-items: center;
+        width: 85%;
+    }
     .sm-button {
         cursor: auto;
         opacity: 1;
@@ -12,23 +21,23 @@
 }
 
 .table-column-numbering {
-    width: 5%;
+    width: 2%;
 }
 
 .table-column-skill {
-    width: 25%;
-}
-
-.table-column-category{
-    width: 55%;
-}
-
-.table-column-action {
     width: 5%;
 }
 
+.table-column-category{
+    width: 10%;
+}
+
+.table-column-action {
+    width: 2%;
+}
+
 .table-column-skill, .table-column-category{
-    text-align: center!important;
+    // text-align: center!important;
 }
 
 .sm-table-skill {
@@ -39,9 +48,4 @@
 .sm-icon-refresh-category {
     margin-top: 15%;
     margin-left: 25px;
-}
-
-.sm-input-search {
-    margin-right: 10%;
-    width: 80%;
 }
