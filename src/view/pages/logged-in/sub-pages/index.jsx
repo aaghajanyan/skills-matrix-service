@@ -1,5 +1,5 @@
 export {Branches} from './Branches';
-export {Categories} from './Categories';
+export {Categories} from './Categories/Categories';
 export {Employees} from './Employees';
 export {Home} from './Home';
 export {Settings} from './Settings';

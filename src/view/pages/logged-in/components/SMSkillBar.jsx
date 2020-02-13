@@ -14,7 +14,7 @@ function SMSkillBar({className, iconClassName, iconType, iconName, style, name, 
     // TODO use SMIcon
     return (
         <div className={classNames('sm-skill-bar', className, onClick ? 'pointer': '')} >
-            <SMIcon className={iconClassName} iconType={iconType} icon={iconName} />
+            {iconType && <SMIcon className={iconClassName} iconType={iconType} icon={iconName} />}
             <span className="sm-skill-bar-name unselectable">{name}</span>
         </div>
     );

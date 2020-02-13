@@ -28,7 +28,7 @@ class App extends Component {
     routes = SMConfig.routes;
     render() {
         return (
-            <ErrorBoundary>
+            // <ErrorBoundary>
                 <Provider store={store}>
                     <Router>
                         <Switch>
@@ -53,7 +53,7 @@ class App extends Component {
                         </Switch>
                     </Router>
                 </Provider>
-            </ErrorBoundary>
+            // </ErrorBoundary>
         );
     }
 }

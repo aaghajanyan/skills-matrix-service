@@ -1,6 +1,6 @@
 import {getCategoriesData} from 'src/services/categoryService';
 
-const addCategory = async () => {
+const getCategories = async () => {
     try {
         const categoriesRes = await getCategoriesData();
         return {
@@ -13,5 +13,5 @@ const addCategory = async () => {
 }
 
 export {
-    addCategory
+    getCategories
 }

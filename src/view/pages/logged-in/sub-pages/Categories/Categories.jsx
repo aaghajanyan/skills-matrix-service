@@ -9,7 +9,7 @@ import {useValidator} from '../../../../../hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
-import {addNewSkillData, deleteSkillData, updateSkillData} from 'src/services/skillsService';
+import {getCategoriesData, addNewCategoryData, updateCategoryData} from 'src/services/categoryService';
 import {getCurrentUser} from 'src/services/usersService';
 import {getDataSource} from './column';
 import skills from '../../../../../store/reducers/skillReducer';
@@ -23,7 +23,7 @@ import {debounce} from 'throttle-debounce';
 
 library.add(fab, far, fas);
 
-function Skills(props) {
+function Categories(props) {
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
@@ -37,32 +37,32 @@ function Skills(props) {
     const [initialCategories, setInitialCategories] = useState([]);
     const [initialIconName, setInitialIconName] = useState('');
 
-    let [isSkillNameValid, skillName, skillNameRule, resetSkillName] = useValidator(nameValidator('skill'));
+    let [isCategoryNameValid, categoryName, categoryNameRule, resetCategoryName] = useValidator(nameValidator('skill'));
     let [isIconNameValid, iconName, iconNameRule, resetIconName] = useValidator(nameValidator('icon'));
-    let [isCategoriesListValid, setIsCategoriesListValid] = useState(null);
-    let [categoriesNames, setCategoriesNames] = useState(null);
+    let [isSkillsListValid, setIsSkillsListValid] = useState(null);
+    let [skillsNames, setSkillsNames] = useState(null);
 
     const [isEdited, setIsEdited] = useState(false);
     const [editedItem, setEditedItem] = useState(false);
 
     const isEntireFormValid = [
-        isSkillNameValid,
+        isCategoryNameValid,
         isIconNameValid,
-        isCategoriesListValid
+        isSkillsListValid
     ].every(e => e);
 
-    const handleSelectOptionChangeAndValidate = (catList) => {
-        setCategoriesNames(catList);
-        let result = categoriesStore && categoriesStore.map(a => a.name);
-        if (catList.length) {
-            const redundantCat = catList.filter(function(item) {
+    const handleSelectOptionChangeAndValidate = (skillsList) => {
+        setSkillsNames(skillsList);
+        let result = skillsStore && skillsStore.map(skill => skill.name);
+        if (skillsList.length) {
+            const redundantSkills = skillsList.filter(function(item) {
                 return !result.includes(item);
             });
-            setIsCategoriesListValid(redundantCat.length ? false : true);
+            setIsSkillsListValid(redundantSkills.length ? false : true);
         } else {
-            setIsCategoriesListValid(false);
+            setIsSkillsListValid(false);
         }
-        return isCategoriesListValid;
+        return isSkillsListValid;
     }
 
     useEffect(() => {
@@ -70,8 +70,8 @@ function Skills(props) {
     }, []);
 
     useEffect(() => {
-        collectSkillsData(skillsStore);
-    }, [skillsStore]);
+        collectCategoriesData(categoriesStore);
+    }, [categoriesStore]);
 
     const initBasicData = () => {
         initIsAdmin();
@@ -93,30 +93,40 @@ function Skills(props) {
         dispatchCategory(await getCategories());
     };
 
-    const getCategoryOptions = () => {
-        const categoryOptions = categoriesStore ? categoriesStore.map(category => {
-            return {value: category.name};
+    const getSkillsOptions = () => {
+        const skillsOptions = skillsStore ? skillsStore.map(skill => {
+            return {value: skill.name};
         }) : []
-        return categoryOptions;
+        return skillsOptions;
     };
 
-    const collectSkillsData = (skillsRes) => {
-        const allSkillsLists = [];
-        skillsRes && skillsRes.map((item, index) => {
-            let categoriesList = item && item.categories && item.categories.map(cat => {
-                return <Tag style={{...toRGB(cat.name)}} key={cat.name}  className="sm-tag sm-tag-size" >{cat.name}</Tag>
+    const getRelatedCategoriesOptions = () => {
+        const relCatOptions = categoriesStore ? categoriesStore.map(cat => {
+            cat.relatedCategories ? cat.relatedCategories.map(relCat => {
+                return {value: relCat.name}
+            }) : []
+        }) : []
+        console.log("relCatOptions = ", relCatOptions)
+        return relCatOptions;
+    };
+
+    const collectCategoriesData = (categoriesRes) => {
+        const allCategoriesLists = [];
+        categoriesRes && categoriesRes.map((item, index) => {
+            let skillsList = item && item.skills && item.skills.map(skill => {
+                return <Tag style={{...toRGB(skill.name)}} key={skill.name}  className="sm-tag sm-tag-size" >{skill.name}</Tag>
             });
             const row = {
                 key: item.name,
                 name: item.name,
                 guid: item.guid,
-                icon: item.icon,
-                skill:  <SMSkillBar name={item.name} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
-                categories: categoriesList,
+                categories:  <SMSkillBar name={item.name}/>,
+                skill: skillsList,
             };
-            allSkillsLists.push(row);
+            allCategoriesLists.push(row);
+            console.log("allCategoriesLists = ", allCategoriesLists)
         });
-        setSkillsDataSource(allSkillsLists);
+        setSkillsDataSource(allCategoriesLists);
     };
 
     const closeModal = () => {
@@ -124,18 +134,18 @@ function Skills(props) {
         setLoading(false);
     }
 
-    const analyzeAndAddSkill = async(guidsList) => {
+    const analyzeAndAddCategory = async(guidsList) => {
         try {
-            if (skillName && iconName && isCategoriesListValid) {
-                await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
-                getSkillsAllData();
-                // dispatchSkill(await addNewSkill({name: skillName, icon: iconName, categoriesId: guidsList}));
+            if (categoryName && isSkillsListValid) {
+                await addNewCategoryData({name: categoryName, skillsIds: guidsList, relatedCategoriesIds: []});
+                getCategoriesAllData();
                 closeModal();
                 SMNotification('success', SMConfig.messages.skills.addSkill.success);
             }else {
                 SMNotification('error', SMConfig.messages.skills.addSkill.missing);
             }
         } catch(error) {
+            console.log(error)
             closeModal();
             SMNotification('error', SMConfig.messages.skills.addSkill.error)
         }
@@ -144,17 +154,17 @@ function Skills(props) {
     const handleAdd = () => {
         setLoading(true);
         const guidsList = [];
-        categoriesNames && categoriesNames.map(categoryName => {
-            return categoriesStore.filter((c) => {
-                if (c.name === categoryName) {
-                    guidsList.push(c.guid);
+        skillsNames && skillsNames.map(skillName => {
+            return skillsStore.filter((s) => {
+                if (s.name === skillName) {
+                    guidsList.push(s.guid);
                 }
             });
         });
-        resetSkillName();
+        resetCategoryName();
         resetIconName();
-        setIsCategoriesListValid(false);
-        analyzeAndAddSkill(guidsList);
+        setIsSkillsListValid(false);
+        analyzeAndAddCategory(guidsList);
     };
 
     const collectCategoriesGuidsFromName = (categoriesNames) => {
@@ -267,7 +277,7 @@ function Skills(props) {
                     }
                 });
             });
-            collectSkillsData(filtredData)
+            collectCategoriesData(filtredData);
         })()
     }
 
@@ -327,29 +337,30 @@ function Skills(props) {
                         items={[
                             SMInput({
                                 className: 'sm-input',
-                                name: 'skillName',
+                                name: 'categoryName',
                                 type: 'text',
                                 placeholder: 'Name',
-                                rules: skillNameRule,
+                                rules: categoryNameRule,
                                 initialvalue: isEdited ? initialSkillName : '',
                             }),
                             SMSelect({
                                 className: 'sm-select sm-select-skill',
-                                name: 'categoryName',
-                                placeholder: 'Category',
-                                options: getCategoryOptions(),
+                                name: 'skillName',
+                                placeholder: 'Skills',
+                                options: getSkillsOptions(),
                                 mode: 'tags',
                                 initialvalue: isEdited ? initialCategories : [],
                                 onChange: handleSelectOptionChangeAndValidate
                             }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'iconName',
-                                type: 'text',
-                                placeholder: 'Icon',
-                                rules: iconNameRule,
-                                initialvalue: isEdited ? initialIconName : '',
-                            })
+                            SMSelect({
+                                className: 'sm-select sm-select-skill',
+                                name: 'relCategory',
+                                placeholder: 'Related categories',
+                                options: getRelatedCategoriesOptions(),
+                                mode: 'tags',
+                                initialvalue: isEdited ? [] : [],
+                                // onChange: handleSelectOptionChangeAndValidate
+                            }),
                         ]}
                         footer={[
                             SMButton({
@@ -374,4 +385,4 @@ function Skills(props) {
     );
 }
 
-export {Skills};
+export {Categories};
