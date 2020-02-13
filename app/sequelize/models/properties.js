@@ -3,7 +3,7 @@ const {initializeCriteriaCategory} = require('../utils/defaultCriteriaCategory')
 
 module.exports = (sequelize, DataTypes) => {
     const PropertyModel = sequelize.define(
-        Constants.ModelNames.criteria_categories,
+        Constants.ModelNames.Criteria_categories,
         {
             name: {
                 type: DataTypes.STRING,
