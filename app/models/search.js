@@ -1,3 +1,4 @@
+const util = require('util');
 const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
 const replaceAll = require('../helper/recursiveReplace');
@@ -32,6 +33,7 @@ class SearchUser {
         sqlCommand = replaceAll(sqlCommand, '() and', '');
         sqlCommand = replaceAll(sqlCommand, '() or', '');
         sqlCommand = replaceAll(sqlCommand, '()', '');
+        console.log("sqlCommand = ", sqlCommand);
         return sqlCommand;
     }
 
@@ -125,6 +127,11 @@ class SearchUser {
     }
 
     convertSkillCategoryRuleToQuery(properties, isSkillRule) {
+        const date = properties.last_worked_date.split('-');
+        const y = date[0];
+        const m = date[1];
+        const d = date[2];
+
         let sqlStr = isSkillRule
             ? ` ${Constants.Keys.skill_experience_proficiency} ~ \'.*\\[`
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
@@ -139,9 +146,12 @@ class SearchUser {
                 : sqlStr.concat(`[${Constants.Controllers.Search.MIN_EXPERIENCE}-${experience - 1}],`);
         sqlStr =
             properties.opCondition === 'equal'
-                ? sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}]`)
-                : sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency - 1}]`);
-        sqlStr = sqlStr.concat("'");
+                ? sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}],`)
+                : sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency - 1}],`);
+        sqlStr = properties.opCondition === 'equal' ?
+            sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER, y[1], y[2], y[3], m[0], m[1], d[0], d[1])) :
+            sqlStr.concat(util.format(Constants.DATE_RANGE_BEFORE, y[1], y[2], y[3], m[0], m[1], d[0], d[1]));
+        sqlStr = sqlStr.concat("]'");
         return sqlStr;
     }
 

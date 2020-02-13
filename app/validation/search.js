@@ -59,6 +59,7 @@ const ruleSchema = Joi.object().keys({
             .required(),
         experience: Joi.string().valid(['1', '2', '3', '4', '5']),
         proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
+        last_worked_date: Joi.date(),
     }).required(),
 });
 

@@ -13,8 +13,8 @@ module.exports = {
         viewName: 'users_view',
         uniqueViewName: 'users_view_unique',
         usersView: `SELECT u.id, u.email, u.guid as user_guid, br.name as branch_name, pos.name as position_name, \
-                  ('[' || s.name || ',' || us.experience || ',' || us.profficience || ']') as skill_info, \
-                  ('[' || c.name || ',' || uc.experience || ',' || uc.profficience || ']') as category_info \
+                  ('[' || s.name || ',' || us.experience || ',' || us.profficience || ',' ||  TO_CHAR(us.last_worked_date :: DATE, 'yyyy-mm-dd') || ']') as skill_info, \
+                  ('[' || c.name || ',' || uc.experience || ',' || uc.profficience || ',' || TO_CHAR(uc.last_worked_date :: DATE, 'yyyy-mm-dd') || ']') as category_info \
                   FROM users u left outer join branches as br on u.branch_id=br.id \
                   left outer join positions as pos on u.position_id=pos.id \
                   left outer join users_skills us on u.id=us.user_id \

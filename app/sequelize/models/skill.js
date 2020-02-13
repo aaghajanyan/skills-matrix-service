@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
                     msg: Constants.ModelErrors.NAME_IS_MISSING,
                 },
                 unique: {
-                    args: true,
+                    args: false,
                     msg: Constants.ModelErrors.SKILL_ALREADY_EXISTS,
                 },
             },

@@ -20,7 +20,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             icon: {
-                unique: true,
+                unique: false,
                 allowNull: false,
                 type: Sequelize.STRING,
             },
