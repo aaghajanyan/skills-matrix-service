@@ -60,8 +60,8 @@ function SMEmployeeInitial(props) {
                 </div>)
             }
         >
-            <Summary dashboard={dashboardInfo} key="Summary"/>
-            <Assessment dashboard={dashboardInfo} key="Assessment"/>
+            <Summary dashboard={dashboardInfo} userGuid={user.guid} key="Summary"/>
+            <Assessment dashboard={dashboardInfo} userGuid={user.guid} key="Assessment"/>
             <div key="History"><h1> History </h1></div>
             <div key="About"><h1> About </h1></div>
         </SMTabs>
