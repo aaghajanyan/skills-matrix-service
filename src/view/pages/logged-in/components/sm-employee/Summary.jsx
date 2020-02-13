@@ -49,9 +49,55 @@ function Summary(props) {
         return users;
     };
 
+    const smCharbar = () => {
+        if(!props.dashboard){
+            return [];
+        }
+
+        const categories = [];
+
+        props.dashboard.categoriesUsers.map(item => {
+            categories.push({name: item.name});
+        });
+
+        props.dashboard.topSkilsSort.map( (skill, index) => {
+            categories.map(cat => {
+                if(cat.name === skill.categories){
+                    Object.assign(cat, {[skill.name]: skill.experience})
+                }
+            });
+        });
+
+        props.dashboard.needToImproveSort.map( (skill, index) => {
+            categories.map(cat => {
+                if(cat.name === skill.categories){
+                    Object.assign(cat, {[skill.name]: skill.experience})
+                }
+            })
+        });
+
+        return categories
+    }
+
+    const chartKeys = () => {
+        if(!props.dashboard){
+            return [];
+        }
+
+        const skills = props.dashboard.topSkilsSort.map( (skill, index) => {
+            return skill.name;
+        });
+
+        props.dashboard.needToImproveSort.map( (skill, index) => {
+            skills.push(skill.name)
+        });
+
+        return skills;
+    }
+
     return (
         <React.Fragment>
-            <SMChart className="sm-component" data={summary.chartData} width={800} height={200} keys={summary.chartKeys}/>
+            <SMChart className="sm-component" data={smCharbar()} width={800} height={200} keys={chartKeys()}/>
             <div className="sm-tabs_component-container" >
                 <SkillsList className="sm-component" title="Top Skills" data={topSkills()} />
                 <SkillsList className="sm-component" title="Need To Improve" data={needToImproveSkills()} />
