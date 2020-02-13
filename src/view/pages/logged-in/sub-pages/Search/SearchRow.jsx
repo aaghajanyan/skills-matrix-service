@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Select, Row, Col, Button} from 'antd';
 import {SMIcon} from 'view/components/SMIcon';
 import {CRITERIA} from '../../../../../configSearch/criteria';
+import { DatePicker } from 'antd';
+
+const dateFormat = 'YYYY/MM/DD';
 
 const {Option} = Select;
 
@@ -22,9 +25,9 @@ function SearchRow(props) {
         props.delete(props.criteriaId);
     };
 
-    const conditionQuery = (item) => (
-        item.key === 'list' || item.key === 'branch' || item.key === 'position' ? 'name' : item.key
-    );
+    const conditionQuery = (item) => {
+        return item.key === 'list' || item.key === 'branch' || item.key === 'position' ? 'name' : item.key
+    };
 
     const initialValues = (item) => {
         return props.defaultProperties ? props.defaultProperties.properties[conditionQuery(item)] : item.name;
@@ -33,14 +36,18 @@ function SearchRow(props) {
     const renderSelects = () => {
 
         return criteriaValue && Object.values(CRITERIA[criteriaValue]).map((item, index) => {
-            return (<Col key={index} span={4}>
+            return  item.key === 'last_worked_date' ? <Col key={index} span={3}>
+                {getFieldDecorator(`${props.criteriaId}[${conditionQuery(item)}]`,{initialValue: initialValues(item)})(
+                    <DatePicker key={item.key} onChange={handleClickChangeOption} format={dateFormat} />
+                )}
+                </Col> : <Col key={index} span={3}>
                 {getFieldDecorator(`${props.criteriaId}[${conditionQuery(item)}]`,{initialValue: initialValues(item)})(
                     <Select disabled={props.disabled} placeholder={item.name} onSelect={handleClickChangeOption} key={item.name} >
                         {Object.values(item.items).map((items, indexSel) => (
                             <Option key={items.name}>{items.name}</Option>
                         ))}
                     </Select>)}
-            </Col>);
+            </Col>;
         });
     };
 
