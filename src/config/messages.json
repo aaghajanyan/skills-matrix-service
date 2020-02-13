@@ -52,6 +52,15 @@
                 "description": "Could not update skill."
             }
         },
+        "deleteSkill": {
+            "success": {
+                "message": "Skill deleted successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not delete skill."
+            }
+        },
         "getSkill": {
             "error": {
                 "message": "Operation failed",

@@ -1,7 +1,7 @@
-import {getSkillsData, addNewSkillData, deleteSkillData, updateSkillData, collectAddedSkillData} from 'src/services/skillsService';
+import {getSkillsData, addNewSkillData, collectAddedSkillData} from 'src/services/skillsService';
 import {SMConfig} from 'src/config';
 
-const addSkill = async () => {
+const getSkills = async () => {
     try {
         const skillsRes = await getSkillsData();
         return {
@@ -39,61 +39,7 @@ const addNewSkill = async ({name: skillName, icon: iconName, categoriesId: guids
     }
 }
 
-const updateSkillItemInStoreObj = (currentValues, categoriesObj, editedItem, state) => {
-    const newState = state;
-    const foundUpdatedIndex = newState.findIndex(item => item.name == editedItem.name);
-    newState[foundUpdatedIndex] = {
-        name: currentValues.skillName,
-        icon: currentValues.iconName,
-        guid: newState[foundUpdatedIndex].guid,
-        categories: categoriesObj
-    };
-    return newState;
-};
-
-const updateSkill = async (data, editedItem, currentValues, categoriesObj, state) => {
-    try {
-        const updatedState = updateSkillItemInStoreObj(currentValues, categoriesObj, editedItem, state);
-        await updateSkillData(data, editedItem.guid);
-        return {
-            type: 'UPDATE_SKILL',
-            payload: updatedState,
-            message: SMConfig.messages.skills.updateSkill.success
-        }
-    } catch(error){
-        const errorObj = {
-            type: 'ERROR',
-        }
-        error.message === 'Network Error'
-            ? errorObj.message = SMConfig.messages.noConnection
-            : errorObj.message = SMConfig.messages.skills.updateSkill.error
-        return errorObj;
-    }
-
-}
-
-const deleteSkill = (guids, remainingRows) => {
-    try {
-        guids.map(selectedEl => {deleteSkillData(selectedEl).then(() => {})});
-        return {
-            type: 'DELETE_SKILL',
-            payload: remainingRows
-        }
-    } catch(error){
-        const errorObj = {
-            type: 'ERROR',
-        }
-        error.message === 'Network Error'
-            ? errorObj.message = SMConfig.messages.noConnection
-            : errorObj.message = SMConfig.messages.skills.deleteSkill.error
-        return errorObj;
-    }
-
-}
-
 export {
-    addSkill,
-    addNewSkill,
-    updateSkill,
-    deleteSkill
+    getSkills,
+    addNewSkill
 }

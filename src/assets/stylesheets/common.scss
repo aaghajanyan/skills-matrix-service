@@ -226,52 +226,40 @@ img {
     cursor: pointer;
 }
 
-.sm-icon-refresh {
-    color: $sm-primary-color;
-    width: 25px!important;
-    height: 25px;
-    cursor: pointer;
-    margin-right: 30px;
-    stroke-width: 25px;
-    stroke: #fff;
-}
-
 .sm-button-add {
-    border: 2px solid #266494;
-    color: #266494;
+    border: none;
+    background-color: #6692b3;
+    color: white;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 16px;
     min-width: 28px;
     min-height: 28px;
     height: 28px;
 }
 
 .sm-button-add:hover {
-    border: 3px solid $sm-primary-color-hover;
-    color: $sm-primary-color-hover;
+    border: none;
+    background-color: #6692b3;
+    color: white;
     transform: scale(1.2, 1.2);
 }
 
 .sm-button-add:active, .sm-button-add:focus-within {
-    border: 3px solid $sm-primary-color-hover;
-    color: $sm-primary-color-hover;
+    border: none;
+    background-color: #6692b3;
+    color: white;
 }
 
 .sm-icon-edit, .sm-icon-delete {
     color: $sm-primary-color;
-    cursor: pointer;
     width: 30px!important;
     height: 17px;
+    cursor: pointer;
 }
 
-.sm-icon-refresh:hover, .sm-icon-edit:hover, .sm-icon-delete:hover, .sm-icon-add:hover, .sm-button-add:hover {
+.sm-icon-edit:hover, .sm-icon-delete:hover, .sm-icon-add:hover {
     color: $sm-primary-color-hover;
     transform: scale(1.2, 1.2);
-}
-
-.sm-icon-refresh:active, .sm-icon-refresh:focus-within {
-    transition: 0.3s;
-    transform: rotate(-180deg);
 }
 
 .sm-table-action-area {
