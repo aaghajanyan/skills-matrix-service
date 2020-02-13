@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {SMTable} from 'src/view/components';
+import classNames from "classnames";
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
@@ -50,38 +51,46 @@ function SkillsTable(props) {
         }
     });
 
+    const classes = classNames(
+        'sm-table', props.className
+    );
+
     return (
         <React.Fragment>
-            <div className="sm-component sm-component-skill">
-                <div className="skills-table-header">
-                    <h3 className="sm-subheading" >All Skills</h3>
-                    <div className="skills-table-header-items">
+            <div className='sm-component sm-component-skill'>
+                <div className='skills-table-header'>
+                    <h3 className='sm-subheading' >All Skills</h3>
+                    <div className='skills-table-header-items'>
                         {props.items}
                     </div>
                 </div>
-                <div className="skills-table-header-search">
+                <div className='skills-table-header-search'>
                         {props.searchBar}
                 </div>
 
                 <SMTable
-                    className="sm-table sm-table-skill"
-                    columns={props.column}
-                    dataSource={props.skillsDataSource}
-                    pagination={{ showQuickJumper: true, defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['3', '5', '10', '100']}}
-                    rowSelection={rowSelection}
-                    onRow={onSkillSelect}
-                    scroll={{ y: 625 }}
+                    className = {classes}
+                    columns = {props.column}
+                    dataSource ={props.skillsDataSource}
+                    pagination = { props.addPagination ? {showQuickJumper: true, defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['3', '5', '10', '100']} : undefined }
+                    rowSelection = {props.addCheckbox ? rowSelection : undefined}
+                    onRow = {props.addClickableOnRow ? onSkillSelect : undefined}
+                    scroll = {props.addScroll ? { y: 600 } : undefined}
                 />
             </div>
         </React.Fragment>
     );
 }
 
-SMTable.propTypes = {
-    refreshTable: PropTypes.func,
-    skillsDataSource: PropTypes.object,
-    column: PropTypes.object,
-    handleSomeDelete: PropTypes.func
+SkillsTable.propTypes = {
+    skillsDataSource: PropTypes.array,
+    column: PropTypes.array,
+    handleSomeDelete: PropTypes.func,
+    className: PropTypes.string,
+    addPagination: PropTypes.bool,
+    addCheckbox: PropTypes.bool,
+    addClickableOnRow: PropTypes.bool,
+    addScroll: PropTypes.bool,
 };
 
 export {SkillsTable};

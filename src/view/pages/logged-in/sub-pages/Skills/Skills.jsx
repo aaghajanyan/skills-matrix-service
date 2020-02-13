@@ -285,6 +285,11 @@ function Skills(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
+                    className='sm-table-skill'
+                    addPagination={true}
+                    addCheckbox={true}
+                    addClickableOnRow={true}
+                    addScroll={true}
                     items={[
                         SMIcon({
                             key: 'refresh',
@@ -314,7 +319,7 @@ function Skills(props) {
                     searchBar = {[
                         SMSearch({
                             key: 'search',
-                            placeholder: "Input search text",
+                            placeholder: "Filter...",
                             className: 'sm-search-skill',
                             onChange: e => handleSearchInputChange(e),
                         })
