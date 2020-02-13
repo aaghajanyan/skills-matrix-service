@@ -5,7 +5,7 @@ module.exports.initializeUserTable = async models => {
     const password = bcrypt.hashSync('Admin01!', salt);
     let user = {
         password: password,
-        email: 'admin@instigatemobile.com',
+        email: 'admin@test.com',
         fname: 'Admin',
         lname: 'Admin',
         branch_id: 1,

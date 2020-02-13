@@ -10,6 +10,6 @@ router.get('/:userSkillGuid', verifyLoginToken, getUserSkills);
 router.post('/:userGuid', verifyLoginToken, verifyRightPermission, validateAddBody, addUserSkill);
 router.put('/:userGuid', verifyLoginToken, verifyRightPermission, validateUpdateBody, updateUserSkill);
 router.delete('/:userGuid', verifyLoginToken, verifyRightPermission, deleteUserSkill);
-router.delete('/:userSkillGuid', verifyLoginToken, deleteUserSkillById);
+// router.delete('/:userSkillGuid', verifyLoginToken, deleteUserSkillById);
 
 module.exports = router;

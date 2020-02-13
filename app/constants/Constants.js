@@ -44,6 +44,9 @@ const Constants = {
         CategoryHistory: 'category_histories',
         History: 'history',
         Criteria: 'criteria',
+        Criteria_properties: "criteria_properties",
+        criteria_categories: "criteria_categories",
+        Condition: "conditions"
     },
     ModelNames: {
         User: 'user',
@@ -63,6 +66,9 @@ const Constants = {
         Criteria: 'criteria',
         SkillHistory: 'skill_history',
         CategoryHistory: 'category_history',
+        Criteria_properties: "criteria_properties",
+        criteria_categories: "criteria_categories",
+        Condition: "conditions"
     },
 
     ModelErrors: {
@@ -113,6 +119,7 @@ const Constants = {
         skills: 'skills',
         icon: 'icon',
         unique: 'unique',
+        foreign_key: 'foreign key',
         related_category_id: 'related_category_id',
         name: 'name',
         password: 'password',
@@ -134,6 +141,7 @@ const Constants = {
         skill_experience_proficiency: 'skill_experience_proficiency',
         category_experience_proficiency: 'category_experience_proficiency',
         created_date: 'created_date',
+        criteria_id: 'criteriaId'
     },
 
     Condition: {
@@ -170,6 +178,10 @@ const Constants = {
             userSkillId: 'userSkillId',
             user_skill_id: 'user_skill_id',
         },
+        Criteria: {
+            criteria_id: 'criteriaId',
+            uniquecriteriaID: 'uniquecriteriaID'
+        }
     },
 
     Associate: {
@@ -187,6 +199,8 @@ const Constants = {
             roleRelation: 'roleRelation',
             skillMark: 'skillMark',
             categoryMark: 'categoryMark',
+            criteraMark: 'criteraMark',
+            criteria: 'criteria'
         },
     },
 
@@ -226,6 +240,7 @@ const Constants = {
         USER_SKILL: 'User skill',
         USER_SKILLS: 'User skills',
         CRITERIA: 'Criteria',
+        CRITERIA_PROPRTIES: 'Criteria properties',
         CRITERIAS: 'Criterias',
         BRANCH: 'Branch',
         BRANCHES: 'Branches',
