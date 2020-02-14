@@ -2,7 +2,7 @@ const { Constants } = require('../../constants/Constants');
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable(Constants.TableNames.Criteria_categories, {
+        return queryInterface.createTable(Constants.TableNames.Profficience, {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -11,14 +11,14 @@ module.exports = {
             },
             name: {
                 allowNull: false,
-                unique: true,
                 type: Sequelize.STRING,
             },
-            items: {
+            value: {
+                unique: true,
                 allowNull: false,
-                type:  Sequelize.JSON,
+                type: Sequelize.INTEGER,
             },
         });
     },
-    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Criteria_categories),
+    down: queryInterface => queryInterface.dropTable(Constants.TableNames.Profficience),
 };

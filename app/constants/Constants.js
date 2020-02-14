@@ -48,7 +48,8 @@ const Constants = {
         History: 'history',
         Criteria: 'criteria',
         Criteria_properties: "criteria_properties",
-        criteria_categories: "criteria_categories",
+        Criteria_categories: "criteria_categories",
+        Profficience: "profficiences",
         Condition: "conditions"
     },
     ModelNames: {
@@ -70,7 +71,8 @@ const Constants = {
         SkillHistory: 'skill_history',
         CategoryHistory: 'category_history',
         Criteria_properties: "criteria_properties",
-        criteria_categories: "criteria_categories",
+        Criteria_categories: "criteria_categories",
+        Profficience: "profficiences",
         Condition: "conditions"
     },
 
@@ -249,6 +251,7 @@ const Constants = {
         BRANCHES: 'Branches',
         POSITION: 'Position',
         POSITIONS: 'Positions',
+        PROFFICIENCE: 'Profficience'
     },
 
     Controllers: {

@@ -15,6 +15,7 @@ const search = require('./search');
 const criteria = require('./criteria');
 const branch = require('./branch');
 const position = require('./position');
+const profficience = require('./profficience');
 
 router.use('/users', users);
 router.use('/invitations', invitations);
@@ -30,5 +31,6 @@ router.use('/search', search);
 router.use('/criteria', criteria);
 router.use('/branch', branch);
 router.use('/position', position);
+router.use('/profficience', profficience);
 
 module.exports = router;
