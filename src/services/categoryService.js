@@ -25,7 +25,6 @@ const updateCategoryData = async (data, guid) => {
 };
 
 const deleteCategoryData = async (guid) => {
-    console.log("DDDDDDDDDDDDDDDDDd guid = ", guid)
     const options = {
         url: `${SMConfig.apiEndpoints.addCategories}/${guid}`
     };

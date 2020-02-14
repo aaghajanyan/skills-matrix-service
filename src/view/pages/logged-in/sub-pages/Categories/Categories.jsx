@@ -158,7 +158,6 @@ function Categories(props) {
                 SMNotification('error', SMConfig.messages.skills.addSkill.missing);
             }
         } catch(error) {
-            console.log(error)
             closeModal();
             SMNotification('error', SMConfig.messages.skills.addSkill.error)
         }
@@ -207,7 +206,6 @@ function Categories(props) {
             SMNotification('success', SMConfig.messages.skills.updateSkill.success);
             getCategoriesAllData();
         } catch(error) {
-            console.log(error)
             SMNotification('error', SMConfig.messages.skills.updateSkill.error)
             closeModal();
         }
@@ -274,7 +272,6 @@ function Categories(props) {
                 await deleteCategoryData(selectedEl);
                 SMNotification('success', SMConfig.messages.skills.deleteSkill.success);
             } catch(error) {
-                console.log(error)
                 SMNotification('error', `${SMConfig.messages.skills.deleteSkill.success} with ${selectedEl} guid`);
             }
         }
