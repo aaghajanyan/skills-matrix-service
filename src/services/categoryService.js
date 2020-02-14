@@ -1,5 +1,5 @@
 import {SMConfig} from 'src/config';
-import {get, post, put} from './client';
+import {get, post, put, del} from './client';
 
 
 const getCategoriesData = async () => {
@@ -24,4 +24,12 @@ const updateCategoryData = async (data, guid) => {
     return await put(options);
 };
 
-export {getCategoriesData, addNewCategoryData, updateCategoryData};
+const deleteCategoryData = async (guid) => {
+    console.log("DDDDDDDDDDDDDDDDDd guid = ", guid)
+    const options = {
+        url: `${SMConfig.apiEndpoints.addCategories}/${guid}`
+    };
+    return del(options);
+};
+
+export {getCategoriesData, addNewCategoryData, updateCategoryData, deleteCategoryData};

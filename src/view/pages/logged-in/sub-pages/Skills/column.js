@@ -24,7 +24,7 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
     {
         title: 'Skill',
         dataIndex: 'skill',
-        className: "table-column-skill",
+        className: "table-column-name",
         sorter: (a, b) => comparator(a.name, b.name)
     },
     {

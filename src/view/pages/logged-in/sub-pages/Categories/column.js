@@ -24,13 +24,18 @@ const getDataSource = (list, permission, editModalCallBack, handleDelete, confir
     {
         title: 'Category',
         dataIndex: 'categories',
-        className: "table-column-category",
+        className: "table-column-name",
         sorter: (a, b) => comparator(a.name, b.name)
     },
     {
         title: 'Skills',
         dataIndex: 'skill',
-        className: "table-column-skill",
+        className: "table-column-category",
+    },
+    {
+        title: 'Related Categories',
+        dataIndex: 'relatedCategories',
+        className: "table-column-category",
     },
     {
         title: '',
