@@ -1,20 +1,20 @@
 import React, {useEffect, useState, useReducer} from 'react';
+import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
 import {SMConfig} from 'src/config';
-import {CriteriaTable} from '../../components/CriteriaTable';
-import {SMSkillBar} from '../../components/SMSkillBar';
-import {SMConfirmModal} from '../../../../components/SMConfirmModal';
-import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from '../../../../../hooks/common';
+import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
+import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
+import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
+import {useValidator} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
 import {addNewSkillData, deleteSkillData, updateSkillData} from 'src/services/skillsService';
-import {getCurrentUser} from 'src/services/usersService';
 import {getDataSource} from './column';
-import skills from '../../../../../store/reducers/skillReducer';
-import categories from '../../../../../store/reducers/categoryReducer';
-import {toRGB} from '../../../../../helpers/generateColor';
+import skills from 'src/store/reducers/skillReducer';
+import categories from 'src/store/reducers/categoryReducer';
+import {toRGB} from 'src/helpers/generateColor';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,8 @@ import {debounce} from 'throttle-debounce';
 library.add(fab, far, fas);
 
 function Skills(props) {
+    const currentUser = useSelector(state => state.user);
+
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
@@ -66,6 +68,10 @@ function Skills(props) {
     }
 
     useEffect(() => {
+        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+    }, [currentUser]);
+
+    useEffect(() => {
         initBasicData();
     }, []);
 
@@ -74,15 +80,8 @@ function Skills(props) {
     }, [skillsStore]);
 
     const initBasicData = () => {
-        initIsAdmin();
         getSkillsAllData();
         getCategoriesAllData();
-    };
-
-    const initIsAdmin = () => {
-        getCurrentUser().then(res => {
-            res && res.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
-        });
     };
 
     const getSkillsAllData = async () => {
@@ -127,10 +126,9 @@ function Skills(props) {
     const analyzeAndAddSkill = async(guidsList) => {
         try {
             if (skillName && iconName && isCategoriesListValid) {
+                closeModal();
                 await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
                 getSkillsAllData();
-                // dispatchSkill(await addNewSkill({name: skillName, icon: iconName, categoriesId: guidsList}));
-                closeModal();
                 SMNotification('success', SMConfig.messages.skills.addSkill.success);
             }else {
                 SMNotification('error', SMConfig.messages.skills.addSkill.missing);
@@ -141,16 +139,19 @@ function Skills(props) {
         }
     };
 
-    const handleAdd = () => {
-        setLoading(true);
-        const guidsList = [];
-        categoriesNames && categoriesNames.map(categoryName => {
-            return categoriesStore.filter((c) => {
-                if (c.name === categoryName) {
-                    guidsList.push(c.guid);
-                }
+    const convertNameToGuid = (namesList, data) => {
+        const itemsGuid = [];
+        namesList && namesList.map(item => {
+            data.filter(itemInStore => {
+                itemInStore.name === item ? itemsGuid.push(itemInStore.guid) : null;
             });
         });
+        return itemsGuid;
+    };
+
+    const handleAdd = () => {
+        setLoading(true);
+        const guidsList = convertNameToGuid(categoriesNames, categoriesStore);
         resetSkillName();
         resetIconName();
         setIsCategoriesListValid(false);
@@ -186,15 +187,11 @@ function Skills(props) {
                 && initialIconName === currentValues.iconName
                 && JSON.stringify(initialCategories)==JSON.stringify(currentValues.categoryName))) {
 
-                const addCategories = currentValues.categoryName.filter(val => !initialCategories.includes(val));
-                const deleteCategories = initialCategories.filter(val => !currentValues.categoryName.includes(val));
-                const addCategoriesGuid = collectCategoriesGuidsFromName(addCategories);
-                const deleteCategoriesGuid = collectCategoriesGuidsFromName(deleteCategories);
                 const data = {
                     name: currentValues.skillName,
                     icon: currentValues.iconName,
-                    addCategories: addCategoriesGuid,
-                    deleteCategories: deleteCategoriesGuid
+                    addCategories: collectCategoriesGuidsFromName(currentValues.categoryName.filter(val => !initialCategories.includes(val))),
+                    deleteCategories: collectCategoriesGuidsFromName(initialCategories.filter(val => !currentValues.categoryName.includes(val)))
                 };
                 analyzeAndUpdateSkill(data);
             }
@@ -275,6 +272,7 @@ function Skills(props) {
         <div className='sm-content-skill-style'>
             {skillsDataSource &&
                 <CriteriaTable
+                    title={'All Skills'}
                     skillsDataSource={skillsDataSource}
                     column={getDataSource(skillsDataSource,
                     isAdmin,
@@ -314,7 +312,7 @@ function Skills(props) {
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
                 visible={visible}
                 onCancel={handleCancel}
-                footer={[]}
+                footer={null}
                 maskClosable={false}
             >
                 <div className='add-skill-container'>

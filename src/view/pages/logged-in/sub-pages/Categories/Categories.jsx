@@ -1,20 +1,20 @@
 import React, {useEffect, useState, useReducer} from 'react';
+import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
 import {SMConfig} from 'src/config';
-import {CriteriaTable} from '../../components/CriteriaTable';
-import {SMSkillBar} from '../../components/SMSkillBar';
-import {SMConfirmModal} from '../../../../components/SMConfirmModal';
-import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from '../../../../../hooks/common';
+import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
+import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
+import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
+import {useValidator} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
-import {getCategoriesData, addNewCategoryData, updateCategoryData, deleteCategoryData} from 'src/services/categoryService';
-import {getCurrentUser} from 'src/services/usersService';
+import {addNewCategoryData, updateCategoryData, deleteCategoryData} from 'src/services/categoryService';
 import {getDataSource} from './column';
-import skills from '../../../../../store/reducers/skillReducer';
-import categories from '../../../../../store/reducers/categoryReducer';
-import {toRGB} from '../../../../../helpers/generateColor';
+import skills from 'src/store/reducers/skillReducer';
+import categories from 'src/store/reducers/categoryReducer';
+import {toRGB} from 'src/helpers/generateColor';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,8 @@ import {debounce} from 'throttle-debounce';
 library.add(fab, far, fas);
 
 function Categories(props) {
+    const currentUser = useSelector(state => state.user);
+
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
@@ -76,6 +78,10 @@ function Categories(props) {
     }
 
     useEffect(() => {
+        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+    }, [currentUser]);
+
+    useEffect(() => {
         initBasicData();
     }, []);
 
@@ -84,15 +90,8 @@ function Categories(props) {
     }, [categoriesStore]);
 
     const initBasicData = () => {
-        initIsAdmin();
         getSkillsAllData();
         getCategoriesAllData();
-    };
-
-    const initIsAdmin = () => {
-        getCurrentUser().then(res => {
-            res && res.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
-        });
     };
 
     const getSkillsAllData = async () => {
@@ -123,10 +122,10 @@ function Categories(props) {
     const collectCategoriesData = (categoriesRes) => {
         const allCategoriesLists = [];
         categoriesRes && categoriesRes.map((item, index) => {
-            let skillsList = item && item.skills && item.skills.map(skill => {
+            const skillsList = item && item.skills && item.skills.map(skill => {
                 return <Tag style={{...toRGB(skill.name)}} key={skill.name}  className="sm-tag sm-tag-size" >{skill.name}</Tag>
             });
-            let relCatList = item && item.relatedCategories && item.relatedCategories.map(cat => {
+            const relCatList = item && item.relatedCategories && item.relatedCategories.map(cat => {
                 return <Tag style={{...toRGB(cat.name)}} key={cat.name}  className="sm-tag sm-tag-size" >{cat.name}</Tag>
             });
             const row = {
@@ -147,6 +146,28 @@ function Categories(props) {
         setLoading(false);
     }
 
+    const convertNameToGuid = (namesList, data) => {
+        const itemsGuid = [];
+        namesList && namesList.map(item => {
+            data.filter(itemInStore => {
+                itemInStore.name === item ? itemsGuid.push(itemInStore.guid) : null;
+            });
+        });
+        return itemsGuid;
+    };
+
+    const handleAdd = () => {
+        setLoading(true);
+        const guidsList = convertNameToGuid(skillsNames, skillsStore);
+        const relCatGuidsList = convertNameToGuid(relCatNames, categoriesStore);;
+        resetCategoryName();
+        setIsSkillsListValid(false);
+        setIsRelCatListValid(false);
+        setRelCatNames([]);
+        setSkillsNames([]);
+        analyzeAndAddCategory(guidsList, relCatGuidsList);
+    };
+
     const analyzeAndAddCategory = async(guidsList, relCatGuidsList) => {
         try {
             if (categoryName && isSkillsListValid) {
@@ -163,46 +184,10 @@ function Categories(props) {
         }
     };
 
-    const handleAdd = () => {
-        setLoading(true);
-        const guidsList = [];
-        const relCatGuidsList = [];
-        skillsNames && skillsNames.map(skillName => {
-            return skillsStore.filter((s) => {
-                if (s.name === skillName) {
-                    guidsList.push(s.guid);
-                }
-            });
-        });
-        relCatNames && relCatNames.map(catName => {
-            return categoriesStore.filter((c) => {
-                if (c.name === catName) {
-                    relCatGuidsList.push(c.guid);
-                }
-            });
-        });
-        resetCategoryName();
-        setIsSkillsListValid(false);
-        setIsRelCatListValid(false);
-        setRelCatNames([]);
-        setSkillsNames([]);
-        analyzeAndAddCategory(guidsList, relCatGuidsList);
-    };
-
-    const convertNameToGuid = (namesList, data) => {
-        const itemsGuid = [];
-        namesList.map(item => {
-            data.filter(itemInStore => {
-                itemInStore.name === item ? itemsGuid.push(itemInStore.guid) : null;
-            });
-        });
-        return itemsGuid;
-    };
-
     const analyzeAndUpdateCategory = async (data) => {
         try {
-            await updateCategoryData(data, editedItem.guid);
             closeModal();
+            await updateCategoryData(data, editedItem.guid);
             SMNotification('success', SMConfig.messages.skills.updateSkill.success);
             getCategoriesAllData();
         } catch(error) {
@@ -217,23 +202,12 @@ function Categories(props) {
             if (currentValues && !(initialCategoryName === currentValues.categoryName
                 && JSON.stringify(initialSkills)==JSON.stringify(currentValues.skillName)
                 && JSON.stringify(initialRelCate)==JSON.stringify(currentValues.relCategory))) {
-
-                const addedskillsName = currentValues.skillName.filter(val => !initialSkills.includes(val));
-                const removedSkillsName = initialSkills.filter(val => !currentValues.skillName.includes(val));
-                const addedCategoriesName = currentValues.relCategory.filter(val => !initialRelCate.includes(val));
-                const removedCategoriesName = initialRelCate.filter(val => !currentValues.relCategory.includes(val));
-
-                const addedCategories = convertNameToGuid(addedCategoriesName, categoriesStore);
-                const removedCategories = convertNameToGuid(removedCategoriesName, categoriesStore);
-                const addedskills = convertNameToGuid(addedskillsName, skillsStore);
-                const removedSkills = convertNameToGuid(removedSkillsName, skillsStore);
-
                 const data = {
                     name: currentValues.categoryName,
-                    addedCategories: addedCategories,
-                    removedCategories: removedCategories,
-                    addedskills: addedskills,
-                    removedSkills: removedSkills
+                    addedCategories: convertNameToGuid(currentValues.relCategory.filter(val => !initialRelCate.includes(val)), categoriesStore),
+                    removedCategories: convertNameToGuid(initialRelCate.filter(val => !currentValues.relCategory.includes(val)), categoriesStore),
+                    addedskills: convertNameToGuid(currentValues.skillName.filter(val => !initialSkills.includes(val)), skillsStore),
+                    removedSkills: convertNameToGuid(initialSkills.filter(val => !currentValues.skillName.includes(val)), skillsStore)
                 };
                 analyzeAndUpdateCategory(data);
             }
@@ -292,26 +266,24 @@ function Categories(props) {
         deleteItems(selectedItemsGuids);
     };
 
+    const filterItems = (dataToFilter, filtredData, value, obj) => {
+        dataToFilter.filter(item => {
+            if(item.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(obj) === -1) {
+                filtredData.push(obj);
+            }
+        });
+    }
     const handleSearchInputChange = (e) => {
         e.persist();
         const value = e.target.value;
         debounce(300, () => {
             const filtredData = [];
-
             categoriesStore.filter((item) => {
                 if (item.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(item) === -1) {
                     filtredData.push(item);
                 }
-                item.skills.filter(skillItem => {
-                    if(skillItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(item) === -1) {
-                        filtredData.push(item);
-                    }
-                });
-                item.relatedCategories.filter(catItem => {
-                    if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(item) === -1) {
-                        filtredData.push(item);
-                    }
-                });
+                filterItems(item.skills, filtredData, value, item);
+                filterItems(item.relatedCategories, filtredData, value, item);
             });
             collectCategoriesData(filtredData);
         })()
@@ -321,6 +293,7 @@ function Categories(props) {
         <div className='sm-content-skill-style'>
             {skillsDataSource &&
                 <CriteriaTable
+                    title={'All Categories'}
                     skillsDataSource={skillsDataSource}
                     column={getDataSource(skillsDataSource,
                     isAdmin,
@@ -357,10 +330,10 @@ function Categories(props) {
 
             <SMModal
                 className="add-skill-modal"
-                title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
+                title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Category</h3>}
                 visible={visible}
                 onCancel={handleCancel}
-                footer={[]}
+                footer={null}
                 maskClosable={false}
             >
                 <div className='add-skill-container'>

@@ -59,7 +59,7 @@ function CriteriaTable(props) {
         <React.Fragment>
             <div className='sm-component sm-component-skill'>
                 <div className='skills-table-header'>
-                    <h3 className='sm-subheading' >All Skills</h3>
+    <h3 className='sm-subheading' > {props.title} </h3>
                     <div className='skills-table-header-items'>
                         {props.items}
                     </div>
@@ -83,6 +83,7 @@ function CriteriaTable(props) {
 }
 
 CriteriaTable.propTypes = {
+    title: PropTypes.string,
     skillsDataSource: PropTypes.array,
     column: PropTypes.array,
     handleSomeDelete: PropTypes.func,
