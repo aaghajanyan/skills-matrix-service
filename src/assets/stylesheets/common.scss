@@ -59,13 +59,6 @@
     /* TODO */
 }
 
-.sm-subheading {
-    color: $sm-subheading-color;
-    font-weight: $sm-subheading-font-weight;
-    font-size: $sm-subheading-font-size;
-    height: 40px;
-}
-
 .sm-chart {
     margin: auto;
 }
@@ -267,4 +260,40 @@ img {
     justify-content: flex-end;
     cursor: auto;
     opacity: 0.7;
+}
+
+/* SMModal styles */
+
+.sm-subheading {
+    color: white;
+    font-weight: $sm-subheading-font-weight;
+    font-size: $sm-subheading-font-size;
+    height: 40px;
+}
+
+.sm-component {
+    .sm-subheading {
+        color: $sm-primary-color-hover;
+    }
+}
+.sm-table-subheading {
+    color: $sm-primary-color-hover;
+}
+/*SMModal close button collor*/
+.ant-modal-content {
+    .anticon {
+        // color: $sm-primary-color-hover;
+        color: white;
+    }
+}
+
+.ant-select-selection__choice__remove {
+    .anticon {
+        color: rgba(0, 0, 0, 0.65);
+    }
+}
+
+.ant-modal-header {
+    color: white;
+    background: $sm-primary-color-hover;
 }

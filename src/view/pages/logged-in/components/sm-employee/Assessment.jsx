@@ -115,7 +115,7 @@ function Assessment() {
                     className="sm-table"
                     columns={categorySkillsColumns}
                     dataSource={categorySkills}
-                    pagination={false}
+                    pagination = {undefined}
                 />
             </div>
         </React.Fragment>

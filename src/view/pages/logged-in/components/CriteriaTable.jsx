@@ -59,7 +59,7 @@ function CriteriaTable(props) {
         <React.Fragment>
             <div className='sm-component sm-component-skill'>
                 <div className='skills-table-header'>
-    <h3 className='sm-subheading' > {props.title} </h3>
+                <h3 className='sm-subheading sm-table-subheading' > {props.title} </h3>
                     <div className='skills-table-header-items'>
                         {props.items}
                     </div>

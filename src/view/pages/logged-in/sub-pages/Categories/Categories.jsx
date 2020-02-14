@@ -50,8 +50,8 @@ function Categories(props) {
 
     const isEntireFormValid = [
         isCategoryNameValid,
-        isSkillsListValid,
-        isRelCatListValid
+        // isSkillsListValid,
+        // isRelCatListValid
     ].every(e => e);
 
     const handleSkillSelect = (lists) => {
@@ -170,7 +170,7 @@ function Categories(props) {
 
     const analyzeAndAddCategory = async(guidsList, relCatGuidsList) => {
         try {
-            if (categoryName && isSkillsListValid) {
+            if (categoryName) {
                 await addNewCategoryData({name: categoryName, skillsIds: guidsList, relatedCategoriesIds: relCatGuidsList});
                 getCategoriesAllData();
                 closeModal();
