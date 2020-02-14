@@ -10,7 +10,7 @@ import {far} from '@fortawesome/free-regular-svg-icons';
 library.add(fab, far, fas);
 import {SMConfirmModal} from '../../../components/SMConfirmModal';
 
-function SkillsTable(props) {
+function CriteriaTable(props) {
     let [selectedRowKeys, setSelectedRowKeys ] = useState(null);
 
     const onSelectChange = selectedRowKeys => {
@@ -82,7 +82,7 @@ function SkillsTable(props) {
     );
 }
 
-SkillsTable.propTypes = {
+CriteriaTable.propTypes = {
     skillsDataSource: PropTypes.array,
     column: PropTypes.array,
     handleSomeDelete: PropTypes.func,
@@ -93,4 +93,4 @@ SkillsTable.propTypes = {
     addScroll: PropTypes.bool,
 };
 
-export {SkillsTable};
+export {CriteriaTable};

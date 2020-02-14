@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {Tag} from 'antd';
 import {SMConfig} from 'src/config';
-import {SkillsTable} from '../../components/SkillsTable';
+import {CriteriaTable} from '../../components/CriteriaTable';
 import {SMSkillBar} from '../../components/SMSkillBar';
 import {SMConfirmModal} from '../../../../components/SMConfirmModal';
 import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
@@ -274,7 +274,7 @@ function Skills(props) {
     return (
         <div className='sm-content-skill-style'>
             {skillsDataSource &&
-                <SkillsTable
+                <CriteriaTable
                     skillsDataSource={skillsDataSource}
                     column={getDataSource(skillsDataSource,
                     isAdmin,
