@@ -38,22 +38,25 @@ class Category {
         sendedList.addedCategories = [];
         if (relatedCategoriesIds && relatedCategoriesIds.length) {
             const promise = relatedCategoriesIds.map(async categoryGuid => {
-                const relatedCategory = await categoryModel.findOne({
-                    where: { guid: categoryGuid },
-                });
                 const obj = {
                     categoryGuid: category.guid,
                     relatedCategoryGuid: categoryGuid,
                     success: false,
                 };
-                if (relatedCategory) {
-                    await categoryRelationModel.findOrCreate({
-                        where: {
-                            category_id: category.id,
-                            related_category_id: relatedCategory.id,
-                        },
+                if (categoryGuid !== category.guid) {
+                    const relatedCategory = await categoryModel.findOne({
+                        where: { guid: categoryGuid },
                     });
-                    obj.success = true;
+
+                    if (relatedCategory) {
+                        await categoryRelationModel.findOrCreate({
+                            where: {
+                                category_id: category.id,
+                                related_category_id: relatedCategory.id,
+                            },
+                        });
+                        obj.success = true;
+                    }
                 }
                 return obj;
             });
@@ -83,16 +86,27 @@ class Category {
                     relatedCategoryGuid: categoryGuid,
                     success: false,
                 };
-                const categoryRelation = await categoryRelationModel.findOne({
+                const categoryRelFirstMatches = await categoryRelationModel.findOne({
                     where: {
                         category_id: category.id,
                         related_category_id: relatedCategory.id,
                     },
                 });
 
-                if (categoryRelation) {
+                if (categoryRelFirstMatches) {
                     obj.success = true;
-                    await categoryRelation.destroy();
+                    await categoryRelFirstMatches.destroy();
+                } else {
+                    const categoryRelSecondMatches = await categoryRelationModel.findOne({
+                        where: {
+                            category_id: relatedCategory.id,
+                            related_category_id: category.id,
+                        },
+                    });
+                    if (categoryRelSecondMatches) {
+                        obj.success = true;
+                        await categoryRelSecondMatches.destroy();
+                    }
                 }
                 return obj;
             });
@@ -142,16 +156,20 @@ class Category {
                     skillGuid: skillGuid,
                     success: false,
                 };
-                const skillRelation = await skillRelationModel.findOne({
-                    where: {
-                        skillGuid: skillGuid,
-                        categoryGuid: category.guid,
-                    },
+                const existingSkill = await skillModel.findOne({
+                    where: { guid: skillGuid },
                 });
-
-                if (skillRelation) {
-                    obj.success = true;
-                    skillRelation.destroy();
+                if (existingSkill) {
+                    const skillRelation = await skillRelationModel.findOne({
+                        where: {
+                            skill_id: existingSkill.id,
+                            category_id: category.id,
+                        },
+                    });
+                    if (skillRelation) {
+                        obj.success = true;
+                        skillRelation.destroy();
+                    }
                 }
                 return obj;
             });

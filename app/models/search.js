@@ -33,7 +33,6 @@ class SearchUser {
         sqlCommand = replaceAll(sqlCommand, '() and', '');
         sqlCommand = replaceAll(sqlCommand, '() or', '');
         sqlCommand = replaceAll(sqlCommand, '()', '');
-        console.log("sqlCommand = ", sqlCommand);
         return sqlCommand;
     }
 

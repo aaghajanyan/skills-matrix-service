@@ -217,12 +217,13 @@ module.exports.updateCategoryAllData = async (request, response) => {
         const existingCategory = await Category.find({
             guid: request.params.guid,
         });
-
         if (!existingCategory) {
             return response.status(OK).json(responseBuilder.doesNotExistCriteria(Constants.TypeNames.CATEGORY.toLowerCase(), request.params.guid));
         }
-        await Category.update(categoryData, { guid: request.params.guid });
-        await Category.addRelatedCategories(addedCategories, existingCategory, sendedList);
+        if (existingCategory && (existingCategory.name !== categoryData.name)) {
+            await Category.update(categoryData, { guid: request.params.guid });
+        }
+        await Category.addRelatedCategories(addedCategories, existingCategory, sendedList, );
         await Category.removeRelatedCategories(removedCategories, existingCategory, sendedList);
         await Category.addSkills(addedskills, existingCategory, sendedList);
         await Category.removeSkills(removedSkills, existingCategory, sendedList);
