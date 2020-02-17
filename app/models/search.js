@@ -126,6 +126,14 @@ class SearchUser {
     }
 
     convertSkillCategoryRuleToQuery(properties, isSkillRule) {
+        if (!properties.last_worked_date) {
+            if (properties.opCondition === 'equal') {
+                properties.last_worked_date = '1900-01-01'
+            } else {
+                properties.last_worked_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+            }
+        }
+
         const date = properties.last_worked_date.split('-');
         const y = date[0];
         const m = date[1];

@@ -1,32 +1,35 @@
-const config = require("./config/env-settings.json");
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const config = require('./config/env-settings.json');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const logger = require('./app/helper/logger');
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(require("./app/routes"));
+app.use(require('./app/routes'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('*', (req, res, next) => {
-  const error = new Error('Not found');
-  error.status = 404;
-  next(error);
+    const error = new Error('Not found');
+    error.status = 404;
+    next(error);
 });
 
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-      success: false,
-      message: error.message,
-      result: error.result
-  })
-})
+    res.status(error.status || 500);
+    res.json({
+        success: false,
+        message: error.message,
+        result: error.result
+    });
+});
 
 app.listen(config.node_port, () => {
-  logger.info(`Server listening ${config.node_port} port...`);
+    logger.info(`Server listening ${config.node_port} port...`);
 });
