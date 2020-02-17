@@ -243,7 +243,7 @@ function Branches(props) {
 
             <SMModal
                 className="add-skill-modal"
-                title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
+                title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Branch</h3>}
                 visible={visible}
                 onCancel={handleCancel}
                 footer={null}
