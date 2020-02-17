@@ -33,7 +33,7 @@ function Categories(props) {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [skillsDataSource, setSkillsDataSource] = useState(null);
+    const [categoriesDataSource, setCategoriesDataSource] = useState(null);
 
     const [initialCategoryName, setInitialCategoryName] = useState('');
     const [initialSkills, setInitialSkills] = useState([]);
@@ -138,7 +138,7 @@ function Categories(props) {
             };
             allCategoriesLists.push(row);
         });
-        setSkillsDataSource(allCategoriesLists);
+        setCategoriesDataSource(allCategoriesLists);
     };
 
     const closeModal = () => {
@@ -291,11 +291,11 @@ function Categories(props) {
 
     return (
         <div className='sm-content-skill-style'>
-            {skillsDataSource &&
+            {categoriesDataSource &&
                 <CriteriaTable
                     title={'All Categories'}
-                    skillsDataSource={skillsDataSource}
-                    column={getDataSource(skillsDataSource,
+                    dataSource={categoriesDataSource}
+                    column={getDataSource(categoriesDataSource,
                     isAdmin,
                     openEditModal,
                     handleDelete,

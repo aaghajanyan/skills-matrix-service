@@ -71,7 +71,7 @@ function CriteriaTable(props) {
                 <SMTable
                     className = {classes}
                     columns = {props.column}
-                    dataSource ={props.skillsDataSource}
+                    dataSource ={props.dataSource}
                     pagination = { props.addPagination ? {showQuickJumper: true, defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['3', '5', '10', '100']} : undefined }
                     rowSelection = {props.addCheckbox ? rowSelection : undefined}
                     onRow = {props.addClickableOnRow ? onSkillSelect : undefined}
@@ -84,7 +84,7 @@ function CriteriaTable(props) {
 
 CriteriaTable.propTypes = {
     title: PropTypes.string,
-    skillsDataSource: PropTypes.array,
+    dataSource: PropTypes.array,
     column: PropTypes.array,
     handleSomeDelete: PropTypes.func,
     className: PropTypes.string,

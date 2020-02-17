@@ -273,7 +273,7 @@ function Skills(props) {
             {skillsDataSource &&
                 <CriteriaTable
                     title={'All Skills'}
-                    skillsDataSource={skillsDataSource}
+                    dataSource={skillsDataSource}
                     column={getDataSource(skillsDataSource,
                     isAdmin,
                     openEditModal,
