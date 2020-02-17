@@ -269,6 +269,8 @@ img {
     font-weight: $sm-subheading-font-weight;
     font-size: $sm-subheading-font-size;
     height: 40px;
+    // display: contents;
+
 }
 
 .sm-component {
@@ -296,4 +298,14 @@ img {
 .ant-modal-header {
     color: white;
     background: $sm-primary-color-hover;
+    height: 70px;
+    padding: 24px 24px;
+}
+
+.sm-form-footer > .ant-form-item {
+    margin-bottom: 0;
+}
+
+.ant-modal-close {
+    height: 70px;
 }
