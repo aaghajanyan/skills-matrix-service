@@ -278,9 +278,12 @@ img {
         color: $sm-primary-color-hover;
     }
 }
+
+/*SMTable title color*/
 .sm-table-subheading {
     color: $sm-primary-color-hover;
 }
+
 /*SMModal close button collor*/
 .ant-modal-content {
     .anticon {
@@ -289,15 +292,17 @@ img {
     }
 }
 
+/*SMSelet selected item checkbox color*/
 .ant-select-selection__choice__remove {
     .anticon {
         color: rgba(0, 0, 0, 0.65);
     }
 }
 
+/*SMModal header color*/
 .ant-modal-header {
     color: white;
-    background: $sm-primary-color-hover;
+    background: $sm-primary-color;
     height: 70px;
     padding: 24px 24px;
 }
@@ -308,4 +313,11 @@ img {
 
 .ant-modal-close {
     height: 70px;
+}
+
+.ant-input:focus {
+    border-color: #57a8e9;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+    box-shadow: 0 0 0 2px rgba(87,168,233, .2);
 }

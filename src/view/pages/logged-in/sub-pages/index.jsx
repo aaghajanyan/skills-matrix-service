@@ -1,4 +1,4 @@
-export {Branches} from './Branches';
+export {Branches} from './Branches/Branches';
 export {Categories} from './Categories/Categories';
 export {Employees} from './Employees';
 export {Home} from './Home';
