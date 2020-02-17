@@ -1,23 +1,23 @@
 @import '../variables';
- 
-.sm-search-skill {
+
+.sm-search-criteria {
     width: 100%;
     margin-bottom: 5px;
 }
-.sm-search-skill > input {
+.sm-search-criteria > input {
     border-radius: 0;
     outline: 0;
     border-width: 0 0 1px;
     border-color: $sm-primary-color;
 }
-.sm-search-skill > input:focus {
+.sm-search-criteria > input:focus {
     box-shadow: none;
     border-color: $sm-primary-color;
     border-width: 0 0 2px;
     border-right-width: 0!important;
 }
 
-.sm-search-skill > input:hover {
+.sm-search-criteria > input:hover {
     border-color: $sm-primary-color !important;
 }
 

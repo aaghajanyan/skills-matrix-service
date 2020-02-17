@@ -11,6 +11,7 @@ import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
 import {addNewCategoryData, updateCategoryData, deleteCategoryData} from 'src/services/categoryService';
+import {addActionMessage, updateActionMessage, deleteActionMessage} from 'src/config/generate-criteria-message';
 import {getDataSource} from './column';
 import skills from 'src/store/reducers/skillReducer';
 import categories from 'src/store/reducers/categoryReducer';
@@ -25,7 +26,6 @@ library.add(fab, far, fas);
 
 function Categories(props) {
     const currentUser = useSelector(state => state.user);
-
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
@@ -174,13 +174,13 @@ function Categories(props) {
                 await addNewCategoryData({name: categoryName, skillsIds: guidsList, relatedCategoriesIds: relCatGuidsList});
                 getCategoriesAllData();
                 closeModal();
-                SMNotification('success', SMConfig.messages.skills.addSkill.success);
+                SMNotification('success', addActionMessage('success', 'Category'));
             }else {
-                SMNotification('error', SMConfig.messages.skills.addSkill.missing);
+                SMNotification('success', addActionMessage('error', 'Category'));
             }
         } catch(error) {
             closeModal();
-            SMNotification('error', SMConfig.messages.skills.addSkill.error)
+            SMNotification('success', addActionMessage('error', 'Category'));
         }
     };
 
@@ -188,10 +188,11 @@ function Categories(props) {
         try {
             closeModal();
             await updateCategoryData(data, editedItem.guid);
-            SMNotification('success', SMConfig.messages.skills.updateSkill.success);
+            SMNotification('success', updateActionMessage('success', 'Category'));
             getCategoriesAllData();
         } catch(error) {
-            SMNotification('error', SMConfig.messages.skills.updateSkill.error)
+            console.log(error)
+            SMNotification('success', updateActionMessage('error', 'Category'));
             closeModal();
         }
 
@@ -244,9 +245,9 @@ function Categories(props) {
         for(const selectedEl of items) {
             try {
                 await deleteCategoryData(selectedEl);
-                SMNotification('success', SMConfig.messages.skills.deleteSkill.success);
+                SMNotification('success', deleteActionMessage('success', 'Category'));
             } catch(error) {
-                SMNotification('error', `${SMConfig.messages.skills.deleteSkill.success} with ${selectedEl} guid`);
+                SMNotification('success', deleteActionMessage('error', 'Category'));
             }
         }
         getCategoriesAllData();
@@ -302,7 +303,7 @@ function Categories(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className='sm-table-skill'
+                    className='sm-table-criteria'
                     addPagination={true}
                     addCheckbox={true}
                     addClickableOnRow={true}
@@ -322,23 +323,23 @@ function Categories(props) {
                         SMSearch({
                             key: 'search',
                             placeholder: "Filter...",
-                            className: 'sm-search-skill',
+                            className: 'sm-search-criteria',
                             onChange: e => handleSearchInputChange(e),
                         })
                     ]}
                     />}
 
             <SMModal
-                className="add-skill-modal"
+                className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Category</h3>}
                 visible={visible}
                 onCancel={handleCancel}
                 footer={null}
                 maskClosable={false}
             >
-                <div className='add-skill-container'>
+                {/* <div className='criteria-container'> */}
                     <SMForm
-                        className={'add-skill-form'}
+                        className={'criteria-form'}
                         resetValues={visible}
                         onSubmit={handleAddUpdate}
                         onCancel={handleCancel}
@@ -353,7 +354,7 @@ function Categories(props) {
                                 initialvalue: isEdited ? initialCategoryName : '',
                             }),
                             SMSelect({
-                                className: 'sm-select sm-select-skill',
+                                className: 'sm-select sm-select-criteria',
                                 name: 'skillName',
                                 placeholder: 'Skills',
                                 options: getSkillsOptions(),
@@ -362,7 +363,7 @@ function Categories(props) {
                                 onChange: handleSkillSelect
                             }),
                             SMSelect({
-                                className: 'sm-select sm-select-skill',
+                                className: 'sm-select sm-select-criteria',
                                 name: 'relCategory',
                                 placeholder: 'Related categories',
                                 options: getCategoryOptions(),
@@ -388,7 +389,7 @@ function Categories(props) {
                             })
                         ]}
                     />
-                </div>
+                {/* </div> */}
             </SMModal>
         </div>
     );

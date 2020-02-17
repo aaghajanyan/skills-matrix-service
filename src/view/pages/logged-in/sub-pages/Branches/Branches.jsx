@@ -9,6 +9,7 @@ import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} 
 import {useValidator} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getBranches, addNewBranchData, updateBranchData, deleteBranchData} from 'src/services/branchService';
+import {addActionMessage, updateActionMessage, deleteActionMessage} from 'src/config/generate-criteria-message';
 import {getUsers} from 'src/services/usersService';
 import {getDataSource} from './column';
 import {toRGB} from 'src/helpers/generateColor';
@@ -99,13 +100,13 @@ function Branches(props) {
                 closeModal();
                 await addNewBranchData({name: branchName});
                 initBasicData();
-                SMNotification('success', SMConfig.messages.skills.addSkill.success);
+                SMNotification('success', addActionMessage('success', 'Branch'));
             }else {
-                SMNotification('error', SMConfig.messages.skills.addSkill.missing);
+                SMNotification('error', addActionMessage('missing', 'Branch'));
             }
         } catch(error) {
             closeModal();
-            SMNotification('error', SMConfig.messages.skills.addSkill.error)
+            SMNotification('error', addActionMessage('error', 'Branch'));
         }
     };
 
@@ -120,9 +121,9 @@ function Branches(props) {
             await updateBranchData(data, editedItem.guid);
             initBasicData();
             closeModal();
-            SMNotification('success', SMConfig.messages.skills.updateSkill.success);
+            SMNotification('success', updateActionMessage('success', 'Branch'));
         } catch(error) {
-            SMNotification('error', SMConfig.messages.skills.updateSkill.error)
+            SMNotification('error', updateActionMessage('error', 'Branch'));
             closeModal();
         }
     };
@@ -160,9 +161,9 @@ function Branches(props) {
         for(const selectedEl of items) {
             try {
                 await deleteBranchData(selectedEl);
-                SMNotification('success', SMConfig.messages.skills.deleteSkill.success);
+                SMNotification('success', deleteActionMessage('success', 'Branch'));
             } catch(error) {
-                SMNotification('error', `${SMConfig.messages.skills.deleteSkill.success} with ${selectedEl} guid`);
+                SMNotification('error', `${deleteActionMessage('error', 'Branch')} with ${selectedEl} guid`);
             }
         }
         initBasicData();
@@ -215,7 +216,7 @@ function Branches(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className='sm-table-skill'
+                    className='sm-table-criteria'
                     addPagination={true}
                     addCheckbox={true}
                     addClickableOnRow={true}
@@ -235,23 +236,23 @@ function Branches(props) {
                         SMSearch({
                             key: 'search',
                             placeholder: "Filter...",
-                            className: 'sm-search-skill',
+                            className: 'sm-search-criteria',
                             onChange: e => handleSearchInputChange(e),
                         })
                     ]}
                     />}
 
             <SMModal
-                className="add-skill-modal"
+                className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Branch</h3>}
                 visible={visible}
                 onCancel={handleCancel}
                 footer={null}
                 maskClosable={false}
             >
-                <div className='add-skill-container'>
+                {/* <div className='criteria-container'> */}
                     <SMForm
-                        className={'add-skill-form'}
+                        className={'criteria-form'}
                         resetValues={visible}
                         onSubmit={handleAddUpdate}
                         onCancel={handleCancel}
@@ -283,7 +284,7 @@ function Branches(props) {
                             })
                         ]}
                     />
-                </div>
+                {/* </div> */}
             </SMModal>
         </div>
     );

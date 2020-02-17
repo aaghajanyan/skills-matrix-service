@@ -29,46 +29,43 @@
             "message": "Invalid invitation URL"
         }
     },
-    "skills": {
-        "addSkill": {
+    "criteria": {
+        "add": {
             "success": {
-                "message": "Skill added successfully."
+                "message": "%s added successfully."
             },
             "error": {
                 "message": "Operation failed",
-                "description": "Could not add skill."
+                "description": "Could not add %s."
             },
             "missing": {
                 "message": "Operation failed",
                 "description": "Required field is empty."
             }
         },
-        "updateSkill": {
+        "update": {
             "success": {
-                "message": "Skill updated successfully."
+                "message": "%s updated successfully."
             },
             "error": {
                 "message": "Operation failed",
-                "description": "Could not update skill."
+                "description": "Could not update %s."
             }
         },
-        "deleteSkill": {
+        "delete": {
             "success": {
-                "message": "Skill deleted successfully."
+                "message": "%s deleted successfully."
             },
             "error": {
                 "message": "Operation failed",
-                "description": "Could not delete skill."
+                "description": "Could not delete %s."
             }
         },
-        "getSkill": {
+        "get": {
             "error": {
                 "message": "Operation failed",
-                "description": "Could not get skills from remote server."
+                "description": "Could not get %s from remote server."
             }
-        },
-        "nonexistentInvitation": {
-            "message": "Invalid invitation URL"
         }
     },
     "singIn": {
