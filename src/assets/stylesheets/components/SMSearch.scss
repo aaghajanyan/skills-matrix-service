@@ -1,0 +1,30 @@
+@import '../variables';
+
+.sm-search-criteria {
+    width: 100%;
+    margin-bottom: 5px;
+}
+.sm-search-criteria > input {
+    border-radius: 0;
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: $sm-primary-color;
+}
+.sm-search-criteria > input:focus {
+    box-shadow: none;
+    border-color: $sm-primary-color;
+    border-width: 0 0 2px;
+    border-right-width: 0!important;
+}
+
+.sm-search-criteria > input:hover {
+    border-color: $sm-primary-color !important;
+}
+
+.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+    border-right-width: 0 !important;
+}
+
+.ant-input-suffix:hover {
+    border-color: $sm-primary-color !important;
+}

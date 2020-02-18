@@ -5,6 +5,11 @@ import {PropTypes} from 'prop-types';
 const {Option} = Select;
 
 function SMSelect({options, ...restProps}) {
+
+    function handleChange(value) {
+        return restProps.onChange(value);
+    }
+
     const renderOptions = options => {
         return options.map(option => {
             return (
@@ -16,7 +21,7 @@ function SMSelect({options, ...restProps}) {
     };
 
     return (
-        <Select {...restProps}>
+        <Select mode={restProps.mode} {...restProps} onChange={handleChange}>
             {renderOptions(options)}
         </Select>
     );
@@ -24,14 +29,18 @@ function SMSelect({options, ...restProps}) {
 
 SMSelect.propTypes = {
     className: PropTypes.string,
-    initialValue: PropTypes.string,
+    initialvalue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
     onChange: PropTypes.func,
     name: PropTypes.string,
     placeholder: PropTypes.string,
     rules: PropTypes.arrayOf(PropTypes.object),
     options: PropTypes.arrayOf(PropTypes.shape({
         value: PropTypes.string
-    }))
+    })),
+    mode: PropTypes.string
 };
 
 

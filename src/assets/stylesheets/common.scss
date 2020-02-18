@@ -59,13 +59,6 @@
     /* TODO */
 }
 
-.sm-subheading {
-    color: $sm-subheading-color;
-    font-weight: $sm-subheading-font-weight;
-    font-size: $sm-subheading-font-size;
-    height: 40px;
-}
-
 .sm-chart {
     margin: auto;
 }
@@ -73,6 +66,13 @@
 .sm-tag {
     margin-bottom: 4px;
     margin-top: 4px;
+}
+
+.sm-tag-size {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
 
 .sm-tabs {
@@ -208,6 +208,116 @@ img {
     user-select: none;
 }
 
-.sm-input-suffix{
+.sm-input-suffix {
     padding-right: 0;
+}
+
+.sm-icon-add {
+    color: $sm-primary-color;
+    width: 22px!important;
+    height: 22px;
+    cursor: pointer;
+}
+
+.sm-button-add {
+    border: none;
+    background-color: #6692b3;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    min-width: 28px;
+    min-height: 28px;
+    height: 28px;
+}
+
+.sm-button-add:hover {
+    border: none;
+    background-color: #6692b3;
+    color: white;
+    transform: scale(1.2, 1.2);
+}
+
+.sm-button-add:active, .sm-button-add:focus-within {
+    border: none;
+    background-color: #6692b3;
+    color: white;
+}
+
+.sm-icon-edit, .sm-icon-delete {
+    color: $sm-primary-color;
+    width: 30px!important;
+    height: 17px;
+    cursor: pointer;
+}
+
+.sm-icon-edit:hover, .sm-icon-delete:hover, .sm-icon-add:hover {
+    color: $sm-primary-color-hover;
+    transform: scale(1.2, 1.2);
+}
+
+.sm-table-action-area {
+    display: flex;
+    justify-content: flex-end;
+    cursor: auto;
+    opacity: 0.7;
+}
+
+/* SMModal styles */
+
+.sm-subheading {
+    color: white;
+    font-weight: $sm-subheading-font-weight;
+    font-size: $sm-subheading-font-size;
+    height: 40px;
+    // display: contents;
+
+}
+
+.sm-component {
+    .sm-subheading {
+        color: $sm-primary-color-hover;
+    }
+}
+
+/*SMTable title color*/
+.sm-table-subheading {
+    color: $sm-primary-color-hover;
+}
+
+/*SMModal close button collor*/
+.ant-modal-content {
+    .anticon {
+        // color: $sm-primary-color-hover;
+        color: white;
+    }
+}
+
+/*SMSelet selected item checkbox color*/
+.ant-select-selection__choice__remove {
+    .anticon {
+        color: rgba(0, 0, 0, 0.65);
+    }
+}
+
+/*SMModal header color*/
+.ant-modal-header {
+    color: white;
+    background: $sm-primary-color;
+    height: 70px;
+    padding: 24px 24px;
+}
+
+.sm-form-footer > .ant-form-item {
+    margin-bottom: 0;
+}
+
+.ant-modal-close {
+    height: 70px;
+}
+
+.ant-input:focus {
+    border-color: #57a8e9;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+    box-shadow: 0 0 0 2px rgba(87,168,233, .2);
 }

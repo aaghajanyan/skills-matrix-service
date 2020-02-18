@@ -1,0 +1,46 @@
+@import '../variables';
+
+.sm-component-skill {
+    min-width: 550px;
+    // max-height: calc(100vh - #{$sm-header-height} - #{$sm-footer-height} + #{$sm-component-padding});
+}
+
+.skills-table-header {
+    .skills-table-header-items{
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 1%;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .sm-button {
+        cursor: auto;
+        opacity: 1;
+    }
+}
+
+.table-column-numbering {
+    width: 2%;
+}
+
+.table-column-name {
+    width: 4%;
+}
+
+.table-column-category{
+    width: 7%;
+}
+
+.table-column-action {
+    width: 2%;
+}
+
+.table-column-name, .table-column-category{
+    // text-align: center!important;
+}
+
+.sm-table-criteria {
+    display: inline-block;
+    width: 100%;
+}

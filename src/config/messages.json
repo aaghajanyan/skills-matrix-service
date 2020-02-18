@@ -29,6 +29,45 @@
             "message": "Invalid invitation URL"
         }
     },
+    "criteria": {
+        "add": {
+            "success": {
+                "message": "%s added successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not add %s."
+            },
+            "missing": {
+                "message": "Operation failed",
+                "description": "Required field is empty."
+            }
+        },
+        "update": {
+            "success": {
+                "message": "%s updated successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not update %s."
+            }
+        },
+        "delete": {
+            "success": {
+                "message": "%s deleted successfully."
+            },
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not delete %s."
+            }
+        },
+        "get": {
+            "error": {
+                "message": "Operation failed",
+                "description": "Could not get %s from remote server."
+            }
+        }
+    },
     "singIn": {
         "error": "Email or password is incorrect"
     },
@@ -45,11 +84,15 @@
         "name": {
             "required": {
                 "first": "First-name is required!",
-                "last": "Last-name is required!"
+                "last": "Last-name is required!",
+                "skill": "Skill name is required",
+                "category": "Category name is required"
             },
             "invalid": {
                 "first": "First-name is invalid!",
-                "last": "Last-name is invalid!"
+                "last": "Last-name is invalid!",
+                "skill": "Skill name is invalid",
+                "category": "Category name is invalid"
             }
         },
         "branch": {

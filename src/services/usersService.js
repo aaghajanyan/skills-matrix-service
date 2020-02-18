@@ -1,5 +1,6 @@
 import {SMConfig} from 'src/config';
 import {get} from './client';
+import { resolve } from 'dns';
 
 
 const getUser = (guid) => {
@@ -29,6 +30,5 @@ const getCurrentUser = () => {
             }
         });
 };
-
 
 export {getUser, getUsers, getCurrentUser};

@@ -1,0 +1,14 @@
+.sm-select-criteria > div {
+    height: auto;
+    & > div {
+        padding: 5px 3px 5px 3px;
+    }
+}
+
+.criteria-container {
+    display: flex;
+}
+
+.criteria-form {
+    width: 100%;
+}

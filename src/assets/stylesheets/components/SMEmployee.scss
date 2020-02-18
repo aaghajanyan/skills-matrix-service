@@ -21,14 +21,6 @@
     }
 }
 
-.skills-table-add-skill-button {
-    /* TODO: Remove */
-    cursor: not-allowed;
-    margin-bottom: 10px;
-    opacity: 0.5;
-}
-
-
 .sm-content {
     .sm-spinner {
         position: absolute;
@@ -39,6 +31,12 @@
         padding: 20px;
         text-align: center;
     }
+}
+
+.skills-table-add-skill-button {
+    cursor: not-allowed;
+    margin-bottom: 10px;
+    opacity: 0.5;
 }
 
 .sm-page-content {
