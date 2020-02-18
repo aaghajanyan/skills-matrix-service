@@ -65,6 +65,11 @@ body::-webkit-scrollbar  {
             align-items: center;
             display: flex;
             border: none;
+            button{
+                align-items: center;
+                display: flex;
+                margin-top: 10px;
+            }
         }
     }
 }

@@ -3,9 +3,10 @@ import {Dropdown} from 'antd';
 import {useHistory} from 'react-router-dom';
 import {SMButton, SMIcon, SMMenu} from 'src/view/components';
 import {dropdownMenuItems} from './dropdownMenuItems';
+import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {onMenuItemSelect} from '../';
 
-export function DropdownMenu({isVisible, onClick}) {
+export function DropdownMenu({SMuser}) {
 
     const history = useHistory();
 
@@ -13,8 +14,7 @@ export function DropdownMenu({isVisible, onClick}) {
 
     return (
         <Dropdown
-            visible={isVisible}
-            onClick={onClick}
+            trigger={['click']}
             overlay={
                 <SMMenu
                     className="sm-dropdown-menu"
@@ -25,6 +25,12 @@ export function DropdownMenu({isVisible, onClick}) {
             }
         >
             <SMButton className="ant-dropdown-link">
+                <SMUserBar
+                    firstName={SMuser.firstName}
+                    lastName={SMuser.lastName}
+                    size={SMuser.size}
+                    onClick={e => e.preventDefault()}
+                />
                 <SMIcon
                     className="sm-icon-fill-grey"
                     iconType="fas"

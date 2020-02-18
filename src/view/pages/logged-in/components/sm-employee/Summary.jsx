@@ -13,7 +13,8 @@ function Summary(props) {
             return ({
                 icon: skill.icon,
                 skill: skill.name,
-                mark: skill.experience,
+                mark: skill.profficience.mark,
+                profName: skill.profficience.name
             });
         });
 
@@ -28,7 +29,8 @@ function Summary(props) {
             return ({
                 icon: skill.icon,
                 skill: skill.name,
-                mark: skill.experience,
+                mark: skill.profficience.mark,
+                profName: skill.profficience.name
             });
         });
 
@@ -63,7 +65,7 @@ function Summary(props) {
         props.dashboard.topSkilsSort.map( (skill, index) => {
             categories.map(cat => {
                 if(cat.name === skill.categories){
-                    Object.assign(cat, {[skill.name]: skill.experience})
+                    Object.assign(cat, {[skill.name]: skill.profficience.mark})
                 }
             });
         });
@@ -71,7 +73,7 @@ function Summary(props) {
         props.dashboard.needToImproveSort.map( (skill, index) => {
             categories.map(cat => {
                 if(cat.name === skill.categories){
-                    Object.assign(cat, {[skill.name]: skill.experience})
+                    Object.assign(cat, {[skill.name]: skill.profficience.mark})
                 }
             })
         });

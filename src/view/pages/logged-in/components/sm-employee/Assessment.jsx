@@ -127,7 +127,7 @@ function Assessment(props) {
                 key: index,
                 icon: <FontAwesomeIcon icon={['fab', skill.icon]} style={{width: '30px', height: '30px'}} />,
                 skill: skill.name,
-                assesment: skill.experience,
+                assesment: skill.profficience.mark,
                 date: skill.last_worked_date,
                 categories: [
                     <Tag key="1" color={getColor()} className="sm-tag">{skill.categories}</Tag>,
@@ -141,7 +141,7 @@ function Assessment(props) {
                 key: index + props.dashboard.topSkilsSort.length,
                 icon: <FontAwesomeIcon icon={['fab', skill.icon]} style={{width: '30px', height: '30px'}} />,
                 skill: skill.name,
-                assesment: skill.experience,
+                assesment: skill.profficience.mark,
                 date: skill.last_worked_date,
                 categories: [
                     <Tag key="1" color={getColor()} className="sm-tag">{skill.categories}</Tag>,

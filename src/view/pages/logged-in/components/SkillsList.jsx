@@ -1,5 +1,5 @@
 import React from 'react';
-import {List} from 'antd';
+import {List, Tooltip} from 'antd';
 import {SMUserBar} from '../components/SMUserBar';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
@@ -20,7 +20,7 @@ function SkillsList({className, data, title, isUsers}) {
                             size="medium"
                         />}
                     <span style={{flex: '6'}}> {item.skill} </span>
-                    {!isUsers && <span style={{flex: '1'}}> {item.mark} </span>}
+                    {!isUsers && <span style={{flex: '1'}}> <Tooltip placement="left" title={item.profName}>{item.mark}</Tooltip> </span>}
                 </div>
             </List.Item>
         );
