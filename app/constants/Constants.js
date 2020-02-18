@@ -11,7 +11,15 @@ const Constants = {
     DATE_MIN: 0,
     DATE_MAX: 9,
     DATE_RANGE_AFTER: '[1-2][%s-9][%s-9][%s-9]\-[%s-9][%s-9]\-[%s-9][%s-9]',
+    DATE_RANGE_AFTER_1: '[%s-2][%s-9][%s-9][%s-9]\-[%s-9][%s-9]\-[%s-9][%s-9]',
     DATE_RANGE_BEFORE: '[1-2][0-%s][0-%s][0-%s]\-[0-%s][0-%s]\-[0-%s][0-%s]',
+    DATE_RANGE_BEFORE_1: '[%s-2][0-%s][0-%s][0-%s]\-[0-%s][0-%s]\-[0-%s][0-%s]',
+
+    DATE_RANGE_AFTER_3: '[%s-2][%s-9][%s-9][%s-9]\-[%s-9][%s-9]\-[%s-9][%s-9]',
+    DATE_RANGE_AFTER_4: '(%s)\-[%s-9][%s-9]\-[%s-9][%s-9]',
+    DATE_RANGE_AFTER_5: '(%s)\-(%s)\-[%s-9][%s-9]',
+
+
     REGISTRATION_ENDPOINT: '/registration/',
     FORGOT_PASSWORD_ENDPOINT: '/forgot_password/change/',
 
