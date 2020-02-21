@@ -3,22 +3,22 @@
     "properties": {
         "name": {
             "type": "string",
-            "example": "FE"
+            "example": "HTML"
         },
-        "relatedCategoriesIds": {
+        "addCategories": {
             "type": "array",
             "items": {
                 "type": "string",
-                "example": "guid"
+                "example": "guids"
             }
         },
-        "skillsIds": {
+        "deleteCategories": {
             "type": "array",
             "items": {
                 "type": "string",
-                "example": "guid"
+                "example": "guids"
             }
         }
     },
-    "required": ["name", "relatedCategoriesIds", "skillsIds"]
+    "required": ["name", "addCategories", "deleteCategories"]
 }

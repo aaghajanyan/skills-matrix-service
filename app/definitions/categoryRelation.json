@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "category_id": {
+            "type": "integer",
+            "example": 1
+        },
+        "related_category_id": {
+            "type": "integer",
+            "example": 2
+        }
+    },
+    "required": ["category_id", "related_category_id"]
+}

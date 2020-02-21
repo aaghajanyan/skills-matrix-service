@@ -64,13 +64,14 @@ const validateFinallyObject = async sqlCmd => {
  * @swagger
  * /search/{encoded_search_query}:
  *  get:
- *      description: Get all users
- *      tags: [User]
+ *      summary: Search users by encoded query
+ *      tags: [Search users]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: encoded_search_query
+ *            description: Base64 encoded query to return corresponding users
  *            required: true
  *      schema:
  *          type: string

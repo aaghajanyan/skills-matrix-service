@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "skillGuid": {
+            "type": "string",
+            "example": "guid"
+        },
+        "experience": {
+            "type": "integer",
+            "example": 2
+        },
+        "profficience": {
+            "type": "integer",
+            "example": 2
+        },
+        "last_worked_date": {
+            "type": "string",
+            "example": "03.03.2011"
+        }
+    },
+    "required": ["skillGuid", "experience", "profficience", "last_worked_date"]
+}

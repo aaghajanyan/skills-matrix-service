@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "categoryGuid": {
+            "type": "string",
+            "example": "guid"
+        }
+    },
+    "required": ["categoryGuid"]
+}

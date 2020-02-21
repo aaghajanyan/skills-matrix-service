@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "skills": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/userSkill"
+            }
+        }
+    },
+    "required": ["skills"]
+}

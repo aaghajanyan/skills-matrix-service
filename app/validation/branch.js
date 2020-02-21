@@ -19,6 +19,7 @@ module.exports.validateUpdateBody = (request, response, next) => {
 const validateBody = (request, response, next, schema) => {
     const result = Joi.validate(request.body, schema);
     if (result.error) {
+        console.log(result.error);
         return response.status(BAD_REQUEST).json(result.error.details);
     }
     next();

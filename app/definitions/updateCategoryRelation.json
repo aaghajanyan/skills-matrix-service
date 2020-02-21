@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "related_category_id": {
+            "type": "integer",
+            "example": 2
+        }
+    },
+    "required": ["related_category_id"]
+}

@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "properties": {
+        "password": {
+            "type": "string",
+            "example": "password"
+        },
+        "fname": {
+            "type": "string",
+            "example": "firstname"
+        },
+        "lname": {
+            "type": "string",
+            "example": "lastname"
+        },
+        "started_to_work_date": {
+            "type": "string",
+            "example": "1900-01-01"
+        },
+        "branchGuid": {
+            "type": "string",
+            "example": "guid"
+        },
+        "positionGuid": {
+            "type": "string",
+            "example": "guid"
+        }
+    },
+    "required": [
+        "password",
+        "fname",
+        "lname",
+        "started_to_work_date",
+        "branchGuid",
+        "positionGuid"
+    ]
+}

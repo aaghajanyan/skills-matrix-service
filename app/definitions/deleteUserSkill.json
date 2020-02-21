@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "userGuid": {
+            "type": "string",
+            "example": "guid"
+        },
+        "skillGuid": {
+            "type": "string",
+            "example": "guid"
+        }
+    },
+    "required": ["userGuid", "skillGuid"]
+}
