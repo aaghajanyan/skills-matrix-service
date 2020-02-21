@@ -22,8 +22,8 @@ const logger = require('../helper/logger');
  * @swagger
  * /users:
  *  get:
- *      description: Get all users
- *      tags: [User]
+ *      summary: Get all users
+ *      tags: [Users]
  *      produces:
  *          - application/json
  *      responses:
@@ -55,15 +55,16 @@ module.exports.getUsers = async (_, response) => {
 
 /**
  * @swagger
- * /users/{user_id}:
+ * /users/{user_guid}:
  *  get:
- *      description: Get all users
- *      tags: [User]
+ *      summary: Get users by guid
+ *      tags: [Users]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
- *            name: user_id
+ *            name: user_guid
+ *            description: GUID of user to return
  *            required: true
  *      schema:
  *          type: string
@@ -74,7 +75,7 @@ module.exports.getUsers = async (_, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get users.
+ *              description: Could not get user.
  *      security:
  *          - bearerAuth: []
  *
@@ -96,6 +97,37 @@ module.exports.getUser = async (request, response) => {
     }
 };
 
+/**
+ * @swagger
+ * /users/{user_guid}:
+ *  put:
+ *      summary: Update user data by guid
+ *      tags: [Users]
+ *      produces:
+ *          - application/json
+ *      parameters:
+ *          - in: path
+ *            name: user_guid
+ *            required: true
+ *          - in: body
+ *            name: body
+ *            description: User data object that needs to be updated
+ *            schema:
+ *              $ref: '#/definitions/updateUser'
+ *      schema:
+ *          type: string
+ *          minimum: 1
+ *      responses:
+ *          202:
+ *              description: Accepted
+ *          401:
+ *              description: Unauthorized.
+ *          500:
+ *              description: Could not update user data.
+ *      security:
+ *          - bearerAuth: []
+ *
+ */
 module.exports.updateUser = async (request, response) => {
     try {
         await User.update(request.params.userGuid, request.body);
@@ -113,6 +145,38 @@ module.exports.updateUser = async (request, response) => {
     }
 };
 
+/**
+ * @swagger
+ * /users/{token}:
+ *   post:
+ *     summary: Register new user
+ *     tags: [Users]
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *       - in: body
+ *         name: body
+ *         description: User object that needs to be added
+ *         schema:
+ *           $ref: '#/definitions/signUp'
+ *
+ *     responses:
+ *       201:
+ *         description: Created
+ *       401:
+ *         description: Unauthorized.
+ *       500:
+ *         description: Could not register new user.
+ *
+ *     security:
+ *       - bearerAuth: []
+ *
+ */
 module.exports.signUp = async (request, response) => {
     try {
         const token = request.params.token;
@@ -151,16 +215,16 @@ module.exports.signUp = async (request, response) => {
  * @swagger
  * /users/login:
  *   post:
- *     description: Login to the application
- *     tags: [Login]
+ *     summary: Login to the application
+ *     tags: [Users]
  *     consumes:
  *       - application/json
  *     produces:
  *       - application/json
  *     parameters:
  *       - in: body
- *         name: login body
- *         description: Login the user to the system.
+ *         name: body
+ *         description: User that needs to be login
  *         schema:
  *           $ref: '#/definitions/login'
  *
@@ -227,12 +291,31 @@ module.exports.login = async (request, response) => {
     }
 };
 
+/**
+ * @swagger
+ * /users/current:
+ *  get:
+ *      summary: Get current user
+ *      tags: [Users]
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: OK
+ *          401:
+ *              description: Unauthorized.
+ *          500:
+ *              description: Could not get current user.
+ *      security:
+ *          - bearerAuth: []
+ *
+ */
 module.exports.getCurrentUser = async (request, response) => {
     try {
-        const token = request.header("Authorization").split('Bearer ')[1];
+        const token = request.header('Authorization').split('Bearer ')[1];
         const user = await User.getByGuid(jwt.decode(token).guid);
         response.status(200).json(user);
     } catch (err) {
-        response.status(404).send("User is not found");
+        response.status(404).send('User is not found');
     }
 };

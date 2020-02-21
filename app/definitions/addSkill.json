@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "example": "Kotlin"
+        },
+        "categoriesId": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "example": "guid"
+            }
+        },
+        "icon": {
+            "type": "string",
+            "example": "Android"
+        }
+    },
+    "required": ["name", "categoriesId", "icon"]
+}

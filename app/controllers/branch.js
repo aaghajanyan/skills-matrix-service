@@ -13,7 +13,7 @@ const logger = require('../helper/logger');
  * @swagger
  * /branch:
  *  get:
- *      description: Get all branches
+ *      summary: Get all branches
  *      tags: [Branch]
  *      produces:
  *          - application/json
@@ -23,7 +23,7 @@ const logger = require('../helper/logger');
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get users.
+ *              description: Could not get branches.
  *      security:
  *          - bearerAuth: []
  *
@@ -48,13 +48,14 @@ module.exports.getBranches = async (request, response) => {
  * @swagger
  * /branch/{branch_guid}:
  *  get:
- *      description: Get branch by guid.
+ *      summary: Get branch by guid
  *      tags: [Branch]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: branch_guid
+ *            description: GUID of branch to return
  *            required: true
  *      schema:
  *          type: string
@@ -91,7 +92,7 @@ module.exports.getBranch = async (request, response) => {
  * @swagger
  * /branch:
  *   post:
- *     description: Add new branch
+ *     summary: Add new branch
  *     tags: [Branch]
  *     consumes:
  *       - application/json
@@ -99,8 +100,8 @@ module.exports.getBranch = async (request, response) => {
  *       - application/json
  *     parameters:
  *       - in: body
- *         name: branch name
- *         description: Enter new branch name.
+ *         name: body
+ *         description: Branch object that needs to be added
  *         schema:
  *           $ref: '#/definitions/branch'
  *
@@ -149,7 +150,7 @@ module.exports.addBranch = async (request, response) => {
  * @swagger
  * /branch/{branch_guid}:
  *  put:
- *      description: Update branch by guid.
+ *      summary: Update branch by guid
  *      tags: [Branch]
  *      produces:
  *          - application/json
@@ -158,8 +159,8 @@ module.exports.addBranch = async (request, response) => {
  *            name: branch_guid
  *            required: true
  *          - in: body
- *            name: branch name
- *            description: Update branch name.
+ *            name: body
+ *            description: Branch object that needs to be updated
  *            schema:
  *              $ref: '#/definitions/branch'
  *      schema:
@@ -171,7 +172,7 @@ module.exports.addBranch = async (request, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not update branch.
  *      security:
  *          - bearerAuth: []
  *
@@ -197,13 +198,14 @@ module.exports.updateBranch = async (request, response) => {
  * @swagger
  * /branch/{branch_guid}:
  *  delete:
- *      description: Delete branch by guid.
+ *      summary: Delete branch by guid
  *      tags: [Branch]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: branch_guid
+ *            description: Branch guid to delete
  *            required: true
  *      schema:
  *          type: string
@@ -214,7 +216,7 @@ module.exports.updateBranch = async (request, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not delete branch.
  *      security:
  *          - bearerAuth: []
  *

@@ -14,7 +14,7 @@ const logger = require('../helper/logger');
  * @swagger
  * /categories:
  *  get:
- *      description: Get categories.
+ *      summary: Get all categories
  *      tags: [Categories]
  *      produces:
  *          - application/json
@@ -24,7 +24,7 @@ const logger = require('../helper/logger');
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not get category.
  *      security:
  *          - bearerAuth: []
  *
@@ -49,13 +49,14 @@ module.exports.getCategories = async (_, response) => {
  * @swagger
  * /categories/{category_guid}:
  *  get:
- *      description: Get category by guid.
+ *      summary: Get category by guid
  *      tags: [Categories]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: category_guid
+ *            description: GUID of category to return
  *            required: true
  *      schema:
  *          type: string
@@ -66,7 +67,7 @@ module.exports.getCategories = async (_, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not get category by id.
  *      security:
  *          - bearerAuth: []
  *
@@ -92,7 +93,7 @@ module.exports.getCategory = async (request, response) => {
  * @swagger
  * /categories/{category_guid}:
  *  put:
- *      description: Update category by guid.
+ *      summary: Update category by guid
  *      tags: [Categories]
  *      produces:
  *          - application/json
@@ -101,8 +102,8 @@ module.exports.getCategory = async (request, response) => {
  *            name: category_guid
  *            required: true
  *          - in: body
- *            name: category body
- *            description: Update category.
+ *            name: body
+ *            description: Category object that needs to be updated
  *            schema:
  *              $ref: '#/definitions/updateCategory'
  *      schema:
@@ -114,7 +115,7 @@ module.exports.getCategory = async (request, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not update category.
  *      security:
  *          - bearerAuth: []
  *
@@ -140,13 +141,14 @@ module.exports.updateCategory = async (request, response) => {
  * @swagger
  * /categories/{category_guid}:
  *  delete:
- *      description: Delete category by guid.
+ *      summary: Delete category by guid
  *      tags: [Categories]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: category_guid
+ *            description: Category guid to delete
  *            required: true
  *      schema:
  *          type: string
@@ -157,7 +159,7 @@ module.exports.updateCategory = async (request, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not delete category.
  *      security:
  *          - bearerAuth: []
  *
@@ -205,7 +207,7 @@ const includeModel = (
  * @swagger
  * /categories/all:
  *  get:
- *      description: Get categories all data.
+ *      summary: Get categories all data
  *      tags: [Categories]
  *      produces:
  *          - application/json
@@ -215,7 +217,7 @@ const includeModel = (
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not get categories all data.
  *      security:
  *          - bearerAuth: []
  *
@@ -298,13 +300,14 @@ module.exports.getCategoriesAllData = async (_, response) => {
  * @swagger
  * /categories/all/{category_guid}:
  *  get:
- *      description: Get category all data.
+ *      summary: Get category all data by category guid
  *      tags: [Categories]
  *      produces:
  *          - application/json
  *      parameters:
  *          - in: path
  *            name: category_guid
+ *            description: GUID of category to return all data
  *            required: true
  *      schema:
  *          type: string
@@ -315,7 +318,7 @@ module.exports.getCategoriesAllData = async (_, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not get category all data.
  *      security:
  *          - bearerAuth: []
  *
@@ -394,7 +397,7 @@ module.exports.getCategoryAllData = async (request, response) => {
  * @swagger
  * /categories:
  *   post:
- *     description: Add new category
+ *     summary: Add new category
  *     tags: [Categories]
  *     consumes:
  *       - application/json
@@ -402,8 +405,8 @@ module.exports.getCategoryAllData = async (request, response) => {
  *       - application/json
  *     parameters:
  *       - in: body
- *         name: category body
- *         description: Add new category.
+ *         name: body
+ *         description: Category object that needs to be added
  *         schema:
  *           $ref: '#/definitions/addCategory'
  *
@@ -413,7 +416,7 @@ module.exports.getCategoryAllData = async (request, response) => {
  *       401:
  *         description: Unauthorized.
  *       500:
- *         description: Could not add new branch.
+ *         description: Could not add new category.
  *
  *     security:
  *       - bearerAuth: []
@@ -469,7 +472,7 @@ module.exports.addCategory = async (request, response) => {
  * @swagger
  * /categories/all/{category_guid}:
  *  put:
- *      description: Update category all data.
+ *      summary: Update category all data b category guid
  *      tags: [Categories]
  *      produces:
  *          - application/json
@@ -478,8 +481,8 @@ module.exports.addCategory = async (request, response) => {
  *            name: category_guid
  *            required: true
  *          - in: body
- *            name: category body
- *            description: Update category.
+ *            name: body
+ *            description: Category object that needs to be updated
  *            schema:
  *              $ref: '#/definitions/updateCategoryAllData'
  *      schema:
@@ -491,7 +494,7 @@ module.exports.addCategory = async (request, response) => {
  *          401:
  *              description: Unauthorized.
  *          500:
- *              description: Could not get branch.
+ *              description: Could not update category all data.
  *      security:
  *          - bearerAuth: []
  *

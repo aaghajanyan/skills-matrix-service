@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "email": {
+            "type": "string",
+            "example": "user@email.com"
+        }
+    },
+    "required": ["email"]
+}

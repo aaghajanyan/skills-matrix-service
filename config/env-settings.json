@@ -43,20 +43,49 @@
                 },
                 "tags": [
                     {
-                        "name": "Login",
-                        "description": "Login"
+                        "name": "Users"
                     },
                     {
-                        "name": "User",
-                        "description": "User"
+                        "name": "Invitation"
                     },
                     {
-                        "name": "Branch",
-                        "description": "Branch"
+                        "name": "Search users"
                     },
                     {
-                        "name": "Categories",
-                        "description": "Categories"
+                        "name": "Forgot password"
+                    },
+                    {
+                        "name": "Role group"
+                    },
+                    {
+                        "name": "Branch"
+                    },
+                    {
+                        "name": "Position"
+                    },
+                    {
+                        "name": "Criteria"
+                    },
+                    {
+                        "name": "Categories"
+                    },
+                    {
+                        "name": "User categories"
+                    },
+                    {
+                        "name": "Category relation"
+                    },
+                    {
+                        "name": "Skills"
+                    },
+                    {
+                        "name": "Skills relation"
+                    },
+                    {
+                        "name": "User skills"
+                    },
+                    {
+                        "name": "Profficience"
                     }
                 ]
             },

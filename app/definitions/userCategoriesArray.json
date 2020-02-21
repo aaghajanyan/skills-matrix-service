@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "categories": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/userCategory"
+            }
+        }
+    },
+    "required": ["categories"]
+}

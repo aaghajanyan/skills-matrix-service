@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "skill_id": {
+            "type": "string",
+            "example": "guid"
+        },
+        "category_id": {
+            "type": "string",
+            "example": "guid"
+        }
+    },
+    "required": ["skill_id", "category_id"]
+}
