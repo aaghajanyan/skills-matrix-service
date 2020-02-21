@@ -126,11 +126,18 @@ class SearchUser {
     }
 
     convertSkillCategoryRuleToQuery(properties, isSkillRule) {
-        const date = properties.last_worked_date.split('-');
-        const y = date[0];
-        const m = date[1];
-        const d = date[2];
+        if (!properties.last_worked_date) {
+            if (properties.opCondition === 'equal') {
+                properties.last_worked_date = '1900-01-01'
+            } else {
+                properties.last_worked_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+            }
+        }
 
+        const date = properties.last_worked_date.split('-');
+
+        const [y, m, dd] = date;
+        const d = dd.split('T')[0];
         let sqlStr = isSkillRule
             ? ` ${Constants.Keys.skill_experience_proficiency} ~ \'.*\\[`
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
@@ -147,10 +154,54 @@ class SearchUser {
             properties.opCondition === 'equal'
                 ? sqlStr.concat(`[${proficiency}-${Constants.Controllers.Search.MAX_PROFICIENCY}],`)
                 : sqlStr.concat(`[${Constants.Controllers.Search.MIN_PROFICIENCY}-${proficiency - 1}],`);
-        sqlStr = properties.opCondition === 'equal' ?
-            sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER, y[1], y[2], y[3], m[0], m[1], d[0], d[1])) :
-            sqlStr.concat(util.format(Constants.DATE_RANGE_BEFORE, y[1], y[2], y[3], m[0], m[1], d[0], d[1]));
+
+        if (properties.opCondition === 'equal') {
+            sqlStr = sqlStr.concat(this.collectRegExpForDate(date));
+        } else if (properties.opCondition === 'equal' && y[0] === '2') {
+            sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER, y[1], y[2], y[3], m[0], m[1], d[0], d[1]));
+        }
         sqlStr = sqlStr.concat("]'");
+        return sqlStr;
+
+    }
+
+    collectRegExpForDate(date) {
+        let sqlStr = '';
+        const [y, m, dd] = date;
+        const d = dd.split('T')[0];
+        sqlStr = sqlStr.concat('(');
+        if ( y[0] === '1' && +y < 1999) {
+            sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_1, y[0], y[1], y[2], +y[3]+1, 0, 0, 0, 0));
+            sqlStr = sqlStr.concat('|');
+            sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_1, 2, 0, 0, 0, 0, 0, 0, 0));
+        } else {
+            const nextY = +y+1;
+            const nextYS = nextY.toString();
+            sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_1, nextYS[0], nextYS[1], nextYS[2], nextYS[3], 0, 0, 0, 0));
+        }
+        if (+m !== 12) {
+            const nextM = +m+1;
+            let nextMS = nextM.toString();
+            if (nextM > 9) {
+                sqlStr = sqlStr.concat('|');
+                sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_4, y, nextMS[0], nextMS[1], 0, 0));
+            } else {
+                sqlStr = sqlStr.concat('|');
+                sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_4, y, 0, nextMS, 0, 0));
+            }
+        }
+        if (+d !== 28) {
+            const nextD = +d+1;
+            let nextDS = nextD.toString();
+            if (nextD > 9) {
+                sqlStr = sqlStr.concat('|');
+                sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_5, y, m, nextDS[0], nextDS[1]));
+            } else {
+                sqlStr = sqlStr.concat('|');
+                sqlStr = sqlStr.concat(util.format(Constants.DATE_RANGE_AFTER_5, y, m, 0, nextDS));
+            }
+        }
+        sqlStr = sqlStr.concat(')');
         return sqlStr;
     }
 

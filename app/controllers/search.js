@@ -1,31 +1,36 @@
 const util = require('util');
-const {OK, INTERNAL_SERVER_ERROR, BAD_REQUEST} = require('http-status-codes');
-const {validateEmptyQueryBodySchema} = require('../validation/search');
-const {Constants} = require('../constants/Constants');
+const { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('http-status-codes');
+const { validateEmptyQueryBodySchema } = require('../validation/search');
+const { Constants } = require('../constants/Constants');
 const db = require('../sequelize/models');
 const User = require('../models/user');
 const SearchUser = require('../models/search');
 const CustomError = require('../errors/CustomError');
 const logger = require('../helper/logger');
 
-const decodeQuery = async (encodedQuery) => {
+const decodeQuery = async encodedQuery => {
     try {
         return {
             success: true,
             error: false,
-            decodedQueryJson: JSON.parse(Buffer.from(encodedQuery, 'base64').toString('ascii')),
+            decodedQueryJson: JSON.parse(
+                Buffer.from(encodedQuery, 'base64').toString('ascii')
+            ),
         };
     } catch (error) {
         logger.error(error);
         return {
             success: false,
             error: true,
-            message: `${util.format(Constants.Controllers.Search.QUERY_PARAM_IS_INVALID, Constants.Controllers.Search.QUERY_PARAM_NAME)}`,
+            message: `${util.format(
+                Constants.Controllers.Search.QUERY_PARAM_IS_INVALID,
+                Constants.Controllers.Search.QUERY_PARAM_NAME
+            )}`,
         };
     }
 };
 
-const validateIsQueryEmptyObject = async (decodedQueryJson) => {
+const validateIsQueryEmptyObject = async decodedQueryJson => {
     if (decodedQueryJson) {
         const errorMsg = validateEmptyQueryBodySchema(decodedQueryJson);
         const obj = {
@@ -39,7 +44,7 @@ const validateIsQueryEmptyObject = async (decodedQueryJson) => {
     }
 };
 
-const validateFinallyObject = async (sqlCmd) => {
+const validateFinallyObject = async sqlCmd => {
     let conditionPart = sqlCmd.split('where ')[1];
     let responseObj = {
         success: false,
@@ -50,10 +55,37 @@ const validateFinallyObject = async (sqlCmd) => {
         return responseObj;
     }
     responseObj.success = sqlCmd.error && sqlCmd.error.isError ? false : true;
-    responseObj.message = sqlCmd.error && sqlCmd.error.isError ? sqlCmd.error.message : '';
+    responseObj.message =
+        sqlCmd.error && sqlCmd.error.isError ? sqlCmd.error.message : '';
     return responseObj;
 };
 
+/**
+ * @swagger
+ * /search/{encoded_search_query}:
+ *  get:
+ *      description: Get all users
+ *      tags: [User]
+ *      produces:
+ *          - application/json
+ *      parameters:
+ *          - in: path
+ *            name: encoded_search_query
+ *            required: true
+ *      schema:
+ *          type: string
+ *          minimum: 1
+ *      responses:
+ *          200:
+ *              description: OK
+ *          401:
+ *              description: Unauthorized.
+ *          500:
+ *              description: Could not get users.
+ *      security:
+ *          - bearerAuth: []
+ *
+ */
 module.exports.searchUsers = async (request, response, next) => {
     try {
         const decodedQueryObj = await decodeQuery(request.params.search_query);
@@ -62,12 +94,16 @@ module.exports.searchUsers = async (request, response, next) => {
             return;
         }
         const searchUser = new SearchUser();
-        const isEmptyQuery = await validateIsQueryEmptyObject(decodedQueryObj.decodedQueryJson);
+        const isEmptyQuery = await validateIsQueryEmptyObject(
+            decodedQueryObj.decodedQueryJson
+        );
         if (isEmptyQuery.error) {
             next(new CustomError());
             return;
         }
-        const sqlCmd = searchUser.collectSearchQuery(decodedQueryObj.decodedQueryJson);
+        const sqlCmd = searchUser.collectSearchQuery(
+            decodedQueryObj.decodedQueryJson
+        );
         const finallyObjValidResult = await validateFinallyObject(sqlCmd);
         if (!finallyObjValidResult.success) {
             next(new CustomError(OK, finallyObjValidResult.message));
@@ -88,7 +124,10 @@ module.exports.searchUsers = async (request, response, next) => {
         logger.error(error);
         return response.status(INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: `${util.format(Constants.ErrorMessages.COULD_NOT_FIND, Constants.TypeNames.USER.toLowerCase())}`,
+            message: `${util.format(
+                Constants.ErrorMessages.COULD_NOT_FIND,
+                Constants.TypeNames.USER.toLowerCase()
+            )}`,
         });
     }
 };

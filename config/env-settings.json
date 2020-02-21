@@ -21,5 +21,46 @@
         "username": "YWxiZXJ0LmFnaGFqYW55YW4uaW1AZ21haWwuY29t",
         "password": "YWxiZXJ0MTk5Mw==",
         "defaultFromAddress": "albert1993aghajanyan@gmail.com"
+    },
+    "swagger": {
+        "options": {
+            "swaggerDefinition": {
+                "title": "swagger",
+                "info": {
+                    "description": "The swagger documentation contains REST API references and data models for Skills Matrix.",
+                    "version": "1.0.0",
+                    "title": "Skills Matrix API"
+                },
+                "host": "localhost:3002",
+                "basePath": "/",
+                "schemes": ["http", "https"],
+                "securityDefinitions": {
+                    "bearerAuth": {
+                        "type": "apiKey",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                },
+                "tags": [
+                    {
+                        "name": "Login",
+                        "description": "Login"
+                    },
+                    {
+                        "name": "User",
+                        "description": "User"
+                    },
+                    {
+                        "name": "Branch",
+                        "description": "Branch"
+                    },
+                    {
+                        "name": "Categories",
+                        "description": "Categories"
+                    }
+                ]
+            },
+            "apis": ["./app/*/*.js"]
+        }
     }
 }
