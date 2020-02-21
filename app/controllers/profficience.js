@@ -1,4 +1,4 @@
-const {OK, INTERNAL_SERVER_ERROR, ACCEPTED} = require('http-status-codes');
+const {OK, INTERNAL_SERVER_ERROR, ACCEPTED, CREATED} = require('http-status-codes');
 const {Constants} = require('../constants/Constants');
 const responseBuilder = require('../helper/errorResponseBodyBuilder');
 const Profficience = require('../models/profficience');
@@ -10,7 +10,7 @@ module.exports.getProfficience = async (_, response) => {
         return response.status(OK).json(profficience);
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetCriteria(Constants.TypeNames.PROFFICIENCE.toLowerCase()));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotGetProfficience(Constants.TypeNames.PROFFICIENCE.toLowerCase()));
     }
 };
 
@@ -20,6 +20,36 @@ module.exports.updateProfficience = async (request, response) => {
         response.status(ACCEPTED).json({ success: true });
     } catch (error) {
         logger.error(error);
-        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateCriteria(Constants.TypeNames.PROFFICIENCE.toLowerCase(), request.params.id));
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotUpdateProfficience(Constants.TypeNames.PROFFICIENCE.toLowerCase(), request.params.id));
     }
 };
+
+module.exports.addProfficience = async (request, response) => {
+    try {
+        const { profficience, isNewRecord } = await Profficience.findOrCreate({
+            name: request.body.name,
+            value: request.body.value,
+        });
+
+        if (isNewRecord) {
+            return response.status(CREATED).json({
+                profficience,
+            });
+        }
+        return response.status(OK).json(responseBuilder.alreadyExistsCriteria(Constants.TypeNames.PROFFICIENCE.toLowerCase(), request.body.id));
+
+    } catch (error) {
+        logger.error(error);
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotAddProfficience(Constants.TypeNames.PROFFICIENCE.toLowerCase(), request.body.id));
+    }
+};
+
+module.exports.deleteProfficience = async (request, response) => {
+    try {
+        await Profficience.delete({ id: request.params.id });
+        return response.status(ACCEPTED).json({ success: true });
+    } catch (error) {
+        logger.error(error);
+        return response.status(INTERNAL_SERVER_ERROR).json(responseBuilder.couldNotDeleteCriteria(Constants.TypeNames.PROFFICIENCE.toLowerCase(), request.params.id));
+    }
+}

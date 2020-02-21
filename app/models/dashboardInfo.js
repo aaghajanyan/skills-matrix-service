@@ -3,7 +3,8 @@ const {
     users_categories: userCategoriesModel,
     skill: skillModel,
     category: categoryModel,
-    skills_relation: skillsRelationModel
+    skills_relation: skillsRelationModel,
+    profficiences: profficienceModel
 } = require('../sequelize/models');
 const {Constants} = require('../constants/Constants');
 const User = require('./user');
@@ -64,25 +65,46 @@ class DashboardInfo {
             ],
         });
 
+        const profficience = await profficienceModel.findAll();
         user.skills.map(item => {
-            if(item.users_skills.dataValues.experience > 3) {
+            if(item.users_skills.dataValues.profficience > 3) {
+                const profficienceObj = {}
+                profficience.map(score => {
+                    if(score.value === item.users_skills.profficience){
+                        Object.assign(profficienceObj, {
+                            name: score.name,
+                            mark: score.value
+                        })
+                    }
+                })
                     const skillsInfo = {
                         guid: item.guid,
                         name: item.name,
                         icon: item.icon,
                         categories: item.categories[0].name,
                         last_worked_date: item.users_skills.last_worked_date,
-                        experience: item.users_skills.experience
+                        profficience: profficienceObj,
+                        experience: item.users_skills.dataValues.experience
                     }
                     topSkils.push(skillsInfo);
-            }else if(item.users_skills.dataValues.experience <= 3){
+            }else if(item.users_skills.dataValues.profficience <= 3){
+                    const profficienceObj = {}
+                    profficience.map(score => {
+                        if(score.value === item.users_skills.profficience){
+                            Object.assign(profficienceObj, {
+                                name: score.name,
+                                mark: score.value
+                            })
+                        }
+                    })
                     const skillsInfo = {
                         guid: item.guid,
                         name: item.name,
                         categories: item.categories[0].name,
                         last_worked_date: item.users_skills.last_worked_date,
                         icon: item.icon,
-                        experience: item.users_skills.experience
+                        profficience: profficienceObj,
+                        experience: item.users_skills.dataValues.experience
                     }
                     needToImprove.push(skillsInfo);
             }
@@ -91,7 +113,7 @@ class DashboardInfo {
         user_categories.categories.map(cat => {
             const categoriesInfo = {
                 name: cat.name,
-                average: cat.categoryMark.experience,
+                average: cat.categoryMark.profficience,
                 last_worked_date: cat.categoryMark.last_worked_date
             }
             categoriesUsers.push(categoriesInfo);
@@ -99,11 +121,11 @@ class DashboardInfo {
         )
 
         const topSkilsSort = topSkils.sort((a, b) => {
-            return b.experience-a.experience;
+            return b.profficience.mark-a.profficience.mark;
         });
 
         const needToImproveSort = needToImprove.sort((a, b) => {
-            return a.experience-b.experience;
+            return a.profficience.mark-b.profficience.mark;
         });
 
         const categoriesUsersSort = categoriesUsers.sort((a, b) => {

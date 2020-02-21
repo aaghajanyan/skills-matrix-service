@@ -39,3 +39,26 @@ const criteria = (errorTypeMsg, criteriaType, value = '') => {
         message: `${util.format(errorTypeMsg, criteriaType, value)}`,
     };
 };
+
+module.exports.couldNotGetProfficience = (profficienceType, value = '') => {
+    return profficience(Constants.ErrorMessages.COULD_NOT_GET1, profficienceType, value);
+};
+
+module.exports.couldNotAddProfficience = (profficienceType, value = '') => {
+    return profficience(Constants.ErrorMessages.COULD_NOT_ADD1, profficienceType, value);
+};
+
+module.exports.couldNotUpdateProfficience = (profficienceType, value = '') => {
+    return profficience(Constants.ErrorMessages.COULD_NOT_UPDATE1, profficienceType, value);
+};
+
+module.exports.alreadyExistsProfficience = (profficienceType, value = '') => {
+    return profficience(Constants.ErrorMessages.ALREADY_EXISTS1, value, profficienceType);
+};
+
+const profficience = (errorTypeMsg, profficienceType, value = '') => {
+    return {
+        success: false,
+        message: `${util.format(errorTypeMsg, profficienceType, value)}`,
+    };
+};
