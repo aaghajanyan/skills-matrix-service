@@ -9,7 +9,7 @@ const {
     login,
     getCurrentUser,
 } = require('../controllers/user');
-const { getDashboardData } = require('../controllers/dashboardInfo');
+const { getDashboardData, getDashboardDataGuid } = require('../controllers/dashboardInfo');
 
 const {
     validateAddBody,
@@ -25,6 +25,7 @@ const {
 router.get('/', verifyLoginToken, getUsers);
 router.get('/current', verifyLoginToken, getCurrentUser);
 router.get('/dashboard', verifyLoginToken, getDashboardData);
+router.get('/dashboard/:userGuid', verifyLoginToken, getDashboardDataGuid);
 router.get('/:userGuid', verifyLoginToken, getUser);
 router.put(
     '/:userGuid',
