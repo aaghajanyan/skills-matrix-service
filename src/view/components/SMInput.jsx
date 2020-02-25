@@ -1,9 +1,18 @@
 import React from 'react';
-import {Input} from 'antd';
+import {Input, DatePicker} from 'antd';
 import PropTypes from 'prop-types';
 
 function SMInput(props) {
-    return props.type === 'password'? (<Input.Password {...props}/>): <Input {...props}/>;
+
+    const datePickerShow = () => {
+        let datePickerProps = {...props};
+        const {type, ...clonedOriginalObject} =  datePickerProps;
+        return (<DatePicker {...clonedOriginalObject}/>)
+    }
+
+    return props.type === 'password'? (<Input.Password {...props}/>) : props.type === 'date' ?
+            datePickerShow()
+             : <Input {...props}/>;
 }
 
 SMInput.propTypes = {

@@ -9,5 +9,6 @@
     "categories": "/categories/all",
     "addCategories": "/categories",
     "branches": "/branch",
-    "dashboard": "/dashboard"
+    "dashboard": "/dashboard",
+    "users_skills": "/users_skills"
 }

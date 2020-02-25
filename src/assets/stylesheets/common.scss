@@ -103,6 +103,10 @@
     border-radius: $sm-border-radius;
     height: $sm-input-height;
     box-shadow: $sm-shadow;
+    width: $sm-component-width;
+    & input{
+        height: $sm-input-height;
+    }
     & > input {
         padding-left: 60px !important;
     }

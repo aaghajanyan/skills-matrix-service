@@ -2,8 +2,9 @@ import {SMConfig} from 'src/config';
 import {get} from './client';
 
 
-const getDashboardInfo = () => {
-    return get({url: `${SMConfig.apiEndpoints.getUsers}${SMConfig.apiEndpoints.dashboard}`})
+const getDashboardInfo = (guid) => {
+    const url = guid !== undefined ? `${SMConfig.apiEndpoints.getUsers}${SMConfig.apiEndpoints.dashboard}/${guid}` : `${SMConfig.apiEndpoints.getUsers}${SMConfig.apiEndpoints.dashboard}`
+    return get({url: url})
         .then(result => {
             return result.data;
         })

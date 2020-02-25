@@ -24,6 +24,14 @@ const defaultSchema = (type) => yup.object().shape({
         .required(`${type} is required`)
 });
 
+const numberSchema = (type) => {
+    return yup.object().shape({
+    name: yup.string()
+        .required(SMConfig.messages.validation[type].required)
+        .matches(/^[0-9]{1,2}$/i, SMConfig.messages.validation[type].invalid)
+    })
+};
+
 export const requiredValidator = (type) => (rule, value, callback) => {
     validateSchema(defaultSchema(type), {name: value}, callback);
 };
@@ -50,4 +58,8 @@ const nameValidator = (type) => (rule, value, callback) => {
     validateSchema(nameSchema(type), {name: value}, callback);
 };
 
-export {emailValidator, passwordValidator, nameValidator};
+const numberValidator = (type) => (rule, value, callback) => {
+    validateSchema(numberSchema(type),{name: value}, callback);
+}
+
+export {emailValidator, passwordValidator, nameValidator, numberValidator};

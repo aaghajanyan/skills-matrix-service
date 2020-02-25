@@ -103,6 +103,14 @@
         },
         "date": {
             "required": "Date is required!"
+        },
+        "profficience": {
+            "invalid": "Profficence is invalid!",
+            "required": "Profficence is required!"
+        },
+        "experience": {
+            "invalid": "Experience is invalid!",
+            "required": "Experience is required!"
         }
     }
 }
