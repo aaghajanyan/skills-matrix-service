@@ -88,8 +88,10 @@ const categoriesColumns = (list, permission, editModalCallBack, handleDelete, co
     },
     {
         title: 'Assessment',
-        dataIndex: 'assessment',        console.log('handleAddCategory called')
-
+        dataIndex: 'assessment',
+        className: "table-column-name",
+        sorter: (a, b) => comparator(a.assessment, b.assessment),
+    },
     {
         title: 'Experience',
         dataIndex: 'experience',
