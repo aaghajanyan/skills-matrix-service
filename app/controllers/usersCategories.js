@@ -152,7 +152,7 @@ module.exports.addUserCategory = async (request, response) => {
                             await addUserCategoryAndUpdateHistory(
                                 userCategoryData,
                                 user,
-                                existingCategory
+                                category
                             );
                             status = OK;
                             expectedResponse.items.push(userCategoryData);
@@ -212,13 +212,13 @@ const addUserCategoryAndUpdateHistory = async (
     delete dataValues.guid;
     await CategoryHistory.findOrCreate(dataValues, {
         user_id: user.id,
-        category_id: existingCategory.id,
+        category_id: existingCategory.category_id,
         experience: userCategoryData.experience,
         profficience: userCategoryData.profficience,
     });
-    await UserCategory.update(category, {
+    await UserCategory.update(existingCategory, {
         user_id: user.id,
-        category_id: existingCategory.id,
+        category_id: existingCategory.category_id,
     });
 };
 
