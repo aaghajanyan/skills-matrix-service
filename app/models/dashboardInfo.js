@@ -119,12 +119,13 @@ class DashboardInfo {
         user_categories.categories.map(cat => {
             const categoriesInfo = {
                 name: cat.name,
-                average: cat.categoryMark.profficience,
+                guid: cat.guid,
+                assessment: cat.categoryMark.profficience,
+                experience: cat.categoryMark.experience,
                 last_worked_date: cat.categoryMark.last_worked_date
             }
             categoriesUsers.push(categoriesInfo);
-        }
-        )
+        });
 
         const topSkilsSort = topSkils.sort((a, b) => {
             return b.profficience.mark-a.profficience.mark;
