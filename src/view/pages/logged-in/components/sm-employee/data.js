@@ -57,7 +57,7 @@ const comparatorDate = (a, b) => {
     return 0;
 };
 
-const categoriesColumns = [
+const categoriesColumns1 = [
     {
         title: 'Name',
         dataIndex: 'name',
@@ -79,19 +79,17 @@ const categoriesColumns = [
     }
 ];
 
-const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete, confirmDialog) => [
+const categoriesColumns = (list, permission, editModalCallBack, handleDelete, confirmDialog) => [
     {
-        title: 'Skill',
-        dataIndex: 'skill',
+        title: 'Category',
+        dataIndex: 'name',
         className: "table-column-name",
-        sorter: (a, b) => comparator(a.skill, b.skill)
+        sorter: (a, b) => comparator(a.name, b.name)
     },
     {
         title: 'Assessment',
-        dataIndex: 'assesment',
-        className: "table-column-name",
-        sorter: (a, b) => comparator(a.assesment, b.assesment),
-    },
+        dataIndex: 'assessment',        console.log('handleAddCategory called')
+
     {
         title: 'Experience',
         dataIndex: 'experience',
@@ -102,8 +100,40 @@ const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete
         title: 'Date',
         dataIndex: 'date',
         className: "table-column-date",
-
         sorter: (a, b) => comparatorDate(a.date, b.date)
+    },
+    {
+        title: '',
+        dataIndex: 'operation',
+        className: "table-column-action",
+        render: (text, record) =>
+            list.length >= 1 ? (
+                permission && <>
+                    <SMIcon className={'sm-icon-edit'} iconType={'fas'} icon='pencil-alt' onClick={(e) => editModalCallBack(e, record)}/>
+                    <SMIcon className={'sm-icon-delete'} iconType={'far'} icon='trash-alt' onClick={(e) => {confirmDialog(handleDelete, e, record)}}/>
+                </>
+            ) : null,
+    }
+];
+
+const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete, confirmDialog) => [
+    {
+        title: 'Skill',
+        dataIndex: 'skill',
+        className: "table-column-name",
+        sorter: (a, b) => comparator(a.skill, b.skill)
+    },
+    {
+        title: 'Assessment',
+        dataIndex: 'assessment',
+        className: "table-column-name",
+        sorter: (a, b) => comparator(a.assesment, b.assesment),
+    },
+    {
+        title: 'Experience',
+        dataIndex: 'experience',
+        className: "table-column-name",
+        sorter: (a, b) => comparator(a.experience, b.experience),
     },
     {
         title: 'Categories',
@@ -111,6 +141,13 @@ const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete
         className: "table-column-category",
         width: '5%'
 
+    },
+    {
+        title: 'Date',
+        dataIndex: 'date',
+        className: "table-column-date",
+
+        sorter: (a, b) => comparatorDate(a.date, b.date)
     },
     {
         title: '',

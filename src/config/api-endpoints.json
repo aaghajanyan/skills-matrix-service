@@ -10,5 +10,6 @@
     "addCategories": "/categories",
     "branches": "/branch",
     "dashboard": "/dashboard",
-    "users_skills": "/users_skills"
+    "users_skills": "/users_skills",
+    "users_categories": "/users_categories"
 }
