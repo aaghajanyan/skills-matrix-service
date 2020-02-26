@@ -152,7 +152,7 @@ module.exports.addUserSkill = async (request, response) => {
                             await addUserSkillAndUpdateHistory(
                                 userSkillData,
                                 user,
-                                existingSkill
+                                skill
                             );
                             status = OK;
                             expectedResponse.items.push(userSkillData);
@@ -210,13 +210,13 @@ const addUserSkillAndUpdateHistory = async (
     delete dataValues.guid;
     await SkillHistory.findOrCreate(dataValues, {
         user_id: user.id,
-        skill_id: existingSkill.id,
+        skill_id: existingSkill.skill_id,
         experience: userSkillData.experience,
         profficience: userSkillData.profficience,
     });
-    await UserSkill.update(skill, {
+    await UserSkill.update(existingSkill, {
         user_id: user.id,
-        skill_id: existingSkill.id,
+        skill_id: existingSkill.skill_id,
     });
 };
 
