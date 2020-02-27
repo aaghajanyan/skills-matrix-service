@@ -3,6 +3,8 @@ import {shallowEqual, useSelector} from 'react-redux';
 import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {Summary} from 'src/view/pages/logged-in/components/sm-employee/Summary';
 import {Assessment} from 'src/view/pages/logged-in/components/sm-employee/Assessment';
+import {About} from 'src/view/pages/logged-in/components/sm-employee/About';
+import {History} from 'src/view/pages/logged-in/components/sm-employee/History';
 import {getUser} from 'src/services/usersService';
 import {getDashboardInfo} from 'src/services/dashboardService';
 import {SMTabs} from 'src/view/components';
@@ -33,14 +35,14 @@ function SMEmployeeInitial(props) {
                     console.warn('Handle error', error);
                 });
         }
-        if(dashboardInfo === null){
-            getDashboardInfo(user.guid)
+
+        user.guid && getDashboardInfo(user.guid)
                .then(dashboardInfo => {
                     setDashboardInfo(dashboardInfo);
                 }) .catch(error => {
                     console.warn('Handle error', error);
                 });
-        }
+
     }, [props.match, user]);
 
     return (
@@ -62,8 +64,8 @@ function SMEmployeeInitial(props) {
         >
             <Summary dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Summary"/>
             <Assessment dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Assessment"/>
-            <div key="History"><h1> History </h1></div>
-            <div key="About"><h1> About </h1></div>
+            <History dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="History"/>
+            <About dashboard={dashboardInfo && dashboardInfo[0]} userGuid={user.guid}  user={{firstName: user.fname,lastName: user.lname}} key="About"/>
         </SMTabs>
     );
 }

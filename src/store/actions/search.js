@@ -58,12 +58,15 @@ export function doSearch(data){
                 dispatch(searchUsersSuccess({data: result.data.result, values: initialTree}));
             })
             .catch(error => {
-                if(error.message === 'Network Error'){
-                    SMNotification('error', messages.noConnection);
-                    dispatch(getSearchParams());
-                } else {
-                    dispatch(searchUsersFailure(error));
-                }
+                    if(error.response && (error.response.status === 500)) {
+                        SMNotification('error', messages.findEmployees.server500Error);
+                        dispatch(searchUsersSuccess({ data: [], values: initialTree }));
+                    } else if(error.message === 'Network Error'){
+                        SMNotification('error', messages.noConnection);
+                        dispatch(getSearchParams());
+                    } else {
+                        dispatch(searchUsersFailure(error));
+                    }
             });
     };
 }

@@ -3,9 +3,11 @@ import {List, Tooltip} from 'antd';
 import {SMUserBar} from '../components/SMUserBar';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
+import {SMIcon} from 'src/view/components';
 
-library.add(fab);
+library.add(fab, far, fas);
 
 function SkillsList({className, data, title, isUsers}) {
 
@@ -13,14 +15,15 @@ function SkillsList({className, data, title, isUsers}) {
         return (
             <List.Item>
                 <div className="sm-skills-list-item" style={{display:'flex', width:'100%', alignItems: 'center'}}>
-                    {!isUsers ? <FontAwesomeIcon icon={['fab', item.icon]} style={{flex: '1' , width: '30px', height: '30px'}} /> :
+                    {!isUsers && item.icon ? <SMIcon style={{flex: '1' , width: '30px', height: '30px'}}  iconType='fab' icon={item.icon} />
+                    :
                     <SMUserBar
                             firstName={item.firstName}
                             lastName={item.lastName}
                             size="medium"
                         />}
                     <span style={{flex: '6'}}> {item.skill} </span>
-                    {!isUsers && <span style={{flex: '1'}}> <Tooltip placement="left" title={item.profName}>{item.mark}</Tooltip> </span>}
+                    <Tooltip placement="left" title={item.profName}> {item.mark} </Tooltip>
                 </div>
             </List.Item>
         );

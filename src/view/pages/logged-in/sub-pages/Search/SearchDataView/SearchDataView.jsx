@@ -17,7 +17,7 @@ function SearchDataView(props) {
             loading={!props.userData}
             showHeader={true}
             dataSource={SkillsColumns({userData: props.userData})}
-            pagination={false}
+            pagination={undefined}
             onRow={onEmployeeSelect}
             scroll={{x: 1300}}
             bordered

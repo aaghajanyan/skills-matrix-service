@@ -66,3 +66,70 @@
     width: 2%;
 }
 
+.sm-about-main {
+    background: $sm-light-color;
+    padding: 20px;
+    text-align: left;
+    min-height: 79vh;
+    & > div:last-child {
+        padding-left: 40px;
+    }
+    .ant-spin-nested-loading {
+        padding-top: 20px;
+    }
+    .sm-avatar {
+        width: 200px !important;
+        height: 200px !important;
+        span > span {
+            font-size: 1em;
+        }
+    }
+    .sm-user-bar_name {
+        display: none;
+    }
+
+}
+
+.sm-about-header {
+    color: #295573b8;
+    font-size: 20px;
+    text-align: left;
+    margin: 0;
+}
+
+.sm-about-left {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color:#B0B0B0;
+    font-size: 3em;
+    padding-bottom: 10px;
+}
+
+.sm-about-header-name {
+    text-align: left;
+    color: #295573b8;
+    font-size: 2em;
+    border-bottom: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.sm-about-title {
+    text-align: left;
+    font-size: 2.2em;
+    color:#B0B0B0;
+    border-bottom: 1px solid #eee;
+}
+
+.sm-about-row {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.sm-about-user {
+    text-align: left;
+    padding-top: 10px;
+    span {
+        font-weight: bold;
+    }
+}

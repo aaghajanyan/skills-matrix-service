@@ -112,5 +112,11 @@
             "invalid": "Experience is invalid!",
             "required": "Experience is required!"
         }
+    },
+    "findEmployees": {
+        "server500Error": {
+            "message": "Operation failed",
+            "description": "Could not find Employee."
+        }
     }
 }
