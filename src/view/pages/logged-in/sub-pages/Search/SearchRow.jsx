@@ -5,7 +5,7 @@ import {CRITERIA} from '../../../../../configSearch/criteria';
 import { DatePicker } from 'antd';
 import moment from 'moment';
 
-const dateFormat = 'YYYY/MM/DD';
+const dateFormat = 'YYYY-MM-DD';
 const datePlaceholder = 'Select date';
 
 const {Option} = Select;
