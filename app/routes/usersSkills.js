@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const {getUserSkills, getUsersSkills, addUserSkill, deleteUserSkill} = require('../controllers/usersSkills');
+const {getUserSkills, getUsersSkills, addUserSkill, deleteUserSkill, getSkillsHistory} = require('../controllers/usersSkills');
 const {validateAddBody, validateUpdateBody} = require('../validation/usersSkills');
 const {verifyLoginToken, verifyRightPermission} = require('../validation/token');
 
 router.get('/', verifyLoginToken, getUsersSkills);
+router.get('/history/:userGuid', verifyLoginToken, getSkillsHistory);
 router.get('/:userSkillGuid', verifyLoginToken, getUserSkills);
 router.post('/:userGuid', verifyLoginToken, verifyRightPermission, validateAddBody, addUserSkill);
 router.put('/:userGuid', verifyLoginToken, verifyRightPermission, validateUpdateBody, addUserSkill);

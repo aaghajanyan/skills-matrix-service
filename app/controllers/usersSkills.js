@@ -222,6 +222,44 @@ const addUserSkillAndUpdateHistory = async (
 
 /**
  * @swagger
+ * /users_skills/history/{user_guid}:
+ *   get:
+ *     summary: Get user skill history
+ *     tags: [User skills history]
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: user_guid
+ *         required: true
+ *       - in: body
+ *         name: body
+ *         description: User skill object history
+ *     responses:
+ *       201:
+ *         description: Created
+ *       401:
+ *         description: Unauthorized.
+ *       409:
+ *         description: Conflict.
+ *       500:
+ *         description: Could not add user category.
+ *
+ *     security:
+ *       - bearerAuth: []
+ *
+ */
+
+module.exports.getSkillsHistory = async (request, response) => {
+    const user = await User.getByGuid(request.params.userGuid);
+    const historySkills = await SkillHistory.findByUserId(user.id);
+    return response.status(OK).json({ historySkills });
+}
+
+/**
+ * @swagger
  * /users_skills/{user_guid}:
  *   put:
  *     summary: Update user skill
