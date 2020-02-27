@@ -67,8 +67,35 @@ class DashboardInfo {
                             Constants.Keys.guid,
                         ],
                     },
+                    include : [
+                        {
+                            model: skillModel,
+                            as: Constants.Associate.Aliases.skills,
+                            required: false,
+                            through: {
+                                model: skillsRelationModel,
+                                as: Constants.Associate.Aliases.skills,
+                            },
+                        }
+                    ]
                 },
+                {
+                    model: skillModel,
+                    as: Constants.Associate.Aliases.skills,
+                    required: false,
+                    through: {
+                        model: userSkillsModel,
+                        as: Constants.Associate.Aliases.skillMark,
+                        attributes: [
+                            Constants.Controllers.Search.EXPERIENCE,
+                            Constants.Controllers.Search.PROFFICIENCE,
+                            Constants.Controllers.Search.LAST_WORKED_DATE,
+                            Constants.Keys.guid,
+                        ],
+                    },
+                }
             ],
+
         });
 
         const profficience = await profficienceModel.findAll();
@@ -116,13 +143,15 @@ class DashboardInfo {
             }
         });
 
+
         user_categories.categories.map(cat => {
             const categoriesInfo = {
                 name: cat.name,
                 guid: cat.guid,
                 assessment: cat.categoryMark.profficience,
                 experience: cat.categoryMark.experience,
-                last_worked_date: cat.categoryMark.last_worked_date
+                last_worked_date: cat.categoryMark.last_worked_date,
+                skills: cat.skills
             }
             categoriesUsers.push(categoriesInfo);
         });
