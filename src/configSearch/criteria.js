@@ -11,6 +11,11 @@ const Operator = {
     ]
 };
 
+const last_worked_date = {
+    'name': 'Last worked date',
+    'key': 'last_worked_date',
+}
+
 export const uuid = () => `ID${+ new Date() + Math.floor(Math.random() * 999999)}`;
 
 export const CRITERIA = {
@@ -77,7 +82,8 @@ export const CRITERIA = {
                     'name': '5'
                 }
             ]
-        }
+        },
+        last_worked_date
     ],
     Skill : [
         Operator,
@@ -142,7 +148,8 @@ export const CRITERIA = {
                     'name': '5'
                 }
             ]
-        }
+        },
+        last_worked_date
     ],
     Branch:  [
         Operator,
