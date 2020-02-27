@@ -1,12 +1,10 @@
 import React,{useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {SMButton, SMTable, SMForm, SMInput, SMModal, SMNotification, SMSearch, SMSelect} from 'src/view/components';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {fab} from '@fortawesome/free-brands-svg-icons';
-import {fas} from '@fortawesome/free-solid-svg-icons';
-import {far} from '@fortawesome/free-regular-svg-icons';
-import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
+import {useHistory} from 'react-router-dom';
+import {debounce} from 'throttle-debounce';
 import {Tag} from 'antd';
+import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSearch, SMSelect} from 'src/view/components';
+import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {useValidator} from 'src/hooks/common';
 import {numberValidator} from 'src/helpers/validators';
 import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
@@ -15,11 +13,13 @@ import {addUserCategories, updateUserCategories, deleteUserCategories} from 'src
 import {categoriesColumns, categorySkillsColumns} from './data';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {toRGB} from 'src/helpers/generateColor';
-import {debounce} from 'throttle-debounce';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
 import {addActionMessage, updateActionMessage, deleteActionMessage} from 'src/config/generate-criteria-message';
-import {useHistory} from 'react-router-dom';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fab} from '@fortawesome/free-brands-svg-icons';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from '@fortawesome/free-regular-svg-icons';
 
 import moment from 'moment';
 
@@ -33,16 +33,19 @@ function Assessment(props) {
             return [];
         }
         const categories = props.dashboard.categoriesUsers.map( (categoryObj, index) => {
+            const skillsList = categoryObj && categoryObj.skills && categoryObj.skills.map(skill => {
+                return <Tag style={{...toRGB(skill.name)}} key={skill.name}  className="sm-tag sm-tag-size" >{skill.name}</Tag>
+            });
             return ({
                 key: categoryObj.name,
                 name: categoryObj.name,
                 guid: categoryObj.guid,
                 assessment: categoryObj.assessment,
                 experience: categoryObj.experience,
-                date: categoryObj.last_worked_date
+                date: categoryObj.last_worked_date,
+                skills: skillsList
             });
         });
-
         return categories;
     };
 
@@ -186,6 +189,7 @@ function Assessment(props) {
                 assessment: item.assessment,
                 experience: item.experience,
                 date: moment(item.date).format('YYYY-MM-DD'),
+                skills: item.skills,
             };
             allCategoriesLists.push(row);
         });
@@ -288,7 +292,7 @@ function Assessment(props) {
             data[key][0].profficience = currentValues.profficience;
         }
         if(initialDate !== currentValues['last_worked_date']) {
-            data[key][0]['last_worked_date'] = currentValues['last_worked_date'];
+            data[key][0]['last_worked_date'] = moment(currentValues['last_worked_date']).format('YYYY-MM-DD');
         }
     };
 
@@ -301,6 +305,7 @@ function Assessment(props) {
             }
         }
     };
+
     const handleSaveCategory = (currentValues) => {
         if (isEdited) {
             if (currentValues) {
@@ -341,10 +346,8 @@ function Assessment(props) {
             skillNames = skillNames.filter(function (el) {
                 return el != null;
             });
-
             return skillNames;
         }
-
         return [];
     };
 
@@ -361,11 +364,9 @@ function Assessment(props) {
                 }
                 return (flag ? {value: category.name} : null);
             });
-
             categoryNames = categoryNames.filter(function (el) {
                 return el !== null;
             });
-
             return categoryNames;
         }
 
@@ -375,8 +376,9 @@ function Assessment(props) {
     const openAddModal = async (isCategoryModal) => {
         isCategoryModal ? setIsCategoryModalOpened(true) : setIsCategoryModalOpened(false);
         const date = { last_worked_date: moment().format('YYYY-MM-DD')};
-        isCategoryModal ? setUsersCategoryData(Object.assign(usersCategoryData, date)) : setUsersSkillsData(Object.assign(usersSkillsData, date));
-        
+        isCategoryModal ?
+            setUsersCategoryData(Object.assign(usersCategoryData, date)) :
+            setUsersSkillsData(Object.assign(usersSkillsData, date));
         setIsEdited(false);
         setVisible(true);
     };
@@ -483,12 +485,28 @@ function Assessment(props) {
                 if (skillItem.skill.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
-
                 if(skillItem.categories.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
             });
             collectSkillsData(filtredData)
+        })()
+    }
+
+    const handleCategorySearchInputChange = (e) => {
+        e.persist();
+        const value = e.target.value;
+        debounce(300, () => {
+            const filtredData = [];
+            allCategories().filter((catItem) => {
+                if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
+                    filtredData.push(catItem);
+                }
+                if(moment(catItem.date).format('YYYY-MM-DD').toString().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
+                    filtredData.push(catItem);
+                }
+            });
+            collectCategoriesData(filtredData)
         })()
     }
 
@@ -553,7 +571,7 @@ function Assessment(props) {
                                 key: 'search',
                                 placeholder: "Filter...",
                                 className: 'sm-search-criteria',
-                                onChange: e => handleSearchInputChange(e),
+                                onChange: e => handleCategorySearchInputChange(e),
                             })
                         ]}
                 />}

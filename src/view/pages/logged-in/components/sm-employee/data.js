@@ -99,6 +99,12 @@ const categoriesColumns = (list, permission, editModalCallBack, handleDelete, co
         sorter: (a, b) => comparator(a.experience, b.experience),
     },
     {
+        title: 'Skills',
+        dataIndex: 'skills',
+        className: "table-column-skill",
+        width: '5%'
+    },
+    {
         title: 'Date',
         dataIndex: 'date',
         className: "table-column-date",
@@ -142,7 +148,6 @@ const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete
         dataIndex: 'categories',
         className: "table-column-category",
         width: '5%'
-
     },
     {
         title: 'Date',
