@@ -26,6 +26,37 @@ import moment from 'moment';
 library.add(fab, far, fas);
 
 function Assessment(props) {
+
+    const [skillsStore, dispatchSkill] = useState([]);
+    const [categoriesStore, dispatchCategory] = useState([]);
+
+    const [isCategoryModalOpened, setIsCategoryModalOpened] = useState(false);
+
+    const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [someDelete, setSomeDelete] = useState(false);
+
+    const [skillsDataSource, setSkillsDataSource] = useState(null);
+    const [categoriesDataSource, setCategoriesDataSource] = useState(null);
+
+    const [initialCriteriaName, setInitialCriteriaName] = useState('');
+    const [initialExperience, setInitialExperience] = useState(0);
+    const [initialProfficience, setInitialProfficience] = useState(0);
+
+    let [isProfficienceNameValid, profficienceName, profficienceRule, resetProfficienceName] = useValidator(numberValidator('profficience'));
+    let [isExpNameValid, expName, expRule, resetExpName] = useValidator(numberValidator('experience'));
+
+    let [isCriteriaNameValid, setIsCriteriaNameValid] = useState(null);
+
+    const [isEdited, setIsEdited] = useState(false);
+    const [editedItem, setEditedItem] = useState(false);
+
+    const [usersSkillsData, setUsersSkillsData] = useState({});
+    const [usersCategoryData, setUsersCategoryData] = useState({});
+
+    const [initialDate, setInitialDate] = useState('');
+    const history = useHistory();
+
     const currentUser = useSelector(state => state.user);
 
     const allCategories = () => {
@@ -86,70 +117,40 @@ function Assessment(props) {
         return skills;
     };
 
-    const [skillsStore, dispatchSkill] = useState([]);
-    const [categoriesStore, dispatchCategory] = useState([]);
-
-    const [isCategoryModalOpened, setIsCategoryModalOpened] = useState(false);
-
-    const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [someDelete, setSomeDelete] = useState(false);
-
-    const [skillsDataSource, setSkillsDataSource] = useState(null);
-    const [categoriesDataSource, setCategoriesDataSource] = useState(null);
-
-    const [initialSkillName, setInitialSkillName] = useState('');
-    const [initialExperience, setInitialExperience] = useState(0);
-    const [initialProfficience, setInitialProfficience] = useState(0);
-
-    let [isProfficienceNameValid, profficienceName, profficienceRule, resetProfficienceName] = useValidator(numberValidator('profficience'));
-    let [isExpNameValid, expName, expRule, resetExpName] = useValidator(numberValidator('experience'));
-
-    let [isSkillListValid, setIsSkillListValid] = useState(null);
-
-    const [isEdited, setIsEdited] = useState(false);
-    const [editedItem, setEditedItem] = useState(false);
-
-    const [usersSkillsData, setUsersSkillsData] = useState({});
-    const [usersCategoryData, setUsersCategoryData] = useState({});
-
-    const [initialDate, setInitialDate] = useState('');
-    const history = useHistory();
-
-
     const isEntireFormValid = [
         isProfficienceNameValid,
         isExpNameValid,
-        isSkillListValid,
+        isCriteriaNameValid,
     ].every(e => e);
 
     useEffect(() => {
         collectSkillsData(allSkills());
-    }, [skillsStore]);
+        collectCategoriesData(allCategories());
+    }, [skillsStore, categoriesStore]);
 
-    useEffect(()=> {
+    const getAllData = () => {
         const skillList = [];
-        allSkills() && allSkills().map((item, index) => {
+        const allSkillsData = allSkills();
+        allSkillsData && allSkillsData.map((item, index) => {
             skillList.push(item.skill)
         })
         getSkillsAllData();
-    }, []);
+
+        const categoriesList = [];
+        const allCategoriesData = allCategories();
+        allCategoriesData && allCategoriesData.map((item, index) => {
+            categoriesList.push(item.category)
+        })
+        getCategoriesAllData();
+    }
+
+    useEffect(()=> {
+        getAllData()
+    }, [props.dashboard]);
 
     const getSkillsAllData = async () => {
         dispatchSkill(await getSkills());
     };
-
-    useEffect(() => {
-        collectCategoriesData(allCategories());
-    }, [categoriesStore]);
-
-    useEffect(()=> {
-        const categoriesList = [];
-        allCategories() && allCategories().map((item, index) => {
-            categoriesList.push(item.category)
-        })
-        getCategoriesAllData();
-    }, []);
 
     const getCategoriesAllData = async () => {
         dispatchCategory(await getCategories());
@@ -165,6 +166,7 @@ function Assessment(props) {
         skillsRes && skillsRes.map((item, index) => {
             const row = {
                 key: item.key,
+                name: item.name,
                 date: moment(item.date).format('YYYY-MM-DD'),
                 guid: item.guid,
                 assessment: item.assessment,
@@ -173,7 +175,6 @@ function Assessment(props) {
                 categories: <Tag style={{...toRGB(item.categories)}} key={item.categories}  className="sm-tag sm-tag-size" >{item.categories}</Tag>,
                 experience: item.experience
             };
-
             allSkillsLists.push(row);
         });
         setSkillsDataSource(allSkillsLists);
@@ -206,19 +207,17 @@ function Assessment(props) {
             if (usersSkillsData.profficience && usersSkillsData.experience && usersSkillsData.last_worked_date) {
                 const data = { skills: [
                     {
-                    skillGuid: skillGuid,
-                    experience: usersSkillsData.experience ,
-                    profficience: usersSkillsData.profficience,
-                    last_worked_date: usersSkillsData.last_worked_date
+                        skillGuid: skillGuid,
+                        experience: usersSkillsData.experience ,
+                        profficience: usersSkillsData.profficience,
+                        last_worked_date: usersSkillsData.last_worked_date
                     }
                 ]};
-
                 closeModal();
                 await addUserSkills(currentUser.guid, data);
                 SMNotification('success', addActionMessage('success', 'Skill'));
-            }else {
+            } else {
                 SMNotification('error', addActionMessage('error', 'Skill'));
-
             }
         } catch(error) {
             closeModal();
@@ -231,18 +230,17 @@ function Assessment(props) {
             if (usersCategoryData.profficience && usersCategoryData.experience && usersCategoryData.last_worked_date) {
                 const data = { categories: [
                     {
-                    categoryGuid: categoryGuid,
-                    experience: usersCategoryData.experience ,
-                    profficience: usersCategoryData.profficience,
-                    last_worked_date: usersCategoryData.last_worked_date
-                    }
-                ]};
+                        categoryGuid: categoryGuid,
+                        experience: usersCategoryData.experience ,
+                        profficience: usersCategoryData.profficience,
+                        last_worked_date: usersCategoryData.last_worked_date
+                    }]
+                };
                 closeModal();
                 await addUserCategories(currentUser.guid, data);
                 SMNotification('success', addActionMessage('success', 'Category'));
             }else {
                 SMNotification('error', addActionMessage('error', 'Category'));
-
             }
         } catch(error) {
             closeModal();
@@ -263,10 +261,10 @@ function Assessment(props) {
             data.skills[0] = Object.assign(data.skills[0], { skillGuid: editedItem});
             await updateUserSkills(currentUser.guid, data);
             await allSkills();
-            closeModal();
             SMNotification('success', updateActionMessage('success', 'Skill'));
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Skill'));
+        } finally {
             closeModal();
         }
     };
@@ -276,10 +274,10 @@ function Assessment(props) {
             data.categories[0] = Object.assign(data.categories[0], { categoryGuid: editedItem});
             await updateUserCategories(currentUser.guid, data);
             await allCategories();
-            closeModal();
             SMNotification('success', updateActionMessage('success', 'Category'));
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Category'));
+        } finally {
             closeModal();
         }
     };
@@ -287,31 +285,42 @@ function Assessment(props) {
     const handleSave = (currentValues, data, key) => {
         if(initialExperience !== currentValues.experience) {
             data[key][0].experience = currentValues.experience;
+            setInitialExperience(currentValues.experience)
         }
         if(initialProfficience !== currentValues.profficience) {
             data[key][0].profficience = currentValues.profficience;
+            setInitialProfficience(currentValues.profficience)
         }
         if(initialDate !== currentValues['last_worked_date']) {
             data[key][0]['last_worked_date'] = moment(currentValues['last_worked_date']).format('YYYY-MM-DD');
+            setInitialDate(currentValues['last_worked_date']);
         }
     };
 
-    const handleSaveSkill = (currentValues) => {
+    const handleSaveSkill = async (currentValues) => {
         if (isEdited) {
             if (currentValues) {
                 const data = { skills: [{}]};
-                handleSave(currentValues, data, 'skills');
-                analyzeAndUpdateSkill(data);
+                await handleSave(currentValues, data, 'skills');
+                await analyzeAndUpdateSkill(data);
+                props.renderParent(!props.isChanged);
             }
         }
     };
 
-    const handleSaveCategory = (currentValues) => {
+    const valuesAreTheSame = (currentValues) => {
+        return currentValues ? initialExperience == currentValues.experience &&
+            initialProfficience == currentValues.profficience &&
+            initialDate == moment(currentValues.last_worked_date).format('YYYY-MM-DD').toString() : false;
+    }
+
+    const handleSaveCategory = async (currentValues) => {
         if (isEdited) {
-            if (currentValues) {
+            if (currentValues && !valuesAreTheSame(currentValues)) {
                 const data = { categories: [{}]};
-                handleSave(currentValues, data, 'categories');
-                analyzeAndUpdateCategory(data);
+                await handleSave(currentValues, data, 'categories');
+                await analyzeAndUpdateCategory(data);
+                props.renderParent(!props.isChanged);
             }
         }
     };
@@ -342,7 +351,6 @@ function Assessment(props) {
                 }
                 return (flag ? {value: skill.name} : null);
             });
-
             skillNames = skillNames.filter(function (el) {
                 return el != null;
             });
@@ -369,7 +377,6 @@ function Assessment(props) {
             });
             return categoryNames;
         }
-
         return [];
     };
 
@@ -395,22 +402,22 @@ function Assessment(props) {
 
     const openSkillEditModal = (e, record) => {
         setIsCategoryModalOpened(false);
-        setInitialSkillName(record.skill.props.name);
+        setInitialCriteriaName(record.skill.props.name);
         openEditModal(e, record);
-
     };
 
     const openCategoryEditModal = (e, record) => {
         setIsCategoryModalOpened(true);
-        setInitialSkillName(record.name);
+        setInitialCriteriaName(record.name);
         openEditModal(e, record);
-
     };
 
     const deleteItem = async (item, isCategoryModal) => {
         try {
             const criteriaName = isCategoryModal ? 'Category' : 'Skill';
-            isCategoryModal ? await deleteUserCategories(currentUser.guid, item) : await deleteUserSkills(currentUser.guid, item);
+            isCategoryModal ?
+                await deleteUserCategories(currentUser.guid, item) :
+                await deleteUserSkills(currentUser.guid, item);
             !someDelete && SMNotification('success', deleteActionMessage('success', criteriaName));
         } catch(error) {
             SMNotification('error', `${deleteActionMessage('error', criteriaName)} with ${selectedEl} guid`);
@@ -419,15 +426,17 @@ function Assessment(props) {
     }
 
     const handleDelete = async (record, isCategoryModal) => {
-        deleteItem(record.guid, isCategoryModal);
+        await deleteItem(record.guid, isCategoryModal);
     };
 
     const handleDeleteSkill = async (record) => {
-        handleDelete(record, false);
+        await handleDelete(record, false);
+        props.renderParent(!props.isChanged);
     };
 
     const handleDeleteCategory = async (record) => {
-        handleDelete(record, true);
+        await handleDelete(record, true);
+        props.renderParent(!props.isChanged);
     };
 
     const handleChangeSkillName = (e) => {
@@ -435,11 +444,11 @@ function Assessment(props) {
             setUsersCategoryData(Object.assign(usersCategoryData, { categoryName: e})) :
             setUsersSkillsData(Object.assign(usersSkillsData, { skillName: e}));
        if(usersSkillsData.skillName || usersCategoryData.categoryName){
-           setIsSkillListValid(true)
+           setIsCriteriaNameValid(true)
        }else{
-            setIsSkillListValid(false)
+           setIsCriteriaNameValid(false)
        }
-        return isSkillListValid;
+        return isCriteriaNameValid;
     }
 
     const handleChangeLastWorkedDate = (e, dateString) => {
@@ -460,23 +469,53 @@ function Assessment(props) {
             setUsersSkillsData(Object.assign(usersSkillsData, { [e.target.name]: e.target.value}));
     }
 
-    const handleAddSkill = () => {
+    const handleAddSkill = async () => {
         setLoading(true);
         resetProfficienceName();
         resetExpName();
         const guidsList = convertNameToGuid(usersSkillsData.skillName, skillsStore.payload);
-        analyzeAndAddSkill(guidsList);
+        await analyzeAndAddSkill(guidsList);
+        props.renderParent(!props.isChanged);
     };
 
-    const handleAddCategory = () => {
+    const handleAddCategory = async () => {
         setLoading(true);
         resetProfficienceName();
         resetExpName();
         const guidsList = convertNameToGuid(usersCategoryData.categoryName, categoriesStore.payload);
-        analyzeAndAddCategory(guidsList)
+        await analyzeAndAddCategory(guidsList);
+        props.renderParent(!props.isChanged);
     };
 
-    const handleSearchInputChange = (e) => {
+    const handleCriteriasDelete = async (e, criteriaCallback, isCategryModal) => {
+        setSomeDelete(true);
+        const guidList = []
+        e.map(criteriaName => {
+            criteriaCallback().map(criteria => {
+                if(criteria.name === criteriaName) {
+                    guidList.push(criteria.guid);
+                }
+            });
+        });
+        for (const [index, criteriaGuid] of guidList.entries()) {
+            await deleteItem(criteriaGuid, isCategryModal);
+            if(index === guidList.length) {
+                setSomeDelete(false);
+            }
+        }
+    }
+
+    const handleSkillsDelete = async (e) => {
+        await handleCriteriasDelete(e, allSkills, false);
+        props.renderParent(!props.isChanged);
+    }
+
+    const handleCategoriesDelete = async (e) => {
+        await handleCriteriasDelete(e, allCategories, true);
+        props.renderParent(!props.isChanged);
+    }
+
+    const handleSkillSearchInputChange = (e) => {
         e.persist();
         const value = e.target.value;
         debounce(300, () => {
@@ -485,8 +524,10 @@ function Assessment(props) {
                 if (skillItem.skill.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
-
                 if(skillItem.categories.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+                    filtredData.push(skillItem);
+                }
+                if(moment(skillItem.date).format('YYYY-MM-DD').toString().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
             });
@@ -511,35 +552,9 @@ function Assessment(props) {
         })()
     }
 
-    const handleCriteriasDelete = (e, criteriaCallback, isCategryModal) => {
-        setSomeDelete(true);
-        const guidList = []
-        e.map(criteriaName => {
-            criteriaCallback().map(criteria => {
-                if(criteria.name === criteriaName) {
-                    guidList.push(criteria.guid);
-                }
-            });
-        });
-        guidList.map((criteriaGuid,index) => {
-            deleteItem(criteriaGuid, isCategryModal);
-            if(index === guidList.length) {
-                setSomeDelete(false);
-            }
-        });
-    }
-
-    const handleSkillsDelete = (e) => {
-        handleCriteriasDelete(e, allSkills, false)
-    }
-
-    const handleCategoriesDelete = (e) => {
-        handleCriteriasDelete(e, allCategories, true)
-    }
-
     return (
         <React.Fragment>
-            {true &&
+            {categoriesDataSource &&
                     <CriteriaTable
                         title="All Categories"
                         dataSource={categoriesDataSource}
@@ -608,7 +623,7 @@ function Assessment(props) {
                                 key: 'search',
                                 placeholder: "Filter...",
                                 className: 'sm-search-criteria',
-                                onChange: e => handleSearchInputChange(e),
+                                onChange: e => handleSkillSearchInputChange(e),
                             })
                         ]}
                 />}
@@ -633,7 +648,7 @@ function Assessment(props) {
                                 name: 'skillName',
                                 placeholder: isCategoryModalOpened ? 'Category name' : 'Skill name',
                                 options: isCategoryModalOpened? getCategoriesNames() : getSkillNames(),
-                                initialvalue: isEdited ? initialSkillName : [],
+                                initialvalue: isEdited ? initialCriteriaName : [],
                                 disabled: isEdited ? true : false,
                                 onChange: handleChangeSkillName
                             }),

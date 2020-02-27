@@ -182,12 +182,15 @@ function Skills(props) {
         }
     };
 
+    const valuesAreTheSame = (currentValues) => {
+        return currentValues ? initialSkillName === currentValues.skillName
+            && initialIconName === currentValues.iconName
+            && JSON.stringify(initialCategories)==JSON.stringify(currentValues.categoryName) : false;
+    }
+
     const handleSave = (currentValues) => {
         if (isEdited) {
-            if (currentValues && !(initialSkillName === currentValues.skillName
-                && initialIconName === currentValues.iconName
-                && JSON.stringify(initialCategories)==JSON.stringify(currentValues.categoryName))) {
-
+            if (currentValues && !valuesAreTheSame(currentValues)) {
                 const data = {
                     name: currentValues.skillName,
                     icon: currentValues.iconName,

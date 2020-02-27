@@ -195,14 +195,17 @@ function Categories(props) {
             SMNotification('success', updateActionMessage('error', 'Category'));
             closeModal();
         }
-
     };
+
+    const valuesAreTheSame = (currentValues) => {
+        return currentValues ? initialCategoryName === currentValues.categoryName
+        && JSON.stringify(initialSkills)==JSON.stringify(currentValues.skillName)
+        && JSON.stringify(initialRelCate)==JSON.stringify(currentValues.relCategory) : false;
+    }
 
     const handleSave = (currentValues) => {
         if (isEdited) {
-            if (currentValues && !(initialCategoryName === currentValues.categoryName
-                && JSON.stringify(initialSkills)==JSON.stringify(currentValues.skillName)
-                && JSON.stringify(initialRelCate)==JSON.stringify(currentValues.relCategory))) {
+            if (currentValues && !valuesAreTheSame(currentValues)) {
                 const data = {
                     name: currentValues.categoryName,
                     addedCategories: convertNameToGuid(currentValues.relCategory.filter(val => !initialRelCate.includes(val)), categoriesStore),

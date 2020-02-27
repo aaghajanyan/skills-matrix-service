@@ -18,6 +18,7 @@ function SMEmployeeInitial(props) {
     });
 
     const [dashboardInfo, setDashboardInfo] = useState(null);
+    const [dataIsChanged, setDataIsChanged] = useState(false);
 
     const userIsDefined = () => user.fname !== '' && user.lname !== '';
 
@@ -25,7 +26,7 @@ function SMEmployeeInitial(props) {
         setUser(currentUser);
     }
 
-    useEffect(() => {
+    const getDashboardAllInfo = () => {
         if(user && props.match && props.match.params.id !== user.guid) {
             getUser(props.match.params.id)
                 .then(fetchUser => {
@@ -37,13 +38,16 @@ function SMEmployeeInitial(props) {
         }
 
         user.guid && getDashboardInfo(user.guid)
-               .then(dashboardInfo => {
-                    setDashboardInfo(dashboardInfo);
-                }) .catch(error => {
-                    console.warn('Handle error', error);
-                });
+            .then(dashboardInfo => {
+                setDashboardInfo(dashboardInfo);
+            }) .catch(error => {
+                console.warn('Handle error', error);
+            });
+    }
 
-    }, [props.match, user]);
+    useEffect(() => {
+        getDashboardAllInfo();
+    }, [props.match, user, dataIsChanged]);
 
     return (
         <SMTabs
@@ -63,7 +67,7 @@ function SMEmployeeInitial(props) {
             }
         >
             <Summary dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Summary"/>
-            <Assessment dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Assessment"/>
+            <Assessment isChanged={dataIsChanged} renderParent={setDataIsChanged} dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Assessment"/>
             <History dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="History"/>
             <About dashboard={dashboardInfo && dashboardInfo[0]} userGuid={user.guid}  user={{firstName: user.fname,lastName: user.lname}} key="About"/>
         </SMTabs>

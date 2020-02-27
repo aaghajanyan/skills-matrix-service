@@ -28,16 +28,25 @@
     width: 4%;
 }
 
-.table-column-category{
+.table-column-score{
+    width: 3%;
+}
+
+.table-column-category, .table-column-skill{
     width: 7%;
 }
 
 .table-column-action {
     width: 2%;
+    min-width: 2%;
 }
 
-.table-column-name, .table-column-category{
-    // text-align: center!important;
+.table-column-numbering {
+    width: 2%;
+}
+
+.table-column-date {
+    width: 3%;
 }
 
 .sm-table-criteria {
