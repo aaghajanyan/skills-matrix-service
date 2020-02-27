@@ -535,6 +535,14 @@ function Assessment(props) {
         })()
     }
 
+    const filterTagItems = (dataToFilter, filtredData, value, obj) => {
+        dataToFilter.filter(item => {
+            if(item.key.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(obj) === -1) {
+                filtredData.push(obj);
+            }
+        });
+    }
+
     const handleCategorySearchInputChange = (e) => {
         e.persist();
         const value = e.target.value;
@@ -544,6 +552,7 @@ function Assessment(props) {
                 if(catItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
                     filtredData.push(catItem);
                 }
+                filterTagItems(catItem.skills, filtredData, value, catItem);
                 if(moment(catItem.date).format('YYYY-MM-DD').toString().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
                     filtredData.push(catItem);
                 }
