@@ -28,7 +28,7 @@ const numberSchema = (type) => {
     return yup.object().shape({
     name: yup.string()
         .required(SMConfig.messages.validation[type].required)
-        .matches(/^[0-9]{1,2}$/i, SMConfig.messages.validation[type].invalid)
+        .matches(/^[1-5]{1}$/i, SMConfig.messages.validation[type].invalid)
     })
 };
 
