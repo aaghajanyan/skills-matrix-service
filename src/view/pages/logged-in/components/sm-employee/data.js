@@ -107,13 +107,13 @@ const categorySkillsColumns = (list, permission, editModalCallBack, handleDelete
         title: 'Skill',
         dataIndex: 'skill',
         className: "table-column-name",
-        sorter: (a, b) => comparator(a.skill, b.skill)
+        sorter: (a, b) => comparator(a.name, b.name)
     },
     {
         title: 'Assessment',
         dataIndex: 'assessment',
         className: "table-column-score",
-        sorter: (a, b) => comparator(a.assesment, b.assesment),
+        sorter: (a, b) => comparator(a.assessment, b.assessment),
     },
     {
         title: 'Experience',
