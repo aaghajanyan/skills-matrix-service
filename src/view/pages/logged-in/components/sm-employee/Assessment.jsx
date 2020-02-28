@@ -59,6 +59,39 @@ function Assessment(props) {
 
     const currentUser = useSelector(state => state.user);
 
+    const isEntireFormValid = [
+        isProfficienceNameValid,
+        isExpNameValid,
+        isCriteriaNameValid,
+    ].every(e => e);
+
+    useEffect(() => {
+        collectSkillsData(allSkills());
+        collectCategoriesData(allCategories());
+    }, [skillsStore, categoriesStore]);
+
+    useEffect(()=> {
+        getAllData()
+    }, [props.dashboard]);
+
+    const getAllData = () => {
+        getSkillsAllData();
+        getCategoriesAllData();
+    }
+
+    const getSkillsAllData = async () => {
+        dispatchSkill(await getSkills());
+    };
+
+    const getCategoriesAllData = async () => {
+        dispatchCategory(await getCategories());
+    };
+
+    const thisUser = () => {
+        const thisUse = history.location.pathname.replace('/employees/','');
+        return thisUse === '/' ? true : thisUse === currentUser.guid
+    }
+
     const allCategories = () => {
         if(!props.dashboard){
             return [];
@@ -116,50 +149,6 @@ function Assessment(props) {
 
         return skills;
     };
-
-    const isEntireFormValid = [
-        isProfficienceNameValid,
-        isExpNameValid,
-        isCriteriaNameValid,
-    ].every(e => e);
-
-    useEffect(() => {
-        collectSkillsData(allSkills());
-        collectCategoriesData(allCategories());
-    }, [skillsStore, categoriesStore]);
-
-    const getAllData = () => {
-        const skillList = [];
-        const allSkillsData = allSkills();
-        allSkillsData && allSkillsData.map((item, index) => {
-            skillList.push(item.skill)
-        })
-        getSkillsAllData();
-
-        const categoriesList = [];
-        const allCategoriesData = allCategories();
-        allCategoriesData && allCategoriesData.map((item, index) => {
-            categoriesList.push(item.category)
-        })
-        getCategoriesAllData();
-    }
-
-    useEffect(()=> {
-        getAllData()
-    }, [props.dashboard]);
-
-    const getSkillsAllData = async () => {
-        dispatchSkill(await getSkills());
-    };
-
-    const getCategoriesAllData = async () => {
-        dispatchCategory(await getCategories());
-    };
-
-    const thisUser = () => {
-        const thisUse = history.location.pathname.replace('/employees/','');
-        return thisUse === '/' ? true : thisUse === currentUser.guid
-    }
 
     const collectSkillsData = (skillsRes) => {
         const allSkillsLists = [];
