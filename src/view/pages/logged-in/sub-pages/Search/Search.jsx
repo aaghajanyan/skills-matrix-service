@@ -10,57 +10,20 @@ import { doSearch, getCriteria } from "store/actions/search";
 import SearchTree from "./SearchTree";
 import moment from 'moment';
 
-import ReactExport from "react-export-excel";
+import ReactExport from "react-data-export";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-const multiDataSet = [
-    {
-        columns: ["Employee", "Position", "Branch"],
-        data: [
-            [
-                {value: "H1", style: {font: {sz: "24", bold: true}}},
-                {value: "Bold", style: {font: {bold: true}}},
-                {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
-            ],
-            [
-                {value: "H2", style: {font: {sz: "18", bold: true}}},
-                {value: "underline", style: {font: {underline: true}}},
-                {value: "Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FF0000FF"}}}},
-            ],
-            [
-                {value: "H3", style: {font: {sz: "14", bold: true}}},
-                {value: "italic", style: {font: {italic: true}}},
-                {value: "Green", style: {fill: {patternType: "solid", fgColor: {rgb: "FF00FF00"}}}},
-            ],
-            [
-                {value: "H4", style: {font: {sz: "12", bold: true}}},
-                {value: "strike", style: {font: {strike: true}}},
-                {value: "Orange", style: {fill: {patternType: "solid", fgColor: {rgb: "FFF86B00"}}}},
-            ],
-            [
-                {value: "H5", style: {font: {sz: "10.5", bold: true}}},
-                {value: "outline", style: {font: {outline: true}}},
-                {value: "Yellow", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}}}},
-            ],
-            [
-                {value: "H6", style: {font: {sz: "7.5", bold: true}}},
-                {value: "shadow", style: {font: {shadow: true}}},
-                {value: "Light Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}}}
-            ]
-        ]
-    }
-];
+const badColor = 'faad14';    // orange
+const normalColor = '1890ff'; // blue
+const goodColor = '52C41A';   // green
+const borderColor = '000';    // black
+const contentSize = '11';
+const titleSize = '11';
+const columnWidth = '150';
 
 function SearchPeople(props) {
     const [collapseFind, setCollapseFind] = useState(false);
-
-    const exportingData = [
-        {
-            columns: [],
-            data: []
-        }
-    ];
 
     const refForScroll = useRef();
     const dispatch = useDispatch();
@@ -118,27 +81,79 @@ function SearchPeople(props) {
     }
 
     const getSkillIndex = (list, name) => {
-        return list.indexOf(name);
+        let i = -1;
+        list.some((e, index) => {
+            if (e.title === name) {
+                i = index;
+                return
+            }
+        })
+        return i;
     }
 
-    const collectSkillExelObj = (skill) => {
-        return {value: 'Exp: ' + skill.skillMark.experience +
-                        '\nProf: ' + skill.skillMark.profficience +
-                        '\nLDate: ' + moment(skill.skillMark.last_worked_date).format('YYYY-MM-DD')};
+    const collectSkillExcelObj = (skill) => {
+        return {
+            value: 'Exp: ' + skill.skillMark.experience +
+            '\nProf: ' + skill.skillMark.profficience +
+            '\nLDate: ' + moment(skill.skillMark.last_worked_date).format('YYYY-MM-DD'),
+            style: {
+                font: {sz: contentSize},
+                fill: {
+                    patternType: 'solid',
+                    fgColor: {rgb: skill.skillMark.profficience < 3 ? badColor : skill.skillMark.profficience === 3 ? normalColor : goodColor}
+                },
+                border: {
+                    top: {style: 'thin', color: borderColor},
+                    bottom: {style: 'thin', color: borderColor},
+                    left: {style: 'thin', color: borderColor},
+                    right: {style: 'thin', color: borderColor}
+                },
+                alignment: {
+                    vertical: 'center',
+                    horizontal: 'center'
+                }
+            }
+        };
+    }
+
+    const collectColumns = (exportingData) => {
+        const columnsLists = usersData ? exportingData[0].columns = ["Employee", "Position", "Branch", ...getUniqueSkillsList(usersData.users)] : [];
+        const columnsObj =  columnsLists.map(item => {
+            return {title: item, width: {wpx: columnWidth}, style: {font: {sz: titleSize, bold: true}, alignment: {vertical: 'center', horizontal: 'center'}}}
+        });
+        return columnsObj
+    }
+
+    const collectNameColumnsObj = (text, nameObj) => {
+        nameObj.value = text;
+        nameObj.style = {
+            font: {sz: contentSize},
+            alignment: {
+                vertical: 'center',
+                horizontal: 'center'
+            }
+        };
     }
 
     const downloadExcel = () => {
-        exportingData[0].columns = ["Employee", "Position", "Branch", ...getUniqueSkillsList(usersData.users)]
-        usersData.users.forEach(user => {
-            const userResult = [].fill({value: ''}, 0, exportingData[0].columns.length);
-            userResult[0] = {value: user.fname + ' ' + user.lname};
-            userResult[1] = {value: user.position.name};
-            userResult[2] = {value: user.branch.name};
-            user.skills.forEach(skill => {
-                userResult[getSkillIndex(exportingData[0].columns ,skill.name)] = collectSkillExelObj(skill)
-            })
-            exportingData[0].data.push(userResult);
+        const exportingData = [
+            {
+                columns: [],
+                data: []
+            }
+        ];
+        usersData ? exportingData[0].columns = collectColumns(exportingData) : [];
+        usersData && usersData.users.forEach(user => {
+            const userResult = Array.from({ length: exportingData[0].columns.length}, () => {return {value: '', style: {}}});
+                collectNameColumnsObj(user.fname + ' ' + user.lname, userResult[0]);
+                collectNameColumnsObj(user.position.name, userResult[1]);
+                collectNameColumnsObj(user.branch.name, userResult[2]);
+                user.skills && user.skills.forEach(skill => {
+                    userResult[getSkillIndex(exportingData[0].columns ,skill.name)] = collectSkillExcelObj(skill)
+                })
+                exportingData[0].data.push(userResult);
         });
+        return exportingData
     };
 
     return (
@@ -151,10 +166,10 @@ function SearchPeople(props) {
                 <Row className="search_header">
                     <div> <h1> {SMConfig.search.title} </h1> </div>
                     <div>
-                        <ExcelFile element={<SMButton className="sm-button skills-table-add-skill-button" onClick={downloadExcel}>
+                        <ExcelFile filename="findEmployees" element={<SMButton className="sm-button skills-table-add-skill-button">
                             {SMConfig.search.search.buttons.export}
                             </SMButton>}>
-                            <ExcelSheet dataSet={exportingData} name="employees"/>
+                            <ExcelSheet dataSet={downloadExcel()} name="employees"/>
                         </ExcelFile>
                     </div>
                 </Row>
