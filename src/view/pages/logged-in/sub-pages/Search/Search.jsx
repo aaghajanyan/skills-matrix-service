@@ -6,7 +6,7 @@ import { SMButton } from "view/components/SMButton";
 import { useSelector, useDispatch } from "react-redux";
 import { SMConfig } from "config";
 import { doSearch, getCriteria } from "store/actions/search";
-import {exportExcel} from '../../../../../helpers/exportExcel';
+import {exportExcel} from 'src/helpers/exportExcel';
 import SearchTree from "./SearchTree";
 import ReactExport from "react-data-export";
 

@@ -74,7 +74,7 @@ const collectNameColumnsObj = (text, nameObj) => {
     };
 }
 
-const exportExcel = (data) => {
+export const exportExcel = (data) => {
     const exportingData = [
         {
             columns: [],
@@ -94,5 +94,3 @@ const exportExcel = (data) => {
     });
     return exportingData
 };
-
-export {exportExcel};
