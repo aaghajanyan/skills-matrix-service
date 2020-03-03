@@ -114,7 +114,7 @@ class DashboardInfo {
                         guid: item.guid,
                         name: item.name,
                         icon: item.icon,
-                        categories: item.categories[0].name,
+                        categories: item.categories.length && item.categories[0].name,
                         last_worked_date: item.users_skills.last_worked_date,
                         profficience: profficienceObj,
                         experience: item.users_skills.dataValues.experience
@@ -133,7 +133,7 @@ class DashboardInfo {
                     const skillsInfo = {
                         guid: item.guid,
                         name: item.name,
-                        categories: item.categories[0].name,
+                        categories: item.categories.length && item.categories[0].name,
                         last_worked_date: item.users_skills.last_worked_date,
                         icon: item.icon,
                         profficience: profficienceObj,
