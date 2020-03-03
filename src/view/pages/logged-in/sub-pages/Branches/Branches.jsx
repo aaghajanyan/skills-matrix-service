@@ -6,7 +6,7 @@ import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from 'src/hooks/common';
+import {useValidator, useModal} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getBranches, addNewBranchData, updateBranchData, deleteBranchData} from 'src/services/branchService';
 import {addActionMessage, updateActionMessage, deleteActionMessage} from 'src/config/generate-criteria-message';
@@ -23,12 +23,12 @@ library.add(fab, far, fas);
 
 function Branches(props) {
     const currentUser = useSelector(state => state.user);
+    const [isOpen, openModal, closeModal] = useModal(false);
 
     const [branches, setBranches] = useState([]);
     const [employees, setEmployees] = useState([]);
 
     const [isAdmin, setIsAdmin] = useState(false);
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [branchesDataSource, setBranchesDataSource] = useState(null);
@@ -89,15 +89,15 @@ function Branches(props) {
         setBranchesDataSource(collectedBranchData);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closingModal = () => {
+        closeModal();
         setLoading(false);
     }
 
     const analyzeAndAddBranch = async() => {
         try {
             if (branchName) {
-                closeModal();
+                closingModal();
                 await addNewBranchData({name: branchName});
                 initBasicData();
                 SMNotification('success', addActionMessage('success', 'Branch'));
@@ -105,7 +105,7 @@ function Branches(props) {
                 SMNotification('error', addActionMessage('missing', 'Branch'));
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('error', addActionMessage('error', 'Branch'));
         }
     };
@@ -120,11 +120,11 @@ function Branches(props) {
         try {
             await updateBranchData(data, editedItem.guid);
             initBasicData();
-            closeModal();
+            closingModal();
             SMNotification('success', updateActionMessage('success', 'Branch'));
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Branch'));
-            closeModal();
+            closingModal();
         }
     };
 
@@ -140,13 +140,9 @@ function Branches(props) {
         isEdited ? handleSave() : handleAdd();
     };
 
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
     const openAddModal = () => {
         setIsEdited(false);
-        setVisible(true);
+        openModal();
     };
 
     const openEditModal = (e, record) => {
@@ -154,7 +150,7 @@ function Branches(props) {
         setEditedItem(record);
         setInitialBranchName(record.name);
         setIsEdited(true);
-        setVisible(true);
+        openModal();
     };
 
     const deleteItems = async(items) => {
@@ -245,46 +241,44 @@ function Branches(props) {
             <SMModal
                 className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Branch</h3>}
-                visible={visible}
-                onCancel={handleCancel}
+                visible={isOpen}
+                onCancel={closeModal}
                 footer={null}
                 maskClosable={false}
             >
-                {/* <div className='criteria-container'> */}
-                    <SMForm
-                        className={'criteria-form'}
-                        resetValues={visible}
-                        onSubmit={handleAddUpdate}
-                        onCancel={handleCancel}
-                        handleSave={handleSave}
-                        items={[
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'branchName',
-                                type: 'text',
-                                placeholder: 'Branch name',
-                                rules: branchNameRule,
-                                initialvalue: isEdited ? initialBranchName : '',
-                            })
-                        ]}
-                        footer={[
-                            SMButton({
-                                className: "sm-link",
-                                type: "link",
-                                name: 'cancel',
-                                children: 'Cancel'
-                            }),
-                            SMButton({
-                                className: "sm-button",
-                                type: "primary",
-                                name: 'submit',
-                                children: isEdited ? 'Save' : 'Add',
-                                htmlType: 'submit',
-                                disabled: isEdited ? false : !isEntireFormValid
-                            })
-                        ]}
-                    />
-                {/* </div> */}
+                <SMForm
+                    className={'criteria-form'}
+                    resetValues={isOpen}
+                    onSubmit={handleAddUpdate}
+                    onCancel={closeModal}
+                    handleSave={handleSave}
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'branchName',
+                            type: 'text',
+                            placeholder: 'Branch name',
+                            rules: branchNameRule,
+                            initialvalue: isEdited ? initialBranchName : '',
+                        })
+                    ]}
+                    footer={[
+                        SMButton({
+                            className: "sm-link",
+                            type: "link",
+                            name: 'cancel',
+                            children: 'Cancel'
+                        }),
+                        SMButton({
+                            className: "sm-button",
+                            type: "primary",
+                            name: 'submit',
+                            children: isEdited ? 'Save' : 'Add',
+                            htmlType: 'submit',
+                            disabled: isEdited ? false : !isEntireFormValid
+                        })
+                    ]}
+                />
             </SMModal>
         </div>
     );

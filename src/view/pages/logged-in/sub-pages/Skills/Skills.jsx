@@ -1,12 +1,11 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
-import {SMConfig} from 'src/config';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from 'src/hooks/common';
+import {useValidator, useModal} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
@@ -25,13 +24,14 @@ import {debounce} from 'throttle-debounce';
 library.add(fab, far, fas);
 
 function Skills(props) {
+
+    const [isOpen, openModal, closeModal] = useModal(false);
     const currentUser = useSelector(state => state.user);
 
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
     const [isAdmin, setIsAdmin] = useState(false);
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [skillsDataSource, setSkillsDataSource] = useState(null);
@@ -119,15 +119,15 @@ function Skills(props) {
         setSkillsDataSource(allSkillsLists);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closingModal = () => {
+        closeModal()
         setLoading(false);
     }
 
     const analyzeAndAddSkill = async(guidsList) => {
         try {
             if (skillName && iconName && isCategoriesListValid) {
-                closeModal();
+                closingModal();
                 await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
                 getSkillsAllData();
                 SMNotification('success', addActionMessage('success', 'Skill'));
@@ -136,7 +136,7 @@ function Skills(props) {
 
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('error', addActionMessage('error', 'Skill'));
         }
     };
@@ -174,11 +174,11 @@ function Skills(props) {
         try {
             await updateSkillData(data, editedItem.guid);
             getSkillsAllData();
-            closeModal();
+            closingModal();
             SMNotification('success', updateActionMessage('success', 'Skill'));
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Skill'));
-            closeModal();
+            closingModal();
         }
     };
 
@@ -206,13 +206,9 @@ function Skills(props) {
         isEdited ? handleSave() : handleAdd();
     };
 
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
     const openAddModal = () => {
         setIsEdited(false);
-        setVisible(true);
+        openModal();
     };
 
     const openEditModal = (e, record) => {
@@ -223,8 +219,7 @@ function Skills(props) {
         setInitialCategories(catList);
         setInitialIconName(record.icon);
         setIsEdited(true);
-        setVisible(true);
-
+        openModal();
     };
 
     const deleteItems = async(items) => {
@@ -314,63 +309,61 @@ function Skills(props) {
             <SMModal
                 className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
-                visible={visible}
-                onCancel={handleCancel}
+                visible={isOpen}
+                onCancel={closeModal}
                 footer={null}
                 maskClosable={false}
             >
-                {/* <div className='criteria-container'> */}
-                    <SMForm
-                        className={'criteria-form'}
-                        resetValues={visible}
-                        onSubmit={handleAddUpdate}
-                        onCancel={handleCancel}
-                        handleSave={handleSave}
-                        items={[
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'skillName',
-                                type: 'text',
-                                placeholder: 'Name',
-                                rules: skillNameRule,
-                                initialvalue: isEdited ? initialSkillName : '',
-                            }),
-                            SMSelect({
-                                className: 'sm-select sm-select-criteria',
-                                name: 'categoryName',
-                                placeholder: 'Category',
-                                options: getCategoryOptions(),
-                                mode: 'tags',
-                                initialvalue: isEdited ? initialCategories : [],
-                                onChange: handleSelectOptionChangeAndValidate
-                            }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'iconName',
-                                type: 'text',
-                                placeholder: 'Icon',
-                                rules: iconNameRule,
-                                initialvalue: isEdited ? initialIconName : '',
-                            })
-                        ]}
-                        footer={[
-                            SMButton({
-                                className: "sm-link",
-                                type: "link",
-                                name: 'cancel',
-                                children: 'Cancel'
-                            }),
-                            SMButton({
-                                className: "sm-button",
-                                type: "primary",
-                                name: 'submit',
-                                children: isEdited ? 'Save' : 'Add',
-                                htmlType: 'submit',
-                                disabled: isEdited ? false : !isEntireFormValid
-                            })
-                        ]}
-                    />
-                {/* </div> */}
+                <SMForm
+                    className={'criteria-form'}
+                    resetValues={isOpen}
+                    onSubmit={handleAddUpdate}
+                    onCancel={closeModal}
+                    handleSave={handleSave}
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'skillName',
+                            type: 'text',
+                            placeholder: 'Name',
+                            rules: skillNameRule,
+                            initialvalue: isEdited ? initialSkillName : '',
+                        }),
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
+                            name: 'categoryName',
+                            placeholder: 'Category',
+                            options: getCategoryOptions(),
+                            mode: 'tags',
+                            initialvalue: isEdited ? initialCategories : [],
+                            onChange: handleSelectOptionChangeAndValidate
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'iconName',
+                            type: 'text',
+                            placeholder: 'Icon',
+                            rules: iconNameRule,
+                            initialvalue: isEdited ? initialIconName : '',
+                        })
+                    ]}
+                    footer={[
+                        SMButton({
+                            className: "sm-link",
+                            type: "link",
+                            name: 'cancel',
+                            children: 'Cancel'
+                        }),
+                        SMButton({
+                            className: "sm-button",
+                            type: "primary",
+                            name: 'submit',
+                            children: isEdited ? 'Save' : 'Add',
+                            htmlType: 'submit',
+                            disabled: isEdited ? false : !isEntireFormValid
+                        })
+                    ]}
+                />
             </SMModal>
         </div>
     );
