@@ -35,8 +35,6 @@ function CriteriaTable(props) {
 
     const onSkillSelect = (record, rowIndex) =>({
         onClick: () => {
-            console.log(record)
-
             if (selectedRowKeys) {
                 if (!selectedRowKeys.includes(record.name)){
                     setSelectedRowKeys([...selectedRowKeys, record.name])

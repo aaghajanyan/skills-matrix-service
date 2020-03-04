@@ -189,7 +189,6 @@ function Categories(props) {
             SMNotification('success', updateActionMessage('success', 'Category'));
             getCategoriesAllData();
         } catch(error) {
-            console.log(error)
             SMNotification('success', updateActionMessage('error', 'Category'));
             closingModal();
         }
