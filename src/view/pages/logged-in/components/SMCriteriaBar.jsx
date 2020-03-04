@@ -11,7 +11,7 @@ library.add(fab, far, fas);
 
 function SMCriteriaBar({className, iconClassName, iconType, iconName, style, name, onClick}) {
     return (
-        <div className={classNames('sm-skill-bar', className, onClick ? 'pointer': '')} >
+        <div className={classNames('sm-criteria-bar', className, onClick ? 'pointer': '')} >
             {iconType && <SMIcon className={iconClassName} iconType={iconType} icon={iconName} />}
             <span className="sm-criteria-bar-name unselectable">{name}</span>
         </div>
