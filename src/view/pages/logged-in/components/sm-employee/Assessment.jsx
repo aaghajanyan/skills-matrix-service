@@ -7,7 +7,7 @@ import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSearch, SMSelect} 
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {useValidator, useModal} from 'src/hooks/common';
 import {numberValidator} from 'src/helpers/validators';
-import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {addUserSkills, updateUserSkills, deleteUserSkills} from 'src/services/userSkillService';
 import {addUserCategories, updateUserCategories, deleteUserCategories} from 'src/services/userCategoryService';
 import {categoriesColumns, categorySkillsColumns} from './data';
@@ -161,7 +161,7 @@ function Assessment(props) {
                 guid: item.guid,
                 assessment: item.assessment,
                 icon: item.icon,
-                skill:  <SMSkillBar name={item.skill} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
+                skill:  <SMCriteriaBar name={item.skill} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
                 categories: <Tag style={{...toRGB(item.categories)}} key={item.categories}  className="sm-tag sm-tag-size" >{item.categories}</Tag>,
                 experience: item.experience
             };

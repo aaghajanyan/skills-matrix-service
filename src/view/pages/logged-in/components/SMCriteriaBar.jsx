@@ -9,18 +9,16 @@ import {far} from '@fortawesome/free-regular-svg-icons';
 
 library.add(fab, far, fas);
 
-function SMSkillBar({className, iconClassName, iconType, iconName, style, name, onClick}) {
-
-    // TODO use SMIcon
+function SMCriteriaBar({className, iconClassName, iconType, iconName, style, name, onClick}) {
     return (
         <div className={classNames('sm-skill-bar', className, onClick ? 'pointer': '')} >
             {iconType && <SMIcon className={iconClassName} iconType={iconType} icon={iconName} />}
-            <span className="sm-skill-bar-name unselectable">{name}</span>
+            <span className="sm-criteria-bar-name unselectable">{name}</span>
         </div>
     );
 }
 
-SMSkillBar.propTypes = {
+SMCriteriaBar.propTypes = {
     className: PropTypes.string,
     iconClassName: PropTypes.string,
     iconType: PropTypes.string,
@@ -33,4 +31,4 @@ SMSkillBar.propTypes = {
     onClick: PropTypes.func
 };
 
-export {SMSkillBar};
+export {SMCriteriaBar};

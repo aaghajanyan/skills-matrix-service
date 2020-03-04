@@ -7,7 +7,7 @@ import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
 import {useValidator, useModal} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
-import {getBranches, addNewBranchData, updateBranchData, deleteBranchData} from 'src/services/branchService';
+import {getPositions, addNewPositionData, updatePositionData, deletePositionData} from 'src/services/positionService';
 import {addActionMessage, updateActionMessage, deleteActionMessage} from 'src/config/generate-criteria-message';
 import {getUsers} from 'src/services/usersService';
 import {getDataSource} from './column';
@@ -17,29 +17,30 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {debounce} from 'throttle-debounce';
+import {SMFloatInput} from 'src/view/components/SMFloatInput';
 
 library.add(fab, far, fas);
 
-function Branches(props) {
+function Settings(props) {
     const currentUser = useSelector(state => state.user);
     const [isOpen, openModal, closeModal] = useModal(false);
 
-    const [branches, setBranches] = useState([]);
+    const [positions, setPositions] = useState([]);
     const [employees, setEmployees] = useState([]);
 
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [branchesDataSource, setBranchesDataSource] = useState(null);
+    const [positionsDataSource, setPositionsDataSource] = useState(null);
 
-    const [initialBranchName, setInitialBranchName] = useState('');
-    let [isBranchNameValid, branchName, branchNameRule, resetBranchName] = useValidator(nameValidator('branch'));
+    const [initialPositionName, setInitialPositionName] = useState('');
+    let [isPositionNameValid, positionName,positionNameRule, resetPositionName] = useValidator(nameValidator('position'));
 
     const [isEdited, setIsEdited] = useState(false);
     const [editedItem, setEditedItem] = useState(false);
 
     const isEntireFormValid = [
-        isBranchNameValid
+        isPositionNameValid
     ].every(e => e);
 
     useEffect(() => {
@@ -51,28 +52,28 @@ function Branches(props) {
     }, []);
 
     useEffect(() => {
-        collectBranchesData(branches);
-    }, [branches, employees]);
+        collectPositionsData(positions);
+    }, [positions, employees]);
 
     const initBasicData = async () => {
         const usersList = await getUsers();
         setEmployees(usersList);
-        const branchList = await getBranches();
-        branchList.map((branch,index) => {
+        const positionList = await getPositions();
+        positionList.map((position,index) => {
             const userList = [];
             usersList.map(user => {
-                if (user.branch.name === branch.name) {
+                if (user.position.name === position.name) {
                     userList.push(user);
                 }
             });
-            branchList[index].users = userList;
+            positionList[index].users = userList;
         });
-        setBranches(branchList);
+        setPositions(positionList);
     };
 
-    const collectBranchesData = (branchData) => {
-        const collectedBranchData = [];
-        branchData && branchData.map((item, index) => {
+    const collectPositionsData = (positionData) => {
+        const collectedPositionData = [];
+        positionData && positionData.map((item, index) => {
             let employeesList = item && item.users && item.users.map(user => {
                 return <Tag style={{...toRGB(user.fname)}} key={user.guid}  className="sm-tag sm-tag-size" >{user.fname} {user.lname}</Tag>
             });
@@ -80,12 +81,12 @@ function Branches(props) {
                 key: item.name,
                 name: item.name,
                 guid: item.guid,
-                branches:  <SMCriteriaBar name={item.name}/>,
+                positions:  <SMCriteriaBar name={item.name}/>,
                 employees: employeesList,
             };
-            collectedBranchData.push(row);
+            collectedPositionData.push(row);
         });
-        setBranchesDataSource(collectedBranchData);
+        setPositionsDataSource(collectedPositionData);
     };
 
     const closingModal = () => {
@@ -93,44 +94,44 @@ function Branches(props) {
         setLoading(false);
     }
 
-    const analyzeAndAddBranch = async() => {
+    const analyzeAndAddPosition = async() => {
         try {
-            if (branchName) {
+            if (positionName) {
                 closingModal();
-                await addNewBranchData({name: branchName});
+                await addNewPositionData({name: positionName});
                 initBasicData();
-                SMNotification('success', addActionMessage('success', 'Branch'));
+                SMNotification('success', addActionMessage('success', 'Position'));
             }else {
-                SMNotification('error', addActionMessage('missing', 'Branch'));
+                SMNotification('error', addActionMessage('missing', 'Position'));
             }
         } catch(error) {
             closingModal();
-            SMNotification('error', addActionMessage('error', 'Branch'));
+            SMNotification('error', addActionMessage('error', 'Position'));
         }
     };
 
     const handleAdd = () => {
         setLoading(true);
-        resetBranchName();
-        analyzeAndAddBranch();
+        resetPositionName();
+        analyzeAndAddPosition();
     };
 
-    const analyzeAndUpdateBranch = async (data) => {
+    const analyzeAndUpdatePosition = async (data) => {
         try {
-            await updateBranchData(data, editedItem.guid);
+            await updatePositionData(data, editedItem.guid);
             initBasicData();
             closingModal();
-            SMNotification('success', updateActionMessage('success', 'Branch'));
+            SMNotification('success', updateActionMessage('success', 'Position'));
         } catch(error) {
-            SMNotification('error', updateActionMessage('error', 'Branch'));
+            SMNotification('error', updateActionMessage('error', 'Position'));
             closingModal();
         }
     };
 
     const handleSave = (currentValues) => {
         if (isEdited) {
-            if (currentValues && !(initialBranchName === currentValues.branchName)) {
-                analyzeAndUpdateBranch({name: currentValues.branchName});
+            if (currentValues && !(initialPositionName === currentValues.positionName)) {
+                analyzeAndUpdatePosition({name: currentValues.positionName});
             }
         }
     };
@@ -147,7 +148,7 @@ function Branches(props) {
     const openEditModal = (e, record) => {
         e.stopPropagation();
         setEditedItem(record);
-        setInitialBranchName(record.name);
+        setInitialPositionName(record.name);
         setIsEdited(true);
         openModal();
     };
@@ -155,10 +156,10 @@ function Branches(props) {
     const deleteItems = async(items) => {
         for(const selectedEl of items) {
             try {
-                await deleteBranchData(selectedEl);
-                SMNotification('success', deleteActionMessage('success', 'Branch'));
+                await deletePositionData(selectedEl);
+                SMNotification('success', deleteActionMessage('success', 'Position'));
             } catch(error) {
-                SMNotification('error', `${deleteActionMessage('error', 'Branch')} with ${selectedEl} guid`);
+                SMNotification('error', `${deleteActionMessage('error', 'Position')} with ${selectedEl} guid`);
             }
         }
         initBasicData();
@@ -170,7 +171,7 @@ function Branches(props) {
 
     const handleSomeDelete = async (selectedRowKeys) => {
         const selectedItemsGuids = [];
-        branches.filter((el) => {
+        positions.filter((el) => {
             if (selectedRowKeys && selectedRowKeys.includes(el.name)) {
                 selectedItemsGuids.push(el.guid);
             }
@@ -183,28 +184,28 @@ function Branches(props) {
         const value = e.target.value;
         debounce(300, () => {
             const filtredData = [];
-            branches.filter((branchItem) => {
-                if (branchItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(branchItem) === -1) {
-                    filtredData.push(branchItem);
+            positions.filter((positionItem) => {
+                if (positionItem.name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(positionItem) === -1) {
+                    filtredData.push(positionItem);
                 }
-                branchItem.users.filter(user => {
+                positionItem.users.filter(user => {
                     const name = `${user.fname} ${user.lname}`
-                    if(name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(branchItem) === -1) {
-                        filtredData.push(branchItem);
+                    if(name.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(positionItem) === -1) {
+                        filtredData.push(positionItem);
                     }
                 });
             });
-            collectBranchesData(filtredData)
+            collectPositionsData(filtredData)
         })()
     }
 
     return (
         <div className='sm-content-skill-style'>
-            {branchesDataSource &&
+            {positionsDataSource &&
                 <CriteriaTable
-                    title={'Branches'}
-                    dataSource={branchesDataSource}
-                    column={getDataSource(branchesDataSource,
+                    title={'Positions'}
+                    dataSource={positionsDataSource}
+                    column={getDataSource(positionsDataSource,
                     isAdmin,
                     openEditModal,
                     handleDelete,
@@ -254,12 +255,12 @@ function Branches(props) {
                     items={[
                         SMInput({
                             className: 'sm-input',
-                            name: 'branchName',
+                            name: 'positionName',
                             type: 'text',
-                            placeholder: 'Branch name',
-                            rules: branchNameRule,
-                            initialvalue: isEdited ? initialBranchName : '',
-                        })
+                            placeholder: 'Position name',
+                            rules: positionNameRule,
+                            initialvalue: isEdited ? initialPositionName : '',
+                        }),
                     ]}
                     footer={[
                         SMButton({
@@ -283,4 +284,4 @@ function Branches(props) {
     );
 }
 
-export {Branches};
+export {Settings};

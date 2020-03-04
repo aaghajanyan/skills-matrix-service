@@ -2,7 +2,7 @@ import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
-import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
 import {useValidator, useModal} from 'src/hooks/common';
@@ -130,7 +130,7 @@ function Categories(props) {
                 key: item.name,
                 name: item.name,
                 guid: item.guid,
-                categories:  <SMSkillBar name={item.name}/>,
+                categories:  <SMCriteriaBar name={item.name}/>,
                 skill: skillsList,
                 relatedCategories: relCatList
             };
@@ -305,7 +305,7 @@ function Categories(props) {
                     addClickableOnRow={true}
                     addScroll={true}
                     items={[
-                        SMButton({
+                        isAdmin && SMButton({
                             key: 'add',
                             className: "sm-button-add",
                             onClick: openAddModal,

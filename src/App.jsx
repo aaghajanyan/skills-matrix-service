@@ -15,7 +15,6 @@ import {
 } from 'src/view/pages/logged-in/sub-pages';
 import {SMEmployee} from 'src/view/pages/logged-in/components';
 
-
 import {ErrorBoundary} from 'src/view/components/ErrorBoundary';
 
 import store from 'src/store';
