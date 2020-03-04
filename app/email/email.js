@@ -20,7 +20,7 @@ const invite = (email, host, expiration) => {
                 email: email,
                 link: host,
                 expiration: Moment(expiration).format(DATETIME_FORMAT_LONG),
-                invitedBy: 'admin.im@instigatemobile.com',
+                invitedBy: 'admin.im@test.com',
                 date: Moment().format(DATETIME_FORMAT_LONG),
             };
             const resp = sendEmail('invite', context);
@@ -31,8 +31,6 @@ const invite = (email, host, expiration) => {
         }
     }).catch(error => {
         logger.error(error);
-        // TODO add logger
-        // log.error(err, 'emails::invite');
     });
 };
 
