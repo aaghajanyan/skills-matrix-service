@@ -12,6 +12,7 @@ const Skill = require('../models/skill');
 const UserSkill = require('../models/usersSkills');
 const SkillHistory = require('../models/skillsHistory');
 const logger = require('../helper/logger');
+const config = require('../sequelize/config/config');
 
 /**
  * @swagger
@@ -148,18 +149,20 @@ module.exports.addUserSkill = async (request, response) => {
                             user_id: user.id,
                             skill_id: existingSkill.id,
                         });
-                        if (userSkillData) {
+                        if (!userSkillData) {
+                            skill.created_date = new Date();
+                            skill.operation = config.operations[0];
+                            await SkillHistory.create(skill);
+                            const userSkill = await UserSkill.create(skill);
+                            status = CREATED;
+                            expectedResponse.items.push(userSkill);
+                        } else {
                             await addUserSkillAndUpdateHistory(
-                                userSkillData,
                                 user,
                                 skill
                             );
                             status = OK;
                             expectedResponse.items.push(userSkillData);
-                        } else {
-                            const userSkill = await UserSkill.create(skill);
-                            status = CREATED;
-                            expectedResponse.items.push(userSkill);
                         }
                     } catch (error) {
                         expectedResponse.errors.push(
@@ -201,19 +204,14 @@ module.exports.addUserSkill = async (request, response) => {
 };
 
 const addUserSkillAndUpdateHistory = async (
-    userSkillData,
     user,
     existingSkill
 ) => {
-    const dataValues = userSkillData.dataValues;
+    const dataValues = existingSkill;
     dataValues.created_date = new Date();
     delete dataValues.guid;
-    await SkillHistory.findOrCreate(dataValues, {
-        user_id: user.id,
-        skill_id: existingSkill.skill_id,
-        experience: userSkillData.experience,
-        profficience: userSkillData.profficience,
-    });
+    dataValues.operation = config.operations[1];
+    await SkillHistory.create(dataValues);
     await UserSkill.update(existingSkill, {
         user_id: user.id,
         skill_id: existingSkill.skill_id,
@@ -385,6 +383,16 @@ module.exports.deleteUserSkill = async (request, response) => {
         if (user) {
             const skill = await Skill.find({ guid: request.body.skillGuid });
             if (skill) {
+                const oldSkill = {
+                    experience: 0,
+                    profficience: 0,
+                    last_worked_date: new Date(),
+                    user_id: user.id,
+                    skill_id: skill.dataValues.id,
+                    operation: config.operations[2]
+                }
+                oldSkill.created_date = new Date();
+                await SkillHistory.create(oldSkill);
                 await UserSkill.delete({
                     user_id: user.id,
                     skill_id: skill.id,

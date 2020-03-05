@@ -12,6 +12,7 @@ const Category = require('../models/category');
 const UserCategory = require('../models/usersCategories');
 const CategoryHistory = require('../models/categoriesHistory');
 const logger = require('../helper/logger');
+const config = require('../sequelize/config/config');
 
 /**
  * @swagger
@@ -148,20 +149,23 @@ module.exports.addUserCategory = async (request, response) => {
                             user_id: user.id,
                             category_id: existingCategory.id,
                         });
-                        if (userCategoryData) {
-                            await addUserCategoryAndUpdateHistory(
-                                userCategoryData,
-                                user,
-                                category
-                            );
-                            status = OK;
-                            expectedResponse.items.push(userCategoryData);
-                        } else {
+
+                        if (!userCategoryData) {
+                            category.created_date = new Date();
+                            category.operation = config.operations[0];
+                            await CategoryHistory.create(category);
                             const userCategory = await UserCategory.create(
                                 category
                             );
                             status = CREATED;
                             expectedResponse.items.push(userCategory);
+                        } else {
+                            await addUserCategoryAndUpdateHistory(
+                                user,
+                                category
+                            );
+                            status = OK;
+                            expectedResponse.items.push(userCategoryData);
                         }
                     } catch (error) {
                         expectedResponse.errors.push(
@@ -202,20 +206,53 @@ module.exports.addUserCategory = async (request, response) => {
     }
 };
 
+/**
+ * @swagger
+ * /users_categories/history/{user_guid}:
+ *   get:
+ *     summary: Get user categories history
+ *     tags: [User categories history]
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: user_guid
+ *         required: true
+ *       - in: body
+ *         name: body
+ *         description: User categories object history
+ *     responses:
+ *       201:
+ *         description: Created
+ *       401:
+ *         description: Unauthorized.
+ *       409:
+ *         description: Conflict.
+ *       500:
+ *         description: Could not add user category.
+ *
+ *     security:
+ *       - bearerAuth: []
+ *
+ */
+
+module.exports.getCategoryHistory = async (request, response) => {
+    const user = await User.getByGuid(request.params.userGuid);
+    const historyCategory = await CategoryHistory.findByUserId(user.id);
+    return response.status(OK).json({ historyCategory });
+}
+
 const addUserCategoryAndUpdateHistory = async (
-    userCategoryData,
     user,
     existingCategory
 ) => {
-    const dataValues = userCategoryData.dataValues;
+    const dataValues = existingCategory;
     dataValues.created_date = new Date();
-    delete dataValues.guid;
-    await CategoryHistory.findOrCreate(dataValues, {
-        user_id: user.id,
-        category_id: existingCategory.category_id,
-        experience: userCategoryData.experience,
-        profficience: userCategoryData.profficience,
-    });
+    delete dataValues.categoryGuid;
+    dataValues.operation = config.operations[1];
+    await CategoryHistory.create(dataValues);
     await UserCategory.update(existingCategory, {
         user_id: user.id,
         category_id: existingCategory.category_id,
@@ -349,7 +386,18 @@ module.exports.deleteUserCategory = async (request, response) => {
             const category = await Category.find({
                 guid: request.body.categoryGuid,
             });
+
             if (category) {
+                const oldCategory = {
+                    experience: 0,
+                    profficience: 0,
+                    last_worked_date: new Date(),
+                    user_id: user.id,
+                    category_id: category.dataValues.id,
+                    operation: config.operations[2]
+                }
+                oldCategory.created_date = new Date();
+                await CategoryHistory.create(oldCategory);
                 await UserCategory.delete({
                     user_id: user.id,
                     category_id: category.id,
