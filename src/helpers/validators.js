@@ -28,7 +28,7 @@ const numberSchema = (type) => {
     return yup.object().shape({
     name: yup.string()
         .required(SMConfig.messages.validation[type].required)
-        .matches(/^[0-9]{1,2}$/i, SMConfig.messages.validation[type].invalid)
+        .matches(type === "experience" ? /^(?:[1-9]|0[1-9]|10)$/i : /^[1-5]$/i, SMConfig.messages.validation[type].invalid)
     })
 };
 

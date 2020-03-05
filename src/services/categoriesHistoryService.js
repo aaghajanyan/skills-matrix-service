@@ -1,9 +1,9 @@
 import {SMConfig} from 'src/config';
 import {get} from './client';
 
-const getHistoryInfo = async (guid) => {
+const getCategoryHistoryInfo = async (guid) => {
 
-    const url = `${SMConfig.apiEndpoints.users_skills}${SMConfig.apiEndpoints.history}/${guid}`;
+    const url = `${SMConfig.apiEndpoints.users_categories}${SMConfig.apiEndpoints.history}/${guid}`;
 
     return get({url: url})
         .then(result => {
@@ -14,4 +14,4 @@ const getHistoryInfo = async (guid) => {
         });
 };
 
-export { getHistoryInfo };
+export { getCategoryHistoryInfo };

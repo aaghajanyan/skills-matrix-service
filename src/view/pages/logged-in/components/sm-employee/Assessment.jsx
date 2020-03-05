@@ -283,18 +283,14 @@ function Assessment(props) {
     };
 
     const handleSave = (currentValues, data, key) => {
-        if(initialExperience !== currentValues.experience) {
             data[key][0].experience = currentValues.experience;
-            setInitialExperience(currentValues.experience)
-        }
-        if(initialProfficience !== currentValues.profficience) {
+            setInitialExperience(currentValues.experience);
+
             data[key][0].profficience = currentValues.profficience;
-            setInitialProfficience(currentValues.profficience)
-        }
-        if(initialDate !== currentValues['last_worked_date']) {
+            setInitialProfficience(currentValues.profficience);
+
             data[key][0]['last_worked_date'] = moment(currentValues['last_worked_date']).format('YYYY-MM-DD');
             setInitialDate(currentValues['last_worked_date']);
-        }
     };
 
     const handleSaveSkill = async (currentValues) => {
@@ -669,6 +665,8 @@ function Assessment(props) {
                                 placeholder: 'Experience',
                                 onChange: handleChangeExperience,
                                 initialvalue: isEdited ? initialExperience : [],
+                                min: "1",
+                                max: "10",
                             }),
                             SMInput({
                                 className: 'sm-input',
@@ -678,6 +676,8 @@ function Assessment(props) {
                                 placeholder: 'Assessment',
                                 onChange: handleChangeProfficience,
                                 initialvalue: isEdited ? initialProfficience : '',
+                                min: "1",
+                                max: "5",
                             }),
                             SMInput({
                                 className: 'sm-input',

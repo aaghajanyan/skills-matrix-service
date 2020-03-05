@@ -21,10 +21,12 @@
     border-color: $sm-primary-color !important;
 }
 
-.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
-    border-right-width: 0 !important;
-}
+.skills-table-header-search{
+    .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+        border-right-width: 0 !important;
+    }
 
-.ant-input-suffix:hover {
-    border-color: $sm-primary-color !important;
+    .ant-input-suffix:hover {
+        border-color: $sm-primary-color !important;
+    }
 }

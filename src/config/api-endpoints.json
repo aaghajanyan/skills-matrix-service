@@ -11,6 +11,6 @@
     "branches": "/branch",
     "dashboard": "/dashboard",
     "users_skills": "/users_skills",
-    "skills_history": "/history",
+    "history": "/history",
     "users_categories": "/users_categories"
 }

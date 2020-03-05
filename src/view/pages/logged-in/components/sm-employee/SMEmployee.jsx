@@ -8,6 +8,10 @@ import {History} from 'src/view/pages/logged-in/components/sm-employee/History';
 import {getUser} from 'src/services/usersService';
 import {getDashboardInfo} from 'src/services/dashboardService';
 import {SMTabs} from 'src/view/components';
+
+import {getHistoryInfo} from 'src/services/skillsHistoryService';
+import {getCategoryHistoryInfo} from 'src/services/categoriesHistoryService';
+
 function SMEmployeeInitial(props) {
 
     const currentUser = useSelector(state => state.user, shallowEqual);
@@ -19,6 +23,8 @@ function SMEmployeeInitial(props) {
 
     const [dashboardInfo, setDashboardInfo] = useState(null);
     const [dataIsChanged, setDataIsChanged] = useState(false);
+    const [skillsHistory, setSkillsHistory] = useState(null);
+    const [categoriesHistory, setCategoriesHistory] = useState(null);
 
     const userIsDefined = () => user.fname !== '' && user.lname !== '';
 
@@ -36,13 +42,30 @@ function SMEmployeeInitial(props) {
                     console.warn('Handle error', error);
                 });
         }
-
-        user.guid && getDashboardInfo(user.guid)
+        if(user.guid){
+            getDashboardInfo(user.guid)
             .then(dashboardInfo => {
                 setDashboardInfo(dashboardInfo);
             }) .catch(error => {
                 console.warn('Handle error', error);
             });
+
+            getHistoryInfo(user.guid)
+            .then(result => {
+                setSkillsHistory(result.historySkills)
+            })
+            .catch(error => {
+                console.log("Handle Error: ", error)
+            })
+
+            getCategoryHistoryInfo(user.guid)
+            .then(result => {
+                setCategoriesHistory(result.historyCategory)
+            })
+            .catch(error => {
+                console.log("Handle Error: ", error)
+            })
+        }
     }
 
     useEffect(() => {
@@ -68,7 +91,7 @@ function SMEmployeeInitial(props) {
         >
             <Summary dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Summary"/>
             <Assessment isChanged={dataIsChanged} renderParent={setDataIsChanged} dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Assessment"/>
-            <History dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="History"/>
+            <History skills={skillsHistory} categories={categoriesHistory} dashboard={dashboardInfo} userGuid={user.guid} key="History"/>
             <About dashboard={dashboardInfo && dashboardInfo[0]} userGuid={user.guid}  user={{firstName: user.fname,lastName: user.lname}} key="About"/>
         </SMTabs>
     );

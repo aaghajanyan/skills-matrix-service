@@ -27,7 +27,7 @@ export const CRITERIA = {
             'items': []
         },
         {
-            'name': 'Experince',
+            'name': 'Experience',
             'key': 'experience',
             'items': [
                 {
@@ -93,7 +93,7 @@ export const CRITERIA = {
             'items': []
         },
         {
-            'name': 'Experince',
+            'name': 'Experience',
             'key': 'experience',
             'items': [
                 {
