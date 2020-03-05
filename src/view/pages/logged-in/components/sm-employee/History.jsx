@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Row, Timeline, Tooltip, Col, List, Dropdown, Menu} from 'antd';
+import {Row, Timeline, Tooltip, Col} from 'antd';
 
 import {getSkillsData} from 'src/services/skillsService';
 import {getCategoriesData} from 'src/services/categoryService';
@@ -122,33 +122,17 @@ function History(props) {
     const info = filterInfo();
 
     const renderTimeLineItem = (item, group, index ) => {
-        const name = Object.keys(group)[0];
         return (item.operation === 'delete' ?
         <Timeline.Item key={index} color={setHistoryColor(group, index)}>
             Deleted : {moment(item.created_date).format('YYYY-MMM-DD')}
         </Timeline.Item> :
         <Tooltip placement="leftTop" key={index} title={
             <div>
-                {/* {moment(item.created_date).format('YYYY-MMM-DD')} */}
                 <p>Experience: {item.experience}</p>
                 <p>Profficience: {item.profficience}</p>
                 <p>Last worked date: {moment(item.last_worked_date).format('YYYY-MMM-DD')}</p>
             </div>
         }>
-            {/* <Timeline.Item key={index} color={setHistoryColor(group, index)}>
-                            { item.operation === 'update' ? <p>
-                                Updated : {` ${name} `}
-                                Experience: {` ${item.experience} `}
-                                Profficience: {` ${item.profficience} `}
-                                Last worked date: {`${moment(item.created_date).format('YYYY-MMM-DD')} `}
-                            </p> :
-                            <p>
-                                Created : {` ${name} `}
-                                Experience: {` ${item.experience} `}
-                                Profficience: {` ${item.profficience} `}
-                                Last worked date: {`${moment(item.created_date).format('YYYY-MMM-DD')} `}
-                            </p> }
-            </Timeline.Item> */}
             <Timeline.Item key={index} color={setHistoryColor(group, index)}>
                 <div>{item.operation === 'create' ?
                     `Created : ${moment(item.created_date).format('YYYY-MMM-DD')}` :
