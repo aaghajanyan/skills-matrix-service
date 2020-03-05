@@ -13,7 +13,7 @@ const {Option} = Select;
 function SearchRow(props) {
 
     const [criteriaValue, setCriteriaValue] = useState(props.defaultProperties ? props.defaultProperties.properties.type : null);
-    const {getFieldDecorator, getFieldsValue} = props.form;
+    const {getFieldDecorator, getFieldsValue, resetFields} = props.form;
     const [visibleField, setVisiblefield] = useState(false);
     const [dateIsChecked, setDateIsChecked] =useState(false);
     const [valueDate,setDatePicker] = useState();
@@ -21,6 +21,13 @@ function SearchRow(props) {
     const handleSelect = (val) => {
         if(Object.values(CRITERIA[val]).length > 2 ){
             setVisiblefield(true)
+        }
+        if(val !== criteriaValue){
+            props.update({
+                [props.criteriaId]: {
+                    type: getFieldsValue()[props.criteriaId].type
+                }
+            }, props.criteriaId);
         }
         setCriteriaValue(val);
     };
@@ -48,6 +55,7 @@ function SearchRow(props) {
             values[props.criteriaId]['last_worked_date'] = valueDate;
         }
         props.update(values, props.criteriaId);
+        resetFields();
     };
 
     const handleClickChangeDate = (e, dateString) => {
