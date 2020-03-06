@@ -1,0 +1,20 @@
+@import '../variables';
+
+
+.sm-upload {
+    background-color: white;
+    // border: 1px dashed #d9d9d9;
+    border: 1px dashed $sm-primary-color;
+    padding: 0 20px 0 20px;
+    cursor: pointer;
+}
+
+.sm-upload:focus {
+    outline:none;
+}
+.sm-upload-plus {
+    color: $sm-primary-color-hover;
+    span {
+        color: $sm-primary-color-hover!important;
+    }
+}

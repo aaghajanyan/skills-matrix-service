@@ -1,0 +1,64 @@
+@import '../variables';
+
+.sm-icon-container {
+    display: flex;
+    text-align: center;
+}
+.gutter-row {
+    margin: 10px;
+    padding: 0;
+    padding-left: 0!important;
+    padding-right: 0!important;
+    display: inline-block;
+    width: 150px;
+}
+.sm-card {
+    border-radius: 4px;
+    .ant-card-cover {
+        width: 100%;
+        display: flex;
+        background-color: #3a79aa80;
+        height: 50px;
+        padding-top: 10px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    .ant-card-cover:hover, .ant-card-cover:hover {
+        background-color: $sm-primary-color;
+        color: white;
+    }
+    .ant-card-body {
+        text-align: center;
+        margin-top: -15px;
+        height: 40px;
+    }
+}
+
+
+.select-icon-modal {
+    width: 732px!important;
+    .ant-modal-header {
+        color: red;
+    }
+
+    .ant-modal-body {
+        max-height: 590px;
+        overflow: auto;
+    }
+
+    .ant-modal-content {
+        position: relative;
+    }
+    .sm-search-criteria {
+        position: absolute;
+        width: 54%;
+        z-index: 1;
+        top: 70px;
+        width: 91%;
+        height: 40px;
+    }
+
+    .ant-row {
+        margin-top: 30px;
+    }
+}
