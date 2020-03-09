@@ -1,37 +1,34 @@
 import React, {useEffect, useState} from "react";
-import {Card} from "antd";
-const {Meta} = Card;
-import {Row, Col} from "antd";
-import {SMIcon} from 'src/view/components';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {fab} from '@fortawesome/free-brands-svg-icons';
-import {fas} from '@fortawesome/free-solid-svg-icons';
-import {far} from '@fortawesome/free-regular-svg-icons';
+import PropTypes from 'prop-types';
+import {Row} from "antd";
 import {debounce} from 'throttle-debounce';
 import {SMSearch} from 'src/view/components';
-
-library.add(fab, far, fas);
+import {SMCard} from './SMCard';
 
 function SMIconsCards(props) {
+    const icons = Object.assign({}, props.fab, props.fas, props.far)
 
     const [iconsDataSource, setIconsDataSource] = useState(null);
-    const [awesomeIconsList, setAwesomeIconsList] = useState(fab);
+    const [awesomeIconsList, setAwesomeIconsList] = useState(icons);
 
     const handleClick = (name) => {
-        props.onIconClick(name);
+        props.clickToIcon(name);
     }
 
     const collectIconsData = (data) => {
         const brandIconUiList = Object.keys(data).map((icon, index) => {
             return data[icon].prefix && data[icon].iconName &&
-                <Col  key={data[icon].iconName ? data[icon].iconName : index}  className="gutter-row">
-                    <Card className="sm-card" onClick={() => handleClick(data[icon].iconName)}
-                        hoverable
-                        cover={<SMIcon className='skills-icon' iconType={data[icon].prefix} icon={data[icon].iconName} />}
-                    >
-                        <Meta title={data[icon].iconName}/>
-                    </Card>
-                </Col>
+                <SMCard
+                    key={data[icon].iconName ? data[icon].iconName : index}
+                    className="sm-card-col"
+                    cardClassName='sm-card'
+                    iconClassName='skills-icon'
+                    onClick={handleClick}
+                    iconType={data[icon].prefix}
+                    icon={data[icon].iconName}
+                    clickedItem={(data[icon].iconName)}
+                    title={data[icon].iconName}
+                />
         });
         return brandIconUiList;
     }
@@ -41,7 +38,7 @@ function SMIconsCards(props) {
     }
 
     useEffect(() => {
-        setAwesomeIconsList(fab);
+        setAwesomeIconsList(icons);
     },[]);
 
     useEffect(() => {
@@ -79,5 +76,9 @@ function SMIconsCards(props) {
         </>
     );
 }
+
+SMIconsCards.propTypes = {
+    clickToIcon: PropTypes.func,
+};
 
 export { SMIconsCards };

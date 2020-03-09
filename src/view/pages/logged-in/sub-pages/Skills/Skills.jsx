@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
+import {debounce} from 'throttle-debounce';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
@@ -15,12 +16,11 @@ import {getDataSource} from './column';
 import skills from 'src/store/reducers/skillReducer';
 import categories from 'src/store/reducers/categoryReducer';
 import {toRGB} from 'src/helpers/generateColor';
-import {library} from '@fortawesome/fontawesome-svg-core';
+import {SMIconsCards, SMUpload} from 'src/view/components';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
-import {debounce} from 'throttle-debounce';
-import {SMIconsCards, SMUpload} from 'src/view/components';
+import {library} from '@fortawesome/fontawesome-svg-core';
 
 library.add(fab, far, fas);
 
@@ -45,7 +45,6 @@ function Skills(props) {
     const [editedIconName, setEditedIconName] = useState(initialIconName);
 
     const [isSkillNameValid, skillName, skillNameRule, resetSkillName] = useValidator(nameValidator('skill'));
-    const [isIconNameValid, iconName, iconNameRule, resetIconName] = useValidator(nameValidator('icon'));
     const [isCategoriesListValid, setIsCategoriesListValid] = useState(null);
     const [categoriesNames, setCategoriesNames] = useState(null);
 
@@ -160,7 +159,6 @@ function Skills(props) {
         setLoading(true);
         const guidsList = convertNameToGuid(categoriesNames, categoriesStore);
         resetSkillName();
-        resetIconName();
         setIsCategoriesListValid(false);
         analyzeAndAddSkill(guidsList);
     };
@@ -296,7 +294,7 @@ function Skills(props) {
                 footer={null}
                 maskClosable={false}
             >
-                <SMIconsCards onIconClick={handleClickIcon} />
+                <SMIconsCards clickToIcon={handleClickIcon} fab={fab}/>
             </SMModal>
 
             {skillsDataSource &&
@@ -373,7 +371,6 @@ function Skills(props) {
                             name: 'iconName',
                             type: 'text',
                             placeholder: 'Icon name',
-                            rules: iconNameRule,
                             initialvalue: isEdited ? editedIconName : selectedIcon,
                             disabled: true
                         }),
