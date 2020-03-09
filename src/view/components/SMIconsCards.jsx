@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { Card, Icon, Avatar } from "antd";
-const { Meta, Grid } = Card;
-import { Row, Col } from "antd";
-import * as brandIcons from "@fortawesome/free-brands-svg-icons";
+import {Card} from "antd";
+const {Meta} = Card;
+import {Row, Col} from "antd";
 import {SMIcon} from 'src/view/components';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
@@ -16,7 +15,7 @@ library.add(fab, far, fas);
 function SMIconsCards(props) {
 
     const [iconsDataSource, setIconsDataSource] = useState(null);
-    const [awesomeIconsList, setAwesomeIconsList] = useState(brandIcons);
+    const [awesomeIconsList, setAwesomeIconsList] = useState(fab);
 
     const handleClick = (name) => {
         props.onIconClick(name);
@@ -42,7 +41,7 @@ function SMIconsCards(props) {
     }
 
     useEffect(() => {
-        setAwesomeIconsList(brandIcons);
+        setAwesomeIconsList(fab);
     },[]);
 
     useEffect(() => {
