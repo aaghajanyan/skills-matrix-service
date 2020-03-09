@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
-import {Tag, Upload} from 'antd';
+import {Tag} from 'antd';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
 import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
@@ -20,10 +20,7 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {debounce} from 'throttle-debounce';
-import {SMIconsCards, SMIcon, SMUpload} from 'src/view/components';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
+import {SMIconsCards, SMUpload} from 'src/view/components';
 
 library.add(fab, far, fas);
 
@@ -59,7 +56,7 @@ function Skills(props) {
 
     const isEntireFormValid = [
         isSkillNameValid,
-        // isIconNameValid,
+        selectedIcon,
         isCategoriesListValid
     ].every(e => e);
 
