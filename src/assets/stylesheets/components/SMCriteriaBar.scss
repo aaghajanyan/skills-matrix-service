@@ -1,8 +1,13 @@
+@import '../variables';
+
 .sm-criteria-bar {
     display: flex;
-    // justify-content: center;
     padding-right: 10px;
     width: 100%;
+
+    svg {
+        color: $sm-primary-color-hover;
+    }
 }
 
 .sm-criteria-bar-name {

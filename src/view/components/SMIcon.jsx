@@ -18,7 +18,8 @@ SMIcon.propTypes = {
     onClick: PropTypes.func,
     key: PropTypes.string,
     className: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    visibility: PropTypes.string
 };
 
 export {SMIcon};

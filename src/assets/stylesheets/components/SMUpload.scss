@@ -1,12 +1,15 @@
 @import '../variables';
 
-
 .sm-upload {
     background-color: white;
-    // border: 1px dashed #d9d9d9;
     border: 1px dashed $sm-primary-color;
-    padding: 0 20px 0 20px;
+    width: 25%;
+    height: 100px;
     cursor: pointer;
+}
+
+.sm-upload:hover {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
 }
 
 .sm-upload:focus {
@@ -16,5 +19,48 @@
     color: $sm-primary-color-hover;
     span {
         color: $sm-primary-color-hover!important;
+    }
+}
+
+.sm-upload-plus:hover {
+    svg {
+        transform: scale(1.2, 1.2);
+    }
+    .ant-upload-text {
+        transform: scale(1.1, 1.1);
+    }
+}
+
+.sm-upload-icon {
+    color: $sm-primary-color-hover;
+    height: 100px;
+
+    .icon-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+        margin-top: -20px;
+        color: $sm-primary-color-hover!important;
+    }
+
+    svg:first-child {
+        width: 100%!important;
+        height: 65px;
+        margin-top: 4px;
+    }
+
+    span {
+        color: $sm-primary-color-hover!important;
+    }
+}
+
+.sm-upload-icon:hover {
+    .sm-skill-icon-edit {
+        visibility: visible;
+        color: $sm-primary-color-hover;
+        position: absolute;
+        right: 5px;
+        top: -50px;
     }
 }

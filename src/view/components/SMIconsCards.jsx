@@ -66,8 +66,7 @@ function SMIconsCards(props) {
             <SMSearch
                 placeholder="Search icon..."
                 className='sm-search-criteria'
-                onChange={e => handleSearchInputChange(e)}
-                />
+                onChange={e => handleSearchInputChange(e)} />
             <div className="sm-icon-container">
                 <Row >
                     {iconsDataSource}

@@ -196,7 +196,8 @@ function Skills(props) {
             if (currentValues && !valuesAreTheSame(currentValues)) {
                 const data = {
                     name: currentValues.skillName,
-                    icon: currentValues.iconName,
+                    // icon: currentValues.iconName,
+                    icon: selectedIcon,
                     addCategories: collectCategoriesGuidsFromName(currentValues.categoryName.filter(val => !initialCategories.includes(val))),
                     deleteCategories: collectCategoriesGuidsFromName(initialCategories.filter(val => !currentValues.categoryName.includes(val)))
                 };
@@ -366,19 +367,21 @@ function Skills(props) {
                             initialvalue: isEdited ? initialCategories : [],
                             onChange: handleSelectOptionChangeAndValidate
                         }),
-                        SMInput({
-                            className: 'sm-input',
-                            name: 'iconName',
-                            type: 'text',
-                            placeholder: 'Icon name',
-                            initialvalue: isEdited ? editedIconName : selectedIcon,
-                            disabled: true
-                        }),
+                        // SMInput({
+                        //     className: 'sm-input',
+                        //     name: 'iconName',
+                        //     type: 'text',
+                        //     placeholder: 'Icon name',
+                        //     initialvalue: isEdited ? editedIconName : selectedIcon,
+                        //     disabled: true
+                        // }),
                         SMUpload({
                             className: "sm-upload",
                             name: "uploadImg",
                             children: 'Upload icon',
                             openSelectIconModal:openSelectIconModal,
+                            icon: selectedIcon ? selectedIcon : null,
+                            iconType: 'fab'
                         }),
                     ]}
                     footer={[
