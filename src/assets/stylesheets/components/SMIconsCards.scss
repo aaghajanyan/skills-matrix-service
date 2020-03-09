@@ -4,6 +4,7 @@
     display: flex;
     text-align: center;
 }
+
 .gutter-row {
     margin: 10px;
     padding: 0;
@@ -12,8 +13,14 @@
     display: inline-block;
     width: 150px;
 }
+
 .sm-card {
     border-radius: 4px;
+    .skills-icon {
+        width: 30px;
+        height: 30px;
+        flex: 1;
+    }
     .ant-card-cover {
         width: 100%;
         display: flex;
@@ -24,7 +31,7 @@
         border-top-right-radius: 4px;
     }
     .ant-card-cover:hover, .ant-card-cover:hover {
-        background-color: $sm-primary-color;
+        background-color: $sm-primary-color-hover;
         color: white;
     }
     .ant-card-body {
@@ -51,7 +58,6 @@
     }
     .sm-search-criteria {
         position: absolute;
-        width: 54%;
         z-index: 1;
         top: 70px;
         width: 91%;

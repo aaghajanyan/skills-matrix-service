@@ -27,7 +27,7 @@ function SMIconsCards(props) {
                 <Col  key={data[icon].iconName ? data[icon].iconName : index}  className="gutter-row">
                     <Card className="sm-card" onClick={() => handleClick(data[icon].iconName)}
                         hoverable
-                        cover={<SMIcon style={{flex: '1' , width: '30px', height: '30px'}}  iconType={data[icon].prefix} icon={data[icon].iconName} />}
+                        cover={<SMIcon className='skills-icon' iconType={data[icon].prefix} icon={data[icon].iconName} />}
                     >
                         <Meta title={data[icon].iconName}/>
                     </Card>
