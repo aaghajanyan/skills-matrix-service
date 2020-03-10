@@ -1,6 +1,6 @@
 module.exports.initializeCriteriaCategory = async models => {
-    const Experince = {
-        'name': 'Experince',
+    const Experience = {
+        'name': 'Experience',
         'key': 'experience',
         'items': [
             {
@@ -59,8 +59,8 @@ module.exports.initializeCriteriaCategory = async models => {
 
     let defaultCriteriesPropObj =  [
         {
-            name: Experince.name,
-            items: Experince,
+            name: Experience.name,
+            items: Experience,
             type: ['skills', 'category']
         },
         {

@@ -5,8 +5,14 @@ class CategoryHistory {
         return await categoryHistoryModel.findAll();
     }
 
+    static async findByUserId(UserId) {
+        const history = await categoryHistoryModel.findAll({
+            where: { user_id : UserId }});
+        return history;
+    }
+
     static async find(condition) {
-        return await categoryHistoryModel.findOne({
+        return await categoryHistoryModel.findAll({
             where: { ...condition },
         });
     }

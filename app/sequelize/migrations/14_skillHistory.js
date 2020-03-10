@@ -1,4 +1,5 @@
 const { Constants } = require('../../constants/Constants');
+const config = require('../config/config');
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
@@ -49,6 +50,10 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
             },
+            operation: {
+                allowNull: false,
+                type: Sequelize.ENUM(config.operations),
+            }
         });
     },
     down: queryInterface => queryInterface.dropTable(Constants.TableNames.SkillHistory),

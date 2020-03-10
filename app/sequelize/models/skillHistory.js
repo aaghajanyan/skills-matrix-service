@@ -1,4 +1,5 @@
 const { Constants } = require('../../constants/Constants');
+const config = require('../config/config');
 
 module.exports = (sequelize, DataTypes) => {
     const SkillHistory = sequelize.define(
@@ -32,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
             created_date: {
                 allowNull: false,
                 type: DataTypes.DATE,
+            },
+            operation: {
+                type: DataTypes.ENUM,
+                values: config.operations,
+                allowNull: false,
             },
         },
         {
