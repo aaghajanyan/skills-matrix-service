@@ -12,6 +12,12 @@
         display: inline-block;
         width: 150px;
     }
+    .sm-card:hover {
+        .ant-card-cover {
+            background-color: $sm-primary-color-hover;
+            color: white;
+        }
+    }
     .sm-card {
         border-radius: 4px;
         .skills-icon {
@@ -28,10 +34,7 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
         }
-        .ant-card-cover:hover, .ant-card-cover:hover {
-            background-color: $sm-primary-color-hover;
-            color: white;
-        }
+
         .ant-card-body {
             text-align: center;
             margin-top: -15px;
