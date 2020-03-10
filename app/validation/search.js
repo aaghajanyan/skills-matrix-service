@@ -57,10 +57,10 @@ const ruleSchema = Joi.object().keys({
             .min(1)
             .max(32)
             .required(),
-        experience: Joi.string().valid(['1', '2', '3', '4', '5']),
-        proficiency: Joi.string().valid(['1', '2', '3', '4', '5']),
-        last_worked_date: Joi.date(),
-    }).required(),
+        experience: Joi.string().valid(['1', '2', '3', '4', '5']).optional(),
+        proficiency: Joi.string().valid(['1', '2', '3', '4', '5']).optional(),
+        last_worked_date: Joi.date().allow(null),
+    })
 });
 
 module.exports.validateEmptyQueryBodySchema = data => {

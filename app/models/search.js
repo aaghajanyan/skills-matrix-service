@@ -3,6 +3,7 @@ const {Constants} = require('../constants/Constants');
 const {validateRuleBodySchema, validateGroupBodySchema} = require('../validation/search');
 const replaceAll = require('../helper/recursiveReplace');
 const logger = require('../helper/logger');
+const moment = require('moment');
 
 class SearchUser {
     constructor() {
@@ -128,16 +129,15 @@ class SearchUser {
     convertSkillCategoryRuleToQuery(properties, isSkillRule) {
         if (!properties.last_worked_date) {
             if (properties.opCondition === 'equal') {
-                properties.last_worked_date = '1900-01-01'
+                properties.last_worked_date = moment('1900-01-01').format('YYYY-MM-DD')
             } else {
                 properties.last_worked_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
             }
         }
-
-        const date = properties.last_worked_date.split('-');
-
+        const date = properties.last_worked_date.toString().split('-');
         const [y, m, dd] = date;
         const d = dd.split('T')[0];
+
         let sqlStr = isSkillRule
             ? ` ${Constants.Keys.skill_experience_proficiency} ~ \'.*\\[`
             : ` ${Constants.Keys.category_experience_proficiency} ~ \'.*\\[`;
@@ -162,7 +162,6 @@ class SearchUser {
         }
         sqlStr = sqlStr.concat("]'");
         return sqlStr;
-
     }
 
     collectRegExpForDate(date) {
