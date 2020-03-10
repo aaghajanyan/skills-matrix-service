@@ -6,6 +6,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import { PlusOutlined } from '@ant-design/icons';
 import {SMIcon} from 'src/view/components';
+import { toRGB } from "../../helpers/generateColor";
 
 library.add(fab, far, fas);
 
@@ -14,8 +15,8 @@ function SMUpload({openSelectIconModal, iconType, ...props}) {
     const uploadButton = (
         props.icon ?
             <div className="sm-upload-icon">
-                <SMIcon className='skills-icon' iconType={iconType} icon={props.icon}/>
-                <p className='icon-name'>{props.icon}</p>
+                <SMIcon style={{color: toRGB(props.icon).color}} className='skills-icon' iconType={iconType} icon={props.icon}/>
+                <p style={{color: toRGB(props.icon).color}} className='icon-name'>{props.icon}</p>
                 <SMIcon visibility={'hidden'} className='sm-skill-icon-edit' iconType='fas' icon='pencil-alt'/>
             </div>
             :

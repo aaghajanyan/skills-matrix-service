@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {Card, Col} from "antd";
 import {SMIcon} from 'src/view/components';
-const {Meta} = Card;
+import {toRGB} from 'src/helpers/generateColor';
 
 function SMCard(props) {
 
@@ -14,9 +14,9 @@ function SMCard(props) {
         <Col className={props.className}>
             <Card key={props.der} className={props.cardClassName} onClick={() => handleClick(props.clickedItem)}
                 hoverable
-                cover={<SMIcon className={props.iconClassName} iconType={props.iconType} icon={props.icon}/>}
+                cover={<SMIcon style={{color:toRGB(props.icon).color}}  className={props.iconClassName} iconType={props.iconType} icon={props.icon}/>}
             >
-                <Meta title={props.title}/>
+                {/* <Meta title={props.title}/> */}
             </Card>
         </Col>
     );

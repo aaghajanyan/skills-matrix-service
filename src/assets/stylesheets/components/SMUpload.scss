@@ -32,7 +32,8 @@
 }
 
 .sm-upload-icon {
-    color: $sm-primary-color-hover;
+    color: black;
+    // color: $sm-primary-color-hover;
     height: 100px;
 
     .icon-name {
@@ -41,7 +42,7 @@
         text-overflow: ellipsis;
         margin-bottom: 0;
         margin-top: -20px;
-        color: $sm-primary-color-hover!important;
+        // color: $sm-primary-color-hover!important;
     }
 
     svg:first-child {

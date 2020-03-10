@@ -6,13 +6,14 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
+import {toRGB} from 'src/helpers/generateColor';
 
 library.add(fab, far, fas);
 
 function SMCriteriaBar({className, iconClassName, iconType, iconName, style, name, onClick}) {
     return (
         <div className={classNames('sm-criteria-bar', className, onClick ? 'pointer': '')} >
-            {iconType && <SMIcon className={iconClassName} iconType={iconType} icon={iconName} />}
+            {iconType && <SMIcon style={{color: toRGB(name).color}}className={iconClassName} iconType={iconType} icon={iconName} />}
             <span className="sm-criteria-bar-name unselectable">{name}</span>
         </div>
     );
