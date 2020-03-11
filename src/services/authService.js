@@ -35,16 +35,16 @@ const login = ({email, password}) => {
         });
 };
 
-const registerUser = (token, {fname, lname, branchName, position, password, startedToWorkDate}) => {
+const registerUser = (token, {fname, lname, branchGuid, positionGuid, password, started_to_work_date}) => {
     const options = {
         url: `${SMConfig.apiEndpoints.getUsers}/${token}`,
         data : {
             fname,
             lname,
-            branchName,
-            position,
+            branchGuid,
+            positionGuid,
             password,
-            startedToWorkDate: startedToWorkDate.toString()
+            started_to_work_date
         }
     };
     return post(options);

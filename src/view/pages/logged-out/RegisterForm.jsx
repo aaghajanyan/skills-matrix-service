@@ -1,16 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {nameValidator, passwordValidator, requiredValidator} from 'src/helpers/validators';
 import {SMButton, SMDatePicker, SMForm, SMInput, SMSelect, SMSpinner} from 'src/view/components';
 import {SMConfig} from 'src/config';
 import {checkInvitation} from 'src/services/invitationsService';
 import {registerUser} from 'src/services/authService';
 import {useNavigation, useService, useValidator} from '../../../hooks/common';
+import {getBranches} from 'src/services/branchService';
+import {getPositions} from 'src/services/positionService';
+import moment from 'moment';
 
 function RegisterForm(props) {
 
     const token = props.match.params.token;
 
     const [isPending, setIsPending] = useState(false);
+    const [branches, setBranches] = useState([]);
+    const [positions, setPositions] = useState([]);
 
     const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator('First'));
     const [isLastNameValid, , lastNameRule] = useValidator(nameValidator('Last'));
@@ -39,9 +44,59 @@ function RegisterForm(props) {
         });
     }
 
+    useEffect(() => {
+        getBranches()
+        .then(result => {
+            const branchList = [];
+            result.map(item => {
+                branchList.push({value: item.name, guid: item.guid})
+            });
+            setBranches(branchList);
+        })
+        .catch(error => {
+            console.warn('Handle error', error);
+        });
+
+        getPositions()
+        .then(result => {
+            const positionsList = [];
+            result.map(item => {
+                positionsList.push({value: item.name, guid: item.guid})
+            });
+            setPositions(positionsList);
+        })
+        .catch(error => {
+            console.warn('Handle error', error);
+        });
+    },[]);
+
     const handleSubmit = data => {
         setIsPending(true);
-        registerUser(token, data)
+        let branchGuid = "";
+        let positionGuid = "";
+
+        branches.map(item => {
+            if(item.value === data.branchGuid) {
+                branchGuid = item.guid
+            }
+        });
+
+        positions.map(item => {
+            if(item.value === data.positionGuid) {
+                positionGuid = item.guid
+            }
+        });
+
+        const bodyData = {
+            branchGuid: branchGuid,
+            fname: data.fname,
+            lname: data.lname,
+            password: data.password,
+            started_to_work_date: moment(data.started_to_work_date).format("YYYY-MM-DD"),
+		    positionGuid: positionGuid
+        }
+
+        registerUser(token, bodyData)
             .then(() => {
                 navigateTo(SMConfig.routes.login, {
                     success: 'User has been added'
@@ -52,33 +107,9 @@ function RegisterForm(props) {
             });
     };
 
-
-    // TODO: Fetch from back end
-    const positions = [
-        {value: 'SW Engineer'},
-        {value: 'Senior SW Engineer'},
-        {value: 'Beginner QA Tester'},
-        {value: 'QA Tester'},
-        {value: 'SQE Analyst'},
-        {value: 'Sr. Software Quality Engineer'},
-        {value: 'QA Analyst'},
-        {value: 'QA lead'},
-        {value: 'Team lead'},
-        {value: 'Graphic designer'},
-        {value: 'technical manager'},
-        {value: 'Senior Team lead'},
-        {value: 'Project Manager'},
-        {value: '3D modeler'},
-        {value: 'UIUX designer'},
-        {value: 'SW Architect'}
-    ];
-
-    // TODO: Get from back end
-    const branches = [
-        {value: 'Vanadzor'},
-        {value: 'Erevan'},
-        {value: 'Goris'}
-    ];
+    const handleChangeSelect = (value) => {
+        return value;
+    }
 
     return (
         <SMSpinner isLoading={!isCompleted} className="sm-spin" size="large">
@@ -103,17 +134,19 @@ function RegisterForm(props) {
                     }),
                     SMSelect({
                         className: 'sm-select',
-                        name: 'branchName',
+                        name: 'branchGuid',
                         placeholder: 'Branch',
                         options: branches,
                         rules: branchRule,
+                        onChange: handleChangeSelect
                     }),
                     SMSelect({
                         className: 'sm-select',
-                        name: 'position',
+                        name: 'positionGuid',
                         placeholder: 'Position',
                         options: positions,
                         rules: positionRule,
+                        onChange: handleChangeSelect
                     }),
                     SMInput({
                         className: 'sm-input sm-input-register',
@@ -133,7 +166,7 @@ function RegisterForm(props) {
                     }),
                     SMDatePicker({
                         className: 'sm-date-picker',
-                        name: 'startedToWorkDate',
+                        name: 'started_to_work_date',
                         placeholder: 'Start working date',
                         format: 'YYYY-MM-DD',
                         rules: dateRule
