@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {nameValidator, passwordValidator, requiredValidator, emailValidator} from 'src/helpers/validators';
+import {nameValidator, passwordValidator, requiredValidator} from 'src/helpers/validators';
 import {SMButton, SMDatePicker, SMForm, SMInput, SMSelect, SMSpinner} from 'src/view/components';
 import {SMConfig} from 'src/config';
 import {checkInvitation} from 'src/services/invitationsService';
@@ -40,7 +40,6 @@ function RegisterForm(props) {
     }
 
     const handleSubmit = data => {
-        console.log(data,">>>>>>>>>>>>")
         setIsPending(true);
         registerUser(token, data)
             .then(() => {
@@ -53,13 +52,6 @@ function RegisterForm(props) {
             });
     };
 
-    const handleChangeBranch = (value) => {
-        return value;
-    }
-
-    const handleChangePosition = (value) => {
-        return value;
-    }
 
     // TODO: Fetch from back end
     const positions = [
@@ -87,7 +79,6 @@ function RegisterForm(props) {
         {value: 'Erevan'},
         {value: 'Goris'}
     ];
-    console.log(!isEntireFormValid,">>>>>>>>>>>>>>>")
 
     return (
         <SMSpinner isLoading={!isCompleted} className="sm-spin" size="large">
@@ -116,7 +107,6 @@ function RegisterForm(props) {
                         placeholder: 'Branch',
                         options: branches,
                         rules: branchRule,
-                        onChange: handleChangeBranch
                     }),
                     SMSelect({
                         className: 'sm-select',
@@ -124,7 +114,6 @@ function RegisterForm(props) {
                         placeholder: 'Position',
                         options: positions,
                         rules: positionRule,
-                        onChange: handleChangePosition
                     }),
                     SMInput({
                         className: 'sm-input sm-input-register',
