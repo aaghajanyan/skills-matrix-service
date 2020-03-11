@@ -9,7 +9,7 @@
     .sm-logo-image {
         height: 40px;
         cursor: pointer;
-        margin-left: 30px;
+        margin-left: calc(100% / 14);
     }
     h1 {
         font-weight: bold;

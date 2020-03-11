@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .sm-tabs {
     .sm-tabs-header {
         display: flex;
@@ -19,6 +21,12 @@
             width: calc(50% - #{$sm-components-distance} / 2);
         }
     }
+}
+
+.sm-title{
+    font-size: large;
+    font-weight: $sm-subheading-font-weight;
+    color: $sm-primary-color-hover;
 }
 
 .sm-content {
@@ -68,6 +76,18 @@
         display: none;
     }
 
+}
+
+@media all and (max-width: 856px) {
+    .sm-user {
+        .sm-user-bar_name {
+            display: none;
+        }
+        .sm-avatar {
+            width: 40px !important;
+            height: 40px !important;
+        }
+    }
 }
 
 .sm-about-header {
@@ -128,7 +148,91 @@
     }
 }
 
-.show-history{
+.show-history {
     display: none;
     text-align: left;
+}
+
+.sm-history-row {
+    .ant-col:first-child {
+        width: 90px;
+    }
+
+    .ant-col:last-child {
+        padding-top: 5px;
+    }
+
+    .ant-timeline-item-tail {
+        height: 100%;
+    }
+
+    &:last-child .ant-timeline-item-tail{
+        display: none;
+    }
+}
+.search-button {
+    text-align: right !important;
+    .ant-btn {
+        border-color: $sm-primary-color;
+        color: $sm-primary-color;
+    }
+    .ant-btn:hover {
+        border-color: $sm-primary-color-hover;
+        color: $sm-primary-color-hover;
+    }
+}
+
+.sm-load-more {
+    border-color: $sm-primary-color;
+    color: $sm-primary-color;
+    &:hover {
+        border-color: $sm-primary-color-hover;
+        color: $sm-primary-color-hover;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $sm-primary-color-hover !important;
+        color: $sm-primary-color-hover;
+    }
+}
+
+.sm-filter-history {
+    .ant-input:hover {
+        border-color: $sm-primary-color-hover !important;
+    }
+    .ant-input:focus {
+        outline: none;
+        border-color: $sm-primary-color-hover !important;
+    }
+}
+
+.sm-hidden-field {
+    opacity: 0;
+    width: 0;
+    border: none;
+    transition:  1s ease-out;
+    i {
+        color: #fff;
+    }
+}
+
+.sm-visible-field {
+    opacity: 1;
+    width: 100%;
+    border: inherit;
+    transition:  1s ease-in;
+    i {
+        color: rgba(0, 0, 0, 0.25);
+        transition:  1.5s ease-in;
+    }
+}
+
+.sm-load-more {
+    text-align: center,
+}
+
+.spliter {
+    min-width: 10px;
+    display: inline-block;
 }
