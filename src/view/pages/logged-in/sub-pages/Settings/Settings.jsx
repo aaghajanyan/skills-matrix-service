@@ -17,7 +17,6 @@ import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
 import {debounce} from 'throttle-debounce';
-import {SMFloatInput} from 'src/view/components/SMFloatInput';
 
 library.add(fab, far, fas);
 
