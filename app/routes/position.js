@@ -6,7 +6,7 @@ const {validateAddBody, validateUpdateBody} = require('../validation/branch');
 const {verifyLoginToken} = require('../validation/token');
 const {verifyPermissions} = require('../validation/permissions');
 
-router.get('/', verifyLoginToken, getPositions);
+router.get('/', getPositions);
 router.get('/:guid', verifyLoginToken, getPosition);
 router.post('/', verifyLoginToken, verifyPermissions, validateAddBody, addPosition);
 router.put('/:guid', verifyLoginToken, verifyPermissions, validateUpdateBody, updatePosition);
