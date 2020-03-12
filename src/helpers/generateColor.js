@@ -1,6 +1,6 @@
 import * as colorHash from 'color-hash';
 
-const toRGB = function(str) {
+export const toRGB = function(str) {
 
     const colorH = new colorHash({lightness: [0.4, 0.4, 0.4]})
     const borderColorH = new colorHash({lightness: [0.7, 0.8, 0.7]})
@@ -16,5 +16,3 @@ const toRGB = function(str) {
         backgroundColor: `rgb(${backgroundColorHRGB[0] }, ${backgroundColorHRGB[1]}, ${backgroundColorHRGB[2]})`,
     };
 }
-
-export {toRGB};

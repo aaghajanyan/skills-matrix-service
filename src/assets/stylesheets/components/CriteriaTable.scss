@@ -30,10 +30,13 @@
 
 .table-column-score{
     width: 3%;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
 }
 
 .table-column-category, .table-column-skill{
-    width: 7%;
+    width: 6.5%;
 }
 
 .table-column-action {

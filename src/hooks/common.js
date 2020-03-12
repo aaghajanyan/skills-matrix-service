@@ -1,6 +1,6 @@
 import {useHistory} from 'react-router-dom';
 import {SMNotification} from '../view/components';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback} from 'react';
 
 
 export const useNavigation = () => {
@@ -57,4 +57,16 @@ export const useService = (service, ...args) => {
 
     return [isCompleted, data, error];
 };
+
+export const useModal = defaultState => {
+  const [isOpen, setIsOpen] = useState(defaultState);
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+  const closeModal = useCallback(() => setIsOpen(false), []);
+
+  return [isOpen, openModal, closeModal];
+};
+
+export default useModal;
 

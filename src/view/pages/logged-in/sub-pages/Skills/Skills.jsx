@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
-import {SMConfig} from 'src/config';
+import {debounce} from 'throttle-debounce';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
-import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from 'src/hooks/common';
+import {useValidator, useModal} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
@@ -16,22 +16,25 @@ import {getDataSource} from './column';
 import skills from 'src/store/reducers/skillReducer';
 import categories from 'src/store/reducers/categoryReducer';
 import {toRGB} from 'src/helpers/generateColor';
-import {library} from '@fortawesome/fontawesome-svg-core';
+import {SMIconsCards, SMUpload} from 'src/view/components';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
-import {debounce} from 'throttle-debounce';
+import {library} from '@fortawesome/fontawesome-svg-core';
 
 library.add(fab, far, fas);
 
 function Skills(props) {
+
+    const [isOpen, openModal, closeModal] = useModal(false);
+    const [isIconModalOpen, openIconModal, closeIconModal] = useModal(false);
+
     const currentUser = useSelector(state => state.user);
 
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
     const [isAdmin, setIsAdmin] = useState(false);
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [skillsDataSource, setSkillsDataSource] = useState(null);
@@ -39,18 +42,20 @@ function Skills(props) {
     const [initialSkillName, setInitialSkillName] = useState('');
     const [initialCategories, setInitialCategories] = useState([]);
     const [initialIconName, setInitialIconName] = useState('');
+    const [editedIconName, setEditedIconName] = useState(initialIconName);
 
-    let [isSkillNameValid, skillName, skillNameRule, resetSkillName] = useValidator(nameValidator('skill'));
-    let [isIconNameValid, iconName, iconNameRule, resetIconName] = useValidator(nameValidator('icon'));
-    let [isCategoriesListValid, setIsCategoriesListValid] = useState(null);
-    let [categoriesNames, setCategoriesNames] = useState(null);
+    const [isSkillNameValid, skillName, skillNameRule, resetSkillName] = useValidator(nameValidator('skill'));
+    const [isCategoriesListValid, setIsCategoriesListValid] = useState(null);
+    const [categoriesNames, setCategoriesNames] = useState(null);
 
     const [isEdited, setIsEdited] = useState(false);
     const [editedItem, setEditedItem] = useState(false);
 
+    const [selectedIcon, setSelectedIcon] = useState('');
+
     const isEntireFormValid = [
         isSkillNameValid,
-        isIconNameValid,
+        selectedIcon,
         isCategoriesListValid
     ].every(e => e);
 
@@ -111,7 +116,7 @@ function Skills(props) {
                 name: item.name,
                 guid: item.guid,
                 icon: item.icon,
-                skill:  <SMSkillBar name={item.name} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
+                skill:  <SMCriteriaBar name={item.name} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
                 categories: categoriesList,
             };
             allSkillsLists.push(row);
@@ -119,24 +124,23 @@ function Skills(props) {
         setSkillsDataSource(allSkillsLists);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closingModal = () => {
+        closeModal()
         setLoading(false);
     }
 
     const analyzeAndAddSkill = async(guidsList) => {
         try {
-            if (skillName && iconName && isCategoriesListValid) {
-                closeModal();
-                await addNewSkillData({name: skillName, icon: iconName, categoriesId: guidsList});
+            if (skillName && selectedIcon && isCategoriesListValid) {
+                closingModal();
+                await addNewSkillData({name: skillName, icon: selectedIcon, categoriesId: guidsList});
                 getSkillsAllData();
                 SMNotification('success', addActionMessage('success', 'Skill'));
             }else {
                 SMNotification('error', addActionMessage('error', 'Skill'));
-
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('error', addActionMessage('error', 'Skill'));
         }
     };
@@ -155,7 +159,6 @@ function Skills(props) {
         setLoading(true);
         const guidsList = convertNameToGuid(categoriesNames, categoriesStore);
         resetSkillName();
-        resetIconName();
         setIsCategoriesListValid(false);
         analyzeAndAddSkill(guidsList);
     };
@@ -174,11 +177,11 @@ function Skills(props) {
         try {
             await updateSkillData(data, editedItem.guid);
             getSkillsAllData();
-            closeModal();
+            closingModal();
             SMNotification('success', updateActionMessage('success', 'Skill'));
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Skill'));
-            closeModal();
+            closingModal();
         }
     };
 
@@ -193,7 +196,8 @@ function Skills(props) {
             if (currentValues && !valuesAreTheSame(currentValues)) {
                 const data = {
                     name: currentValues.skillName,
-                    icon: currentValues.iconName,
+                    // icon: currentValues.iconName,
+                    icon: selectedIcon,
                     addCategories: collectCategoriesGuidsFromName(currentValues.categoryName.filter(val => !initialCategories.includes(val))),
                     deleteCategories: collectCategoriesGuidsFromName(initialCategories.filter(val => !currentValues.categoryName.includes(val)))
                 };
@@ -206,25 +210,23 @@ function Skills(props) {
         isEdited ? handleSave() : handleAdd();
     };
 
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
     const openAddModal = () => {
         setIsEdited(false);
-        setVisible(true);
+        setSelectedIcon('');
+        openModal();
     };
 
     const openEditModal = (e, record) => {
         e.stopPropagation();
+        setSelectedIcon(record.icon);
         setEditedItem(record);
         setInitialSkillName(record.name);
         const catList = record.categories.map(currCat => currCat.key);
         setInitialCategories(catList);
         setInitialIconName(record.icon);
+        setEditedIconName(record.icon);
         setIsEdited(true);
-        setVisible(true);
-
+        openModal();
     };
 
     const deleteItems = async(items) => {
@@ -272,8 +274,30 @@ function Skills(props) {
         })()
     }
 
+    const openSelectIconModal = (e) => {
+        e.preventDefault();
+        openIconModal();
+    }
+
+    const handleClickIcon = (name) => {
+        closeIconModal();
+        setSelectedIcon(name);
+        setEditedIconName(name)
+    }
+
     return (
         <div className='sm-content-skill-style'>
+            <SMModal
+                className="select-icon-modal"
+                title={<h3 className="sm-subheading">Select icon</h3>}
+                visible={isIconModalOpen}
+                onCancel={closeIconModal}
+                footer={null}
+                maskClosable={false}
+            >
+                <SMIconsCards clickToIcon={handleClickIcon} fab={fab}/>
+            </SMModal>
+
             {skillsDataSource &&
                 <CriteriaTable
                     title={'All Skills'}
@@ -291,7 +315,7 @@ function Skills(props) {
                     addClickableOnRow={true}
                     addScroll={true}
                     items={[
-                        SMButton({
+                        isAdmin && SMButton({
                             key: 'add',
                             className: "sm-button-add",
                             onClick: openAddModal,
@@ -314,63 +338,69 @@ function Skills(props) {
             <SMModal
                 className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Skill</h3>}
-                visible={visible}
-                onCancel={handleCancel}
+                visible={isOpen}
+                onCancel={closeModal}
                 footer={null}
                 maskClosable={false}
             >
-                {/* <div className='criteria-container'> */}
-                    <SMForm
-                        className={'criteria-form'}
-                        resetValues={visible}
-                        onSubmit={handleAddUpdate}
-                        onCancel={handleCancel}
-                        handleSave={handleSave}
-                        items={[
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'skillName',
-                                type: 'text',
-                                placeholder: 'Name',
-                                rules: skillNameRule,
-                                initialvalue: isEdited ? initialSkillName : '',
-                            }),
-                            SMSelect({
-                                className: 'sm-select sm-select-criteria',
-                                name: 'categoryName',
-                                placeholder: 'Category',
-                                options: getCategoryOptions(),
-                                mode: 'tags',
-                                initialvalue: isEdited ? initialCategories : [],
-                                onChange: handleSelectOptionChangeAndValidate
-                            }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'iconName',
-                                type: 'text',
-                                placeholder: 'Icon',
-                                rules: iconNameRule,
-                                initialvalue: isEdited ? initialIconName : '',
-                            })
-                        ]}
-                        footer={[
-                            SMButton({
-                                className: "sm-link",
-                                type: "link",
-                                name: 'cancel',
-                                children: 'Cancel'
-                            }),
-                            SMButton({
-                                className: "sm-button",
-                                type: "primary",
-                                name: 'submit',
-                                children: isEdited ? 'Save' : 'Add',
-                                htmlType: 'submit',
-                                disabled: isEdited ? false : !isEntireFormValid
-                            })
-                        ]}
-                    />
-                {/* </div> */}
+                <SMForm
+                    className={'criteria-form'}
+                    resetValues={isOpen}
+                    onSubmit={handleAddUpdate}
+                    onCancel={closeModal}
+                    handleSave={handleSave}
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'skillName',
+                            type: 'text',
+                            placeholder: 'Skill name',
+                            rules: skillNameRule,
+                            initialvalue: isEdited ? initialSkillName : '',
+                        }),
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
+                            name: 'categoryName',
+                            placeholder: 'Category name',
+                            options: getCategoryOptions(),
+                            mode: 'tags',
+                            initialvalue: isEdited ? initialCategories : [],
+                            onChange: handleSelectOptionChangeAndValidate
+                        }),
+                        // SMInput({
+                        //     className: 'sm-input',
+                        //     name: 'iconName',
+                        //     type: 'text',
+                        //     placeholder: 'Icon name',
+                        //     initialvalue: isEdited ? editedIconName : selectedIcon,
+                        //     disabled: true
+                        // }),
+                        SMUpload({
+                            className: "sm-upload",
+                            name: "uploadImg",
+                            children: 'Upload icon',
+                            openSelectIconModal:openSelectIconModal,
+                            icon: selectedIcon ? selectedIcon : null,
+                            iconType: 'fab'
+                        }),
+                    ]}
+                    footer={[
+                        SMButton({
+                            className: "sm-link",
+                            type: "link",
+                            name: 'cancel',
+                            children: 'Cancel'
+                        }),
+                        SMButton({
+                            className: "sm-button",
+                            type: "primary",
+                            name: 'submit',
+                            children: isEdited ? 'Save' : 'Add',
+                            htmlType: 'submit',
+                            disabled: isEdited ? false : !isEntireFormValid
+                        }),
+                    ]}
+                />
             </SMModal>
         </div>
     );

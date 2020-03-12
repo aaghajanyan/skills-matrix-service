@@ -9,6 +9,7 @@
     "categories": "/categories/all",
     "addCategories": "/categories",
     "branches": "/branch",
+    "position": "/position",
     "dashboard": "/dashboard",
     "users_skills": "/users_skills",
     "history": "/history",

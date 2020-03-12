@@ -1,12 +1,11 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import {Tag} from 'antd';
-import {SMConfig} from 'src/config';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
-import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {SMConfirmModal} from 'src/view/components/SMConfirmModal';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSelect, SMSearch} from 'src/view/components';
-import {useValidator} from 'src/hooks/common';
+import {useValidator, useModal} from 'src/hooks/common';
 import {nameValidator} from 'src/helpers/validators';
 import {getSkills} from 'src/store/actions/skillAction';
 import {getCategories} from 'src/store/actions/categoryAction';
@@ -26,11 +25,12 @@ library.add(fab, far, fas);
 
 function Categories(props) {
     const currentUser = useSelector(state => state.user);
+    const [isOpen, openModal, closeModal] = useModal(false);
+
     const [skillsStore, dispatchSkill] = useReducer(skills, []);
     const [categoriesStore, dispatchCategory] = useReducer(categories, []);
 
     const [isAdmin, setIsAdmin] = useState(false);
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [categoriesDataSource, setCategoriesDataSource] = useState(null);
@@ -50,8 +50,6 @@ function Categories(props) {
 
     const isEntireFormValid = [
         isCategoryNameValid,
-        // isSkillsListValid,
-        // isRelCatListValid
     ].every(e => e);
 
     const handleSkillSelect = (lists) => {
@@ -132,7 +130,7 @@ function Categories(props) {
                 key: item.name,
                 name: item.name,
                 guid: item.guid,
-                categories:  <SMSkillBar name={item.name}/>,
+                categories:  <SMCriteriaBar name={item.name}/>,
                 skill: skillsList,
                 relatedCategories: relCatList
             };
@@ -141,8 +139,8 @@ function Categories(props) {
         setCategoriesDataSource(allCategoriesLists);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closingModal = () => {
+        closeModal();
         setLoading(false);
     }
 
@@ -173,27 +171,26 @@ function Categories(props) {
             if (categoryName) {
                 await addNewCategoryData({name: categoryName, skillsIds: guidsList, relatedCategoriesIds: relCatGuidsList});
                 getCategoriesAllData();
-                closeModal();
+                closingModal();
                 SMNotification('success', addActionMessage('success', 'Category'));
             }else {
                 SMNotification('success', addActionMessage('error', 'Category'));
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('success', addActionMessage('error', 'Category'));
         }
     };
 
     const analyzeAndUpdateCategory = async (data) => {
         try {
-            closeModal();
+            closingModal();
             await updateCategoryData(data, editedItem.guid);
             SMNotification('success', updateActionMessage('success', 'Category'));
             getCategoriesAllData();
         } catch(error) {
-            console.log(error)
             SMNotification('success', updateActionMessage('error', 'Category'));
-            closeModal();
+            closingModal();
         }
     };
 
@@ -222,13 +219,9 @@ function Categories(props) {
         isEdited ? handleSave() : handleAdd();
     };
 
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
     const openAddModal = () => {
         setIsEdited(false);
-        setVisible(true);
+        openModal();
     };
 
     const openEditModal = (e, record) => {
@@ -240,8 +233,7 @@ function Categories(props) {
         setInitialSkills(skillList);
         setInitialRelCate(relCatList);
         setIsEdited(true);
-        setVisible(true);
-
+        openModal();
     };
 
     const deleteItems = async(items) => {
@@ -312,7 +304,7 @@ function Categories(props) {
                     addClickableOnRow={true}
                     addScroll={true}
                     items={[
-                        SMButton({
+                        isAdmin && SMButton({
                             key: 'add',
                             className: "sm-button-add",
                             onClick: openAddModal,
@@ -335,64 +327,62 @@ function Categories(props) {
             <SMModal
                 className="criteria-modal"
                 title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} Category</h3>}
-                visible={visible}
-                onCancel={handleCancel}
+                visible={isOpen}
+                onCancel={closeModal}
                 footer={null}
                 maskClosable={false}
             >
-                {/* <div className='criteria-container'> */}
-                    <SMForm
-                        className={'criteria-form'}
-                        resetValues={visible}
-                        onSubmit={handleAddUpdate}
-                        onCancel={handleCancel}
-                        handleSave={handleSave}
-                        items={[
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'categoryName',
-                                type: 'text',
-                                placeholder: 'Name',
-                                rules: categoryNameRule,
-                                initialvalue: isEdited ? initialCategoryName : '',
-                            }),
-                            SMSelect({
-                                className: 'sm-select sm-select-criteria',
-                                name: 'skillName',
-                                placeholder: 'Skills',
-                                options: getSkillsOptions(),
-                                mode: 'tags',
-                                initialvalue: isEdited ? initialSkills : [],
-                                onChange: handleSkillSelect
-                            }),
-                            SMSelect({
-                                className: 'sm-select sm-select-criteria',
-                                name: 'relCategory',
-                                placeholder: 'Related categories',
-                                options: getCategoryOptions(),
-                                mode: 'tags',
-                                initialvalue: isEdited ? initialRelCate : [],
-                                onChange: handleRelCatSelect
-                            }),
-                        ]}
-                        footer={[
-                            SMButton({
-                                className: "sm-link",
-                                type: "link",
-                                name: 'cancel',
-                                children: 'Cancel'
-                            }),
-                            SMButton({
-                                className: "sm-button",
-                                type: "primary",
-                                name: 'submit',
-                                children: isEdited ? 'Save' : 'Add',
-                                htmlType: 'submit',
-                                disabled: isEdited ? false : !isEntireFormValid
-                            })
-                        ]}
-                    />
-                {/* </div> */}
+                <SMForm
+                    className={'criteria-form'}
+                    resetValues={isOpen}
+                    onSubmit={handleAddUpdate}
+                    onCancel={closeModal}
+                    handleSave={handleSave}
+                    items={[
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'categoryName',
+                            type: 'text',
+                            placeholder: 'Name',
+                            rules: categoryNameRule,
+                            initialvalue: isEdited ? initialCategoryName : '',
+                        }),
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
+                            name: 'skillName',
+                            placeholder: 'Skills',
+                            options: getSkillsOptions(),
+                            mode: 'tags',
+                            initialvalue: isEdited ? initialSkills : [],
+                            onChange: handleSkillSelect
+                        }),
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
+                            name: 'relCategory',
+                            placeholder: 'Related categories',
+                            options: getCategoryOptions(),
+                            mode: 'tags',
+                            initialvalue: isEdited ? initialRelCate : [],
+                            onChange: handleRelCatSelect
+                        }),
+                    ]}
+                    footer={[
+                        SMButton({
+                            className: "sm-link",
+                            type: "link",
+                            name: 'cancel',
+                            children: 'Cancel'
+                        }),
+                        SMButton({
+                            className: "sm-button",
+                            type: "primary",
+                            name: 'submit',
+                            children: isEdited ? 'Save' : 'Add',
+                            htmlType: 'submit',
+                            disabled: isEdited ? false : !isEntireFormValid
+                        })
+                    ]}
+                />
             </SMModal>
         </div>
     );

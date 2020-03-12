@@ -27,7 +27,7 @@ function SMFormInitial(props) {
     const renderFormItems = () => {
         return props.items && props.items.map(item => {
             return (
-                <Form.Item
+                item && <Form.Item
                     key={item.props.name}
                     validateStatus={item.props.status}
                     help={item.props.help}
@@ -43,7 +43,7 @@ function SMFormInitial(props) {
     const renderFormButtons = () => {
         return props.buttons && props.buttons.map(item => {
             return (
-                <Form.Item
+                item && <Form.Item
                     key={item.props.name}
                     validateStatus={item.props.status}
                     help={item.props.help}

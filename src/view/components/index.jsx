@@ -14,3 +14,5 @@ export {SMTable} from './SMTable';
 export {SMIcon} from './SMIcon';
 export {SMLogo} from './SMLogo';
 export {SMSearch} from './SMSearch';
+export {SMIconsCards} from './SMIconsCards';
+export {SMUpload} from './SMUpload';

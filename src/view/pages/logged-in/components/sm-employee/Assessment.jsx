@@ -5,9 +5,9 @@ import {debounce} from 'throttle-debounce';
 import {Tag} from 'antd';
 import {SMButton, SMForm, SMInput, SMModal, SMNotification, SMSearch, SMSelect} from 'src/view/components';
 import {CriteriaTable} from 'src/view/pages/logged-in/components/CriteriaTable';
-import {useValidator} from 'src/hooks/common';
+import {useValidator, useModal} from 'src/hooks/common';
 import {numberValidator} from 'src/helpers/validators';
-import {SMSkillBar} from 'src/view/pages/logged-in/components/SMSkillBar';
+import {SMCriteriaBar} from 'src/view/pages/logged-in/components/SMCriteriaBar';
 import {addUserSkills, updateUserSkills, deleteUserSkills} from 'src/services/userSkillService';
 import {addUserCategories, updateUserCategories, deleteUserCategories} from 'src/services/userCategoryService';
 import {categoriesColumns, categorySkillsColumns} from './data';
@@ -28,12 +28,13 @@ library.add(fab, far, fas);
 
 function Assessment(props) {
 
+    const [isOpen, openModal, closeModal] = useModal(false);
+
     const [skillsStore, dispatchSkill] = useState([]);
     const [categoriesStore, dispatchCategory] = useState([]);
 
     const [isCategoryModalOpened, setIsCategoryModalOpened] = useState(false);
 
-    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [someDelete, setSomeDelete] = useState(false);
 
@@ -59,6 +60,39 @@ function Assessment(props) {
     const history = useHistory();
 
     const currentUser = useSelector(state => state.user);
+
+    const isEntireFormValid = [
+        isProfficienceNameValid,
+        isExpNameValid,
+        isCriteriaNameValid,
+    ].every(e => e);
+
+    useEffect(() => {
+        collectSkillsData(allSkills());
+        collectCategoriesData(allCategories());
+    }, [skillsStore, categoriesStore]);
+
+    useEffect(()=> {
+        getAllData()
+    }, [props.dashboard]);
+
+    const getAllData = () => {
+        getSkillsAllData();
+        getCategoriesAllData();
+    }
+
+    const getSkillsAllData = async () => {
+        dispatchSkill(await getSkills());
+    };
+
+    const getCategoriesAllData = async () => {
+        dispatchCategory(await getCategories());
+    };
+
+    const thisUser = () => {
+        const thisUse = history.location.pathname.replace('/employees/','');
+        return thisUse === '/' ? true : thisUse === currentUser.guid
+    }
 
     const allCategories = () => {
         if(!props.dashboard){
@@ -118,50 +152,6 @@ function Assessment(props) {
         return skills;
     };
 
-    const isEntireFormValid = [
-        isProfficienceNameValid,
-        isExpNameValid,
-        isCriteriaNameValid,
-    ].every(e => e);
-
-    useEffect(() => {
-        collectSkillsData(allSkills());
-        collectCategoriesData(allCategories());
-    }, [skillsStore, categoriesStore]);
-
-    const getAllData = () => {
-        const skillList = [];
-        const allSkillsData = allSkills();
-        allSkillsData && allSkillsData.map((item, index) => {
-            skillList.push(item.skill)
-        })
-        getSkillsAllData();
-
-        const categoriesList = [];
-        const allCategoriesData = allCategories();
-        allCategoriesData && allCategoriesData.map((item, index) => {
-            categoriesList.push(item.category)
-        })
-        getCategoriesAllData();
-    }
-
-    useEffect(()=> {
-        getAllData()
-    }, [props.dashboard]);
-
-    const getSkillsAllData = async () => {
-        dispatchSkill(await getSkills());
-    };
-
-    const getCategoriesAllData = async () => {
-        dispatchCategory(await getCategories());
-    };
-
-    const thisUser = () => {
-        const thisUse = history.location.pathname.replace('/employees/','');
-        return thisUse === '/' ? true : thisUse === currentUser.guid
-    }
-
     const collectSkillsData = (skillsRes) => {
         const allSkillsLists = [];
         skillsRes && skillsRes.map((item, index) => {
@@ -172,7 +162,7 @@ function Assessment(props) {
                 guid: item.guid,
                 assessment: item.assessment,
                 icon: item.icon,
-                skill:  <SMSkillBar name={item.skill} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
+                skill:  <SMCriteriaBar name={item.skill} iconType='fab' iconName={item.icon} iconClassName='sm-table-icon'/>,
                 categories: <Tag style={{...toRGB(item.categories)}} key={item.categories}  className="sm-tag sm-tag-size" >{item.categories}</Tag>,
                 experience: item.experience
             };
@@ -198,8 +188,8 @@ function Assessment(props) {
         setCategoriesDataSource(allCategoriesLists);
     };
 
-    const closeModal = () => {
-        setVisible(false);
+    const closingModal = () => {
+        closeModal();
         setLoading(false);
     }
 
@@ -214,14 +204,14 @@ function Assessment(props) {
                         last_worked_date: usersSkillsData.last_worked_date
                     }
                 ]};
-                closeModal();
+                closingModal();
                 await addUserSkills(currentUser.guid, data);
                 SMNotification('success', addActionMessage('success', 'Skill'));
             } else {
                 SMNotification('error', addActionMessage('error', 'Skill'));
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('error', addActionMessage('error', 'Skill'));
         }
     };
@@ -237,14 +227,14 @@ function Assessment(props) {
                         last_worked_date: usersCategoryData.last_worked_date
                     }]
                 };
-                closeModal();
+                closingModal();
                 await addUserCategories(currentUser.guid, data);
                 SMNotification('success', addActionMessage('success', 'Category'));
             }else {
                 SMNotification('error', addActionMessage('error', 'Category'));
             }
         } catch(error) {
-            closeModal();
+            closingModal();
             SMNotification('error', addActionMessage('error', 'Category'));
         }
     };
@@ -266,7 +256,7 @@ function Assessment(props) {
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Skill'));
         } finally {
-            closeModal();
+            closingModal();
         }
     };
 
@@ -279,7 +269,7 @@ function Assessment(props) {
         } catch(error) {
             SMNotification('error', updateActionMessage('error', 'Category'));
         } finally {
-            closeModal();
+            closingModal();
         }
     };
 
@@ -331,8 +321,7 @@ function Assessment(props) {
     };
 
     const handleCancel = () => {
-        setVisible(false);
-        setIsEdited(false);
+        closeModal();
     };
 
     const getSkillNames = () => {
@@ -384,7 +373,7 @@ function Assessment(props) {
             setUsersCategoryData(Object.assign(usersCategoryData, date)) :
             setUsersSkillsData(Object.assign(usersSkillsData, date));
         setIsEdited(false);
-        setVisible(true);
+        openModal();
     };
 
     const openEditModal = (e, record) => {
@@ -394,7 +383,7 @@ function Assessment(props) {
         setInitialProfficience(record.assessment);
         setInitialDate(record.date);
         setIsEdited(true);
-        setVisible(true);
+        openModal();
     };
 
     const openSkillEditModal = (e, record) => {
@@ -637,75 +626,71 @@ function Assessment(props) {
             <SMModal
                 className="criteria-modal"
                     title={<h3 className="sm-subheading">{!isEdited ? 'Add' : 'Update'} {isCategoryModalOpened ? 'Category' : 'Skill'}</h3>}
-                visible={visible}
+                visible={isOpen}
                 onCancel={handleCancel}
                 footer={null}
                 maskClosable={false}
             >
-                    <SMForm
-                        className={'criteria-form'}
-                        resetValues={visible}
-                        onSubmit={isCategoryModalOpened ? handleAddUpdateCategory: handleAddUpdateSkill}
-                        onCancel={handleCancel}
-                        handleSave={isCategoryModalOpened ? handleSaveCategory : handleSaveSkill}
-                        items={[
-                            SMSelect({
-                                className: 'sm-select sm-select-criteria',
-                                name: 'skillName',
-                                placeholder: isCategoryModalOpened ? 'Category name' : 'Skill name',
-                                options: isCategoryModalOpened? getCategoriesNames() : getSkillNames(),
-                                initialvalue: isEdited ? initialCriteriaName : [],
-                                disabled: isEdited ? true : false,
-                                onChange: handleChangeSkillName
-                            }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'experience',
-                                type: 'number',
-                                rules: expRule,
-                                placeholder: 'Experience',
-                                onChange: handleChangeExperience,
-                                initialvalue: isEdited ? initialExperience : [],
-                                min: "1",
-                                max: "10",
-                            }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'profficience',
-                                type: 'number',
-                                rules: profficienceRule,
-                                placeholder: 'Assessment',
-                                onChange: handleChangeProfficience,
-                                initialvalue: isEdited ? initialProfficience : '',
-                                min: "1",
-                                max: "5",
-                            }),
-                            SMInput({
-                                className: 'sm-input',
-                                name: 'last_worked_date',
-                                type: 'date',
-                                placeholder: 'Last worked date',
-                                onChange: handleChangeLastWorkedDate,
-                                initialvalue: isEdited ? moment(initialDate) : moment(),
-                            }),
-                        ]}
-                        footer={[
-                            SMButton({
-                                className: "sm-link",
-                                type: "link",
-                                name: 'cancel',
-                                children: 'Cancel'
-                            }),
-                            SMButton({
-                                className: "sm-button",
-                                type: "primary",
-                                name: 'submit',
-                                children: isEdited ? 'Save' : 'Add',
-                                htmlType: 'submit',
-                                disabled: isEdited ? false : !isEntireFormValid
-                            })
-                        ]}
-                    />
+                <SMForm
+                    className={'criteria-form'}
+                    resetValues={isOpen}
+                    onSubmit={isCategoryModalOpened ? handleAddUpdateCategory: handleAddUpdateSkill}
+                    onCancel={handleCancel}
+                    handleSave={isCategoryModalOpened ? handleSaveCategory : handleSaveSkill}
+                    items={[
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
+                            name: 'skillName',
+                            placeholder: isCategoryModalOpened ? 'Category name' : 'Skill name',
+                            options: isCategoryModalOpened? getCategoriesNames() : getSkillNames(),
+                            initialvalue: isEdited ? initialCriteriaName : [],
+                            disabled: isEdited ? true : false,
+                            onChange: handleChangeSkillName
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'experience',
+                            type: 'number',
+                            rules: expRule,
+                            placeholder: 'Experience',
+                            onChange: handleChangeExperience,
+                            initialvalue: isEdited ? initialExperience : [],
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'profficience',
+                            type: 'number',
+                            rules: profficienceRule,
+                            placeholder: 'Assessment',
+                            onChange: handleChangeProfficience,
+                            initialvalue: isEdited ? initialProfficience : '',
+                        }),
+                        SMInput({
+                            className: 'sm-input',
+                            name: 'last_worked_date',
+                            type: 'date',
+                            placeholder: 'Last worked date',
+                            onChange: handleChangeLastWorkedDate,
+                            initialvalue: isEdited ? moment(initialDate) : moment(),
+                        }),
+                    ]}
+                    footer={[
+                        SMButton({
+                            className: "sm-link",
+                            type: "link",
+                            name: 'cancel',
+                            children: 'Cancel'
+                        }),
+                        SMButton({
+                            className: "sm-button",
+                            type: "primary",
+                            name: 'submit',
+                            children: isEdited ? 'Save' : 'Add',
+                            htmlType: 'submit',
+                            disabled: isEdited ? false : !isEntireFormValid
+                        })
+                    ]}
+                />
             </SMModal>
         </div>
         </React.Fragment>
