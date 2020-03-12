@@ -45,12 +45,15 @@ const validateIsQueryEmptyObject = async decodedQueryJson => {
 };
 
 const validateFinallyObject = async sqlCmd => {
-    let conditionPart = sqlCmd.split('where ')[1];
     let responseObj = {
         success: false,
         message: '',
         result: [],
     };
+    if (!sqlCmd) {
+        return responseObj;
+    }
+    let conditionPart = sqlCmd.split('where ')[1];
     if (!conditionPart.match(/[A-z]/g)) {
         return responseObj;
     }

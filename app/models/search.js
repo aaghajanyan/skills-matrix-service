@@ -15,7 +15,7 @@ class SearchUser {
 
     collectSearchQuery(data) {
         const collectedSqlComand = this.parseJsonToSql(data, true);
-        if (collectedSqlComand.error && collectedSqlComand.error.isError) {
+        if (!collectedSqlComand || (collectedSqlComand.error && collectedSqlComand.error.isError)) {
             return collectedSqlComand;
         }
         let sqlCommand =
@@ -55,15 +55,13 @@ class SearchUser {
                 if (this.error.isError) {
                     return { currSqlStr: '', error: this.error };
                 }
-                let groupLength = Object.keys(data.childrens).length;
                 const groupCondition = data.condition.toLowerCase();
                 const keys = Object.keys(data.childrens);
-
+                const groupLength = keys.length;
                 currSqlStr = currSqlStr.concat('(');
-
                 for (let [index, key] of keys.entries()) {
                     if (data.childrens[key].type === Constants.Keys.rule) {
-                        if (!data.childrens[key].properties.type) {
+                        if (!data.childrens[key].properties.type || !data.childrens[key].properties.name) {
                             continue;
                         }
                         currSqlStr = this.validateAndParseRuleObj(index, keys.length, data.childrens[key], currSqlStr, groupCondition);
