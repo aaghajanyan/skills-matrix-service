@@ -4,8 +4,8 @@ import {SMIcon} from 'view/components/SMIcon';
 import {CRITERIA} from '../../../../../configSearch/criteria';
 import { DatePicker } from 'antd';
 import moment from 'moment';
+import {SMConfig} from 'config';
 
-const dateFormat = 'YYYY-MM-DD';
 const datePlaceholder = 'Select date';
 
 const {Option} = Select;
@@ -15,7 +15,6 @@ function SearchRow(props) {
     const [criteriaValue, setCriteriaValue] = useState(props.defaultProperties ? props.defaultProperties.properties.type : null);
     const {getFieldDecorator, getFieldsValue, resetFields} = props.form;
     const [visibleField, setVisiblefield] = useState(false);
-    const [dateIsChecked, setDateIsChecked] =useState(false);
     const [valueDate,setDatePicker] = useState();
 
     const handleSelect = (val) => {
@@ -61,7 +60,6 @@ function SearchRow(props) {
     const handleClickChangeDate = (e, dateString) => {
         const values = getFieldsValue();
         setDatePicker(dateString);
-        setDateIsChecked(true);
         values[props.criteriaId]['last_worked_date'] = dateString;
         props.update(values, props.criteriaId);
     };
@@ -79,16 +77,15 @@ function SearchRow(props) {
     };
 
     const renderSelects = () => {
-
         return criteriaValue && Object.values(CRITERIA[criteriaValue]).map((item, index) => {
             return  item.key === 'last_worked_date' ? <Col key={index} span={3}>
                 {getFieldDecorator(`${props.criteriaId}[${conditionQuery(item)}]`,{initialValue: initialValues(item) ? moment(initialValues(item)) : null}) (
-                    <DatePicker style={{visibility: SelectVisible(item)}} disabled={props.disabled} placeholder={datePlaceholder} key={item.key} format={dateFormat} onChange={handleClickChangeDate}/>
+                    <DatePicker style={{visibility: SelectVisible(item)}} disabled={props.disabled} placeholder={datePlaceholder} key={item.key} format={SMConfig.constants.dateFormat} onChange={handleClickChangeDate}/>
                 )}
                 </Col> : <Col key={index} span={3}>
                 {getFieldDecorator(`${props.criteriaId}[${conditionQuery(item)}]`,{initialValue: initialValues(item)})(
                     <Select style={{visibility: SelectVisible(item)}} disabled={props.disabled} placeholder={item.name} onSelect={handleClickChangeOption} key={item.name} >
-                        {Object.values(item.items).map((items, indexSel) => (
+                        {Object.values(item.items).map((items) => (
                             <Option key={items.name}>{items.name}</Option>
                         ))}
                     </Select>)}
@@ -101,7 +98,7 @@ function SearchRow(props) {
             <Col {...props.content.contentRightSelect}>
                 {getFieldDecorator(`${props.criteriaId}[type]`, {initialValue: criteriaValue})(
                     <Select disabled={props.disabled} placeholder="Criteria" onSelect={handleSelect}>
-                        {Object.keys(CRITERIA).map((item, index) => {
+                        {Object.keys(CRITERIA).map((item) => {
                             return <Option key={item}>{item}</Option>;
                         })}
                     </Select>)}

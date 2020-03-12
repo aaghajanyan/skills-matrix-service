@@ -92,7 +92,7 @@ function RegisterForm(props) {
             fname: data.fname,
             lname: data.lname,
             password: data.password,
-            started_to_work_date: moment(data.started_to_work_date).format("YYYY-MM-DD"),
+            started_to_work_date: moment(data.started_to_work_date).format(SMConfig.constants.dateFormat),
 		    positionGuid: positionGuid
         }
 
@@ -168,7 +168,7 @@ function RegisterForm(props) {
                         className: 'sm-date-picker',
                         name: 'started_to_work_date',
                         placeholder: 'Start working date',
-                        format: 'YYYY-MM-DD',
+                        format: SMConfig.constants.dateFormat,
                         rules: dateRule
                     })
                 ]}

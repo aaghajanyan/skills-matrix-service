@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Timeline, AutoComplete, Col, DatePicker, Button, Input, Icon, Divider } from 'antd';
+import { Row, Timeline, AutoComplete, Col, DatePicker, Button, Input, Icon, Divider, Empty } from 'antd';
 import {getSkillsData} from 'src/services/skillsService';
+import {SMConfig} from 'config';
 
 import moment from 'moment';
 
@@ -76,7 +77,7 @@ function History(props) {
             str += ` : Profficience changed from ${before.profficience} to ${history.profficience}`;
         }
         if ( history.last_worked_date !== before.last_worked_date ) {
-            str += ` : Last worked date changed from ${moment(before.last_worked_date).format('YYYY-MMM-DD')} to ${moment(history.last_worked_date).format('YYYY-MMM-DD')}`;
+            str += ` : Last worked date changed from ${moment(before.last_worked_date).format(SMConfig.constants.dateFormatMonthName)} to ${moment(history.last_worked_date).format(SMConfig.constants.dateFormatMonthName)}`;
         }
         return str
     }
@@ -126,10 +127,10 @@ function History(props) {
                         </AutoComplete>
                     </Col>
                     <Col span={6}>
-                        <DatePicker className={search ? "sm-visible-field" : "sm-hidden-field" } placeholder="From" key="from" format={'YYYY-MM-DD'} onChange={handleChangeFromDatePicker}/>
+                        <DatePicker className={search ? "sm-visible-field" : "sm-hidden-field" } placeholder="From" key="from" format={SMConfig.constants.dateFormat} onChange={handleChangeFromDatePicker}/>
                     </Col>
                     <Col span={6}>
-                        <DatePicker className={search ? "sm-visible-field" : "sm-hidden-field" } placeholder="To" key="to" format={'YYYY-MM-DD'} onChange={handleChangeToDatePicker}/>
+                        <DatePicker className={search ? "sm-visible-field" : "sm-hidden-field" } placeholder="To" key="to" format={SMConfig.constants.dateFormat} onChange={handleChangeToDatePicker}/>
                     </Col>
                 </Row>
             )
@@ -155,13 +156,13 @@ function History(props) {
                 newItems.push(
                     <Row key={index} className="sm-history-row">
                         <Col span={1}>
-                            {`${moment(history.created_date).format('YYYY-MMM-DD')}`}
+                            {`${moment(history.created_date).format(SMConfig.constants.dateFormatMonthName)}`}
                         </Col>
                         <Col span={12}>
                             <Timeline.Item key={index} color={setHistoryColor(before, history)}>
                                 {name}
                                 { (history.operation !== 'delete') ? ((Object.keys(before).length > 0 ) ? renderItemUpdate(before, history) :
-                                ( ` : Experience ${history.experience} : Profficience ${history.profficience} : Last worked date ${moment(history.last_worked_date).format('YYYY-MMM-DD')}` ) ) : ``}
+                                ( ` : Experience ${history.experience} : Profficience ${history.profficience} : Last worked date ${moment(history.last_worked_date).format(SMConfig.constants.dateFormatMonthName)}` ) ) : ``}
                             </Timeline.Item>
                         </Col>
                     </Row>
@@ -181,11 +182,14 @@ function History(props) {
 
     const reenderLoadMore = () => {
         return (<Row className="sm-load-more">
-            { (loadMore > 1 && loadMore*10 < items.length) ? (<><Button onClick={() => {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>
-                <div className="spliter"></div>
-                <Button onClick={()=> {setLoadMore(1)}}><Icon type="arrow-up" /></Button> </>) :
-            (loadMore*10 < items.length) ? (<Button onClick={()=> {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>) :
-            (items.length > 10) ? (<Button onClick={() => {setLoadMore(1)}}><Icon type="arrow-up" /></Button>) : ""}
+            { (loadMore > 1 && loadMore*10 < items.length) ?
+                (<>
+                    <Button className="sm-load-more" onClick={() => {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>
+                        <div className="spliter"></div>
+                    <Button className="sm-load-more" onClick={()=> {setLoadMore(1)}}><Icon type="arrow-up" /></Button>
+                </>) :
+            (loadMore*10 < items.length) ? (<Button className="sm-load-more" onClick={()=> {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>) :
+            (items.length > 10) ? (<Button className="sm-load-more" onClick={() => {setLoadMore(1)}}><Icon type="arrow-up" /></Button>) : ""}
         </Row>);
     }
 
@@ -211,7 +215,7 @@ function History(props) {
                 <br/>
                 <Divider />
                 <Row>
-                    {renderHistory()}
+                    {renderHistory().props.children.length > 0 ? renderHistory() : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
                     {reenderLoadMore()}
                 </Row>
             </Row>

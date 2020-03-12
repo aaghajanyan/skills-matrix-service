@@ -155,7 +155,7 @@ export const CRITERIA = {
         Operator,
         {
             'name': 'Branch',
-            'key': 'branch',
+            'key': 'list',
             'items': []
         }
     ],
@@ -163,7 +163,7 @@ export const CRITERIA = {
         Operator,
         {
             'name': 'Position',
-            'key': 'position',
+            'key': 'list',
             'items': []
         }
     ]

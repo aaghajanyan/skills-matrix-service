@@ -20,6 +20,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {fab} from '@fortawesome/free-brands-svg-icons';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
+import {SMConfig} from 'config';
 
 import moment from 'moment';
 
@@ -167,7 +168,7 @@ function Assessment(props) {
             const row = {
                 key: item.key,
                 name: item.name,
-                date: moment(item.date).format('YYYY-MM-DD'),
+                date: moment(item.date).format(SMConfig.constants.dateFormat),
                 guid: item.guid,
                 assessment: item.assessment,
                 icon: item.icon,
@@ -189,7 +190,7 @@ function Assessment(props) {
                 guid: item.guid,
                 assessment: item.assessment,
                 experience: item.experience,
-                date: moment(item.date).format('YYYY-MM-DD'),
+                date: moment(item.date).format(SMConfig.constants.dateFormat),
                 skills: item.skills,
             };
             allCategoriesLists.push(row);
@@ -289,7 +290,7 @@ function Assessment(props) {
             data[key][0].profficience = currentValues.profficience;
             setInitialProfficience(currentValues.profficience);
 
-            data[key][0]['last_worked_date'] = moment(currentValues['last_worked_date']).format('YYYY-MM-DD');
+            data[key][0]['last_worked_date'] = moment(currentValues['last_worked_date']).format(SMConfig.constants.dateFormat);
             setInitialDate(currentValues['last_worked_date']);
     };
 
@@ -307,7 +308,7 @@ function Assessment(props) {
     const valuesAreTheSame = (currentValues) => {
         return currentValues ? initialExperience == currentValues.experience &&
             initialProfficience == currentValues.profficience &&
-            initialDate == moment(currentValues.last_worked_date).format('YYYY-MM-DD').toString() : false;
+            initialDate == moment(currentValues.last_worked_date).format(SMConfig.constants.dateFormat).toString() : false;
     }
 
     const handleSaveCategory = async (currentValues) => {
@@ -378,7 +379,7 @@ function Assessment(props) {
 
     const openAddModal = async (isCategoryModal) => {
         isCategoryModal ? setIsCategoryModalOpened(true) : setIsCategoryModalOpened(false);
-        const date = { last_worked_date: moment().format('YYYY-MM-DD')};
+        const date = { last_worked_date: moment().format(SMConfig.constants.dateFormat)};
         isCategoryModal ?
             setUsersCategoryData(Object.assign(usersCategoryData, date)) :
             setUsersSkillsData(Object.assign(usersSkillsData, date));
@@ -523,7 +524,7 @@ function Assessment(props) {
                 if(skillItem.categories.toLowerCase().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
-                if(moment(skillItem.date).format('YYYY-MM-DD').toString().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
+                if(moment(skillItem.date).format(SMConfig.constants.dateFormat).toString().includes(value.toLowerCase()) && filtredData.indexOf(skillItem) === -1) {
                     filtredData.push(skillItem);
                 }
             });
@@ -549,7 +550,7 @@ function Assessment(props) {
                     filtredData.push(catItem);
                 }
                 filterTagItems(catItem.skills, filtredData, value, catItem);
-                if(moment(catItem.date).format('YYYY-MM-DD').toString().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
+                if(moment(catItem.date).format(SMConfig.constants.dateFormat).toString().includes(value.toLowerCase()) && filtredData.indexOf(catItem) === -1) {
                     filtredData.push(catItem);
                 }
             });
