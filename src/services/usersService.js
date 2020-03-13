@@ -1,7 +1,5 @@
 import {SMConfig} from 'src/config';
 import {get} from './client';
-import { resolve } from 'dns';
-
 
 const getUser = (guid) => {
     return get({url: `${SMConfig.apiEndpoints.getUsers}/${guid}`})

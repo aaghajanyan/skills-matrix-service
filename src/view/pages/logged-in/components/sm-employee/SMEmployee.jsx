@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
 import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {Summary} from 'src/view/pages/logged-in/components/sm-employee/Summary';
 import {Assessment} from 'src/view/pages/logged-in/components/sm-employee/Assessment';
@@ -8,13 +7,12 @@ import {History} from 'src/view/pages/logged-in/components/sm-employee/History';
 import {getUser} from 'src/services/usersService';
 import {getDashboardInfo} from 'src/services/dashboardService';
 import {SMTabs} from 'src/view/components';
+import {getCurrentUser} from 'src/services/usersService';
 
 import {getHistoryInfo} from 'src/services/skillsHistoryService';
 import {getCategoryHistoryInfo} from 'src/services/categoriesHistoryService';
 
 function SMEmployeeInitial(props) {
-
-    const currentUser = useSelector(state => state.user, shallowEqual);
 
     const [user, setUser] = useState({
         fname:'',
@@ -26,21 +24,15 @@ function SMEmployeeInitial(props) {
     const [skillsHistory, setSkillsHistory] = useState(null);
     const [categoriesHistory, setCategoriesHistory] = useState(null);
 
-    const userIsDefined = () => user.fname !== '' && user.lname !== '';
-
-    if(!userIsDefined() && currentUser) {
-        setUser(currentUser);
-    }
-
     const getDashboardAllInfo = () => {
         if(user && props.match && props.match.params.id !== user.guid) {
             getUser(props.match.params.id)
-                .then(fetchUser => {
-                    setUser(fetchUser);
-                })
-                .catch(error => {
-                    console.warn('Handle error', error);
-                });
+            .then(fetchUser => {
+                setUser(fetchUser);
+            })
+            .catch(error => {
+                console.warn('Handle error', error);
+            });
         }
         if(user.guid){
             getDashboardInfo(user.guid)
@@ -71,6 +63,16 @@ function SMEmployeeInitial(props) {
     useEffect(() => {
         getDashboardAllInfo();
     }, [props.match, user, dataIsChanged]);
+
+    useEffect(()=> {
+        getCurrentUser()
+        .then(user => {
+            setUser(user);
+        })
+        .catch(error => {
+            console.log("Handle Error: ", error)
+        })
+    },[])
 
     return (
         <SMTabs
