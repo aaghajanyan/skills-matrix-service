@@ -228,11 +228,20 @@
 
 .default_main_container {
     max-height: 250px;
-    min-height: auto;
+    min-height: 245px;
     overflow: hidden;
     transition: 0.3s ease-out;
     position: relative;
     margin-bottom: 20px;
+    .ant-form-horizontal {
+        height: 130px;
+        .ant-row.rule-rows {
+            margin-bottom: 80px;
+            &::after {
+                display: none;
+            }
+        }
+    }
 }
 
 .classNameOfCell {

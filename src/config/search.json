@@ -2,7 +2,7 @@
     "search": {
         "title": "Search",
         "buttons": {
-            "export": "Export AS",
+            "export": "Export",
             "add_criteria": "Add more criteria",
             "add_group": "Add group",
             "find": "Find",

@@ -10,9 +10,8 @@
 
 .sm-button, .sm-button:active, .sm-button:focus {
     color: $sm-light-color;
-    border-radius: $sm-border-radius;
+    border-radius: 10px;
     background-color: $sm-primary-color ;
-    border-color: $sm-primary-color ;
     box-shadow: $sm-shadow;
     height: $sm-button-height;
     &:hover {

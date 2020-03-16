@@ -60,6 +60,8 @@ function SearchPeople(props) {
         }
     });
 
+    const isDisabled = usersData && usersData.users.length > 0 ? false : true;
+
     return (
         <>
             <div
@@ -70,8 +72,8 @@ function SearchPeople(props) {
                 <Row className="search_header">
                     <div> <h1> {SMConfig.search.title} </h1> </div>
                     <div>
-                        <ExcelFile filename="findEmployees" element={<SMButton className="sm-button skills-table-add-skill-button">
-                            {SMConfig.search.search.buttons.export}
+                        <ExcelFile filename="findEmployees" element={<SMButton disabled={isDisabled} className="sm-button skills-table-add-skill-button">
+                            {SMConfig.search.search.buttons.export} <Icon style={{fontSize: "16px"}} type="cloud-upload" />
                             </SMButton>}>
                             <ExcelSheet dataSet={exportExcel(usersData)} name="employees"/>
                         </ExcelFile>

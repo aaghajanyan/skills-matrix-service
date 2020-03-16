@@ -311,7 +311,7 @@ function Skills(props) {
                     handleSomeDelete={handleSomeDelete}
                     className='sm-table-criteria'
                     addPagination={true}
-                    addCheckbox={true}
+                    addCheckbox={isAdmin}
                     addClickableOnRow={true}
                     addScroll={true}
                     items={[

@@ -60,6 +60,7 @@ function Assessment(props) {
     const history = useHistory();
 
     const currentUser = useSelector(state => state.user);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const isEntireFormValid = [
         isProfficienceNameValid,
@@ -70,7 +71,8 @@ function Assessment(props) {
     useEffect(() => {
         collectSkillsData(allSkills());
         collectCategoriesData(allCategories());
-    }, [skillsStore, categoriesStore]);
+        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+    }, [skillsStore, categoriesStore, currentUser]);
 
     useEffect(()=> {
         getAllData()
@@ -205,7 +207,7 @@ function Assessment(props) {
                     }
                 ]};
                 closingModal();
-                await addUserSkills(currentUser.guid, data);
+                await addUserSkills(props.userGuid, data);
                 SMNotification('success', addActionMessage('success', 'Skill'));
             } else {
                 SMNotification('error', addActionMessage('error', 'Skill'));
@@ -228,7 +230,7 @@ function Assessment(props) {
                     }]
                 };
                 closingModal();
-                await addUserCategories(currentUser.guid, data);
+                await addUserCategories(props.userGuid, data);
                 SMNotification('success', addActionMessage('success', 'Category'));
             }else {
                 SMNotification('error', addActionMessage('error', 'Category'));
@@ -250,7 +252,7 @@ function Assessment(props) {
     const analyzeAndUpdateSkill = async (data) => {
         try {
             data.skills[0] = Object.assign(data.skills[0], { skillGuid: editedItem});
-            await updateUserSkills(currentUser.guid, data);
+            await updateUserSkills(props.userGuid, data);
             await allSkills();
             SMNotification('success', updateActionMessage('success', 'Skill'));
         } catch(error) {
@@ -263,7 +265,7 @@ function Assessment(props) {
     const analyzeAndUpdateCategory = async (data) => {
         try {
             data.categories[0] = Object.assign(data.categories[0], { categoryGuid: editedItem});
-            await updateUserCategories(currentUser.guid, data);
+            await updateUserCategories(props.userGuid, data);
             await allCategories();
             SMNotification('success', updateActionMessage('success', 'Category'));
         } catch(error) {
@@ -402,8 +404,8 @@ function Assessment(props) {
         try {
             const criteriaName = isCategoryModal ? 'Category' : 'Skill';
             isCategoryModal ?
-                await deleteUserCategories(currentUser.guid, item) :
-                await deleteUserSkills(currentUser.guid, item);
+                await deleteUserCategories(props.userGuid, item) :
+                await deleteUserSkills(props.userGuid, item);
             !someDelete && SMNotification('success', deleteActionMessage('success', criteriaName));
         } catch(error) {
             SMNotification('error', `${deleteActionMessage('error', criteriaName)} with ${selectedEl} guid`);
@@ -562,18 +564,17 @@ function Assessment(props) {
                         handleSomeDelete={handleCategoriesDelete}
                         className='sm-table-criteria'
                         addPagination={true}
-                        addCheckbox={true}
+                        addCheckbox={(isAdmin || thisUser()) ? true : false}
                         addClickableOnRow={true}
                         addScroll={true}
                         items={[
-                            SMButton({
+                            (isAdmin || thisUser()) && SMButton({
                                 key: 'add',
                                 className: "sm-button-add",
                                 onClick: () => {openAddModal(true)},
                                 loading: loading,
                                 children: '+',
                                 shape: "circle",
-                                disabled: !thisUser(),
                             }),
                         ]}
                         searchBar = {[
@@ -599,18 +600,17 @@ function Assessment(props) {
                         handleSomeDelete={handleSkillsDelete}
                         className='sm-table-criteria'
                         addPagination={true}
-                        addCheckbox={true}
+                        addCheckbox={(isAdmin || thisUser()) ? true : false}
                         addClickableOnRow={true}
                         addScroll={true}
                         items={[
-                            SMButton({
+                            (isAdmin || thisUser()) && SMButton({
                                 key: 'add',
                                 className: "sm-button-add",
                                 onClick: () => {openAddModal(false)},
                                 loading: loading,
                                 children: '+',
                                 shape: "circle",
-                                disabled: !thisUser(),
                             }),
                         ]}
                         searchBar = {[

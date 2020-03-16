@@ -298,9 +298,9 @@ function Categories(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className='sm-table-criteria'
+                    className={`${!isAdmin && 'sm-table-employes'} sm-table-criteria`}
                     addPagination={true}
-                    addCheckbox={true}
+                    addCheckbox={isAdmin}
                     addClickableOnRow={true}
                     addScroll={true}
                     items={[

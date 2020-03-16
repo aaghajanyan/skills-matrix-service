@@ -5,6 +5,10 @@
     display: flex;
     align-items: center;
 }
-.ant-dropdown-menu-item_title:hover {
-    background-color: white;
+.ant-dropdown-menu {
+    padding: 0;
+}
+
+.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
+    padding: 6px 12px;
 }
