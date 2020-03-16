@@ -2,3 +2,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.sm-form-fields {
+    .ant-form-item {
+        overflow: hidden;
+    }
+}
