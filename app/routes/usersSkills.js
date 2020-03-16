@@ -8,7 +8,7 @@ const {verifyLoginToken, verifyRightPermission} = require('../validation/token')
 router.get('/', verifyLoginToken, getUsersSkills);
 router.get('/history/:userGuid', verifyLoginToken, getSkillsHistory);
 router.get('/:userSkillGuid', verifyLoginToken, getUserSkills);
-router.post('/:userGuid', verifyLoginToken, verifyRightPermission, validateAddBody, addUserSkill);
+router.post('/:userGuid', verifyLoginToken, validateAddBody, addUserSkill);
 router.put('/:userGuid', verifyLoginToken, verifyRightPermission, validateUpdateBody, addUserSkill);
 router.delete('/:userGuid', verifyLoginToken, deleteUserSkill);
 // router.delete('/:userSkillGuid', verifyLoginToken, deleteUserSkillById);
