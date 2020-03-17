@@ -350,6 +350,14 @@ function Skills(props) {
                     onCancel={closeModal}
                     handleSave={handleSave}
                     items={[
+                        SMUpload({
+                            className: selectedIcon ? "sm-upload sm-upload-selected" : "sm-upload sm-upload-non-selected",
+                            name: "uploadImg",
+                            children: 'Upload icon',
+                            openSelectIconModal:openSelectIconModal,
+                            icon: selectedIcon ? selectedIcon : null,
+                            iconType: 'fab'
+                        }),
                         SMInput({
                             className: 'sm-input',
                             name: 'skillName',
@@ -375,14 +383,6 @@ function Skills(props) {
                         //     initialvalue: isEdited ? editedIconName : selectedIcon,
                         //     disabled: true
                         // }),
-                        SMUpload({
-                            className: "sm-upload",
-                            name: "uploadImg",
-                            children: 'Upload icon',
-                            openSelectIconModal:openSelectIconModal,
-                            icon: selectedIcon ? selectedIcon : null,
-                            iconType: 'fab'
-                        }),
                     ]}
                     footer={[
                         SMButton({

@@ -2,25 +2,28 @@
 
 .sm-upload {
     background-color: white;
-    border: 1px dashed #266494;
-    width: 25%;
-    height: 100px;
     padding: 5px;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
     cursor: pointer;
 }
 
+.sm-upload-non-selected {
+    border: 1px dashed #266494;
+}
+
+.sm-upload-selected {
+    border: none;
+    margin: 3px 0;
+}
+
 .sm-upload:hover {
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
     .sm-upload-icon {
-        background-color:rgba(58, 121, 170, 0.45);
-        // background-color: rgba(0, 0, 0, 0.55);;
         transition: background-color 1s;
-        .icon-name {
-            background-color:rgba(58, 121, 170, 0.45);
-            transition: background-color 1s;
-        }
+
         svg {
-            transform: scale(1.05, 1.05);
+            transform: scale(1.08, 1.08);
             transition: transform 0.7s;
         }
     }
@@ -29,26 +32,58 @@
 .sm-upload:focus {
     outline:none;
 }
-.sm-upload-plus {
-    color: $sm-primary-color-hover;
-    span {
-        color: $sm-primary-color-hover!important;
+
+.sm-upload-selected:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09);
+
+    .sm-skill-icon-edit-selected {
+        visibility: visible;
+        color: $sm-primary-color-hover;
+        position: absolute;
+        top: -55px;
+        right: 40px;
     }
 }
 
-.sm-upload-plus:hover {
+.sm-upload-non-selected{
+    .sm-upload-default-container {
+        color: $sm-primary-color-hover;
+        margin-top: 25px;
+
+        span {
+            color: $sm-primary-color-hover!important;
+        }
+
+        .sm-skill-icon-edit {
+            visibility: visible;
+            color: $sm-primary-color-hover;
+            position: absolute;
+            top: -55px;
+            right: 40px;
+        }
+    }
+}
+
+.sm-upload-default-container:hover {
     svg {
         transform: scale(1.2, 1.2);
+        transition: transform 1s;
     }
+
     .ant-upload-text {
         transform: scale(1.1, 1.1);
     }
 }
 
+.sm-upload-default-icon {
+    width: 50px!important;
+    height: 50px;
+    stroke-width: 25px;
+    stroke: #fff;
+}
+
 .sm-upload-icon {
-    color: black;
-    height: 60px;
-    margin-top: -30px;
+    height: 50px;
 
     .icon-name {
         white-space: nowrap;
@@ -60,21 +95,11 @@
 
     svg:first-child {
         width: 100% !important;
-        height: 60px;
+        height: 50px;
+        margin-top: 10px;
     }
 
     span {
         color: $sm-primary-color-hover!important;
-    }
-}
-
-.sm-upload-icon:hover {
-    .sm-skill-icon-edit {
-        visibility: visible;
-        // color: $sm-primary-color-hover;
-        color: rgba(255, 255, 255, 1);;
-        position: absolute;
-        right: 50px;
-        top: -5px;
     }
 }
