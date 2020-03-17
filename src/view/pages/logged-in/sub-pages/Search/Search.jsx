@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Row, Form, Icon } from "antd";
+import { Row, Form, Tooltip, Icon } from "antd";
 import { SearchDataView } from "view/pages/logged-in/sub-pages/Search/SearchDataView/SearchDataView";
 import { SMUserBar } from "view/pages/logged-in/components/SMUserBar";
 import { SMButton } from "view/components/SMButton";
@@ -42,11 +42,23 @@ function SearchPeople(props) {
             state.search.items.data = state.search.items.data.map(item => {
                 item.key = item.guid;
                 item.avatar = (
-                    <SMUserBar
+                    <Tooltip placement="top" title={`${item.fname} ${item.lname}`}>
+                        <SMUserBar
+                        className='smEmployeAvatar'
                         firstName={item.fname}
                         lastName={item.lname}
                         size="medium"
-                    />
+                    /> </Tooltip>
+                );
+                item.positionTable = (
+                    <Tooltip placement="top" title={item.position.name}>
+                        <div className='smEmployePosition'>{item.position.name}</div>
+                    </Tooltip>
+                );
+                item.branchNameTable = (
+                    <Tooltip placement="top" title={item.branch.name}>
+                        <div className='smEmployeBranch'>{item.branch.name}</div>
+                    </Tooltip>
                 );
                 return item;
             });
