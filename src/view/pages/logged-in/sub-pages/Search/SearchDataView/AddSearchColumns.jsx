@@ -6,21 +6,21 @@ function AddSearchColumns(props) {
     const columns = [
         {
             title: 'Employee',
-            width: 250,
+            width: 210,
             dataIndex: 'avatar',
             key: 'avatar',
             fixed: 'left'
         },
         {
             title: 'Position',
-            width: 200,
+            width: 160,
             dataIndex: 'position',
             key: 'position',
             fixed: 'left'
         },
         {
             title: 'Branch',
-            width: 200,
+            width: 100,
             dataIndex: 'branchName',
             key: 'branchName',
             fixed: 'right'
