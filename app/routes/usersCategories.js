@@ -9,7 +9,7 @@ const {verifyLoginToken, verifyRightPermission} = require('../validation/token')
 router.get('/', verifyLoginToken, getUsersCategories);
 router.get('/history/:userGuid', verifyLoginToken, getCategoryHistory);
 router.get('/:userCategoryGuid', verifyLoginToken, getUserCategories);
-router.post('/:userGuid', verifyLoginToken, verifyRightPermission, validateAddBody, addUserCategory);
+router.post('/:userGuid', verifyLoginToken, validateAddBody, addUserCategory);
 router.put('/:userGuid', verifyLoginToken, verifyRightPermission, validateUpdateBody, addUserCategory);
 router.delete('/:userGuid', verifyLoginToken, deleteUserCategory);
 // router.delete('/:userCategoryGuid', verifyLoginToken, verifyRightPermission, deleteUserCategoryById);
