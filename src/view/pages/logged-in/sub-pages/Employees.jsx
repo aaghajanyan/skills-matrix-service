@@ -3,7 +3,7 @@ import {emailValidator} from 'src/helpers/validators';
 import {EmployeesTable} from 'src/view/pages/logged-in/components';
 import {SMUserBar} from '../components';
 import {SMConfig} from 'src/config';
-import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification} from 'src/view/components';
+import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSearch} from 'src/view/components';
 import {sendInvitation} from 'src/services/invitationsService';
 import {getUsers} from 'src/services/usersService';
 import {useValidator} from '../../../../hooks/common';
@@ -16,6 +16,8 @@ function Employees(props) {
     const [users, setUsers] = useState(null);
 
     const [loading, setLoading] = useState(false);
+
+    const [filtered, setFiltered] = useState(null);
 
     const [isEmailValid, email, emailRule] = useValidator(emailValidator);
 
@@ -48,6 +50,19 @@ function Employees(props) {
         setVisible(true);
     };
 
+    const handleSearchInputChange = (e) => {
+        e.persist();
+        const value = e.target.value;
+        let filteredUsers = [];
+        users.map((user) => {
+            console.log(user.fname.toLowerCase().includes(value.toLowerCase()) || user.lname.toLowerCase().includes(value.toLowerCase()));
+            if ( (user.fname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) || (user.lname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) ) {
+                filteredUsers.push(user);
+            }
+        });
+        setFiltered(filteredUsers);
+    }
+
     useEffect(() => {
         getUsers()
             .then(users => {
@@ -61,6 +76,7 @@ function Employees(props) {
                     return user;
                 });
                 setUsers(users);
+                setFiltered(users);
             })
             .catch(() => {
                 setUsers([]);
@@ -83,8 +99,16 @@ function Employees(props) {
                 history={props.history}
                 loading={users === null}
                 showHeader={true}
-                dataSource={users}
+                dataSource={filtered}
                 pagination={false}
+                searchBar = {[
+                    SMSearch({
+                        key: 'search',
+                        placeholder: "Filter...",
+                        className: 'sm-search-criteria',
+                        onChange: e => handleSearchInputChange(e),
+                    })
+                ]}
             >
             </EmployeesTable>
 

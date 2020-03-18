@@ -18,7 +18,7 @@ function Summary(props) {
             });
         });
 
-        return skills;
+        return (skills.slice(0, 5));
     };
 
     const needToImproveSkills = () => {
@@ -34,7 +34,7 @@ function Summary(props) {
             });
         });
 
-        return skills;
+        return (skills.slice(0, 5));
     };
 
     const similarUsers = () => {

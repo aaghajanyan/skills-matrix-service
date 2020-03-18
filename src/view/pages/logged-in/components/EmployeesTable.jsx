@@ -55,7 +55,9 @@ function EmployeesTable(props) {
     return (
         <div className={props.className}>
             <h3 className="sm-subheading"> Employees </h3>
-
+            <div className='skills-table-header-search'>
+                {props.searchBar}
+            </div>
             <SMTable columns={columns} dataSource={addDataSource()} onRow={onEmployeeSelect} className={null}/>
         </div>
     );

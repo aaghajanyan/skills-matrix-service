@@ -27,15 +27,20 @@ function SMFormInitial(props) {
     const renderFormItems = () => {
         return props.items && props.items.map(item => {
             return (
-                item && <Form.Item
-                    key={item.props.name}
-                    validateStatus={item.props.status}
-                    help={item.props.help}
-                >
-                    {getFieldDecorator(item.props.name, {
-                        rules: item.props.rules, initialValue: item.props.initialvalue,
-                    })(item)}
-                </Form.Item>
+                item && <div key={item.props.name}>
+                    <div className="sm-form-item-title">
+                        {item.props.placeholder}
+                    </div>
+                    <Form.Item
+                        key={item.props.name}
+                        validateStatus={item.props.status}
+                        help={item.props.help}
+                    >
+                        {getFieldDecorator(item.props.name, {
+                            rules: item.props.rules, initialValue: item.props.initialvalue,
+                        })(item)}
+                    </Form.Item>
+                </div>
             );
         });
     };
