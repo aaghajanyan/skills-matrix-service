@@ -2,6 +2,7 @@ import React from 'react';
 import {AddSearchColumns} from './AddSearchColumns';
 import {SkillsColumns} from './SkillsColumns';
 import {SMTable} from 'view/components';
+import { Empty } from 'antd';
 
 function SearchDataView(props) {
 
@@ -10,6 +11,7 @@ function SearchDataView(props) {
     });
 
     return (
+        props.userData.length > 0 ?
         <SMTable
             history={props.history}
             columns={AddSearchColumns({userData: props.userData})}
@@ -21,7 +23,7 @@ function SearchDataView(props) {
             onRow={onEmployeeSelect}
             scroll={{x: 1300}}
             bordered
-        />
+        /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
     );
 }
 

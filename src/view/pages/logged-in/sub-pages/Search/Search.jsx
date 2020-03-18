@@ -108,7 +108,7 @@ function SearchPeople(props) {
                 </Form>
             </div>
 
-            {usersData && usersData.users && (
+            {usersData && (
                 <SearchDataView
                     userData={usersData.users}
                     history={props.history}
