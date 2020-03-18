@@ -236,3 +236,21 @@
     min-width: 10px;
     display: inline-block;
 }
+
+.smEmployeAvatar {
+    width: 160px;
+}
+
+.smEmployePosition {
+    width: 100px;
+}
+
+.smEmployeBranch {
+    width: 100px;
+}
+
+.smEmployeAvatar, .smEmployePosition, .smEmployeBranch {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
