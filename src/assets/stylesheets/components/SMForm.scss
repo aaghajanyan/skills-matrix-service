@@ -2,3 +2,13 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.sm-form-fields {
+    .ant-form-item {
+        overflow: hidden;
+    }
+
+    .ant-form-item-control {
+        text-align: center;
+    }
+}

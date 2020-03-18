@@ -16,13 +16,13 @@ function SMUpload({openSelectIconModal, iconType, ...props}) {
         props.icon ?
             <div className="sm-upload-icon">
                 <SMIcon style={{color: toRGB(props.icon).color}} className='skills-icon' iconType={iconType} icon={props.icon}/>
-                <p style={{color: toRGB(props.icon).color}} className='icon-name'>{props.icon}</p>
-                <SMIcon visibility={'hidden'} className='sm-skill-icon-edit' iconType='fas' icon='pencil-alt'/>
+                {/* <p style={{color: toRGB(props.icon).color}} className='icon-name'>{props.icon}</p> */}
+                <SMIcon style={{color: toRGB(props.icon).color}} visibility={'hidden'} className='sm-skill-icon-edit-selected' iconType='far' icon='edit'/>
             </div>
             :
-            <div className="sm-upload-plus">
-                <PlusOutlined/>
-                <div className="ant-upload-text">Select icon</div>
+            <div className="sm-upload-default-container">
+                <SMIcon className='sm-upload-default-icon' iconType='far' icon='image'/>
+                <SMIcon className='sm-skill-icon-edit' iconType='far' icon='edit'/>
             </div>
     );
 
