@@ -81,6 +81,12 @@ function History(props) {
         }
         return str
     }
+    
+    const renderItemCreate = (history) => {
+        return ( ` : Experience ${history.experience} 
+                : Profficience ${history.profficience} 
+                : Last worked date ${moment(history.last_worked_date).format(SMConfig.constants.dateFormatMonthName)}`);
+    }
 
     const handleOnSelect = data => {
         const newInfo = findInfo;
@@ -151,7 +157,7 @@ function History(props) {
             } else if (name) {
                 skills[name] = history;
             }
-
+   
             if(findHistory(history)) {
                 newItems.push(
                     <Row key={index} className="sm-history-row">
@@ -161,8 +167,10 @@ function History(props) {
                         <Col span={12}>
                             <Timeline.Item key={index} color={setHistoryColor(before, history)}>
                                 {name}
-                                { (history.operation !== 'delete') ? ((Object.keys(before).length > 0 ) ? renderItemUpdate(before, history) :
-                                ( ` : Experience ${history.experience} : Profficience ${history.profficience} : Last worked date ${moment(history.last_worked_date).format(SMConfig.constants.dateFormatMonthName)}` ) ) : ``}
+                                { (history.operation !== 'delete') ? (history.operation === 'update') ?
+                                    renderItemUpdate(before, history) :
+                                    renderItemCreate(history) : `` 
+                                }
                             </Timeline.Item>
                         </Col>
                     </Row>
