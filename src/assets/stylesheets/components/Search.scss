@@ -248,8 +248,16 @@
     }
 }
 
-.classNameOfCell {
+.classNameOfCell, .classNameOfCellMany {
     padding: 0 !important;
+}
+
+.classNameOfCellMany, .classNameOfColumnMany  {
+    width: 300px;
+}
+
+.classNameOfCellMany, .classNameOfColumnMany, .classNameOfCell, .classNameOfColumn {
+    min-width: 300px;
 }
 
 .employees-table {

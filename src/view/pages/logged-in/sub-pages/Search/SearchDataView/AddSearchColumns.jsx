@@ -2,8 +2,22 @@ import React, {useLayoutEffect} from 'react';
 
 function AddSearchColumns(props) {
 
-    const skills = [];
-    const columns = [
+    let skills = [];
+
+    let skillsNames = []; 
+    props.userData.map((item, index) => {
+        console.log(item.skills, index, "skillsNames");
+        item.skills.map( skill => {
+            if(!skillsNames.includes(skill.name)) {
+                skillsNames.push(skill);
+            }
+        });
+    });
+
+    const countOfMinColumns = 3;
+    const count = skillsNames.length;
+
+    let columns = [
         {
             title: 'Employee',
             width: 210,
@@ -27,6 +41,19 @@ function AddSearchColumns(props) {
         }
     ];
 
+    if(count <= countOfMinColumns) {
+        const newColumns = columns.map( column => {
+            count === 0 ? delete column.width : column.width = `${100 / (count+columns.length) }%`;
+            delete column.fixed;
+            return column;
+        });
+                
+        if (count === 0) {
+            return (newColumns);
+        }
+        columns = newColumns ;
+    }
+
     props.userData.map((item) => {
         return item.skills.map( (skill, index) => {
             if(!skills.includes(skill.name)) {
@@ -34,11 +61,11 @@ function AddSearchColumns(props) {
                     title: skill.name,
                     dataIndex: skill.name,
                     key: skill.name,
-                    className: 'classNameOfColumn',
+                    className: (count > countOfMinColumns ? 'classNameOfColumnMany' : 'classNameOfColumn'),
                     render: (text, record) => {
                         return {
                             props: {
-                                className: 'classNameOfCell'
+                                className:  (count > countOfMinColumns ? 'classNameOfCellMany' : 'classNameOfCell')
                             },
                             children: text
                         };
