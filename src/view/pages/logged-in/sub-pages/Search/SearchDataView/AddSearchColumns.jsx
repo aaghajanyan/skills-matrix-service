@@ -6,7 +6,6 @@ function AddSearchColumns(props) {
 
     let skillsNames = []; 
     props.userData.map((item, index) => {
-        console.log(item.skills, index, "skillsNames");
         item.skills.map( skill => {
             if(!skillsNames.includes(skill.name)) {
                 skillsNames.push(skill);

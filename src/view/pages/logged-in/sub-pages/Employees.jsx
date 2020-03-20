@@ -55,7 +55,6 @@ function Employees(props) {
         const value = e.target.value;
         let filteredUsers = [];
         users.map((user) => {
-            console.log(user.fname.toLowerCase().includes(value.toLowerCase()) || user.lname.toLowerCase().includes(value.toLowerCase()));
             if ( (user.fname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) || (user.lname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) ) {
                 filteredUsers.push(user);
             }

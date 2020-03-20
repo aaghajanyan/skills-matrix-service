@@ -21,7 +21,6 @@ function SMChart(props) {
         })
 
         categories.map(category => {
-            console.log(category);
             Object.keys(category).map(skill => {
                 if (skill !== "name") {
                     skills.push(skill);
