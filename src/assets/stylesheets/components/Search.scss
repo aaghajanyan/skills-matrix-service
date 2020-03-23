@@ -269,7 +269,7 @@
 @media (max-width: 800px) {
     .main_container_search .ant-form-horizontal .ant-row.rule-rows {
         flex-direction: column;
-        div[class*="ant-col-"] {
+        div[class*="ant-col-"], span {
             width: 100%;
             margin-bottom: 10px;
         }
