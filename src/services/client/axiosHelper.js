@@ -1,7 +1,6 @@
 import axios from 'axios';
 import cookie from 'react-cookies';
 import {SMNotification} from 'src/view/components';
-import {logOut} from 'src/services/authService';
 import {SMConfig} from 'src/config';
 import {AUTH_TOKEN} from '../authService';
 
@@ -35,6 +34,7 @@ const service = axios.create({
 
 service.interceptors.response.use(handleSuccess, handleError);
 service.interceptors.request.use(defaultHeaderHandler);
+let count = 0;
 
 const apiClient = async (method, options) => {
     return service.request({
@@ -43,12 +43,11 @@ const apiClient = async (method, options) => {
     })
         .then((response) => response)
         .catch((error) => {
-            if(error.response) {
-                if(error.response.status === 401) {
-                    logOut(); //TODO: Remove
+            if(error.request) {
+                count += 1;
+                if(count < 2) {
+                    return SMNotification('error', SMConfig.messages.noConnection);
                 }
-            } else if(error.request) {
-                SMNotification('error', SMConfig.messages.noConnection);
             }
             return Promise.reject(error);
         });

@@ -14,7 +14,7 @@ const getSkills = async () => {
         }
         error.message === 'Network Error'
             ? errorObj.message = SMConfig.messages.noConnection
-            : errorObj.message = SMConfig.messages.skills.getSkill.error
+            : errorObj.message = SMConfig.messages.skills.message
         return errorObj;
     }
 }
@@ -34,7 +34,7 @@ const addNewSkill = async ({name: skillName, icon: iconName, categoriesId: guids
         }
         error.message === 'Network Error'
             ? errorObj.message = SMConfig.messages.noConnection
-            : errorObj.message = SMConfig.messages.skills.addSkill.error
+            : errorObj.message = SMConfig.messages.skills.message
         return errorObj;
     }
 }

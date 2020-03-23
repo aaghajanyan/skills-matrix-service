@@ -71,7 +71,7 @@ function Assessment(props) {
     useEffect(() => {
         collectSkillsData(allSkills());
         collectCategoriesData(allCategories());
-        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+        currentUser && currentUser.roleGroup && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
     }, [skillsStore, categoriesStore, currentUser]);
 
     useEffect(()=> {
@@ -348,7 +348,7 @@ function Assessment(props) {
     };
 
     const getCategoriesNames = () => {
-        if( categoriesStore.payload && categoriesStore.payload.length > 0) {
+        if( categoriesStore && categoriesStore.payload && categoriesStore.payload.length > 0) {
             let categoryNames = categoriesStore.payload.map( category => {
                 const userCategories = allCategories();
                 let flag = true;
@@ -549,6 +549,8 @@ function Assessment(props) {
         })()
     }
 
+    const pormissionAdminAndUser = (isAdmin || thisUser()) ? true : false;
+
     return (
         <React.Fragment>
             {categoriesDataSource &&
@@ -556,7 +558,7 @@ function Assessment(props) {
                         title="All Categories"
                         dataSource={categoriesDataSource}
                         column={categoriesColumns(categoriesDataSource,
-                            thisUser(),
+                            pormissionAdminAndUser,
                             openCategoryEditModal,
                             handleDeleteCategory,
                             SMConfirmModal,
@@ -564,7 +566,7 @@ function Assessment(props) {
                         handleSomeDelete={handleCategoriesDelete}
                         className='sm-table-criteria'
                         addPagination={true}
-                        addCheckbox={(isAdmin || thisUser()) ? true : false}
+                        addCheckbox={pormissionAdminAndUser}
                         addClickableOnRow={true}
                         addScroll={true}
                         items={[
@@ -592,7 +594,7 @@ function Assessment(props) {
                         title="All skills"
                         dataSource={skillsDataSource}
                         column={categorySkillsColumns(skillsDataSource,
-                            thisUser(),
+                            pormissionAdminAndUser,
                             openSkillEditModal,
                             handleDeleteSkill,
                             SMConfirmModal,
@@ -600,7 +602,7 @@ function Assessment(props) {
                         handleSomeDelete={handleSkillsDelete}
                         className='sm-table-criteria'
                         addPagination={true}
-                        addCheckbox={(isAdmin || thisUser()) ? true : false}
+                        addCheckbox={pormissionAdminAndUser}
                         addClickableOnRow={true}
                         addScroll={true}
                         items={[
@@ -670,6 +672,7 @@ function Assessment(props) {
                             name: 'last_worked_date',
                             type: 'date',
                             placeholder: 'Last worked date',
+                            rules: [{required: true, message: "Last worked date is required!"}],
                             onChange: handleChangeLastWorkedDate,
                             initialvalue: isEdited ? moment(initialDate) : moment(),
                         }),

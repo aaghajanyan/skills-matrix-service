@@ -19,10 +19,10 @@ function SMEmployeeInitial(props) {
         lname:''
     });
 
-    const [dashboardInfo, setDashboardInfo] = useState(null);
+    const [dashboardInfo, setDashboardInfo] = useState([]);
     const [dataIsChanged, setDataIsChanged] = useState(false);
-    const [skillsHistory, setSkillsHistory] = useState(null);
-    const [categoriesHistory, setCategoriesHistory] = useState(null);
+    const [skillsHistory, setSkillsHistory] = useState([]);
+    const [categoriesHistory, setCategoriesHistory] = useState([]);
 
     const getDashboardAllInfo = () => {
         if(user && props.match && props.match.params.id !== user.guid) {
@@ -67,7 +67,9 @@ function SMEmployeeInitial(props) {
     useEffect(()=> {
         getCurrentUser()
         .then(user => {
-            setUser(user);
+            if(user){
+                setUser(user);
+            }
         })
         .catch(error => {
             console.log("Handle Error: ", error)
@@ -91,10 +93,10 @@ function SMEmployeeInitial(props) {
                 </div>)
             }
         >
-            <Summary dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Summary"/>
-            <Assessment isChanged={dataIsChanged} renderParent={setDataIsChanged} dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user.guid} key="Assessment"/>
-            <History skills={skillsHistory} categories={categoriesHistory} dashboard={dashboardInfo} userGuid={user.guid} key="History"/>
-            <About dashboard={dashboardInfo && dashboardInfo[0]} userGuid={user.guid}  user={{firstName: user.fname,lastName: user.lname}} key="About"/>
+            <Summary dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user && user.guid} key="Summary"/>
+            <Assessment isChanged={dataIsChanged} renderParent={setDataIsChanged} dashboard={dashboardInfo && dashboardInfo[1]} userGuid={user && user.guid} key="Assessment"/>
+            <History skills={skillsHistory} categories={categoriesHistory} dashboard={dashboardInfo} userGuid={user && user.guid} key="History"/>
+            <About dashboard={dashboardInfo && dashboardInfo[0]} userGuid={user && user.guid}  user={{firstName: user.fname,lastName: user.lname}} key="About"/>
         </SMTabs>
     );
 }

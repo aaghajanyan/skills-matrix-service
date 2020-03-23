@@ -36,6 +36,7 @@ const addActionMessage = (type, criteriaName) => {
             newObj.message = util.format(newObj.message, criteriaName);
             return newObj;
         case 'error':
+            newObj.message =  util.format(newObj.message);
             newObj.description = util.format(newObj.description, criteriaName);
             return newObj;
         case 'missing':
@@ -53,6 +54,7 @@ const updateActionMessage = (type, criteriaName) => {
             newObj.message = util.format(newObj.message, criteriaName);
             return newObj;
         case 'error':
+            newObj.message =  util.format(newObj.message);
             newObj.description = util.format(newObj.description, criteriaName);
             return newObj;
     }
@@ -68,6 +70,7 @@ const deleteActionMessage = (type, criteriaName) => {
             newObj.message = util.format(newObj.message, criteriaName);
             return newObj;
         case 'error':
+            newObj.message =  util.format(newObj.message);
             newObj.description = util.format(newObj.description, criteriaName);
             return newObj;
     }

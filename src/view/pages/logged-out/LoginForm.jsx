@@ -9,6 +9,8 @@ import {SMButton, SMForm, SMIcon, SMInput} from 'src/view/components';
 import {login} from 'src/services/authService';
 import {setCurrentUser} from 'src/store/actions/userActions';
 import {SMConfig} from 'src/config';
+import {emailValidator} from 'src/helpers/validators';
+import {useValidator} from '../../../hooks/common';
 
 function LoginForm({successEndpoint}) {
 
@@ -19,6 +21,7 @@ function LoginForm({successEndpoint}) {
     const [success, setSuccess] = useState(false);
 
     const [loading, setLoading] = useState(false);
+    const [, , emailRule] = useValidator(emailValidator);
 
     const showError = err => {
         setErrorMessage(err);
@@ -44,9 +47,9 @@ function LoginForm({successEndpoint}) {
     };
 
     const validateFields = (rule, value, callback) => {
-        if((rule.field === 'email' || rule.field === 'password') && !value ){
-            callback('');
-        } else {
+        if(!value ){
+            callback('Field is required.');
+        }else {
             callback();
         }
     };
@@ -69,12 +72,10 @@ function LoginForm({successEndpoint}) {
                 items={[
                     SMInput({
                         className: 'sm-input',
-                        name: 'email',
-                        type: 'text',
-                        placeholder: 'Email',
-                        rules: [{
-                            validator: validateFields
-                        }],
+                            name: 'email',
+                            type: 'text',
+                            placeholder: 'Email',
+                            rules: emailRule,
                         prefix: (
                             <SMIcon
                                 className="sm-icon-grey"

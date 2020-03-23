@@ -29,6 +29,7 @@ export const useValidator = (validator) => {
     const rule = {rules: [{validator: (rule, value, callback) => validator(rule, value, (e) => {
         if(e) {
             setIsValid(false);
+            callback(e);
         } else {
             setIsValid(true);
             callback();

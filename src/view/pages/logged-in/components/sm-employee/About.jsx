@@ -9,7 +9,7 @@ function About(props) {
 
 
   const userInfo = () => {
-      return ({
+      return props.dashboard && ({
         email: props.dashboard.email,
         started_to_work_date: moment(props.dashboard['started_to_work_date']).format("MMM Do YY"),
         branch: props.dashboard.branch.name,
@@ -27,7 +27,7 @@ function About(props) {
                             size="large"
                         />
                         <Col span={18}>
-                            <h1 className="sm-about-header-name" >{`${props.dashboard.fname} ${props.dashboard.lname}`}</h1>
+                        {props.dashboard && <h1 className="sm-about-header-name" >{`${props.dashboard.fname} ${props.dashboard.lname}`}</h1>}
                         </Col>
                     <SMDictionary data={userInfo()} />
                 </Col>

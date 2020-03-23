@@ -28,9 +28,6 @@ function Employees(props) {
             })
             .catch(error => {
                 setLoading(false);
-                if(error.message === 'Network Error'){
-                    SMNotification('error', messages.noConnection);
-                }
                 if(error.response) {
                     if(error.response.status === 409) {
                         SMNotification('error', SMConfig.messages.invitations.sendInvitation.error);

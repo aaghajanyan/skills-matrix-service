@@ -3,15 +3,17 @@ import {SMMenu} from 'src/view/components';
 import {useHistory} from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import {useDispatch} from "react-redux";
 import {onMenuItemSelect} from '../';
 
 export function SideMenu(props) {
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const currentSelectedMenuItem = history.location.pathname === '/' ? 'home' : history.location.pathname.split('/')[1];
 
-    const onSelect = onMenuItemSelect(history);
+    const onSelect = onMenuItemSelect(history, dispatch);
 
     const siderStyle = props.type === 'sider' && props.isCollapsed ? 'sm-menu-container_collapsed-mode' :
         props.type === 'sider' && !props.isCollapsed ? 'sm-menu-container' : '';

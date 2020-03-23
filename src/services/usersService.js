@@ -13,7 +13,7 @@ const getUser = (guid) => {
 
 const getUsers = () => {
     return get({url: SMConfig.apiEndpoints.getUsers})
-        .then(result => result.data);
+        .then(result => result && result.data);
 };
 
 const getCurrentUser = () => {

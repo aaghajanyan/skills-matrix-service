@@ -1,8 +1,8 @@
 import {logOut} from 'src/services/authService';
 
-export const onMenuItemSelect = (history) => ({item, key}) => {
+export const onMenuItemSelect = (history, dispatch) => ({item, key}) => {
     const {href} = item.props;
-    key === 'logOut' && logOut();
+    key === 'logOut' && logOut(dispatch);
 
     if(item.props.href !== history.location.pathname){
         history.push(href);

@@ -15,6 +15,9 @@
         "message": "Connection error",
         "description": "Could not connect to remote server"
     },
+    "skills": {
+        "message": "Operation failed"
+    },
     "invitations": {
         "sendInvitation": {
             "success": {
@@ -82,18 +85,8 @@
             "passwordsDoNotMatch": "Passwords don't match!"
         },
         "name": {
-            "required": {
-                "first": "First-name is required!",
-                "last": "Last-name is required!",
-                "skill": "Skill name is required",
-                "category": "Category name is required"
-            },
-            "invalid": {
-                "first": "First-name is invalid!",
-                "last": "Last-name is invalid!",
-                "skill": "Skill name is invalid",
-                "category": "Category name is invalid"
-            }
+            "required": " is invalid!",
+            "invalid": " is invalid!"
         },
         "branch": {
             "required": "Branch is required!"

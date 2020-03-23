@@ -74,7 +74,7 @@ function Skills(props) {
     }
 
     useEffect(() => {
-        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+        currentUser &&  currentUser.roleGroup && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
     }, [currentUser]);
 
     useEffect(() => {

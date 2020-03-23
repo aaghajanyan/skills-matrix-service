@@ -1,5 +1,5 @@
 const categories = (state = [], action) => {
-    switch(action.type) {
+    switch(action && action.type) {
         case 'ADD_CATEGORIES':
             return [...action.payload]
         case 'UPDATE_CATEGORY':

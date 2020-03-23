@@ -1,6 +1,8 @@
 import cookie from 'react-cookies';
 import {get, post} from 'src/services/client';
 import {SMConfig} from 'src/config';
+import {getSearchParams} from 'store/actions/search';
+import {uuid} from '../configSearch/criteria';
 
 export const AUTH_TOKEN = 'auth_token';
 
@@ -76,7 +78,22 @@ const changePassword = (token, password) => {
 };
 
 
-const logOut = () => {
+const logOut = (dispatch) => {
+
+    const generalId = uuid();
+    const rules = {
+        type: 'rule',
+        properties: {}
+    };
+    const defaultTree = {
+        type: 'group',
+        id: generalId,
+        childrens: {
+            [uuid()]: rules
+        },
+        condition: 'And'
+    };
+    dispatch && dispatch(getSearchParams(defaultTree));
     cookie.remove(AUTH_TOKEN, {path: '/'});
 };
 

@@ -38,10 +38,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
                         dispatch(setCurrentUser(currentLoggedInUser));
                     })
                     .catch((error) => {
-                        if(error.message === 'Network Error'){
-                            setLoading(false);
-                            SMNotification('error', messages.noConnection);
-                        }
+                        setLoading(false);
                     });
             } else {
                 navigateToLogin();

@@ -43,7 +43,7 @@ function Settings(props) {
     ].every(e => e);
 
     useEffect(() => {
-        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+        currentUser && currentUser.roleGroup && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
     }, [currentUser]);
 
     useEffect(() => {
@@ -211,7 +211,7 @@ function Settings(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className={`${!isAdmin && 'sm-table-employes'} sm-table-criteria`}
+                    className="sm-table-criteria"
                     addPagination={true}
                     addCheckbox={isAdmin}
                     addClickableOnRow={true}

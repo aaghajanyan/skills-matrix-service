@@ -43,7 +43,7 @@ function Branches(props) {
     ].every(e => e);
 
     useEffect(() => {
-        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+        currentUser &&  currentUser.roleGroup && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
     }, [currentUser]);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ function Branches(props) {
         const usersList = await getUsers();
         setEmployees(usersList);
         const branchList = await getBranches();
-        branchList.map((branch,index) => {
+        branchList && branchList.map((branch,index) => {
             const userList = [];
             usersList.map(user => {
                 if (user.branch.name === branch.name) {
@@ -211,7 +211,7 @@ function Branches(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className={`${!isAdmin && 'sm-table-employes'} sm-table-criteria`}
+                    className="sm-table-criteria"
                     addPagination={true}
                     addCheckbox={isAdmin}
                     addClickableOnRow={true}

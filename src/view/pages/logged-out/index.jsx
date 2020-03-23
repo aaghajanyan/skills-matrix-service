@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {Redirect, Route, useHistory} from 'react-router-dom';
-import {Col, Layout, Row, Alert} from 'antd';
+import {Col, Layout, Row} from 'antd';
 import logo from 'src/assets/images/logo.png';
+import {useDispatch} from "react-redux";
 
 import {isLoggedIn, logOut} from 'src/services/authService';
 import {RegisterForm} from 'src/view/pages/logged-out/RegisterForm';
@@ -17,6 +18,7 @@ const {Header, Content, Footer} = Layout;
 function SMPageLoggedOut() {
 
     const loggedIn = isLoggedIn();
+    const dispatch = useDispatch();
 
     const history = useHistory();
 
@@ -32,7 +34,7 @@ function SMPageLoggedOut() {
         setTimeout(() => {
             setvisible(false);
             setconfirmLoading(false);
-            logOut()
+            logOut(dispatch);
             history.push({
                 pathname: history.location.pathname,
             });

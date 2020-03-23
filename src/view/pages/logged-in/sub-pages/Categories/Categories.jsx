@@ -39,7 +39,7 @@ function Categories(props) {
     const [initialSkills, setInitialSkills] = useState([]);
     const [initialRelCate, setInitialRelCate] = useState([]);
 
-    let [isCategoryNameValid, categoryName, categoryNameRule, resetCategoryName] = useValidator(nameValidator('skill'));
+    let [isCategoryNameValid, categoryName, categoryNameRule, resetCategoryName] = useValidator(nameValidator('category'));
     let [isSkillsListValid, setIsSkillsListValid] = useState(null);
     let [skillsNames, setSkillsNames] = useState(null);
     let [isRelCatListValid, setIsRelCatListValid] = useState(null);
@@ -76,7 +76,7 @@ function Categories(props) {
     }
 
     useEffect(() => {
-        currentUser && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
+        currentUser &&  currentUser.roleGroup && currentUser.roleGroup.name === 'super_user' ? setIsAdmin(true) : setIsAdmin(false);
     }, [currentUser]);
 
     useEffect(() => {
@@ -298,7 +298,7 @@ function Categories(props) {
                     SMConfirmModal,
                     )}
                     handleSomeDelete={handleSomeDelete}
-                    className={`${!isAdmin && 'sm-table-employes'} sm-table-criteria`}
+                    className="sm-table-criteria"
                     addPagination={true}
                     addCheckbox={isAdmin}
                     addClickableOnRow={true}

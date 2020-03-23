@@ -5,12 +5,14 @@ import {SMButton, SMIcon, SMMenu} from 'src/view/components';
 import {dropdownMenuItems} from './dropdownMenuItems';
 import {SMUserBar} from 'src/view/pages/logged-in/components/SMUserBar';
 import {onMenuItemSelect} from '../';
+import {useDispatch} from "react-redux";
 
 export function DropdownMenu({SMuser}) {
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const onSelect = onMenuItemSelect(history);
+    const onSelect = onMenuItemSelect(history, dispatch);
 
     return (
         <Dropdown

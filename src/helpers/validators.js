@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import {SMConfig} from '../config';
+import * as util from 'util';
 
 const emailSchema = yup.object().shape({
     email: yup.string()
@@ -13,11 +14,14 @@ const passwordSchema = yup.object().shape({
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,24})/, SMConfig.messages.validation.password.invalid)
 });
 
-const nameSchema = (type) => yup.object().shape({
+const nameSchema = (type) => {
+    const nameFormat = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+    return yup.object().shape({
     name: yup.string()
-        .required(SMConfig.messages.validation.name.required[type])
-        .matches(/^[a-z]{2,20}$/i, SMConfig.messages.validation.name.invalid[type])
-});
+        .required(util.format(nameFormat,SMConfig.messages.validation.name.required))
+        .matches(/^[a-z]{2,20}$/i, util.format(nameFormat, SMConfig.messages.validation.name.invalid))
+    })
+};
 
 const defaultSchema = (type) => yup.object().shape({
     name: yup.string()

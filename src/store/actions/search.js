@@ -62,7 +62,6 @@ export function doSearch(data){
                         SMNotification('error', messages.findEmployees.server500Error);
                         dispatch(searchUsersSuccess({ data: [], values: initialTree }));
                     } else if(error.message === 'Network Error'){
-                        SMNotification('error', messages.noConnection);
                         dispatch(getSearchParams());
                     } else {
                         dispatch(searchUsersFailure(error));

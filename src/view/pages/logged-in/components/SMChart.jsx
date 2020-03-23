@@ -1,11 +1,9 @@
 import React from 'react';
 import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from 'recharts';
+import {toRGB} from 'src/helpers/generateColor';
 import PropTypes from 'prop-types';
 
 function SMChart(props) {
-    const getColor = () => {
-        return `#${Math.random().toString(16).slice(2, 8)}`;
-    };
     return (
         <div className={props.className}>
             <h3 className="sm-subheading"> Top Skills Categories</h3>
@@ -23,7 +21,7 @@ function SMChart(props) {
                 <Tooltip />
                 <Legend />
                 {props.keys.map((key) =>
-                    <Bar dataKey={key} fill={getColor()} key={key}>
+                    <Bar dataKey={key} fill={toRGB(key.toLowerCase()).color} key={key}>
                     </Bar>
                 )}
             </BarChart>

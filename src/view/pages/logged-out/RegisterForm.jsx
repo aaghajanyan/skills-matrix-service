@@ -17,13 +17,12 @@ function RegisterForm(props) {
     const [branches, setBranches] = useState([]);
     const [positions, setPositions] = useState([]);
 
-    const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator('First'));
-    const [isLastNameValid, , lastNameRule] = useValidator(nameValidator('Last'));
+    const [isFirstNameValid, , firstNameRule] = useValidator(nameValidator('First name'));
+    const [isLastNameValid, , lastNameRule] = useValidator(nameValidator('Last name'));
     const [isBranchValid, , branchRule] = useValidator(nameValidator('Branch'));
     const [isPositionValid, , positionRule] = useValidator(requiredValidator('Position'));
     const [isPasswordValid, passwordValue, passwordRule] = useValidator(passwordValidator);
     const [isConfirmPassword, confirmPasswordValue, confirmPasswordRule] = useValidator(passwordValidator);
-    const [isDateValid, , dateRule] = useValidator(requiredValidator('Date'));
 
     const isEntireFormValid = [isFirstNameValid,
         isLastNameValid,
@@ -31,7 +30,6 @@ function RegisterForm(props) {
         isPositionValid,
         isPasswordValid,
         isConfirmPassword,
-        isDateValid
     ].every(e => e) && passwordValue === confirmPasswordValue;
 
     const navigateTo = useNavigation();
@@ -169,7 +167,7 @@ function RegisterForm(props) {
                         name: 'started_to_work_date',
                         placeholder: 'Start working date',
                         format: SMConfig.constants.dateFormat,
-                        rules: dateRule
+                        rules: [{required: true, message: "Date is required!"}]
                     })
                 ]}
                 buttons={[

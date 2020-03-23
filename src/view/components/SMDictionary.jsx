@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function SMDictionary(props) {
 
     const renderAbout = () => {
-        return (
+        return props.data && (
             <div className="sm-about-user">
                 <Col>
                     <Row className="sm-about-row"><Col span={12}><span>Email: </span></Col><Col span={12}>{props.data.email}</Col></Row>
