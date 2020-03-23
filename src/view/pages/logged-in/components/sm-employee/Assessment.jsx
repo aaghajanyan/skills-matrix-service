@@ -368,6 +368,22 @@ function Assessment(props) {
         return [];
     };
 
+    const getExperienceValues = () => {
+        const values = [];
+        for(let i = 1; i <= 10; i++){
+            values.push({value: i});
+        }
+        return values;
+    }
+
+    const getProfficienceValues = () => {
+        const values = [];
+        for(let i = 1; i <= 5; i++){
+            values.push({value: i});
+        }
+        return values;
+    }
+
     const openAddModal = async (isCategoryModal) => {
         isCategoryModal ? setIsCategoryModalOpened(true) : setIsCategoryModalOpened(false);
         const date = { last_worked_date: moment().format(SMConfig.constants.dateFormat)};
@@ -447,14 +463,14 @@ function Assessment(props) {
 
     const handleChangeExperience = (e) => {
         isCategoryModalOpened ?
-            setUsersCategoryData(Object.assign(usersCategoryData, {[e.target.name]: e.target.value})):
-            setUsersSkillsData(Object.assign(usersSkillsData, {[e.target.name]: e.target.value}));
+            setUsersCategoryData({...Object.assign(usersCategoryData,  {'experience': `${e}`})}):
+            setUsersSkillsData({...Object.assign(usersSkillsData, {'experience': `${e}`})});
     }
 
     const handleChangeProfficience = (e) => {
         isCategoryModalOpened ?
-            setUsersCategoryData(Object.assign(usersCategoryData, {[e.target.name]: e.target.value})):
-            setUsersSkillsData(Object.assign(usersSkillsData, { [e.target.name]: e.target.value}));
+            setUsersCategoryData({...Object.assign(usersCategoryData, {'profficience': `${e}`})}):
+            setUsersSkillsData({...Object.assign(usersSkillsData, {'profficience': `${e}`})});
     }
 
     const handleAddSkill = async () => {
@@ -649,23 +665,23 @@ function Assessment(props) {
                             disabled: isEdited ? true : false,
                             onChange: handleChangeSkillName
                         }),
-                        SMInput({
-                            className: 'sm-input',
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
                             name: 'experience',
-                            type: 'number',
-                            rules: expRule,
                             placeholder: 'Experience',
-                            onChange: handleChangeExperience,
+                            options: getExperienceValues(),
                             initialvalue: isEdited ? initialExperience : [],
+                            rules: expRule,
+                            onChange: handleChangeExperience,
                         }),
-                        SMInput({
-                            className: 'sm-input',
+                        SMSelect({
+                            className: 'sm-select sm-select-criteria',
                             name: 'profficience',
-                            type: 'number',
-                            rules: profficienceRule,
                             placeholder: 'Assessment',
+                            options: getProfficienceValues(),
+                            initialvalue: isEdited ? initialProfficience : [],
+                            rules: profficienceRule,
                             onChange: handleChangeProfficience,
-                            initialvalue: isEdited ? initialProfficience : '',
                         }),
                         SMInput({
                             className: 'sm-input',

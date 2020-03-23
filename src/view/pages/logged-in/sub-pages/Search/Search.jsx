@@ -85,7 +85,7 @@ function SearchPeople(props) {
                     <div> <h1> {SMConfig.search.title} </h1> </div>
                     <div>
                         <ExcelFile filename="findEmployees" element={<SMButton disabled={isDisabled} className="sm-button skills-table-add-skill-button">
-                            {SMConfig.search.search.buttons.export} <Icon style={{fontSize: "16px"}} type="cloud-upload" />
+                            {SMConfig.search.search.buttons.export} <Icon style={{fontSize: "16px"}} type="cloud-download" />
                             </SMButton>}>
                             <ExcelSheet dataSet={exportExcel(usersData)} name="employees"/>
                         </ExcelFile>
