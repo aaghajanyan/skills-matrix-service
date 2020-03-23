@@ -157,7 +157,7 @@ function History(props) {
             } else if (name) {
                 skills[name] = history;
             }
-   
+
             if(findHistory(history)) {
                 newItems.push(
                     <Row key={index} className="sm-history-row">
@@ -190,14 +190,14 @@ function History(props) {
 
     const reenderLoadMore = () => {
         return (<Row className="sm-load-more">
-            { (loadMore > 1 && loadMore*10 < items.length) ?
-                (<>
-                    <Button className="sm-load-more" onClick={() => {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>
-                        <div className="spliter"></div>
-                    <Button className="sm-load-more" onClick={()=> {setLoadMore(1)}}><Icon type="arrow-up" /></Button>
-                </>) :
-            (loadMore*10 < items.length) ? (<Button className="sm-load-more" onClick={()=> {setLoadMore(loadMore+1)}}><Icon type="arrow-down" /></Button>) :
-            (items.length > 10) ? (<Button className="sm-load-more" onClick={() => {setLoadMore(1)}}><Icon type="arrow-up" /></Button>) : ""}
+        { (loadMore > 1 && loadMore*10 < items.length) ?
+        (<>
+        <Button className="sm-load-more" onClick={() => {setLoadMore(loadMore+1)}}><Icon type="double-right" rotate={90} /></Button>
+        <div className="spliter"></div>
+        <Button className="sm-load-more" onClick={()=> {setLoadMore(1)}}><Icon type="double-right" rotate={-90} /></Button>
+        </>) :
+        (loadMore*10 < items.length) ? (<Button className="sm-load-more" onClick={()=> {setLoadMore(loadMore+1)}}><Icon type="double-right" rotate={90} /></Button>) :
+        (items.length > 10) ? (<Button className="sm-load-more" onClick={() => {setLoadMore(1)}}><Icon type="double-right" rotate={-90} /></Button>) : ""}
         </Row>);
     }
 
