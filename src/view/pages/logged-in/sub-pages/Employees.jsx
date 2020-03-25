@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {emailValidator} from 'src/helpers/validators';
-import {EmployeesTable} from 'src/view/pages/logged-in/components';
-import {SMUserBar} from '../components';
-import {SMConfig} from 'src/config';
-import {SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSearch} from 'src/view/components';
-import {sendInvitation} from 'src/services/invitationsService';
-import {getUsers} from 'src/services/usersService';
-import {useValidator} from '../../../../hooks/common';
+import React, { useEffect, useState } from 'react';
+import { emailValidator, requiredValidator } from 'src/helpers/validators';
+import { EmployeesTable } from 'src/view/pages/logged-in/components';
+import { SMUserBar } from '../components';
+import { SMConfig } from 'src/config';
+import { SMButton, SMForm, SMIcon, SMInput, SMModal, SMNotification, SMSearch, SMSelect } from 'src/view/components';
+import { sendInvitation } from 'src/services/invitationsService';
+import { getUsers } from 'src/services/usersService';
+import { getRoles } from 'src/services/roleService';
+import { useValidator } from '../../../../hooks/common';
 
 
 function Employees(props) {
@@ -15,23 +16,32 @@ function Employees(props) {
 
     const [users, setUsers] = useState(null);
 
+    const [roles, setRoles] = useState([]);
+
     const [loading, setLoading] = useState(false);
 
     const [filtered, setFiltered] = useState(null);
 
     const [isEmailValid, email, emailRule] = useValidator(emailValidator);
 
+    const [isRoleValid, role, roleRule] = useValidator(requiredValidator('Role'));
+
     const handleOk = () => {
-        setLoading(true);
-        sendInvitation(email)
+        let roleGuid = "";
+        roles.map(item => {
+            if(item.value === role) {
+                roleGuid = item.guid
+            }
+        });
+        sendInvitation(email, roleGuid)
             .then(() => {
                 setLoading(false);
                 SMNotification('success', SMConfig.messages.invitations.sendInvitation.success);
             })
             .catch(error => {
                 setLoading(false);
-                if(error.response) {
-                    if(error.response.status === 409) {
+                if (error.response) {
+                    if (error.response.status === 409) {
                         SMNotification('error', SMConfig.messages.invitations.sendInvitation.error);
                     }
                 }
@@ -47,12 +57,14 @@ function Employees(props) {
         setVisible(true);
     };
 
+    const handleChangeSelect = value => value;
+
     const handleSearchInputChange = (e) => {
         e.persist();
         const value = e.target.value;
         let filteredUsers = [];
         users.map((user) => {
-            if ( (user.fname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) || (user.lname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) ) {
+            if ((user.fname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1) || (user.lname.toLowerCase().includes(value.toLowerCase()) && filteredUsers.indexOf(user) === -1)) {
                 filteredUsers.push(user);
             }
         });
@@ -77,6 +89,18 @@ function Employees(props) {
             .catch(() => {
                 setUsers([]);
             });
+        getRoles()
+            .then(roles => {
+                const rolesList = [];
+                roles.map(item => {
+                    rolesList.push({ value: item.name, guid: item.guid })
+                });
+                setRoles(rolesList);
+            })
+            .catch(() => {
+                setRoles([]);
+            });
+
     }, []);
 
     return (
@@ -87,7 +111,7 @@ function Employees(props) {
                     onClick={openModal}
                     loading={loading}
                 >
-                    { loading ? 'Sending' : 'Send'} invitation email
+                    {loading ? 'Sending' : 'Send'} invitation email
                 </SMButton>
             </div>
             <EmployeesTable
@@ -97,7 +121,7 @@ function Employees(props) {
                 showHeader={true}
                 dataSource={filtered}
                 pagination={false}
-                searchBar = {[
+                searchBar={[
                     SMSearch({
                         key: 'search',
                         placeholder: "Filter...",
@@ -132,7 +156,7 @@ function Employees(props) {
                         key="ok"
                         type="primary"
                         onClick={handleOk}
-                        disabled={!isEmailValid}
+                        disabled={!(isEmailValid && isRoleValid)}
                     >
                         Send
                     </SMButton>
@@ -154,6 +178,14 @@ function Employees(props) {
                                 />
                             ),
                             autoComplete: 'username'
+                        }),
+                        SMSelect({
+                            className: 'sm-select',
+                            name: 'roles',
+                            placeholder: 'Role',
+                            options: roles,
+                            rules: roleRule,
+                            onChange: handleChangeSelect
                         })
                     ]}
                 />
@@ -162,4 +194,4 @@ function Employees(props) {
     );
 }
 
-export {Employees};
+export { Employees };

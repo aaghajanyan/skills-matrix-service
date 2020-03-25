@@ -14,5 +14,6 @@
     "users_skills": "/users_skills",
     "history": "/history",
     "users_categories": "/users_categories",
-    "positions": "/position"
+    "positions": "/position",
+    "roles": "/role_group"
 }

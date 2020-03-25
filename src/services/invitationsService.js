@@ -9,10 +9,10 @@ const checkInvitation = (token) => {
     return head(options);
 };
 
-const sendInvitation = (email) => {
+const sendInvitation = (email, roleGuid) => {
     const options = {
         url: SMConfig.apiEndpoints.invitations,
-        data: {email}
+        data: {email,roleGuid}
     };
     return post(options);
 };
