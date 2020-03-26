@@ -16,6 +16,7 @@ const invitationSecretToken = require('../../config/env-settings.json')
     .invitationSecretKey;
 const User = require('../models/user');
 const Invitation = require('../models/invitation');
+const RoleGroup = require('../models/rolesGroups');
 const logger = require('../helper/logger');
 
 /**
@@ -192,6 +193,8 @@ module.exports.signUp = async (request, response) => {
                     )
                 );
         }
+        const role_group = await RoleGroup.find({ guid: invitation.roleGuid });
+        request.body[Constants.Controllers.Users.roleGroupId] = role_group ? role_group.id : 3;
         request.body.email = invitation.email;
         request.body[Constants.Controllers.Users.guid] = invitation.id;
         request.body[Constants.Controllers.Users.invitationId] =

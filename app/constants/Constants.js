@@ -266,6 +266,7 @@ const Constants = {
         Users: {
             COULD_NOT_REGISTER_USER: 'Could not register new user.',
             COULD_NOT_LOGIN: 'Could not make login.',
+            roleGroupId: 'role_group_id',
             invitationId: 'invitationId',
             guid: 'guid',
         },

@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
+            roleGuid: {
+                type: DataTypes.UUID,
+            },
         },
         {
             timestamps: false,

@@ -5,6 +5,8 @@ const addBodySchema = Joi.object().keys({
     email: Joi.string()
         .email()
         .required(),
+    roleGuid: Joi.string()
+        .uuid()
 });
 
 module.exports.validateAddBody = (request, response, next) => {

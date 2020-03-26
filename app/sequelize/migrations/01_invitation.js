@@ -13,6 +13,9 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
+            roleGuid: {
+                type: Sequelize.UUID,
+            },
         });
     },
     down: queryInterface => queryInterface.dropTable(Constants.TableNames.invitations),
